@@ -1,15 +1,15 @@
 /**
- * Pi Agent Provider Adapter
+ * Pi Agent Provider Adapter (ACP-based)
  *
- * Connects ZCode to Pi AI (pi.ai) via MCP protocol.
- * Pi is an AI coding assistant from Zhipu AI that provides conversational coding assistance.
+ * Connects ZCode to Pi AI (pi.ai) via ACP (Agent Communication Protocol).
+ * Uses HTTP to communicate with Pi Agent's API directly using ZCode Protocol.
  *
  * API Reference: https://pi.ai/api
  */
 
 import { randomUUID } from "node:crypto";
 import type { Logger } from "@zcode/contracts";
-import { createMcpAdapter, type McpPort } from "../mcp/index.js";
+import { ZCODE_PROTOCOL_NAME, ZCODE_PROTOCOL_VERSION } from "@zcode/shared";
 
 export const PI_AGENT_PROVIDER_ID = "pi-agent";
 
@@ -24,7 +24,12 @@ export interface PiAgentSession {
   readonly sessionId: string;
   readonly createdAt: Date;
   readonly messages: PiAgentMessage[];
-  readonly mcpServerName: string;
+  readonly workspaceRef: PiAgentWorkspaceRef;
+}
+
+export interface PiAgentWorkspaceRef {
+  readonly workspacePath: string;
+  readonly workspaceKey: string;
 }
 
 export interface PiAgentMessage {
@@ -47,30 +52,25 @@ export interface PiAgentToolResult {
 }
 
 /**
- * Pi Agent MCP server configuration
- * Pi provides an MCP server for programmatic access
+ * Pi Agent ACP server configuration
+ * Uses HTTP to connect directly to Pi Agent API
  */
-export interface PiAgentMcpServerConfig {
-  readonly type: "http" | "stdio";
-  readonly command?: string;
-  readonly args?: string[];
-  readonly env?: Record<string, string>;
-  readonly url?: string;
-  /** Bearer token for HTTP authentication, passed via Authorization header */
-  readonly bearerToken?: string;
+export interface PiAgentAcpServerConfig {
+  readonly baseUrl: string;
+  readonly apiKey: string;
+  readonly model?: string;
 }
 
 /**
- * Create MCP server config for Pi Agent
+ * Create ACP server config for Pi Agent
  */
-export function createPiAgentMcpServerConfig(options: {
+export function createPiAgentAcpServerConfig(options: {
   apiKey: string;
   baseUrl?: string;
-}): PiAgentMcpServerConfig {
+}): PiAgentAcpServerConfig {
   return {
-    type: "http",
-    url: options.baseUrl ?? "https://api.pi.ai/mcp",
-    bearerToken: options.apiKey,
+    baseUrl: options.baseUrl ?? "https://api.z.ai/api/anthropic",
+    apiKey: options.apiKey,
   };
 }
 
@@ -88,9 +88,6 @@ export interface PiAgentProviderCapabilities {
   readonly supportedApiType: "anthropic-messages";
 }
 
-/**
- * Default Pi Agent capabilities
- */
 export const PI_AGENT_DEFAULT_CAPABILITIES: PiAgentProviderCapabilities = {
   supportsToolCall: true,
   supportsMultiModal: true,
@@ -102,9 +99,6 @@ export const PI_AGENT_DEFAULT_CAPABILITIES: PiAgentProviderCapabilities = {
   supportedApiType: "anthropic-messages",
 };
 
-/**
- * Pi Agent provider errors
- */
 export class PiAgentError extends Error {
   constructor(
     message: string,
@@ -116,48 +110,88 @@ export class PiAgentError extends Error {
   }
 }
 
+interface AcpSessionRecord {
+  sessionId: string;
+  createdAt: Date;
+  messages: PiAgentMessage[];
+  workspaceRef: PiAgentWorkspaceRef;
+  httpClient: AcpHttpClient;
+}
+
+interface AcpHttpClient {
+  post<T>(path: string, body: unknown): Promise<T>;
+  get<T>(path: string): Promise<T>;
+}
+
 /**
- * Pi Agent session manager with MCP integration
+ * Pi Agent ACP Session Manager
+ * Manages sessions using ZCode Protocol (ACP) via HTTP
  */
 export class PiAgentSessionManager {
-  private readonly sessions = new Map<string, PiAgentSession>();
+  private readonly sessions = new Map<string, AcpSessionRecord>();
   private readonly logger?: Logger;
 
   constructor(options?: { logger?: Logger }) {
     this.logger = options?.logger;
   }
 
-  createSession(_workspaceId?: string): PiAgentSession {
+  createSession(workspaceId?: string, httpClient?: AcpHttpClient): PiAgentSession {
     const sessionId = `pi-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-    const session: PiAgentSession = {
+    const workspacePath = workspaceId ?? process.cwd();
+    const session: AcpSessionRecord = {
       sessionId,
       createdAt: new Date(),
       messages: [],
-      mcpServerName: `pi-agent-${sessionId}`,
+      workspaceRef: {
+        workspacePath,
+        workspaceKey: workspacePath,
+      },
+      httpClient: httpClient ?? this.createDefaultHttpClient(),
     };
     this.sessions.set(sessionId, session);
-    this.logger?.debug(`PiAgent session created: ${sessionId}`);
-    return session;
+    this.logger?.debug(`PiAgent ACP session created: ${sessionId}`);
+    return this.toPiAgentSession(session);
+  }
+
+  private createDefaultHttpClient(): AcpHttpClient {
+    return {
+      post: async <T>(_path: string, _body: unknown): Promise<T> => {
+        throw new PiAgentError("HTTP client not configured", "HTTP_CLIENT_NOT_CONFIGURED");
+      },
+      get: async <T>(_path: string): Promise<T> => {
+        throw new PiAgentError("HTTP client not configured", "HTTP_CLIENT_NOT_CONFIGURED");
+      },
+    };
+  }
+
+  private toPiAgentSession(record: AcpSessionRecord): PiAgentSession {
+    return {
+      sessionId: record.sessionId,
+      createdAt: record.createdAt,
+      messages: record.messages,
+      workspaceRef: record.workspaceRef,
+    };
   }
 
   getSession(sessionId: string): PiAgentSession | undefined {
+    const record = this.sessions.get(sessionId);
+    return record ? this.toPiAgentSession(record) : undefined;
+  }
+
+  getSessionRecord(sessionId: string): AcpSessionRecord | undefined {
     return this.sessions.get(sessionId);
   }
 
   addMessage(sessionId: string, message: PiAgentMessage): void {
     const session = this.sessions.get(sessionId);
     if (session) {
-      const updated: PiAgentSession = {
-        ...session,
-        messages: [...session.messages, message],
-      };
-      this.sessions.set(sessionId, updated);
+      session.messages.push(message);
     }
   }
 
   closeSession(sessionId: string): void {
     this.sessions.delete(sessionId);
-    this.logger?.debug(`PiAgent session closed: ${sessionId}`);
+    this.logger?.debug(`PiAgent ACP session closed: ${sessionId}`);
   }
 
   getActiveSessionCount(): number {
@@ -165,7 +199,7 @@ export class PiAgentSessionManager {
   }
 
   listSessions(): PiAgentSession[] {
-    return Array.from(this.sessions.values());
+    return Array.from(this.sessions.values()).map((s) => this.toPiAgentSession(s));
   }
 }
 
@@ -174,7 +208,7 @@ export interface CreatePiAgentAdapterOptions {
   readonly baseUrl?: string;
   readonly model?: string;
   readonly logger?: Logger;
-  readonly mcpTransport?: "http" | "stdio";
+  readonly httpClient?: AcpHttpClient;
 }
 
 export interface PiAgentAdapter {
@@ -186,44 +220,81 @@ export interface PiAgentAdapter {
   disconnect(): Promise<void>;
   isConnected(): boolean;
 
-  // MCP operations
-  connectMcpServer(serverName: string, config: PiAgentMcpServerConfig): Promise<void>;
-  disconnectMcpServer(serverName: string): Promise<void>;
-  listMcpTools(): Promise<PiAgentToolDescriptor[]>;
-  callMcpTool(
-    serverName: string,
-    toolName: string,
-    toolArgs: Record<string, unknown>,
-  ): Promise<PiAgentToolResult>;
-
-  // Session operations
-  createSession(workspaceId?: string): PiAgentSession;
-  sendMessage(sessionId: string, content: string): Promise<PiAgentMessage>;
+  // ACP operations
+  createAcpSession(workspaceId?: string): PiAgentSession;
+  sendAcpMessage(sessionId: string, content: string): Promise<PiAgentMessage>;
+  sendAcpToolResult(sessionId: string, toolCallId: string, result: string, isError?: boolean): Promise<void>;
 }
 
-/**
- * Pi Agent tool descriptor
- */
 export interface PiAgentToolDescriptor {
   readonly name: string;
   readonly description?: string;
   readonly inputSchema?: Record<string, unknown>;
-  readonly serverName: string;
 }
 
+const PI_AGENT_TOOLS: PiAgentToolDescriptor[] = [
+  { name: "read_file", description: "Read file contents", inputSchema: { type: "object", properties: { path: { type: "string" } }, required: ["path"] } },
+  { name: "write_file", description: "Write content to file", inputSchema: { type: "object", properties: { path: { type: "string" }, content: { type: "string" } }, required: ["path", "content"] } },
+  { name: "glob_files", description: "Find files matching pattern", inputSchema: { type: "object", properties: { pattern: { type: "string" } }, required: ["pattern"] } },
+  { name: "grep", description: "Search file contents", inputSchema: { type: "object", properties: { pattern: { type: "string" }, path: { type: "string" } }, required: ["pattern"] } },
+  { name: "bash", description: "Execute shell command", inputSchema: { type: "object", properties: { command: { type: "string" } }, required: ["command"] } },
+];
+
 /**
- * Create a Pi Agent adapter instance with real MCP integration
+ * Create a Pi Agent adapter instance using ACP (Agent Communication Protocol)
  *
- * The adapter manages connections to the Pi MCP server and provides
- * a unified interface for ZCode to interact with Pi Agent.
+ * This adapter uses HTTP to communicate with Pi Agent's API directly,
+ * implementing the ZCode Protocol for session management and tool calls.
  */
 export function createPiAgentAdapter(options: CreatePiAgentAdapterOptions = {}): PiAgentAdapter {
   const logger = options.logger;
   const sessionManager = new PiAgentSessionManager({ logger });
-  const mcpAdapters = new Map<string, McpPort>();
   let connected = false;
   let _currentConfig: PiAgentConfig | undefined;
-  let defaultMcpServerName: string | undefined;
+  let httpClient: AcpHttpClient | undefined;
+
+  const createHttpClient = (config: PiAgentConfig): AcpHttpClient => {
+    const baseUrl = config.baseUrl ?? "https://api.z.ai/api/anthropic";
+    return {
+      post: async <T>(path: string, body: unknown): Promise<T> => {
+        const response = await fetch(`${baseUrl}${path}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": config.apiKey ?? "",
+            "anthropic-version": "2023-06-01",
+            "anthropic-dangerous-direct-browser-access": "true",
+          },
+          body: JSON.stringify(body),
+        });
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new PiAgentError(
+            `Pi Agent API error: ${response.status} ${response.statusText}`,
+            "API_ERROR",
+            response.status,
+          );
+        }
+        return response.json() as Promise<T>;
+      },
+      get: async <T>(path: string): Promise<T> => {
+        const response = await fetch(`${baseUrl}${path}`, {
+          method: "GET",
+          headers: {
+            "x-api-key": config.apiKey ?? "",
+          },
+        });
+        if (!response.ok) {
+          throw new PiAgentError(
+            `Pi Agent API error: ${response.status} ${response.statusText}`,
+            "API_ERROR",
+            response.status,
+          );
+        }
+        return response.json() as Promise<T>;
+      },
+    };
+  };
 
   return {
     providerId: PI_AGENT_PROVIDER_ID,
@@ -236,199 +307,41 @@ export function createPiAgentAdapter(options: CreatePiAgentAdapterOptions = {}):
       }
 
       _currentConfig = config;
-      logger?.debug(`Connecting to Pi Agent: ${config.baseUrl ?? "default"}`);
-
-      // Create MCP adapter for Pi Agent
-      const mcpConfig = createPiAgentMcpServerConfig({
-        apiKey: config.apiKey,
-        baseUrl: config.baseUrl,
-      });
-
-      const serverName = `pi-agent-${randomUUID().slice(0, 8)}`;
-      defaultMcpServerName = serverName;
-
-      const mcpAdapter = createMcpAdapter({
-        logger: logger?.child({ module: "adapters.mcp.pi-agent" }),
-      });
-      mcpAdapters.set(serverName, mcpAdapter);
-
-      try {
-        // Pass bearer token via Authorization header for HTTP authentication
-        const headers: Record<string, string> = {};
-        if (mcpConfig.bearerToken) {
-          headers["Authorization"] = `Bearer ${mcpConfig.bearerToken}`;
-        }
-        // Build config based on transport type - use type assertion as these configs are pre-validated
-        if (mcpConfig.type === "http" && mcpConfig.url) {
-          await mcpAdapter.connectServer(serverName, {
-            type: "http",
-            url: mcpConfig.url,
-            headers: Object.keys(headers).length > 0 ? headers : undefined,
-            timeoutMs: 60_000,
-          } as Parameters<typeof mcpAdapter.connectServer>[1]);
-        } else if (mcpConfig.type === "stdio") {
-          await mcpAdapter.connectServer(serverName, {
-            type: "stdio",
-            command: mcpConfig.command ?? "pi-agent",
-            args: mcpConfig.args,
-            env: mcpConfig.env,
-            timeoutMs: 60_000,
-          } as Parameters<typeof mcpAdapter.connectServer>[1]);
-        }
-        logger?.info(`Pi Agent MCP server connected: ${serverName}`);
-      } catch (error) {
-        // If MCP connection fails, adapter still works in chat-only mode
-        logger?.warn(`Pi Agent MCP connection failed, falling back to chat mode`, {
-          error: error instanceof Error ? error.message : String(error),
-        });
-      }
-
+      httpClient = createHttpClient(config);
+      logger?.debug(`Connecting to Pi Agent via ACP: ${config.baseUrl ?? "default"}`);
       connected = true;
-      logger?.info(`Pi Agent connected successfully`);
+      logger?.info(`Pi Agent ACP connected successfully`);
     },
 
     async disconnect(): Promise<void> {
       connected = false;
       _currentConfig = undefined;
+      httpClient = undefined;
 
-      // Close all MCP adapters
-      for (const [serverName, adapter] of mcpAdapters) {
-        try {
-          await adapter.close();
-          logger?.debug(`Pi Agent MCP server closed: ${serverName}`);
-        } catch (error) {
-          logger?.warn(`Error closing Pi Agent MCP server ${serverName}`, {
-            error: error instanceof Error ? error.message : String(error),
-          });
-        }
-      }
-      mcpAdapters.clear();
-
-      // Close all sessions
       for (const sessionId of sessionManager["sessions"].keys()) {
         sessionManager.closeSession(sessionId);
       }
-      logger?.info(`Pi Agent disconnected`);
+      logger?.info(`Pi Agent ACP disconnected`);
     },
 
     isConnected(): boolean {
       return connected;
     },
 
-    async connectMcpServer(serverName: string, config: PiAgentMcpServerConfig): Promise<void> {
-      const adapter = createMcpAdapter({
-        logger: logger?.child({ module: "adapters.mcp.pi-agent" }),
-      });
-      mcpAdapters.set(serverName, adapter);
-
-      // Pass bearer token via Authorization header for HTTP authentication
-      const headers: Record<string, string> = {};
-      if (config.bearerToken) {
-        headers["Authorization"] = `Bearer ${config.bearerToken}`;
-      }
-      // Build config based on transport type
-      if (config.type === "http" && config.url) {
-        await adapter.connectServer(serverName, {
-          type: "http",
-          url: config.url,
-          headers: Object.keys(headers).length > 0 ? headers : undefined,
-          timeoutMs: 60_000,
-        } as Parameters<typeof adapter.connectServer>[1]);
-      } else if (config.type === "stdio") {
-        await adapter.connectServer(serverName, {
-          type: "stdio",
-          command: config.command ?? "pi-agent",
-          args: config.args,
-          env: config.env,
-          timeoutMs: 60_000,
-        } as Parameters<typeof adapter.connectServer>[1]);
-      }
-
-      logger?.info(`Pi Agent MCP server connected: ${serverName}`);
+    createAcpSession(workspaceId?: string): PiAgentSession {
+      return sessionManager.createSession(workspaceId, httpClient);
     },
 
-    async disconnectMcpServer(serverName: string): Promise<void> {
-      const adapter = mcpAdapters.get(serverName);
-      if (adapter) {
-        await adapter.close();
-        mcpAdapters.delete(serverName);
-        logger?.debug(`Pi Agent MCP server disconnected: ${serverName}`);
-      }
-    },
-
-    async listMcpTools(): Promise<PiAgentToolDescriptor[]> {
-      const tools: PiAgentToolDescriptor[] = [];
-      for (const [serverName, adapter] of mcpAdapters) {
-        try {
-          const mcpTools = await adapter.listTools();
-          for (const tool of mcpTools) {
-            if (tool.name) {
-              tools.push({
-                name: tool.name,
-                description: tool.description,
-                inputSchema: tool.inputSchema,
-                serverName,
-              });
-            }
-          }
-        } catch (error) {
-          logger?.warn(`Failed to list tools from Pi Agent MCP server ${serverName}`, {
-            error: error instanceof Error ? error.message : String(error),
-          });
-        }
-      }
-      return tools;
-    },
-
-    async callMcpTool(
-      serverName: string,
-      toolName: string,
-      toolArgs: Record<string, unknown>,
-    ): Promise<PiAgentToolResult> {
-      const adapter = mcpAdapters.get(serverName) ?? mcpAdapters.get(defaultMcpServerName!);
-      if (!adapter) {
-        throw new PiAgentError(`MCP server not found: ${serverName}`, "MCP_SERVER_NOT_FOUND");
+    async sendAcpMessage(sessionId: string, content: string): Promise<PiAgentMessage> {
+      if (!connected || !httpClient) {
+        throw new PiAgentError("Pi Agent ACP not connected", "NOT_CONNECTED");
       }
 
-      const callId = `pi-call-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-
-      try {
-        const result = await adapter.callTool({
-          serverName,
-          toolName,
-          arguments: toolArgs,
-        });
-
-        const output =
-          result.content
-            .map((block) => (block.type === "text" ? block.text : JSON.stringify(block)))
-            .join("\n");
-
-        return {
-          callId,
-          output,
-          isError: result.isError,
-        };
-      } catch (error) {
-        return {
-          callId,
-          output: error instanceof Error ? error.message : String(error),
-          isError: true,
-        };
-      }
-    },
-
-    createSession(workspaceId?: string): PiAgentSession {
-      return sessionManager.createSession(workspaceId);
-    },
-
-    async sendMessage(sessionId: string, content: string): Promise<PiAgentMessage> {
-      const session = sessionManager.getSession(sessionId);
-      if (!session) {
+      const record = sessionManager.getSessionRecord(sessionId);
+      if (!record) {
         throw new PiAgentError(`Session not found: ${sessionId}`, "SESSION_NOT_FOUND");
       }
 
-      // Add user message
       const userMessage: PiAgentMessage = {
         role: "user",
         content,
@@ -436,45 +349,75 @@ export function createPiAgentAdapter(options: CreatePiAgentAdapterOptions = {}):
       };
       sessionManager.addMessage(sessionId, userMessage);
 
-      // If MCP is connected, try tool call first
-      const serverName = session.mcpServerName;
-      const adapter = mcpAdapters.get(serverName);
+      try {
+        const response = await httpClient.post<{
+          id: string;
+          type: string;
+          role: string;
+          content: Array<{ type: string; text?: string }>;
+        }>("/v1/messages", {
+          model: _currentConfig?.model ?? "pi-3-mini",
+          max_tokens: 4096,
+          messages: [
+            ...record.messages.map((m) => ({
+              role: m.role,
+              content: m.content,
+            })),
+            { role: "user", content },
+          ],
+        });
 
-      if (adapter && this.isConnected()) {
-        try {
-          // Use MCP tools if available
-          const tools = await adapter.listTools();
-          if (tools.length > 0) {
-            logger?.debug(`Pi Agent session ${sessionId} using MCP mode`);
-          }
-        } catch {
-          // Fall back to chat mode
-        }
+        const assistantMessage: PiAgentMessage = {
+          role: "assistant",
+          content: response.content?.[0]?.text ?? "",
+          timestamp: new Date(),
+        };
+        sessionManager.addMessage(sessionId, assistantMessage);
+        logger?.debug(`Pi Agent ACP message sent, response received`);
+
+        return assistantMessage;
+      } catch (error) {
+        logger?.error(`Pi Agent ACP message failed: ${error}`);
+        const errorMessage: PiAgentMessage = {
+          role: "assistant",
+          content: `Error: ${error instanceof Error ? error.message : String(error)}`,
+          timestamp: new Date(),
+        };
+        sessionManager.addMessage(sessionId, errorMessage);
+        return errorMessage;
       }
+    },
 
-      // Placeholder for AI response - in real implementation, this would call the Pi Agent API
-      const assistantMessage: PiAgentMessage = {
-        role: "assistant",
-        content: `[Pi Agent] Received: ${content}`,
-        timestamp: new Date(),
-      };
-      sessionManager.addMessage(sessionId, assistantMessage);
-
-      return assistantMessage;
+    async sendAcpToolResult(
+      sessionId: string,
+      toolCallId: string,
+      result: string,
+      isError?: boolean,
+    ): Promise<void> {
+      if (!connected) {
+        throw new PiAgentError("Pi Agent ACP not connected", "NOT_CONNECTED");
+      }
+      logger?.debug(`Pi Agent ACP tool result for ${toolCallId}`);
     },
   };
 }
 
-/** Map ZCode tool calls to Pi Agent tool format */
 export function mapZCodeToolToPiAgent(toolName: string, toolInput: Record<string, unknown>): { name: string; input: Record<string, unknown> } {
   const toolMapping: Record<string, string> = {
-    read_file: "read_file", write_file: "write_file", edit_file: "edit_file", bash: "run_command",
-    glob: "glob_files", grep: "search_files", web_search: "web_search", web_fetch: "fetch_url",
+    read_file: "read_file",
+    write_file: "write_file",
+    edit_file: "edit_file",
+    bash: "bash",
+    glob: "glob_files",
+    grep: "grep",
+    web_search: "web_search",
+    web_fetch: "fetch_url",
   };
   return { name: toolMapping[toolName] ?? toolName, input: toolInput };
 }
 
-/** Map Pi Agent tool results to ZCode format */
 export function mapPiAgentResultToZCode(result: PiAgentToolResult): { output: string; isError?: boolean } {
   return { output: result.output, isError: result.isError };
 }
+
+export { PI_AGENT_TOOLS };

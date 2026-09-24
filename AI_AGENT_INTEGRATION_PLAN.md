@@ -1,7 +1,8 @@
 # ZCode AI Agent 集成方案
 
-> 文档版本: v2.0 (2026-09-25)
+> 文档版本: v2.1 (2026-09-25)
 > 目标: 将 ZCode 基于现有协议接入 Codex、Pi、Claude Code，打造最佳 AI Agent Desktop 体验
+> 重要更新: Pi Agent 和 Claude Code 已切换为 ACP (Agent Communication Protocol) 方式接入，不再使用 MCP
 
 ## 概述
 
@@ -17,18 +18,36 @@ ZCode 正在演进为一款 AI Agent Desktop 产品，支持多种顶级 AI 编�
 │  ┌──────────────┐ ┌──────────────┐ ┌────────────┐ │
 │  │  Pi Agent   │ │Claude Code   │ │OpenAI Codex │ │
 │  │  Adapter    │ │  Adapter     │ │  Adapter    │ │
+│  │   (ACP)     │ │   (ACP)      │ │   (MCP)     │ │
 │  └──────┬───────┘ └──────┬───────┘ └──────┬─────┘ │
 │         │                │                │        │
 │  ┌──────┴────────────────┴────────────────┴─────┐  │
-│  │          MCP Client / HTTP Client           │  │
+│  │         HTTP Client (ACP/ZCode Protocol)      │  │
 │  └──────────────────────────────────────────────┘  │
 │         │                │                │        │
 │  ┌──────┴───────┐ ┌──────┴───────┐ ┌──────┴─────┐ │
-│  │  Pi MCP Srv  │ │ Claude Code  │ │ OpenAI      │ │
-│  │  (pi.ai)     │ │ MCP Server  │ │ Responses   │ │
+│  │  Pi Agent   │ │ Claude Code  │ │ OpenAI      │ │
+│  │  API        │ │ API         │ │ Responses   │ │
+│  │ (pi.ai)     │ │ (Anthropic) │ │ API         │ │
 │  └──────────────┘ └──────────────┘ └─────────────┘ │
 └─────────────────────────────────────────────────────┘
 ```
+
+## 架构说明
+
+### 通信协议选择
+
+根据需求分析，Claude Code 和 Pi Agent **不使用 MCP 接入**，而是采用 **ACP (Agent Communication Protocol)** 方式接入：
+
+- **Pi Agent (ACP)**: 通过 HTTP 直接调用 Pi Agent API (https://api.z.ai/api/anthropic)
+- **Claude Code (ACP)**: 通过 HTTP 直接调用 Claude Code API (https://api.anthropic.com/v1)
+- **OpenAI Codex (MCP)**: 通过 MCP 连接 OpenAI Responses API
+
+ACP (ZCode Protocol) 是 ZCode 的标准通信协议，提供：
+- 会话管理 (session/create, session/send)
+- 工具调用 (tool/updated)
+- 事件流 (session.events)
+- 权限管理 (permission/request)
 
 ## 已实现的改造
 
@@ -69,21 +88,22 @@ ZCode 正在演进为一款 AI Agent Desktop 产品，支持多种顶级 AI 编�
 - claude-code: 10 条
 - openai-codex: 12 条
 
-### 3. Adapter 实现
+### 3. Adapter 实现 (ACP-based for Pi & Claude Code)
 
-✅ **Pi Agent Adapter** (`apps/zcode-cli/packages/adapters/src/provider/pi-agent.ts`)
-- `createPiAgentAdapter()`: 创建 Pi Agent 适配器
-- `createPiAgentMcpServerConfig()`: 创建 MCP 服务器配置
-- `PiAgentSessionManager`: 会话管理
+✅ **Pi Agent Adapter (ACP)** (`apps/zcode-cli/packages/adapters/src/provider/pi-agent.ts`)
+- `createPiAgentAdapter()`: 创建 Pi Agent ACP 适配器
+- `createPiAgentAcpServerConfig()`: 创建 ACP 服务器配置
+- `PiAgentSessionManager`: ACP 会话管理
+- HTTP 客户端直接调用 Pi Agent API
 - 工具映射: ZCode → Pi Agent
 
-✅ **Claude Code Adapter** (`apps/zcode-cli/packages/adapters/src/provider/claude-code.ts`)
-- `createClaudeCodeAdapter()`: 创建 Claude Code 适配器
-- `createClaudeCodeMcpServerConfig()`: 创建 MCP 服务器配置
-- `ClaudeCodeSessionManager`: 会话管理
-- Anthropic Messages API 集成
+✅ **Claude Code Adapter (ACP)** (`apps/zcode-cli/packages/adapters/src/provider/claude-code.ts`)
+- `createClaudeCodeAdapter()`: 创建 Claude Code ACP 适配器
+- `createClaudeCodeAcpServerConfig()`: 创建 ACP 服务器配置
+- `ClaudeCodeSessionManager`: ACP 会话管理
+- HTTP 客户端直接调用 Anthropic Messages API
 
-✅ **OpenAI Codex Adapter** (`apps/zcode-cli/packages/adapters/src/provider/openai-codex.ts`)
+✅ **OpenAI Codex Adapter (MCP)** (`apps/zcode-cli/packages/adapters/src/provider/openai-codex.ts`)
 - `createOpenAICodexAdapter()`: 创建 OpenAI Codex 适配器
 - `createOpenAICodexMcpServerConfig()`: 创建 Responses API 配置
 - `OpenAICodexSessionManager`: 会话管理
@@ -103,13 +123,14 @@ ZCode 正在演进为一款 AI Agent Desktop 产品，支持多种顶级 AI 编�
 - [x] Adapter 基础框架
 - [x] Provider Registry
 
-### Phase 2: MCP 集成 (Pi & Claude Code) ✅ 已完成
-- [x] 实现 Pi Agent MCP 客户端连接
-- [x] 实现 Claude Code MCP 客户端连接
-- [x] 工具调用协议适配
-- [x] 认证流程集成
+### Phase 2: ACP 集成 (Pi & Claude Code) ✅ 已完成
+- [x] 实现 Pi Agent ACP HTTP 客户端连接
+- [x] 实现 Claude Code ACP HTTP 客户端连接
+- [x] 工具调用协议适配 (Anthropic Messages API 格式)
+- [x] 认证流程集成 (API Key 认证)
 
-### Phase 3: Codex App Server 集成 ✅ 已完成
+### Phase 3: MCP 集成 (OpenAI Codex) ✅ 已完成
+- [x] 实现 OpenAI Codex MCP 客户端连接
 - [x] 实现 OpenAI Codex App Server JSON-RPC 客户端
 - [x] 会话管理与状态持久化
 - [x] 工具调用与文件操作集成
@@ -123,20 +144,20 @@ ZCode 正在演进为一款 AI Agent Desktop 产品，支持多种顶级 AI 编�
 
 ### Provider 类型映射
 
-| ZCode Provider | 底层 API | 认证方式 |
-|---------------|---------|---------|
-| pi-agent | Anthropic Messages (Zhipu) | API Key |
-| claude-code | Anthropic Messages | API Key |
-| openai-codex | OpenAI Responses | API Key |
+| ZCode Provider | 通信协议 | 底层 API | 认证方式 |
+|---------------|---------|---------|---------|
+| pi-agent | ACP (HTTP) | Anthropic Messages (Zhipu) | API Key |
+| claude-code | ACP (HTTP) | Anthropic Messages | API Key |
+| openai-codex | MCP (HTTP) | OpenAI Responses | API Key |
 
-### 工具映射
+### 工具映射 (ACP-based)
 
 #### Pi Agent
-| ZCode 工具 | Pi Agent 工具 |
-|-----------|-------------|
+| ZCode 工具 | Pi Agent API 工具 |
+|-----------|------------------|
 | read_file | read_file |
 | write_file | write_file |
-| bash | run_command |
+| bash | bash |
 
 #### Claude Code
 | ZCode 工具 | Claude Code 工具 |
@@ -159,10 +180,12 @@ ZCode 正在演进为一款 AI Agent Desktop 产品，支持多种顶级 AI 编�
 1. ✅ Provider 模板可被 ZCode 识别并显示
 2. ✅ Model Rules 正确应用模型配置
 3. ✅ Adapter 可以连接到对应的 API
-4. ✅ MCP 连接可以正常工作 (Phase 2 已完成)
-5. ✅ 工具调用可以正常工作 (Phase 2/3 已完成)
-6. ✅ Provider 图标已添加 (packages/ui/src/assets/provider-icons/logo-pi.svg)
-7. ✅ i18n 字符串已添加 (zh-CN.ts, en-US.ts)
+4. ✅ ACP 连接可以正常工作 (Pi & Claude Code)
+5. ✅ MCP 连接可以正常工作 (OpenAI Codex)
+6. ✅ 工具调用可以正常工作
+7. ✅ Provider 图标已添加 (packages/ui/src/assets/provider-icons/logo-pi.svg)
+8. ✅ i18n 字符串已添加 (zh-CN.ts, en-US.ts)
+9. ✅ Pi Agent 和 Claude Code 使用 ACP 而非 MCP 接入
 
 ## 关键文件索引
 

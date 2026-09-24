@@ -2,54 +2,63 @@
  * Provider adapters - AI Agent integrations for ZCode
  *
  * This module exports adapters for connecting ZCode to various AI coding agents:
- * - Pi Agent (pi.ai): Zhipu AI's coding assistant
- * - Claude Code (claude.ai/code): Anthropic's coding CLI
- * - OpenAI Codex: OpenAI's code-specialized models
+ * - Pi Agent (pi.ai): Zhipu AI's coding assistant (ACP-based)
+ * - Claude Code (claude.ai/code): Anthropic's coding CLI (ACP-based)
+ * - OpenAI Codex: OpenAI's code-specialized models (MCP-based)
+ *
+ * Note: Pi Agent and Claude Code use ACP (Agent Communication Protocol) via HTTP,
+ * while OpenAI Codex uses MCP for tool integration.
  */
 
-// Pi Agent adapter
+// Pi Agent adapter (ACP-based)
 export {
   createPiAgentAdapter,
-  createPiAgentMcpServerConfig,
+  createPiAgentAcpServerConfig,
   mapZCodeToolToPiAgent,
   mapPiAgentResultToZCode,
   PI_AGENT_PROVIDER_ID,
   PI_AGENT_DEFAULT_CAPABILITIES,
+  PI_AGENT_TOOLS,
   type PiAgentConfig,
   type PiAgentSession,
   type PiAgentMessage,
   type PiAgentToolCall,
   type PiAgentToolResult,
-  type PiAgentMcpServerConfig,
+  type PiAgentAcpServerConfig,
   type PiAgentProviderCapabilities,
   type CreatePiAgentAdapterOptions,
   type PiAgentAdapter,
   type PiAgentError,
+  type PiAgentWorkspaceRef,
+  type PiAgentToolDescriptor,
 } from "./pi-agent.js";
 
-// Claude Code adapter
+// Claude Code adapter (ACP-based)
 export {
   createClaudeCodeAdapter,
-  createClaudeCodeMcpServerConfig,
+  createClaudeCodeAcpServerConfig,
   mapZCodeToolToClaudeCode,
   mapClaudeCodeResultToZCode,
   normalizeClaudeCodeMessage,
   CLAUDE_CODE_PROVIDER_ID,
   CLAUDE_CODE_DEFAULT_CAPABILITIES,
+  CLAUDE_CODE_TOOLS,
   type ClaudeCodeConfig,
   type ClaudeCodeSession,
   type ClaudeCodeMessage,
   type ClaudeCodeToolCall,
   type ClaudeCodeToolResult,
-  type ClaudeCodeMcpServerConfig,
+  type ClaudeCodeAcpServerConfig,
   type ClaudeCodeProviderCapabilities,
   type CreateClaudeCodeAdapterOptions,
   type ClaudeCodeAdapter,
   type ClaudeCodeError,
   type ClaudeCodeContentBlock,
+  type ClaudeCodeWorkspaceRef,
+  type ClaudeCodeToolDescriptor,
 } from "./claude-code.js";
 
-// OpenAI Codex adapter
+// OpenAI Codex adapter (MCP-based)
 export {
   createOpenAICodexAdapter,
   createOpenAICodexMcpServerConfig,

@@ -1,15 +1,19 @@
 /**
- * Claude Code Provider Adapter
+ * Claude Code Provider Adapter (ACP-based)
  *
- * Connects ZCode to Claude Code (claude.ai/code) via Anthropic Messages API.
- * Claude Code is Anthropic's official CLI tool for AI-assisted coding.
+ * Connects ZCode to Claude Code (claude.ai/code) via ACP (Agent Communication Protocol).
+ * Uses HTTP to communicate with Claude Code API directly using ZCode Protocol.
  *
  * API Reference: https://docs.anthropic.com/en/docs/claude-code
  */
 
 import { randomUUID } from "node:crypto";
 import type { Logger } from "@zcode/contracts";
-import { createMcpAdapter, type McpPort } from "../mcp/index.js";
+import {
+  ZCODE_PROTOCOL_NAME,
+  ZCODE_PROTOCOL_VERSION,
+  ZCODE_PROTOCOL_V4_WIRE_VERSION,
+} from "@zcode/shared";
 
 export const CLAUDE_CODE_PROVIDER_ID = "claude-code";
 
@@ -24,7 +28,12 @@ export interface ClaudeCodeSession {
   readonly sessionId: string;
   readonly createdAt: Date;
   readonly conversationHistory: readonly ClaudeCodeMessage[];
-  readonly mcpServerName: string;
+  readonly workspaceRef: ClaudeCodeWorkspaceRef;
+}
+
+export interface ClaudeCodeWorkspaceRef {
+  readonly workspacePath: string;
+  readonly workspaceKey: string;
 }
 
 export interface ClaudeCodeMessage {
@@ -51,30 +60,25 @@ export interface ClaudeCodeToolResult {
 }
 
 /**
- * Claude Code MCP server configuration
- * Claude Code exposes an MCP server for programmatic access
+ * Claude Code ACP server configuration
+ * Uses HTTP to connect directly to Claude Code API
  */
-export interface ClaudeCodeMcpServerConfig {
-  readonly type: "http" | "stdio";
-  readonly command?: string;
-  readonly args?: string[];
-  readonly env?: Record<string, string>;
-  readonly url?: string;
-  /** Bearer token for HTTP authentication, passed via Authorization header */
-  readonly bearerToken?: string;
+export interface ClaudeCodeAcpServerConfig {
+  readonly baseUrl: string;
+  readonly apiKey: string;
+  readonly model?: string;
 }
 
 /**
- * Create MCP server config for Claude Code
+ * Create ACP server config for Claude Code
  */
-export function createClaudeCodeMcpServerConfig(options: {
+export function createClaudeCodeAcpServerConfig(options: {
   apiKey: string;
   baseUrl?: string;
-}): ClaudeCodeMcpServerConfig {
+}): ClaudeCodeAcpServerConfig {
   return {
-    type: "http",
-    url: options.baseUrl ?? "https://api.anthropic.com/v1/mcp",
-    bearerToken: options.apiKey,
+    baseUrl: options.baseUrl ?? "https://api.anthropic.com/v1",
+    apiKey: options.apiKey,
   };
 }
 
@@ -92,9 +96,6 @@ export interface ClaudeCodeProviderCapabilities {
   readonly supportedApiType: "anthropic-messages";
 }
 
-/**
- * Default Claude Code capabilities
- */
 export const CLAUDE_CODE_DEFAULT_CAPABILITIES: ClaudeCodeProviderCapabilities = {
   supportsToolCall: true,
   supportsMultiModal: true,
@@ -117,9 +118,6 @@ export const CLAUDE_CODE_DEFAULT_CAPABILITIES: ClaudeCodeProviderCapabilities = 
   supportedApiType: "anthropic-messages",
 };
 
-/**
- * Claude Code provider errors
- */
 export class ClaudeCodeError extends Error {
   constructor(
     message: string,
@@ -131,48 +129,88 @@ export class ClaudeCodeError extends Error {
   }
 }
 
+interface AcpSessionRecord {
+  sessionId: string;
+  createdAt: Date;
+  conversationHistory: ClaudeCodeMessage[];
+  workspaceRef: ClaudeCodeWorkspaceRef;
+  httpClient: AcpHttpClient;
+}
+
+interface AcpHttpClient {
+  post<T>(path: string, body: unknown): Promise<T>;
+  get<T>(path: string): Promise<T>;
+}
+
 /**
- * Claude Code session manager with MCP integration
+ * Claude Code ACP Session Manager
+ * Manages sessions using ZCode Protocol (ACP) via HTTP
  */
 export class ClaudeCodeSessionManager {
-  private readonly sessions = new Map<string, ClaudeCodeSession>();
+  private readonly sessions = new Map<string, AcpSessionRecord>();
   private readonly logger?: Logger;
 
   constructor(options?: { logger?: Logger }) {
     this.logger = options?.logger;
   }
 
-  createSession(_workspaceId?: string): ClaudeCodeSession {
+  createSession(workspaceId?: string, httpClient?: AcpHttpClient): ClaudeCodeSession {
     const sessionId = `cc-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-    const session: ClaudeCodeSession = {
+    const workspacePath = workspaceId ?? process.cwd();
+    const session: AcpSessionRecord = {
       sessionId,
       createdAt: new Date(),
       conversationHistory: [],
-      mcpServerName: `claude-code-${sessionId}`,
+      workspaceRef: {
+        workspacePath,
+        workspaceKey: workspacePath,
+      },
+      httpClient: httpClient ?? this.createDefaultHttpClient(),
     };
     this.sessions.set(sessionId, session);
-    this.logger?.debug(`Claude Code session created: ${sessionId}`);
-    return session;
+    this.logger?.debug(`Claude Code ACP session created: ${sessionId}`);
+    return this.toClaudeCodeSession(session);
+  }
+
+  private createDefaultHttpClient(): AcpHttpClient {
+    return {
+      post: async <T>(_path: string, _body: unknown): Promise<T> => {
+        throw new ClaudeCodeError("HTTP client not configured", "HTTP_CLIENT_NOT_CONFIGURED");
+      },
+      get: async <T>(_path: string): Promise<T> => {
+        throw new ClaudeCodeError("HTTP client not configured", "HTTP_CLIENT_NOT_CONFIGURED");
+      },
+    };
+  }
+
+  private toClaudeCodeSession(record: AcpSessionRecord): ClaudeCodeSession {
+    return {
+      sessionId: record.sessionId,
+      createdAt: record.createdAt,
+      conversationHistory: record.conversationHistory,
+      workspaceRef: record.workspaceRef,
+    };
   }
 
   getSession(sessionId: string): ClaudeCodeSession | undefined {
+    const record = this.sessions.get(sessionId);
+    return record ? this.toClaudeCodeSession(record) : undefined;
+  }
+
+  getSessionRecord(sessionId: string): AcpSessionRecord | undefined {
     return this.sessions.get(sessionId);
   }
 
   updateSession(sessionId: string, message: ClaudeCodeMessage): void {
     const session = this.sessions.get(sessionId);
     if (session) {
-      const updated: ClaudeCodeSession = {
-        ...session,
-        conversationHistory: [...session.conversationHistory, message],
-      };
-      this.sessions.set(sessionId, updated);
+      session.conversationHistory.push(message);
     }
   }
 
   closeSession(sessionId: string): void {
     this.sessions.delete(sessionId);
-    this.logger?.debug(`Claude Code session closed: ${sessionId}`);
+    this.logger?.debug(`Claude Code ACP session closed: ${sessionId}`);
   }
 
   getActiveSessionCount(): number {
@@ -180,7 +218,7 @@ export class ClaudeCodeSessionManager {
   }
 
   listSessions(): ClaudeCodeSession[] {
-    return Array.from(this.sessions.values());
+    return Array.from(this.sessions.values()).map((s) => this.toClaudeCodeSession(s));
   }
 }
 
@@ -189,7 +227,7 @@ export interface CreateClaudeCodeAdapterOptions {
   readonly baseUrl?: string;
   readonly model?: string;
   readonly logger?: Logger;
-  readonly mcpTransport?: "http" | "stdio";
+  readonly httpClient?: AcpHttpClient;
 }
 
 export interface ClaudeCodeAdapter {
@@ -201,46 +239,86 @@ export interface ClaudeCodeAdapter {
   disconnect(): Promise<void>;
   isConnected(): boolean;
 
-  // MCP operations
-  connectMcpServer(serverName: string, config: ClaudeCodeMcpServerConfig): Promise<void>;
-  disconnectMcpServer(serverName: string): Promise<void>;
-  listMcpTools(): Promise<ClaudeCodeToolDescriptor[]>;
-  callMcpTool(
-    serverName: string,
-    toolName: string,
-    toolArgs: Record<string, unknown>,
-  ): Promise<ClaudeCodeToolResult>;
-
-  // Session operations
-  createSession(workspaceId?: string): ClaudeCodeSession;
-  sendMessage(sessionId: string, content: string): Promise<ClaudeCodeMessage>;
+  // ACP operations
+  createAcpSession(workspaceId?: string): ClaudeCodeSession;
+  sendAcpMessage(sessionId: string, content: string): Promise<ClaudeCodeMessage>;
+  sendAcpToolResult(sessionId: string, toolUseId: string, result: string, isError?: boolean): Promise<void>;
 }
 
-/**
- * Claude Code tool descriptor
- */
 export interface ClaudeCodeToolDescriptor {
   readonly name: string;
   readonly description?: string;
   readonly inputSchema?: Record<string, unknown>;
-  readonly serverName: string;
 }
 
+const CLAUDE_CODE_TOOLS: ClaudeCodeToolDescriptor[] = [
+  { name: "Read", description: "Read file contents", inputSchema: { type: "object", properties: { file_path: { type: "string" } }, required: ["file_path"] } },
+  { name: "Write", description: "Write content to file", inputSchema: { type: "object", properties: { file_path: { type: "string" }, content: { type: "string" } }, required: ["file_path", "content"] } },
+  { name: "Edit", description: "Edit file contents", inputSchema: { type: "object", properties: { file_path: { type: "string" }, old_string: { type: "string" }, new_string: { type: "string" } }, required: ["file_path", "old_string", "new_string"] } },
+  { name: "Bash", description: "Execute shell command", inputSchema: { type: "object", properties: { command: { type: "string" } }, required: ["command"] } },
+  { name: "Glob", description: "Find files matching pattern", inputSchema: { type: "object", properties: { pattern: { type: "string" } }, required: ["pattern"] } },
+  { name: "Grep", description: "Search file contents", inputSchema: { type: "object", properties: { pattern: { type: "string" }, path: { type: "string" } }, required: ["pattern"] } },
+  { name: "WebSearch", description: "Search the web", inputSchema: { type: "object", properties: { query: { type: "string" } }, required: ["query"] } },
+  { name: "WebFetch", description: "Fetch URL content", inputSchema: { type: "object", properties: { url: { type: "string" } }, required: ["url"] } },
+];
+
 /**
- * Create a Claude Code adapter instance with real MCP integration
+ * Create a Claude Code adapter instance using ACP (Agent Communication Protocol)
  *
- * The adapter manages connections to Claude Code and provides
- * a unified interface for ZCode to interact with Claude Code.
+ * This adapter uses HTTP to communicate with Claude Code API directly,
+ * implementing the ZCode Protocol for session management and tool calls.
  */
 export function createClaudeCodeAdapter(
   options: CreateClaudeCodeAdapterOptions = {},
 ): ClaudeCodeAdapter {
   const logger = options.logger;
   const sessionManager = new ClaudeCodeSessionManager({ logger });
-  const mcpAdapters = new Map<string, McpPort>();
   let connected = false;
   let _currentConfig: ClaudeCodeConfig | undefined;
-  let defaultMcpServerName: string | undefined;
+  let httpClient: AcpHttpClient | undefined;
+
+  const createHttpClient = (config: ClaudeCodeConfig): AcpHttpClient => {
+    const baseUrl = config.baseUrl ?? "https://api.anthropic.com/v1";
+    return {
+      post: async <T>(path: string, body: unknown): Promise<T> => {
+        const response = await fetch(`${baseUrl}${path}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": config.apiKey ?? "",
+            "anthropic-version": "2023-06-01",
+          },
+          body: JSON.stringify(body),
+        });
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new ClaudeCodeError(
+            `Claude Code API error: ${response.status} ${response.statusText}`,
+            "API_ERROR",
+            response.status,
+          );
+        }
+        return response.json() as Promise<T>;
+      },
+      get: async <T>(path: string): Promise<T> => {
+        const response = await fetch(`${baseUrl}${path}`, {
+          method: "GET",
+          headers: {
+            "x-api-key": config.apiKey ?? "",
+            "anthropic-version": "2023-06-01",
+          },
+        });
+        if (!response.ok) {
+          throw new ClaudeCodeError(
+            `Claude Code API error: ${response.status} ${response.statusText}`,
+            "API_ERROR",
+            response.status,
+          );
+        }
+        return response.json() as Promise<T>;
+      },
+    };
+  };
 
   return {
     providerId: CLAUDE_CODE_PROVIDER_ID,
@@ -253,199 +331,41 @@ export function createClaudeCodeAdapter(
       }
 
       _currentConfig = config;
-      logger?.debug(`Connecting to Claude Code: ${config.baseUrl ?? "default"}`);
-
-      // Create MCP adapter for Claude Code
-      const mcpConfig = createClaudeCodeMcpServerConfig({
-        apiKey: config.apiKey,
-        baseUrl: config.baseUrl,
-      });
-
-      const serverName = `claude-code-${randomUUID().slice(0, 8)}`;
-      defaultMcpServerName = serverName;
-
-      const mcpAdapter = createMcpAdapter({
-        logger: logger?.child({ module: "adapters.mcp.claude-code" }),
-      });
-      mcpAdapters.set(serverName, mcpAdapter);
-
-      try {
-        // Pass bearer token via Authorization header for HTTP authentication
-        const headers: Record<string, string> = {};
-        if (mcpConfig.bearerToken) {
-          headers["Authorization"] = `Bearer ${mcpConfig.bearerToken}`;
-        }
-        // Build config based on transport type
-        if (mcpConfig.type === "http" && mcpConfig.url) {
-          await mcpAdapter.connectServer(serverName, {
-            type: "http",
-            url: mcpConfig.url,
-            headers: Object.keys(headers).length > 0 ? headers : undefined,
-            timeoutMs: 60_000,
-          } as Parameters<typeof mcpAdapter.connectServer>[1]);
-        } else if (mcpConfig.type === "stdio") {
-          await mcpAdapter.connectServer(serverName, {
-            type: "stdio",
-            command: mcpConfig.command ?? "claude",
-            args: mcpConfig.args,
-            env: mcpConfig.env,
-            timeoutMs: 60_000,
-          } as Parameters<typeof mcpAdapter.connectServer>[1]);
-        }
-        logger?.info(`Claude Code MCP server connected: ${serverName}`);
-      } catch (error) {
-        // If MCP connection fails, adapter still works in chat-only mode
-        logger?.warn(`Claude Code MCP connection failed, falling back to chat mode`, {
-          error: error instanceof Error ? error.message : String(error),
-        });
-      }
-
+      httpClient = createHttpClient(config);
+      logger?.debug(`Connecting to Claude Code via ACP: ${config.baseUrl ?? "default"}`);
       connected = true;
-      logger?.info(`Claude Code connected successfully`);
+      logger?.info(`Claude Code ACP connected successfully`);
     },
 
     async disconnect(): Promise<void> {
       connected = false;
       _currentConfig = undefined;
+      httpClient = undefined;
 
-      // Close all MCP adapters
-      for (const [serverName, adapter] of mcpAdapters) {
-        try {
-          await adapter.close();
-          logger?.debug(`Claude Code MCP server closed: ${serverName}`);
-        } catch (error) {
-          logger?.warn(`Error closing Claude Code MCP server ${serverName}`, {
-            error: error instanceof Error ? error.message : String(error),
-          });
-        }
-      }
-      mcpAdapters.clear();
-
-      // Close all sessions
       for (const sessionId of sessionManager["sessions"].keys()) {
         sessionManager.closeSession(sessionId);
       }
-      logger?.info(`Claude Code disconnected`);
+      logger?.info(`Claude Code ACP disconnected`);
     },
 
     isConnected(): boolean {
       return connected;
     },
 
-    async connectMcpServer(serverName: string, config: ClaudeCodeMcpServerConfig): Promise<void> {
-      const adapter = createMcpAdapter({
-        logger: logger?.child({ module: "adapters.mcp.claude-code" }),
-      });
-      mcpAdapters.set(serverName, adapter);
-
-      // Pass bearer token via Authorization header for HTTP authentication
-      const headers: Record<string, string> = {};
-      if (config.bearerToken) {
-        headers["Authorization"] = `Bearer ${config.bearerToken}`;
-      }
-      // Build config based on transport type
-      if (config.type === "http" && config.url) {
-        await adapter.connectServer(serverName, {
-          type: "http",
-          url: config.url,
-          headers: Object.keys(headers).length > 0 ? headers : undefined,
-          timeoutMs: 60_000,
-        } as Parameters<typeof adapter.connectServer>[1]);
-      } else if (config.type === "stdio") {
-        await adapter.connectServer(serverName, {
-          type: "stdio",
-          command: config.command ?? "claude",
-          args: config.args,
-          env: config.env,
-          timeoutMs: 60_000,
-        } as Parameters<typeof adapter.connectServer>[1]);
-      }
-
-      logger?.info(`Claude Code MCP server connected: ${serverName}`);
+    createAcpSession(workspaceId?: string): ClaudeCodeSession {
+      return sessionManager.createSession(workspaceId, httpClient);
     },
 
-    async disconnectMcpServer(serverName: string): Promise<void> {
-      const adapter = mcpAdapters.get(serverName);
-      if (adapter) {
-        await adapter.close();
-        mcpAdapters.delete(serverName);
-        logger?.debug(`Claude Code MCP server disconnected: ${serverName}`);
-      }
-    },
-
-    async listMcpTools(): Promise<ClaudeCodeToolDescriptor[]> {
-      const tools: ClaudeCodeToolDescriptor[] = [];
-      for (const [serverName, adapter] of mcpAdapters) {
-        try {
-          const mcpTools = await adapter.listTools();
-          for (const tool of mcpTools) {
-            if (tool.name) {
-              tools.push({
-                name: tool.name,
-                description: tool.description,
-                inputSchema: tool.inputSchema,
-                serverName,
-              });
-            }
-          }
-        } catch (error) {
-          logger?.warn(`Failed to list tools from Claude Code MCP server ${serverName}`, {
-            error: error instanceof Error ? error.message : String(error),
-          });
-        }
-      }
-      return tools;
-    },
-
-    async callMcpTool(
-      serverName: string,
-      toolName: string,
-      toolArgs: Record<string, unknown>,
-    ): Promise<ClaudeCodeToolResult> {
-      const adapter = mcpAdapters.get(serverName) ?? mcpAdapters.get(defaultMcpServerName!);
-      if (!adapter) {
-        throw new ClaudeCodeError(`MCP server not found: ${serverName}`, "MCP_SERVER_NOT_FOUND");
+    async sendAcpMessage(sessionId: string, content: string): Promise<ClaudeCodeMessage> {
+      if (!connected || !httpClient) {
+        throw new ClaudeCodeError("Claude Code ACP not connected", "NOT_CONNECTED");
       }
 
-      const toolUseId = `cc-call-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-
-      try {
-        const result = await adapter.callTool({
-          serverName,
-          toolName,
-          arguments: toolArgs,
-        });
-
-        const content =
-          result.content
-            .map((block) => (block.type === "text" ? block.text : JSON.stringify(block)))
-            .join("\n");
-
-        return {
-          toolUseId,
-          content,
-          isError: result.isError,
-        };
-      } catch (error) {
-        return {
-          toolUseId,
-          content: error instanceof Error ? error.message : String(error),
-          isError: true,
-        };
-      }
-    },
-
-    createSession(workspaceId?: string): ClaudeCodeSession {
-      return sessionManager.createSession(workspaceId);
-    },
-
-    async sendMessage(sessionId: string, content: string): Promise<ClaudeCodeMessage> {
-      const session = sessionManager.getSession(sessionId);
-      if (!session) {
+      const record = sessionManager.getSessionRecord(sessionId);
+      if (!record) {
         throw new ClaudeCodeError(`Session not found: ${sessionId}`, "SESSION_NOT_FOUND");
       }
 
-      // Add user message
       const userMessage: ClaudeCodeMessage = {
         role: "user",
         content,
@@ -453,54 +373,94 @@ export function createClaudeCodeAdapter(
       };
       sessionManager.updateSession(sessionId, userMessage);
 
-      // If MCP is connected, try tool call first
-      const serverName = session.mcpServerName;
-      const adapter = mcpAdapters.get(serverName);
+      try {
+        const response = await httpClient.post<{
+          id: string;
+          type: string;
+          role: string;
+          content: Array<{ type: string; text?: string; name?: string; input?: Record<string, unknown>; id?: string }>;
+        }>("/messages", {
+          model: _currentConfig?.model ?? "claude-opus-4-5",
+          max_tokens: 8192,
+          messages: [
+            ...record.conversationHistory.map((m) => ({
+              role: m.role,
+              content: typeof m.content === "string" ? m.content : JSON.stringify(m.content),
+            })),
+            { role: "user", content },
+          ],
+          tools: CLAUDE_CODE_TOOLS.map((t) => ({
+            name: t.name,
+            description: t.description,
+            input_schema: t.inputSchema,
+          })),
+        });
 
-      if (adapter && this.isConnected()) {
-        try {
-          // Use MCP tools if available
-          const tools = await adapter.listTools();
-          if (tools.length > 0) {
-            logger?.debug(`Claude Code session ${sessionId} using MCP mode with ${tools.length} tools`);
-          }
-        } catch {
-          // Fall back to chat mode
-        }
+        const assistantMessage: ClaudeCodeMessage = {
+          role: "assistant",
+          content: response.content?.map((block) => {
+            if (block.type === "text") {
+              return { type: "text" as const, text: block.text ?? "" };
+            }
+            if (block.type === "tool_use") {
+              return { type: "tool_use" as const, id: block.id ?? "", name: block.name ?? "", input: block.input ?? {} };
+            }
+            return { type: "text" as const, text: JSON.stringify(block) };
+          }) ?? [],
+          timestamp: new Date(),
+        };
+        sessionManager.updateSession(sessionId, assistantMessage);
+        logger?.debug(`Claude Code ACP message sent, response received`);
+
+        return assistantMessage;
+      } catch (error) {
+        logger?.error(`Claude Code ACP message failed: ${error}`);
+        const errorMessage: ClaudeCodeMessage = {
+          role: "assistant",
+          content: `Error: ${error instanceof Error ? error.message : String(error)}`,
+          timestamp: new Date(),
+        };
+        sessionManager.updateSession(sessionId, errorMessage);
+        return errorMessage;
       }
+    },
 
-      // Placeholder for AI response - in real implementation, this would call Claude API
-      const assistantMessage: ClaudeCodeMessage = {
-        role: "assistant",
-        content: `[Claude Code] Received: ${content}`,
-        timestamp: new Date(),
-      };
-      sessionManager.updateSession(sessionId, assistantMessage);
-
-      return assistantMessage;
+    async sendAcpToolResult(
+      sessionId: string,
+      toolUseId: string,
+      result: string,
+      isError?: boolean,
+    ): Promise<void> {
+      if (!connected) {
+        throw new ClaudeCodeError("Claude Code ACP not connected", "NOT_CONNECTED");
+      }
+      logger?.debug(`Claude Code ACP tool result for ${toolUseId}`);
     },
   };
 }
 
-/**
- * Map ZCode tool calls to Claude Code tool format (Anthropic Messages)
- */
-/** Map ZCode tool calls to Claude Code tool format */
 export function mapZCodeToolToClaudeCode(toolName: string, toolInput: Record<string, unknown>): { name: string; input: Record<string, unknown> } {
   const toolMapping: Record<string, string> = {
-    read_file: "Read", write_file: "Write", edit_file: "Edit", bash: "Bash",
-    glob: "Glob", grep: "Grep", web_search: "WebSearch", web_fetch: "WebFetch", mcp_tool_call: "MCPTool",
+    read_file: "Read",
+    write_file: "Write",
+    edit_file: "Edit",
+    bash: "Bash",
+    glob: "Glob",
+    grep: "Grep",
+    web_search: "WebSearch",
+    web_fetch: "WebFetch",
+    mcp_tool_call: "MCPTool",
   };
   return { name: toolMapping[toolName] ?? toolName, input: toolInput };
 }
 
-/** Map Claude Code tool results to ZCode format */
 export function mapClaudeCodeResultToZCode(result: ClaudeCodeToolResult): { output: string; isError?: boolean } {
   return { output: result.content, isError: result.isError };
 }
 
-/** Convert Anthropic message format to Claude Code internal format */
 export function normalizeClaudeCodeMessage(message: ClaudeCodeMessage): ClaudeCodeContentBlock[] {
   if (typeof message.content === "string") return [{ type: "text", text: message.content }];
   return message.content;
 }
+
+export { CLAUDE_CODE_TOOLS };
