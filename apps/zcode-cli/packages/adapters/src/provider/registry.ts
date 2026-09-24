@@ -2,7 +2,10 @@
  * Unified Agent Provider Registry
  *
  * Provides a unified interface for managing multiple AI agent provider adapters.
- * Supports Pi Agent, Claude Code, and OpenAI Codex.
+ * Supports Pi Agent, Claude Code, OpenAI Codex, and MiniMax.
+ *
+ * Note: Pi Agent, Claude Code, and MiniMax use ACP (Agent Communication Protocol)
+ * while OpenAI Codex uses MCP (Model Context Protocol).
  */
 
 import type { Logger } from "@zcode/contracts";
@@ -10,17 +13,19 @@ import {
   createPiAgentAdapter,
   type PiAgentAdapter,
   type PiAgentConfig,
-  type PiAgentMcpServerConfig,
+  type PiAgentAcpServerConfig,
   type PiAgentProviderCapabilities,
   type PiAgentSession,
+  type PiAgentMessage,
 } from "./pi-agent.js";
 import {
   createClaudeCodeAdapter,
   type ClaudeCodeAdapter,
   type ClaudeCodeConfig,
-  type ClaudeCodeMcpServerConfig,
+  type ClaudeCodeAcpServerConfig,
   type ClaudeCodeProviderCapabilities,
   type ClaudeCodeSession,
+  type ClaudeCodeMessage,
 } from "./claude-code.js";
 import {
   createOpenAICodexAdapter,
@@ -30,28 +35,38 @@ import {
   type OpenAICodexProviderCapabilities,
   type OpenAICodexSession,
 } from "./openai-codex.js";
+import {
+  createMiniMaxAdapter,
+  type MiniMaxAdapter,
+  type MiniMaxConfig,
+  type MiniMaxAcpServerConfig,
+  type MiniMaxProviderCapabilities,
+  type MiniMaxSession,
+  type MiniMaxMessage,
+} from "./minimax.js";
 
 /** Supported AI Agent provider types */
-export type AgentProviderType = "pi-agent" | "claude-code" | "openai-codex";
+export type AgentProviderType = "pi-agent" | "claude-code" | "openai-codex" | "minimax";
 
 /** Unified adapter interface across all providers */
-export type AgentProviderAdapter = PiAgentAdapter | ClaudeCodeAdapter | OpenAICodexAdapter;
+export type AgentProviderAdapter = PiAgentAdapter | ClaudeCodeAdapter | OpenAICodexAdapter | MiniMaxAdapter;
 
 /** Provider capabilities union */
 export type AgentProviderCapabilities =
   | PiAgentProviderCapabilities
   | ClaudeCodeProviderCapabilities
-  | OpenAICodexProviderCapabilities;
+  | OpenAICodexProviderCapabilities
+  | MiniMaxProviderCapabilities;
 
 /** Unified config for any agent provider */
-export type AgentProviderConfig = PiAgentConfig | ClaudeCodeConfig | OpenAICodexConfig;
+export type AgentProviderConfig = PiAgentConfig | ClaudeCodeConfig | OpenAICodexConfig | MiniMaxConfig;
 
 /** Session interface (provider-agnostic) */
 export interface AgentSession {
   readonly providerId: string;
   readonly sessionId: string;
   readonly createdAt: Date;
-  readonly mcpServerName: string;
+  readonly workspaceRef?: string;
 }
 
 /** Event emitted by the registry */
@@ -61,8 +76,8 @@ export type AgentRegistryEvent =
   | { type: "provider_error"; providerId: string; error: Error }
   | { type: "session_created"; providerId: string; session: AgentSession }
   | { type: "session_closed"; providerId: string; sessionId: string }
-  | { type: "mcp_server_connected"; providerId: string; serverName: string }
-  | { type: "mcp_server_disconnected"; providerId: string; serverName: string };
+  | { type: "acp_session_message"; providerId: string; sessionId: string; message: unknown }
+  | { type: "acp_session_tool_call"; providerId: string; sessionId: string; toolCall: unknown };
 
 /** Options for creating the registry */
 export interface CreateAgentProviderRegistryOptions {
@@ -139,6 +154,8 @@ export class AgentProviderRegistry {
         return this.registerClaudeCode();
       case "openai-codex":
         return this.registerOpenAICodex();
+      case "minimax":
+        return this.registerMiniMax();
       default:
         throw new Error(`Unknown provider type: ${type}`);
     }
@@ -171,6 +188,16 @@ export class AgentProviderRegistry {
     const adapter = createOpenAICodexAdapter({ logger: this.logger });
     this.adapters.set("openai-codex", adapter);
     this.logger?.info(`OpenAI Codex provider registered`);
+    return adapter;
+  }
+
+  /**
+   * Register MiniMax provider
+   */
+  private registerMiniMax(): MiniMaxAdapter {
+    const adapter = createMiniMaxAdapter({ logger: this.logger });
+    this.adapters.set("minimax", adapter);
+    this.logger?.info(`MiniMax provider registered`);
     return adapter;
   }
 
@@ -264,35 +291,35 @@ export class AgentProviderRegistry {
   }
 
   /**
-   * Create a new session for a provider
+   * Create a new ACP session for Pi Agent, Claude Code, or MiniMax
    */
-  createSession(type: AgentProviderType, workspaceId?: string): AgentSession {
+  createAcpSession(type: "pi-agent" | "claude-code" | "minimax", workspaceId?: string): AgentSession {
     const adapter = this.adapters.get(type);
     if (!adapter) {
       throw new Error(`Provider ${type} is not registered`);
     }
 
-    let session: PiAgentSession | ClaudeCodeSession | OpenAICodexSession;
+    let session: PiAgentSession | ClaudeCodeSession | MiniMaxSession;
 
     switch (type) {
       case "pi-agent":
-        session = (adapter as PiAgentAdapter).sessionManager.createSession(workspaceId);
+        session = (adapter as PiAgentAdapter).createAcpSession(workspaceId);
         break;
       case "claude-code":
-        session = (adapter as ClaudeCodeAdapter).sessionManager.createSession(workspaceId);
+        session = (adapter as ClaudeCodeAdapter).createAcpSession(workspaceId);
         break;
-      case "openai-codex":
-        session = (adapter as OpenAICodexAdapter).sessionManager.createSession(workspaceId);
+      case "minimax":
+        session = (adapter as MiniMaxAdapter).createAcpSession(workspaceId);
         break;
       default:
-        throw new Error(`Unknown provider type: ${type}`);
+        throw new Error(`Provider ${type} does not support ACP`);
     }
 
     const agentSession: AgentSession = {
       providerId: type,
       sessionId: session.sessionId,
       createdAt: session.createdAt,
-      mcpServerName: session.mcpServerName,
+      workspaceRef: "workspaceRef" in session ? session.workspaceRef : undefined,
     };
 
     this.emit({ type: "session_created", providerId: type, session: agentSession });
@@ -300,64 +327,93 @@ export class AgentProviderRegistry {
   }
 
   /**
-   * Connect an MCP server for a provider
+   * Create a new session for OpenAI Codex (MCP-based)
+   */
+  createMcpSession(type: "openai-codex", workspaceId?: string): AgentSession {
+    const adapter = this.adapters.get(type);
+    if (!adapter) {
+      throw new Error(`Provider ${type} is not registered`);
+    }
+
+    const session = (adapter as OpenAICodexAdapter).sessionManager.createSession(workspaceId);
+
+    const agentSession: AgentSession = {
+      providerId: type,
+      sessionId: session.sessionId,
+      createdAt: session.createdAt,
+      workspaceRef: "workspaceRef" in session ? session.workspaceRef : undefined,
+    };
+
+    this.emit({ type: "session_created", providerId: type, session: agentSession });
+    return agentSession;
+  }
+
+  /**
+   * Create a new session for any provider (auto-detect ACP vs MCP)
+   */
+  createSession(type: AgentProviderType, workspaceId?: string): AgentSession {
+    if (type === "openai-codex") {
+      return this.createMcpSession(type, workspaceId);
+    }
+    if (type === "minimax" || type === "pi-agent" || type === "claude-code") {
+      return this.createAcpSession(type, workspaceId);
+    }
+    throw new Error(`Unknown provider type: ${type}`);
+  }
+
+  /**
+   * Send an ACP message to Pi Agent, Claude Code, or MiniMax
+   */
+  async sendAcpMessage(
+    type: "pi-agent" | "claude-code" | "minimax",
+    sessionId: string,
+    content: string,
+  ): Promise<PiAgentMessage | ClaudeCodeMessage | MiniMaxMessage> {
+    const adapter = this.adapters.get(type);
+    if (!adapter) {
+      throw new Error(`Provider ${type} is not registered`);
+    }
+
+    switch (type) {
+      case "pi-agent":
+        return (adapter as PiAgentAdapter).sendAcpMessage(sessionId, content);
+      case "claude-code":
+        return (adapter as ClaudeCodeAdapter).sendAcpMessage(sessionId, content);
+      case "minimax":
+        return (adapter as MiniMaxAdapter).sendAcpMessage(sessionId, content);
+      default:
+        throw new Error(`Provider ${type} does not support ACP`);
+    }
+  }
+
+  /**
+   * Connect an MCP server for OpenAI Codex
    */
   async connectMcpServer(
-    type: AgentProviderType,
+    type: "openai-codex",
     serverName: string,
-    config: PiAgentMcpServerConfig | ClaudeCodeMcpServerConfig | OpenAICodexMcpServerConfig,
+    config: OpenAICodexMcpServerConfig,
   ): Promise<void> {
     const adapter = this.adapters.get(type);
     if (!adapter) {
       throw new Error(`Provider ${type} is not registered`);
     }
 
-    switch (type) {
-      case "pi-agent":
-        await (adapter as PiAgentAdapter).connectMcpServer(
-          serverName,
-          config as PiAgentMcpServerConfig,
-        );
-        break;
-      case "claude-code":
-        await (adapter as ClaudeCodeAdapter).connectMcpServer(
-          serverName,
-          config as ClaudeCodeMcpServerConfig,
-        );
-        break;
-      case "openai-codex":
-        await (adapter as OpenAICodexAdapter).connectMcpServer(
-          serverName,
-          config as OpenAICodexMcpServerConfig,
-        );
-        break;
-    }
-
-    this.emit({ type: "mcp_server_connected", providerId: type, serverName });
+    await (adapter as OpenAICodexAdapter).connectMcpServer(serverName, config);
+    this.emit({ type: "acp_session_message", providerId: type, sessionId: serverName, message: { connected: true } });
   }
 
   /**
-   * Disconnect an MCP server for a provider
+   * Disconnect an MCP server for OpenAI Codex
    */
-  async disconnectMcpServer(type: AgentProviderType, serverName: string): Promise<void> {
+  async disconnectMcpServer(type: "openai-codex", serverName: string): Promise<void> {
     const adapter = this.adapters.get(type);
     if (!adapter) {
       throw new Error(`Provider ${type} is not registered`);
     }
 
-    switch (type) {
-      case "pi-agent":
-        await (adapter as PiAgentAdapter).disconnectMcpServer(serverName);
-        break;
-      case "claude-code":
-        await (adapter as ClaudeCodeAdapter).disconnectMcpServer(serverName);
-        break;
-      case "openai-codex":
-        await (adapter as OpenAICodexAdapter).disconnectMcpServer(serverName);
-        break;
-    }
-
-    this.emit({ type: "mcp_server_disconnected", providerId: type, serverName });
+    await (adapter as OpenAICodexAdapter).disconnectMcpServer(serverName);
+    this.emit({ type: "acp_session_message", providerId: type, sessionId: serverName, message: { disconnected: true } });
   }
 
   /**
@@ -408,25 +464,36 @@ export const BUILTIN_PROVIDER_METADATA: Record<
     description: string;
     icon: string;
     website: string;
+    protocol: "ACP" | "MCP";
   }
 > = {
   "pi-agent": {
     name: "Pi Agent",
-    description: "Zhipu AI's coding assistant with MCP support",
+    description: "Zhipu AI's coding assistant via ACP (Agent Communication Protocol)",
     icon: "pi",
     website: "https://pi.ai",
+    protocol: "ACP",
   },
   "claude-code": {
     name: "Claude Code",
-    description: "Anthropic's official AI coding CLI",
+    description: "Anthropic's official AI coding CLI via ACP",
     icon: "claude",
     website: "https://claude.ai/code",
+    protocol: "ACP",
   },
   "openai-codex": {
     name: "OpenAI Codex",
-    description: "OpenAI's code-specialized models via Responses API",
+    description: "OpenAI's code-specialized models via MCP (Model Context Protocol)",
     icon: "openai",
     website: "https://platform.openai.com/docs/guides/code-execution",
+    protocol: "MCP",
+  },
+  "minimax": {
+    name: "MiniMax",
+    description: "MiniMax AI's coding assistant via ACP",
+    icon: "minimax",
+    website: "https://platform.minimaxi.com",
+    protocol: "ACP",
   },
 };
 
@@ -453,6 +520,9 @@ export function resolveProviderFromModel(modelId: string): AgentProviderType | u
   ) {
     return "openai-codex";
   }
+  if (lower.startsWith("minimax-")) {
+    return "minimax";
+  }
 
   return undefined;
 }
@@ -471,6 +541,8 @@ export function createAgentProvider(
       return createClaudeCodeAdapter(options);
     case "openai-codex":
       return createOpenAICodexAdapter(options);
+    case "minimax":
+      return createMiniMaxAdapter(options);
     default:
       throw new Error(`Unknown provider type: ${type}`);
   }

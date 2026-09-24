@@ -5,10 +5,34 @@
  * - Pi Agent (pi.ai): Zhipu AI's coding assistant (ACP-based)
  * - Claude Code (claude.ai/code): Anthropic's coding CLI (ACP-based)
  * - OpenAI Codex: OpenAI's code-specialized models (MCP-based)
+ * - MiniMax: MiniMax AI's coding assistant (ACP-based)
  *
- * Note: Pi Agent and Claude Code use ACP (Agent Communication Protocol) via HTTP,
+ * Note: Pi Agent, Claude Code, and MiniMax use ACP (Agent Communication Protocol) via HTTP,
  * while OpenAI Codex uses MCP for tool integration.
  */
+
+// MiniMax adapter (ACP-based)
+export {
+  createMiniMaxAdapter,
+  createMiniMaxAcpServerConfig,
+  mapZCodeToolToMiniMax,
+  mapMiniMaxResultToZCode,
+  MINIMAX_PROVIDER_ID,
+  MINIMAX_DEFAULT_CAPABILITIES,
+  MINIMAX_TOOLS,
+  type MiniMaxConfig,
+  type MiniMaxSession,
+  type MiniMaxMessage,
+  type MiniMaxToolCall,
+  type MiniMaxToolResult,
+  type MiniMaxAcpServerConfig,
+  type MiniMaxProviderCapabilities,
+  type CreateMiniMaxAdapterOptions,
+  type MiniMaxAdapter,
+  type MiniMaxError,
+  type MiniMaxWorkspaceRef,
+  type MiniMaxToolDescriptor,
+} from "./minimax.js";
 
 // Pi Agent adapter (ACP-based)
 export {
