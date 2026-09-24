@@ -35,6 +35,9 @@ export function ProviderTemplatePicker({
   const { dismissFeedback, showFeedback } = useProviderDetailFeedback();
   const customLabel = intl.formatMessage({ id: "settings.modelProvider.newProviderName" });
   const zhipuIds = ["bigmodel-api", "zai-api", "bigmodel-standard-api", "zai-standard-api"];
+  const openaiIds = ["openai-codex"];
+  const anthropicIds = ["anthropic-claude-code"];
+  const piIds = ["pi-agent"];
   const groups = [
     {
       id: "zhipu",
@@ -43,8 +46,32 @@ export function ProviderTemplatePicker({
       ),
     },
     {
+      id: "openai",
+      templates: openaiIds.flatMap((id) =>
+        templates.filter((template) => template.templateId === id),
+      ),
+    },
+    {
+      id: "anthropic",
+      templates: anthropicIds.flatMap((id) =>
+        templates.filter((template) => template.templateId === id),
+      ),
+    },
+    {
+      id: "pi",
+      templates: piIds.flatMap((id) =>
+        templates.filter((template) => template.templateId === id),
+      ),
+    },
+    {
       id: "other",
-      templates: templates.filter((template) => !zhipuIds.includes(template.templateId)),
+      templates: templates.filter(
+        (template) =>
+          !zhipuIds.includes(template.templateId) &&
+          !openaiIds.includes(template.templateId) &&
+          !anthropicIds.includes(template.templateId) &&
+          !piIds.includes(template.templateId),
+      ),
     },
   ] as const;
   const createWithFeedback = async (create: () => Promise<void>) => {

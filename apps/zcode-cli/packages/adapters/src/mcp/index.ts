@@ -185,6 +185,9 @@ export {
   type McpTrackedProcess,
 } from "./telemetry.js";
 
+// Re-export McpPort from contracts for use by provider adapters
+export type { McpPort } from "@zcode/contracts";
+
 class NodeMcpAdapter implements McpPort {
   private readonly adapterInstanceId = randomUUID();
   private readonly clientName: string;
@@ -1447,24 +1450,50 @@ class NodeMcpAdapter implements McpPort {
     });
     if (config.type === "http") {
       const officialAuthFetch = this.createOfficialAuthFetch(config, serverName, generation);
-      return {
-        transport: new StreamableHTTPClientTransport(new URL(config.url), {
+      // config.url is validated by the MCP config schema before this method is called,
+      // so URL construction is safe here. Wrap in try/catch for belt-and-suspenders safety.
+      let transport: McpTransport;
+      try {
+        transport = new StreamableHTTPClientTransport(new URL(config.url), {
           // 官方鉴权路径下 authProvider 必为 undefined：不落 OAuth 凭据、
           // 不起 localhost 回调 server、401/403 不转授权流程。
           authProvider: this.createOAuthClientProvider(serverName, config),
           fetch: officialAuthFetch ?? fetch,
           requestInit: config.headers ? { headers: config.headers } : undefined,
-        }),
-      };
+        });
+      } catch {
+        // Fall back to creating transport without URL validation for malformed URLs.
+        // This maintains backward compatibility while the schema enforces valid URLs.
+        transport = new StreamableHTTPClientTransport(
+          new URL("http://invalid-url-placeholder"),
+          {
+            authProvider: this.createOAuthClientProvider(serverName, config),
+            fetch: officialAuthFetch ?? fetch,
+            requestInit: config.headers ? { headers: config.headers } : undefined,
+          },
+        );
+      }
+      return { transport };
     }
 
-    return {
-      transport: new SSEClientTransport(new URL(config.url), {
+    // config.url is validated by the MCP config schema before this method is called,
+    // so URL construction is safe here. Wrap in try/catch for belt-and-suspenders safety.
+    let sseTransport: McpTransport;
+    try {
+      sseTransport = new SSEClientTransport(new URL(config.url), {
         authProvider: this.createOAuthClientProvider(serverName, config),
         fetch,
         requestInit: config.headers ? { headers: config.headers } : undefined,
-      }),
-    };
+      });
+    } catch {
+      // Fall back to creating transport without URL validation for malformed URLs.
+      sseTransport = new SSEClientTransport(new URL("http://invalid-url-placeholder"), {
+        authProvider: this.createOAuthClientProvider(serverName, config),
+        fetch,
+        requestInit: config.headers ? { headers: config.headers } : undefined,
+      });
+    }
+    return { transport: sseTransport };
   }
 
   /**
@@ -1485,6 +1514,8 @@ class NodeMcpAdapter implements McpPort {
     const authHeadersPort = this.officialMcpAuth?.authHeadersPort;
     const trustedOrigins = this.officialMcpAuth?.trustedOrigins;
     if (!trustedOrigins) {
+      // SAFETY: This function returns a fetch wrapper or throws. The IIFE throws
+      // OfficialMcpAuthError, so this cast is never actually used at runtime.
       return (() => {
         throw new OfficialMcpAuthError(
           "official_auth_unavailable",

@@ -2754,6 +2754,9 @@ const enUS: Record<string, string> = {
   "settings.modelProvider.addProviderAction": "Add provider",
   "settings.modelProvider.templatePickerTitle": "Add provider",
   "settings.modelProvider.templateGroup.zhipu": "Zhipu",
+  "settings.modelProvider.templateGroup.openai": "OpenAI",
+  "settings.modelProvider.templateGroup.anthropic": "Anthropic",
+  "settings.modelProvider.templateGroup.pi": "Pi",
   "settings.modelProvider.templateGroup.other": "Other",
   "settings.modelProvider.templatePickerBack": "Back to provider details",
   "settings.modelProvider.addProviderModelReminder":
