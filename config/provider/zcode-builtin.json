@@ -455,17 +455,17 @@
         {
           "templateId": "anthropic-claude-code",
           "templateNameMap": {
-            "zh-CN": "Claude Code",
-            "en-US": "Claude Code"
+            "zh-CN": "Claude Code (MiniMax)",
+            "en-US": "Claude Code (MiniMax)"
           },
           "config": {
             "access": {
               "type": "api-key",
-              "apiKeyManagementUrl": "https://console.anthropic.com/settings/keys"
+              "apiKeyManagementUrl": "https://platform.minimaxi.com/console/access?tab=api-keys"
             },
             "api": {
               "type": "anthropic-messages",
-              "baseUrl": "https://api.anthropic.com/v1"
+              "baseUrl": "https://api.minimaxi.com/anthropic"
             },
             "builtinModelIds": [
               "claude-opus-4-5",
@@ -485,17 +485,17 @@
         {
           "templateId": "pi-agent",
           "templateNameMap": {
-            "zh-CN": "Pi Agent",
-            "en-US": "Pi Agent"
+            "zh-CN": "Pi Agent (MiniMax)",
+            "en-US": "Pi Agent (MiniMax)"
           },
           "config": {
             "access": {
               "type": "api-key",
-              "apiKeyManagementUrl": "https://pi.ai/api-keys"
+              "apiKeyManagementUrl": "https://platform.minimaxi.com/console/access?tab=api-keys"
             },
             "api": {
               "type": "anthropic-messages",
-              "baseUrl": "https://api.pi.ai/v1"
+              "baseUrl": "https://api.minimaxi.com/anthropic"
             },
             "builtinModelIds": [
               "pi-3-mini",

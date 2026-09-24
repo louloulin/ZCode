@@ -55,13 +55,13 @@ ACP (ZCode Protocol) 是 ZCode 的标准通信协议，提供：
 
 ✅ **Pi Agent Provider** (templateId: `pi-agent`)
 - API 类型: Anthropic Messages
-- Base URL: `https://api.z.ai/api/anthropic`
+- Base URL: `https://api.minimaxi.com/anthropic` (使用 MiniMax API)
 - 支持模型: `pi-3-mini-highspeed`, `pi-3-mini`, `pi-3-highspeed`, `pi-3`
 - 图标: zai (与智谱 AI 相同)
 
 ✅ **Claude Code Provider** (templateId: `claude-code`)
 - API 类型: Anthropic Messages
-- Base URL: `https://api.anthropic.com/v1`
+- Base URL: `https://api.minimaxi.com/anthropic` (使用 MiniMax API)
 - 支持模型: `claude-opus-4-5`, `claude-sonnet-4-5`, `claude-haiku-4-5`, `claude-opus-4-8`, `claude-sonnet-4-6`, `claude-opus-4-7`, `claude-opus-4-6`, `claude-opus-5`, `claude-sonnet-5`, `claude-haiku-4-5-20251001`
 - 图标: anthropic
 

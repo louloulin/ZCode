@@ -69,7 +69,7 @@ export function createPiAgentAcpServerConfig(options: {
   baseUrl?: string;
 }): PiAgentAcpServerConfig {
   return {
-    baseUrl: options.baseUrl ?? "https://api.z.ai/api/anthropic",
+    baseUrl: options.baseUrl ?? "https://api.minimaxi.com/anthropic",
     apiKey: options.apiKey,
   };
 }
@@ -254,7 +254,7 @@ export function createPiAgentAdapter(options: CreatePiAgentAdapterOptions = {}):
   let httpClient: AcpHttpClient | undefined;
 
   const createHttpClient = (config: PiAgentConfig): AcpHttpClient => {
-    const baseUrl = config.baseUrl ?? "https://api.z.ai/api/anthropic";
+    const baseUrl = config.baseUrl ?? "https://api.minimaxi.com/anthropic";
     return {
       post: async <T>(path: string, body: unknown): Promise<T> => {
         const response = await fetch(`${baseUrl}${path}`, {

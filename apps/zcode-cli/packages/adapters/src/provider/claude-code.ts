@@ -77,7 +77,7 @@ export function createClaudeCodeAcpServerConfig(options: {
   baseUrl?: string;
 }): ClaudeCodeAcpServerConfig {
   return {
-    baseUrl: options.baseUrl ?? "https://api.anthropic.com/v1",
+    baseUrl: options.baseUrl ?? "https://api.minimaxi.com/anthropic",
     apiKey: options.apiKey,
   };
 }
@@ -278,7 +278,7 @@ export function createClaudeCodeAdapter(
   let httpClient: AcpHttpClient | undefined;
 
   const createHttpClient = (config: ClaudeCodeConfig): AcpHttpClient => {
-    const baseUrl = config.baseUrl ?? "https://api.anthropic.com/v1";
+    const baseUrl = config.baseUrl ?? "https://api.minimaxi.com/anthropic";
     return {
       post: async <T>(path: string, body: unknown): Promise<T> => {
         const response = await fetch(`${baseUrl}${path}`, {
