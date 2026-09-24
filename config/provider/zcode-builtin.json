@@ -4768,7 +4768,8 @@
                 ]
               }
             }
-          }
+          },
+          "baseUrlMatch": "https://api.openai.com/v1/?"
         },
         {
           "modelMatch": ".*claude-(?:opus|sonnet|haiku)-(?:4-[5-9]|5)(?:-[0-9]+)?(?:-20\\d{2}(?:-\\d{2}){2})?(?:[:/\\[].*)?",
@@ -4803,7 +4804,8 @@
                 ]
               }
             }
-          }
+          },
+          "baseUrlMatch": "https://api.anthropic.com/v1/?"
         },
         {
           "modelMatch": ".*pi-3(?:-(?:mini|highspeed))?(?:-20\\d{2}(?:-\\d{2}){2})?(?:[:/\\[].*)?",
@@ -4838,7 +4840,8 @@
                 ]
               }
             }
-          }
+          },
+          "baseUrlMatch": "https://api.pi.ai/v1/?"
         }
       ],
       "templateModelRules": [
