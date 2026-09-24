@@ -159,14 +159,16 @@ ZCode 正在演进为一款 AI Agent Desktop 产品，支持多种顶级 AI 编�
 1. ✅ Provider 模板可被 ZCode 识别并显示
 2. ✅ Model Rules 正确应用模型配置
 3. ✅ Adapter 可以连接到对应的 API
-4. ⏳ MCP 连接可以正常工作 (待 Phase 2)
-5. ⏳ 工具调用可以正常工作 (待 Phase 2/3)
+4. ✅ MCP 连接可以正常工作 (Phase 2 已完成)
+5. ✅ 工具调用可以正常工作 (Phase 2/3 已完成)
+6. ✅ Provider 图标已添加 (packages/ui/src/assets/provider-icons/logo-pi.svg)
+7. ✅ i18n 字符串已添加 (zh-CN.ts, en-US.ts)
 
 ## 关键文件索引
 
 | 文件 | 作用 |
 |------|------|
-| `config/provider/zcode-builtin.json` | Provider 和 Model 配置 (rev: 31) |
+| `config/provider/zcode-builtin.json` | Provider 和 Model 配置 (rev: 33) |
 | `apps/zcode-cli/packages/adapters/src/provider/pi-agent.ts` | Pi Agent 适配器 |
 | `apps/zcode-cli/packages/adapters/src/provider/claude-code.ts` | Claude Code 适配器 |
 | `apps/zcode-cli/packages/adapters/src/provider/openai-codex.ts` | OpenAI Codex 适配器 |
@@ -174,3 +176,6 @@ ZCode 正在演进为一款 AI Agent Desktop 产品，支持多种顶级 AI 编�
 | `apps/zcode-cli/packages/adapters/src/provider/index.ts` | Adapter 导出索引 |
 | `packages/provider/src/config/schema.ts` | Provider 配置 Schema |
 | `packages/provider/src/config/rule-data-schema.ts` | Rule 数据 Schema |
+| `packages/ui/src/assets/provider-icons/logo-pi.svg` | Pi Agent 图标 |
+| `packages/ui/src/i18n/locales/zh-CN.ts` | 中文 i18n 翻译 |
+| `packages/ui/src/i18n/locales/en-US.ts` | 英文 i18n 翻译 |
