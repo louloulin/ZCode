@@ -480,8 +480,8 @@ body`,
     expect(result.skills.map((skill) => skill.name)).toEqual([
       "agents-global",
       "copied-global",
-      "shared-review",
       "lumos-global",
+      "shared-review",
     ]);
     expect(result.skills.find((skill) => skill.name === "copied-global")?.path)
       .toContain(join(home, ".lumos", "skills", "copied-global"));

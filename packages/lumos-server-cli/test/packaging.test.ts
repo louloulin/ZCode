@@ -398,9 +398,9 @@ describe("stageRelease", () => {
       "browser-use",
       "document-skills",
       "ios-simulator",
+      "lumos-guide",
       "restore-legacy-sessions",
       "skill-creator",
-      "lumos-guide",
     ]);
     expect(manifest.components?.some((component) => component.id === "official-plugins")).toBe(true);
   });

@@ -277,9 +277,9 @@ describe("Provider Provisioning Target 与真实账号刷新链路", () => {
     ]);
     expect(settingDomainWrites).toEqual(["bigmodel"]);
     expect([...credentials.keys()].sort()).toEqual([
+      "lumosjwttoken",
       "oauth:active_provider",
       "oauth:bigmodel:user_info",
-      "lumosjwttoken",
     ]);
     const snapshot = await accountSource.read();
     expect(snapshot.states[BUILTIN_MODEL_PROVIDER_IDS.bigmodelStartPlan]).toMatchObject({
