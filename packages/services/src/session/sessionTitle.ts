@@ -1,8 +1,8 @@
-import type { ZCodePromptAttachment } from "@zcode/shared";
+import type { LumosPromptAttachment } from "@lumos/shared";
 
 export function deriveSessionTitle(
   content: string,
-  attachments: readonly ZCodePromptAttachment[],
+  attachments: readonly LumosPromptAttachment[],
 ): string {
   if (content.length > 0) {
     return content.slice(0, 50) + (content.length > 50 ? "..." : "");

@@ -1,27 +1,27 @@
 import {
   ApiError,
-  DEFAULT_ZCODE_ENDPOINT_ORIGIN,
-  normalizeZCodeEndpointOrigin,
-  rewriteZCodeEndpointUrl,
+  DEFAULT_LUMOS_ENDPOINT_ORIGIN,
+  normalizeLumosEndpointOrigin,
+  rewriteLumosEndpointUrl,
   type ApiClient,
   type ApiRequestInit,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import { createServiceLogger } from "#src/logger/serviceLogger.js";
-import { buildZCodeSourceHeaders } from "../sourceHeaders.js";
+import { buildLumosSourceHeaders } from "../sourceHeaders.js";
 import { withRequestIdHeader } from "./requestIdHeaders.js";
 
 const log = createServiceLogger("node-api-client");
 
 interface NodeApiClientOptions {
   fetchImpl?: typeof fetch;
-  onZcodeJwtInvalid?: (input: string | URL, headers: Headers) => void;
-  isZcodeJwtRequest?: (input: string | URL, headers: Headers) => boolean | Promise<boolean>;
+  onLumosJwtInvalid?: (input: string | URL, headers: Headers) => void;
+  isLumosJwtRequest?: (input: string | URL, headers: Headers) => boolean | Promise<boolean>;
   isBusinessUnauthorizedRequest?: (
     input: string | URL,
     headers: Headers,
   ) => boolean | Promise<boolean>;
   businessUnauthorizedObservationTimeoutMs?: number;
-  resolveZCodeEndpointOrigin?: () => Promise<string> | string;
+  resolveLumosEndpointOrigin?: () => Promise<string> | string;
 }
 
 const DEFAULT_BUSINESS_UNAUTHORIZED_OBSERVATION_TIMEOUT_MS = 1000;
@@ -113,24 +113,24 @@ function readHeaderKeys(headers: RequestInit["headers"] | undefined): string[] {
 
 function isRequestForEndpoint(input: string | URL, endpointOrigin: string): boolean {
   try {
-    return new URL(resolveUrl(input)).origin === normalizeZCodeEndpointOrigin(endpointOrigin);
+    return new URL(resolveUrl(input)).origin === normalizeLumosEndpointOrigin(endpointOrigin);
   } catch {
     return false;
   }
 }
 
-function withZCodeEndpointHeaders(
+function withLumosEndpointHeaders(
   headers: RequestInit["headers"] | undefined,
   endpointOrigin: string,
 ): RequestInit["headers"] {
-  const next = new Headers(buildZCodeSourceHeaders());
+  const next = new Headers(buildLumosSourceHeaders());
   if (headers) {
     new Headers(headers).forEach((value, key) => {
       next.set(key, value);
     });
   }
 
-  if (next.get("HTTP-Referer") === DEFAULT_ZCODE_ENDPOINT_ORIGIN) {
+  if (next.get("HTTP-Referer") === DEFAULT_LUMOS_ENDPOINT_ORIGIN) {
     next.set("HTTP-Referer", endpointOrigin);
   }
   return next;
@@ -145,36 +145,36 @@ function resolveRequestHeaders(
     return headers;
   }
 
-  // ZCode 后端请求以前只有部分业务路径手动补来源头。
+  // Lumos 后端请求以前只有部分业务路径手动补来源头。
   // 统一在 ApiClient 出口按 endpoint origin 注入，避免 OAuth/config/billing/snapshot 等链路遗漏。
-  return withZCodeEndpointHeaders(headers, endpointOrigin);
+  return withLumosEndpointHeaders(headers, endpointOrigin);
 }
 
 export class NodeApiClient implements ApiClient {
   private readonly fetchImpl?: typeof fetch;
-  private readonly resolveZCodeEndpointOrigin?: () => Promise<string> | string;
-  private readonly onZcodeJwtInvalid?: (input: string | URL, headers: Headers) => void;
-  private readonly isZcodeJwtRequest?: NodeApiClientOptions["isZcodeJwtRequest"];
+  private readonly resolveLumosEndpointOrigin?: () => Promise<string> | string;
+  private readonly onLumosJwtInvalid?: (input: string | URL, headers: Headers) => void;
+  private readonly isLumosJwtRequest?: NodeApiClientOptions["isLumosJwtRequest"];
   private readonly isBusinessUnauthorizedRequest?: NodeApiClientOptions["isBusinessUnauthorizedRequest"];
   private readonly businessUnauthorizedObservationTimeoutMs: number;
 
   constructor(options: NodeApiClientOptions = {}) {
     this.fetchImpl = options.fetchImpl;
-    this.onZcodeJwtInvalid = options.onZcodeJwtInvalid;
-    this.isZcodeJwtRequest = options.isZcodeJwtRequest;
+    this.onLumosJwtInvalid = options.onLumosJwtInvalid;
+    this.isLumosJwtRequest = options.isLumosJwtRequest;
     this.isBusinessUnauthorizedRequest = options.isBusinessUnauthorizedRequest;
     this.businessUnauthorizedObservationTimeoutMs =
       options.businessUnauthorizedObservationTimeoutMs ??
       DEFAULT_BUSINESS_UNAUTHORIZED_OBSERVATION_TIMEOUT_MS;
-    this.resolveZCodeEndpointOrigin = options.resolveZCodeEndpointOrigin;
+    this.resolveLumosEndpointOrigin = options.resolveLumosEndpointOrigin;
   }
 
   async request(input: string | URL, init?: ApiRequestInit): Promise<Response> {
-    const endpointOrigin = this.resolveZCodeEndpointOrigin
-      ? await this.resolveZCodeEndpointOrigin()
+    const endpointOrigin = this.resolveLumosEndpointOrigin
+      ? await this.resolveLumosEndpointOrigin()
       : undefined;
-    const activeEndpointOrigin = endpointOrigin ?? DEFAULT_ZCODE_ENDPOINT_ORIGIN;
-    const requestInput = rewriteZCodeEndpointUrl(input, activeEndpointOrigin);
+    const activeEndpointOrigin = endpointOrigin ?? DEFAULT_LUMOS_ENDPOINT_ORIGIN;
+    const requestInput = rewriteLumosEndpointUrl(input, activeEndpointOrigin);
     const url = resolveUrl(requestInput);
     const method = resolveMethod(init);
     const timeoutMs = init?.timeoutMs;
@@ -203,7 +203,7 @@ export class NodeApiClient implements ApiClient {
       );
       if (isRequestForEndpoint(requestInput, activeEndpointOrigin)) {
         // 调试说明：这里只记录 header key，避免 Authorization / token 等敏感值落盘。
-        log.debug(undefined, "zcode endpoint request headers prepared", {
+        log.debug(undefined, "lumos endpoint request headers prepared", {
           headerKeys: readHeaderKeys(requestHeaders),
           method,
           url,
@@ -214,15 +214,15 @@ export class NodeApiClient implements ApiClient {
         headers: requestHeaders,
         ...(signal ? { signal } : {}),
       });
-      if ((response.status === 401 || response.status === 200) && this.onZcodeJwtInvalid) {
+      if ((response.status === 401 || response.status === 200) && this.onLumosJwtInvalid) {
         try {
           const requestHeadersForObservation = new Headers(requestHeaders);
-          const isCurrentZCodeJwtRequest = await this.isZcodeJwtRequest?.(
+          const isCurrentLumosJwtRequest = await this.isLumosJwtRequest?.(
             requestInput,
             requestHeadersForObservation,
           );
           if (
-            isCurrentZCodeJwtRequest &&
+            isCurrentLumosJwtRequest &&
             (response.status === 401 ||
               ((await this.isBusinessUnauthorizedRequest?.(
                 requestInput,
@@ -233,10 +233,10 @@ export class NodeApiClient implements ApiClient {
                   this.businessUnauthorizedObservationTimeoutMs,
                 ))))
           ) {
-            this.onZcodeJwtInvalid(requestInput, requestHeadersForObservation);
+            this.onLumosJwtInvalid(requestInput, requestHeadersForObservation);
           }
         } catch (error) {
-          log.warn("zcode jwt invalid response observation failed", { error });
+          log.warn("lumos jwt invalid response observation failed", { error });
         }
       }
       return response;

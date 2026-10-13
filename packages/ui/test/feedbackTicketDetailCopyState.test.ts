@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { FeedbackTicketDetail } from "@zcode/shared";
-import type { IFeedbackService } from "@zcode/services";
+import type { FeedbackTicketDetail } from "@lumos/shared";
+import type { IFeedbackService } from "@lumos/services";
 
 function createTicket(id: string): FeedbackTicketDetail {
   return {
@@ -45,11 +45,11 @@ describe("TicketDetailView issue copy state", () => {
     const React = await import("react");
     const { renderToStaticMarkup } = await import("react-dom/server");
     const { TicketDetailView } = await import("@/feedback/TicketDetail.js");
-    const { ZCodeIntlProvider } = await import("@/i18n/IntlProvider.js");
+    const { LumosIntlProvider } = await import("@/i18n/IntlProvider.js");
 
     renderToStaticMarkup(
       React.createElement(
-        ZCodeIntlProvider,
+        LumosIntlProvider,
         { initialLocale: "zh-CN" },
         React.createElement(TicketDetailView, {
           ticket: createTicket("ticket-1"),

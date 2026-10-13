@@ -5,7 +5,7 @@ import {
   ProviderConfig,
   ProviderConfigMap,
   extractManualModelConfig,
-} from "@zcode/provider";
+} from "@lumos/provider";
 import {
   decodeProviderConfigFile,
   encodeProviderConfigFile,

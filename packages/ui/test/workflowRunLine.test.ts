@@ -4,7 +4,7 @@ import type {
   SessionWorkflowActivity,
   SessionWorkflowPhaseSummary,
   SessionWorkflowRunSummary,
-} from "@zcode/shared/zcode-protocol-v4";
+} from "@lumos/shared/lumos-protocol-v4";
 import {
   WORKFLOW_RUN_ACK_LIMIT,
   createWorkflowRunAckStore,

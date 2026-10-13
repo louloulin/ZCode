@@ -1,6 +1,6 @@
 import { IGenUiService } from "./gen-ui/contract.js";
 import { createGenUiService } from "./gen-ui/node.js";
-import { channelReplyHostRequestSchema, channelReplyResultSchema } from "@zcode/shared";
+import { channelReplyHostRequestSchema, channelReplyResultSchema } from "@lumos/shared";
 /* eslint-disable max-lines -- host process 服务注册和启动装配需要集中维护，拆散后会更难追踪依赖注入顺序 */
 // Node.js service implementations — NOT safe to import in browser code
 import { randomBytes } from "node:crypto";
@@ -11,18 +11,18 @@ import {
   createNodeProviderRuntimePathEnv,
   NodeModelSelectionConfigRepository,
   PERSONAL_PROVIDER_CONFIG_FILE_NAME,
-} from "@zcode/provider-node";
+} from "@lumos/provider-node";
 import { getAppConfigDir as resolveAppConfigDir } from "./paths.js";
 import {
   buildLocalMediaPreviewUrl,
   type DynamicWorkflowMode,
   type ProviderProvisioningTrigger,
-} from "@zcode/shared";
+} from "@lumos/shared";
 
 export {
-  materializeZCodeBuiltinProviderConfig,
-  ZCODE_BUILTIN_PROVIDER_CONFIG_FILE_ENV,
-} from "@zcode/provider-node";
+  materializeLumosBuiltinProviderConfig,
+  LUMOS_BUILTIN_PROVIDER_CONFIG_FILE_ENV,
+} from "@lumos/provider-node";
 import { randomUUID } from "node:crypto";
 import { getAppConfigDir as getContentAppConfigDir } from "#src/paths.js";
 import { ICloudContentService } from "#src/cloud-content/cloudContent.js";
@@ -30,16 +30,16 @@ import { createCloudContentService } from "#src/cloud-content/cloudContentServic
 import { IMarketingTouchService } from "#src/marketing-touch/marketingTouch.js";
 import { createMarketingTouchService } from "#src/marketing-touch/marketingTouchService.js";
 import { createMarketingAssetRegistry } from "#src/marketing-touch/marketingAssetRegistry.js";
-import type { IChannel } from "@zcode/rpc";
+import type { IChannel } from "@lumos/rpc";
 import {
   readTopicResourceFromRelay,
   validateTopicResourceFromRelay,
-} from "./zcode-agent/topicResourceRelayClient.js";
+} from "./lumos-agent/topicResourceRelayClient.js";
 export {
   createTopicResourcePeers,
   type TopicResourcePeers,
-} from "./zcode-agent/topicResourcePeers.js";
-export { createTopicResourceRelayChannel } from "./zcode-agent/topicResourceRelayChannel.js";
+} from "./lumos-agent/topicResourcePeers.js";
+export { createTopicResourceRelayChannel } from "./lumos-agent/topicResourceRelayChannel.js";
 
 export { createFileService } from "./file/fileService.js";
 export {
@@ -67,8 +67,8 @@ export {
   parseFsFaultRulesFromEnvValue,
   resetProcessFsFaultInjectorForTests,
   setFsFaultInjectorForTests,
-  ZCODE_E2E_FS_FAULTS_ALLOW_ENV,
-  ZCODE_E2E_FS_FAULTS_ENV,
+  LUMOS_E2E_FS_FAULTS_ALLOW_ENV,
+  LUMOS_E2E_FS_FAULTS_ENV,
 } from "./fs/fsFaultInjection.js";
 export type {
   FsFaultCheckInput,
@@ -81,7 +81,7 @@ export type {
 export {
   setDataBaseDir,
   getDataBaseDir,
-  getZCodeDataRootDir,
+  getLumosDataRootDir,
   getConversationWorkspaceDir,
   getAppConfigDir,
   getExportLogStageDir,
@@ -92,7 +92,7 @@ export {
   getGitCheckpointIndexRootDir,
   copyDataDirectory,
   validateDataBaseDirTarget,
-  ZCODE_WINDOWS_APP_INSTALL_DIR_ENV,
+  LUMOS_WINDOWS_APP_INSTALL_DIR_ENV,
 } from "./paths.js";
 export { createGitService } from "./git/gitService.js";
 export { GitCommitMessageGenerator } from "./git/gitCommitMessageGenerator.js";
@@ -106,28 +106,28 @@ export {
 } from "./setting/settingService.js";
 export { createCredentialService } from "./credential/credentialService.js";
 export { createBroadcastService } from "./broadcast/broadcastService.js";
-export { createZCodeAgentService } from "./zcode-agent/zcodeAgentService.js";
-export { createZCodeTaskServiceAdapter } from "./zcode-agent/zcodeTaskServiceAdapter.js";
-export { createZCodeSessionService } from "./zcode-session/zcodeSessionService.js";
+export { createLumosAgentService } from "./lumos-agent/lumosAgentService.js";
+export { createLumosTaskServiceAdapter } from "./lumos-agent/lumosTaskServiceAdapter.js";
+export { createLumosSessionService } from "./lumos-session/lumosSessionService.js";
 export {
-  resolveDefaultZCodeAgentCommand,
-  ZCodeAgentProcessManager,
-} from "./zcode-agent/zcodeAgentProcessManager.js";
+  resolveDefaultLumosAgentCommand,
+  LumosAgentProcessManager,
+} from "./lumos-agent/lumosAgentProcessManager.js";
 export type {
-  ZCodeAgentCommand,
-  ZCodeAgentCommandResolver,
-  ZCodeAgentCommandResolverContext,
-  ZCodeAgentProcessManagerOptions,
-} from "./zcode-agent/zcodeAgentProcessManager.js";
-export { ZCodeProtocolClient } from "./zcode-agent/zcodeProtocolClient.js";
-export type { ZCodeProtocolTransport } from "./zcode-agent/zcodeProtocolTransport.js";
-export { ZCodeStdioTransport } from "./zcode-agent/zcodeStdioTransport.js";
+  LumosAgentCommand,
+  LumosAgentCommandResolver,
+  LumosAgentCommandResolverContext,
+  LumosAgentProcessManagerOptions,
+} from "./lumos-agent/lumosAgentProcessManager.js";
+export { LumosProtocolClient } from "./lumos-agent/lumosProtocolClient.js";
+export type { LumosProtocolTransport } from "./lumos-agent/lumosProtocolTransport.js";
+export { LumosStdioTransport } from "./lumos-agent/lumosStdioTransport.js";
 export {
-  getZCodeStdioTapDevLogDir,
-  readZCodeStdioTapDevState,
-  setZCodeStdioTapDevEnabled,
-} from "./zcode-agent/zcodeStdioTapDevConfig.js";
-export type { ZCodeStdioTapDevState } from "@zcode/shared";
+  getLumosStdioTapDevLogDir,
+  readLumosStdioTapDevState,
+  setLumosStdioTapDevEnabled,
+} from "./lumos-agent/lumosStdioTapDevConfig.js";
+export type { LumosStdioTapDevState } from "@lumos/shared";
 export {
   createCuaHelperInstaller,
   requestHelperAccessibilityPermissionViaLaunchServices,
@@ -320,10 +320,10 @@ import { ISettingService } from "./setting/setting.js";
 import { IOnboardingRecordService } from "./onboarding/onboardingRecord.js";
 import { ICredentialService } from "./credential/credential.js";
 import { IBroadcastService } from "./broadcast/broadcast.js";
-import { IZCodeTaskService } from "./session/zcodeTaskService.js";
-import { IZCodeAgentService } from "./zcode-agent/zcodeAgent.js";
-import type { CuaOperationStateReporter } from "./zcode-agent/cuaOperationTurnTracker.js";
-import { IZCodeSessionService } from "./zcode-session/zcodeSession.js";
+import { ILumosTaskService } from "./session/lumosTaskService.js";
+import { ILumosAgentService } from "./lumos-agent/lumosAgent.js";
+import type { CuaOperationStateReporter } from "./lumos-agent/cuaOperationTurnTracker.js";
+import { ILumosSessionService } from "./lumos-session/lumosSession.js";
 import {
   createUnsupportedConversationShareService,
   IConversationShareService,
@@ -369,13 +369,13 @@ import { createLegacyTeamOrganizationResolver } from "./model-provider/legacyTea
 import { createObservableSettingService } from "./setting/observableSettingService.js";
 import { createCredentialService } from "./credential/credentialService.js";
 import { createBroadcastService } from "./broadcast/broadcastService.js";
-import { createZCodeAgentService } from "./zcode-agent/zcodeAgentService.js";
-import type { ZCodeAgentCommandResolver } from "./zcode-agent/zcodeAgentProcessManager.js";
-import { buildAgentTelemetrySpawnEnv } from "./zcode-agent/agentTelemetryEnv.js";
-import { resolveZCodeAgentPresentationSurface } from "./zcode-agent/zcodeAgentPresentationSurface.js";
-import { createZCodeTaskServiceAdapter } from "./zcode-agent/zcodeTaskServiceAdapter.js";
-import { createZCodeSessionService } from "./zcode-session/zcodeSessionService.js";
-import { createZCodeTaskIndexSyncer } from "./zcode-agent/zcodeTaskIndexSyncer.js";
+import { createLumosAgentService } from "./lumos-agent/lumosAgentService.js";
+import type { LumosAgentCommandResolver } from "./lumos-agent/lumosAgentProcessManager.js";
+import { buildAgentTelemetrySpawnEnv } from "./lumos-agent/agentTelemetryEnv.js";
+import { resolveLumosAgentPresentationSurface } from "./lumos-agent/lumosAgentPresentationSurface.js";
+import { createLumosTaskServiceAdapter } from "./lumos-agent/lumosTaskServiceAdapter.js";
+import { createLumosSessionService } from "./lumos-session/lumosSessionService.js";
+import { createLumosTaskIndexSyncer } from "./lumos-agent/lumosTaskIndexSyncer.js";
 import { TaskIndexRepo } from "./session/taskIndexRepo.js";
 import { createBotsService } from "./bots/botsService.js";
 import { createBotRemoteWorkspaceService } from "./bots/botRemoteWorkspaceBridge.js";
@@ -388,7 +388,7 @@ import {
 } from "#src/oauth/oauthUnauthorizedRequest.js";
 import { createOAuthProviderLogoutHandler } from "./oauth/oauthProviderLogout.js";
 import { OAuthCredentialRepo } from "./oauth/repo/oauthCredentialRepo.js";
-import { readLegacyZCodeConfigProviders } from "./model-provider/legacyZCodeConfigProviderReader.js";
+import { readLegacyLumosConfigProviders } from "./model-provider/legacyLumosConfigProviderReader.js";
 import { resolveAccountTeamPlanRuntimeMaterial } from "./model-provider/accountProviderTeamPlanRequestKey.js";
 import { createAccountProviderCredentialStore } from "./model-provider/accountProviderCredentialStore.js";
 import { createAccountProviderCredentialService } from "./model-provider/accountProviderCredentialService.js";
@@ -403,7 +403,7 @@ import { AccountProviderApiClient } from "./model-provider/accountProviderApiCli
 import { createAccountProjectTokenClient } from "./model-provider/accountProjectTokenClient.js";
 import { AccountProviderApiKeyResolver } from "./model-provider/accountProviderApiKeyResolver.js";
 import { createProviderConfigRuntime } from "./model-provider/providerConfigRuntime.js";
-import { fetchZCodeBuiltinRemoteRelease } from "./model-provider/zcodeBuiltinRemoteConfig.js";
+import { fetchLumosBuiltinRemoteRelease } from "./model-provider/lumosBuiltinRemoteConfig.js";
 import {
   createProviderRuntimeFromConfigRuntime,
   type ProviderRuntime,
@@ -444,7 +444,7 @@ import {
   createPluginUiAppToolsService,
   createPluginUiBridgeService,
 } from "./plugin-ui-bridge/index.js";
-import type { PluginSandboxHandle, PluginSandboxRegisterInput } from "@zcode/shared/mcp-apps";
+import type { PluginSandboxHandle, PluginSandboxRegisterInput } from "@lumos/shared/mcp-apps";
 import { createPluginSyncService } from "./plugin-sync/pluginSyncService.js";
 import { createPluginsService } from "./plugins/pluginsService.js";
 import { createPluginManagementService } from "./plugins/pluginManagementService.js";
@@ -474,10 +474,10 @@ import {
   buildAgentRuntimeEnv,
 } from "./runtime-tools/agentProxyEnv.js";
 import { ensureAppCaCert } from "./runtime-tools/appCaCert.js";
-import { buildHelperOpenArgs, isCuaLocalDevelopmentRuntime } from "@zcode/zcode-cua/broker/server";
+import { buildHelperOpenArgs, isCuaLocalDevelopmentRuntime } from "@lumos/lumos-cua/broker/server";
 import { createServiceLogger, type ServiceLogger } from "#src/logger/serviceLogger.js";
 import { IOffPeakTaskService } from "./session/offPeakTask.js";
-import type { HighspeedMockScenario } from "@zcode/shared";
+import type { HighspeedMockScenario } from "@lumos/shared";
 import { IHighspeedCardService } from "./highspeed/highspeedCard.js";
 import {
   buildHighspeedCodingPlanAuthHeaders,
@@ -502,7 +502,7 @@ import {
 import {
   createOfficialMcpTrustedOriginRegistry,
   OFFICIAL_MCP_DEV_TRUSTED_ORIGINS_ENV,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import {
   BROKER_SOCKET_ENV,
   BROKER_UNAVAILABLE_ENV,
@@ -513,7 +513,7 @@ import {
   ICuaPermissionService,
   ICuaPipSessionService,
   isOfficialCuaPluginEnabledForWorkspace,
-  isPotentialZCodeCuaAgentMcpServer,
+  isPotentialLumosCuaAgentMcpServer,
   isScreenCaptureProbeSuccess,
   reapOrphanedHelpers,
   resolveStandaloneStatusLaunchCandidates,
@@ -541,11 +541,11 @@ import {
   getStableCuaPipeName,
   resolveStableCuaWinRecipe,
 } from "#src/cua-permission-broker/stableCuaTransport.js";
-import { HELPER_APP_NAME } from "@zcode/zcode-cua/broker/helperConstants";
-import { resolveBrokerSocketPath } from "@zcode/zcode-cua/broker/socketPath";
+import { HELPER_APP_NAME } from "@lumos/lumos-cua/broker/helperConstants";
+import { resolveBrokerSocketPath } from "@lumos/lumos-cua/broker/socketPath";
 import {
-  DEFAULT_ZCODE_MODEL_CONTEXT_BUDGET_STRATEGY,
-  ZCODE_JWT_INVALID_BROADCAST_CHANNEL,
+  DEFAULT_LUMOS_MODEL_CONTEXT_BUDGET_STRATEGY,
+  LUMOS_JWT_INVALID_BROADCAST_CHANNEL,
   formatLogPrefix,
   isCredentialDecryptError,
   isStartPlanModelProviderId,
@@ -553,28 +553,28 @@ import {
   BIGMODEL_PROVIDER_ID,
   type ProviderFamilyDomain,
   type ServiceAuthorityMode,
-  resolveRuntimeZCodeEndpointOrigin,
+  resolveRuntimeLumosEndpointOrigin,
   resolveSafeTelemetryHostname,
   type BrowserBackendDescriptor,
   type BrowserClientMode,
   type BrowserCommand,
-  isZCodeCuaMcpCommand,
-  isZCodeCuaMcpPackageArg,
-  isZCodeCuaInternalFeatureEnabled,
-  ZCODE_CUA_PLUGIN_AUTHORITY_ENV_KEY,
-  type ZCodeAutomation,
-  type ZCodeAutomationRun,
-  getCapturedZCodeAgentTelemetryEnv,
-  ZCODE_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV,
+  isLumosCuaMcpCommand,
+  isLumosCuaMcpPackageArg,
+  isLumosCuaInternalFeatureEnabled,
+  LUMOS_CUA_PLUGIN_AUTHORITY_ENV_KEY,
+  type LumosAutomation,
+  type LumosAutomationRun,
+  getCapturedLumosAgentTelemetryEnv,
+  LUMOS_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV,
   ZAI_PROVIDER_ID,
-  zcodeAccountAccessSchema,
-  zcodeProviderAccountAccessSchema,
-  ZCODE_VERSION,
-  ZCODE_ENV,
-  buildRuntimeZCodeApiUrl,
-} from "@zcode/shared";
+  lumosAccountAccessSchema,
+  lumosProviderAccountAccessSchema,
+  LUMOS_VERSION,
+  LUMOS_ENV,
+  buildRuntimeLumosApiUrl,
+} from "@lumos/shared";
 
-// 这些 conversation-share 实现依赖 Node 文件系统；仅通过 @zcode/services/node 暴露，
+// 这些 conversation-share 实现依赖 Node 文件系统；仅通过 @lumos/services/node 暴露，
 // 防止 browser-safe 根入口把 node:* 依赖带进 renderer。
 export {
   ConversationShareService,
@@ -692,10 +692,10 @@ export function shouldEnableDefaultCuaProductHelper(
     env?: NodeJS.ProcessEnv;
   } = {},
 ): boolean {
-  // CUA 已随正式版默认开启（isZCodeCuaInternalFeatureEnabled 默认 ON，仅显式 0/false/off 关闭；2026-08 注释更正——旧注释称默认关闭已过期）。显式开启后 macOS 使用既有产品 Helper，Windows 使用安装包内 runtime；
+  // CUA 已随正式版默认开启（isLumosCuaInternalFeatureEnabled 默认 ON，仅显式 0/false/off 关闭；2026-08 注释更正——旧注释称默认关闭已过期）。显式开启后 macOS 使用既有产品 Helper，Windows 使用安装包内 runtime；
   // 两端都保持按需启动。关闭时不创建 host、不探测资源、不产生子进程或权限提示。
   const env = options.env ?? process.env;
-  if (!isZCodeCuaInternalFeatureEnabled(env)) return false;
+  if (!isLumosCuaInternalFeatureEnabled(env)) return false;
   const platform = options.platform ?? process.platform;
   return platform === "darwin" || platform === "win32";
 }
@@ -802,14 +802,14 @@ export function createDynamicCuaProductMcpServerResolver(options: {
       // delegate 可能跨过 Helper start/health await；dispose 在等待中置 terminal 时，不能把旧代际
       // 刚注入的 socket/token 交给晚到 Agent。移除 CUA candidate，保持其它 MCP 原样。
       return options.isResolverCurrent?.(resolver, context) === false
-        ? servers?.filter((server) => !isPotentialZCodeCuaAgentMcpServer(server))
+        ? servers?.filter((server) => !isPotentialLumosCuaAgentMcpServer(server))
         : resolved;
     },
     async restart() {
       // 委托到底层真实 resolver（由 ICuaPermissionService.restartHelper 经此调用）。
       const resolver = await options.getResolver();
       if (!resolver) {
-        throw new Error("ZCode Computer Use is not enabled (plugin off or not product mode).");
+        throw new Error("Lumos Computer Use is not enabled (plugin off or not product mode).");
       }
       await resolver.restart();
     },
@@ -817,7 +817,7 @@ export function createDynamicCuaProductMcpServerResolver(options: {
       // 授权完成后的 restart 必须保留 session id，才能复用底层的幂等与时序保障。
       const resolver = await options.getResolver();
       if (!resolver) {
-        throw new Error("ZCode Computer Use is not enabled (plugin off or not product mode).");
+        throw new Error("Lumos Computer Use is not enabled (plugin off or not product mode).");
       }
       await resolver.restartAfterPermissionGrant(onboardingSessionId);
     },
@@ -1049,12 +1049,12 @@ export function createDefaultCuaProductHelper(
   };
 }
 
-export const ZCODE_CUA_BUNDLED_HELPER_APP_PATH_ENV = "ZCODE_CUA_BUNDLED_HELPER_APP_PATH";
+export const LUMOS_CUA_BUNDLED_HELPER_APP_PATH_ENV = "LUMOS_CUA_BUNDLED_HELPER_APP_PATH";
 
 export function resolveBundledCuaHelperAppPath(
   env: NodeJS.ProcessEnv = process.env,
 ): string | undefined {
-  const injectedPath = env[ZCODE_CUA_BUNDLED_HELPER_APP_PATH_ENV]?.trim();
+  const injectedPath = env[LUMOS_CUA_BUNDLED_HELPER_APP_PATH_ENV]?.trim();
   if (injectedPath) {
     return injectedPath;
   }
@@ -1066,9 +1066,9 @@ export function resolveBundledCuaHelperAppPath(
 
 export { isOfficialCuaPluginEnabledForWorkspace };
 
-export function hasGlobalCliZCodeCuaServer(env: NodeJS.ProcessEnv = process.env): boolean {
+export function hasGlobalCliLumosCuaServer(env: NodeJS.ProcessEnv = process.env): boolean {
   const home = env.HOME?.trim() || homedir();
-  const configPath = join(home, ".zcode", "cli", "config.json");
+  const configPath = join(home, ".lumos", "cli", "config.json");
   let parsed: unknown;
   try {
     parsed = JSON.parse(readFileSync(configPath, "utf8"));
@@ -1079,24 +1079,24 @@ export function hasGlobalCliZCodeCuaServer(env: NodeJS.ProcessEnv = process.env)
   if (isRecord(parsed.features) && parsed.features.mcp === false) return false;
   if (!isRecord(parsed.mcp) || !isRecord(parsed.mcp.servers)) return false;
   return Object.entries(parsed.mcp.servers).some(([name, config]) =>
-    isGlobalCliZCodeCuaServer(name, config),
+    isGlobalCliLumosCuaServer(name, config),
   );
 }
 
-function isGlobalCliZCodeCuaServer(name: string, config: unknown): boolean {
+function isGlobalCliLumosCuaServer(name: string, config: unknown): boolean {
   if (!isRecord(config)) return false;
   if (config.enabled === false) return false;
   if (typeof config.type === "string" && config.type !== "stdio") return false;
   if (name === "computer-use") return true;
-  // 与 desktop/services resolver 和 CLI bootstrap 共用 @zcode/shared 的单一事实源，避免第三处
-  // 判定漂移：git/.git/本地路径形态的 zcode-cua 若这里漏判，全局 CLI env 注入不会带 broker
+  // 与 desktop/services resolver 和 CLI bootstrap 共用 @lumos/shared 的单一事实源，避免第三处
+  // 判定漂移：git/.git/本地路径形态的 lumos-cua 若这里漏判，全局 CLI env 注入不会带 broker
   // socket/token，agent 会回退成 Python/uvx 自己持有 macOS TCC（违反 product broker 边界）。
-  if (typeof config.command === "string" && isZCodeCuaMcpCommand(config.command)) {
+  if (typeof config.command === "string" && isLumosCuaMcpCommand(config.command)) {
     return true;
   }
   return (
     Array.isArray(config.args) &&
-    config.args.some((arg) => typeof arg === "string" && isZCodeCuaMcpPackageArg(arg))
+    config.args.some((arg) => typeof arg === "string" && isLumosCuaMcpPackageArg(arg))
   );
 }
 
@@ -1143,25 +1143,25 @@ export function createLocalServices(options: {
   ) => Promise<void> | void;
   /** desktop local host 在 manual run 落库后直接派发，不经过 scheduler 正常路径。 */
   onAutomationManualRunRequested?: (params: {
-    automation: ZCodeAutomation;
-    run: ZCodeAutomationRun;
+    automation: LumosAutomation;
+    run: LumosAutomationRun;
   }) => Promise<void>;
   /** 闲时任务翻 schedulable 后请求宿主立即唤醒 scheduler（desktop host 注入 parentPort 转发）。 */
   onOffPeakSchedulerWakeRequested?: () => void;
   // 注入点：默认 resolver 已能覆盖 dev/桌面/SSH 远端三类形态；
   // 测试或特殊宿主想强制走自定义 binary/参数时从这里注入。
-  zcodeAgentCommandResolver?: ZCodeAgentCommandResolver;
+  lumosAgentCommandResolver?: LumosAgentCommandResolver;
   /** Desktop Main 提前异步采集的本机 runtime 环境；Local Host 注入后不再同步启动 login shell。 */
   runtimeProcessEnvPatch?: Record<string, string>;
   /** 本地桌面上次 workspace 缺失时，仅用于 Agent 子进程 spawn.cwd 兜底。 */
-  zcodeAgentSpawnFallbackCwd?: string;
+  lumosAgentSpawnFallbackCwd?: string;
   /** desktop-attached remote server 从 Desktop Host 收到的一次性 Agent 网络配置。 */
   remoteAgentNetwork?: {
     httpProxy?: string;
     noProxy?: string;
   };
-  /** 所属 Environment 的 ZCode Built-in Provider Config 物理路径。 */
-  zcodeBuiltinProviderConfigFilePath: string;
+  /** 所属 Environment 的 Lumos Built-in Provider Config 物理路径。 */
+  lumosBuiltinProviderConfigFilePath: string;
   /** HTTP Server 只有在调用方明确配置认证时才暴露跨 Environment Provisioning target。 */
   providerProvisioningTargetEnabled?: boolean;
   /** Desktop Host 私有通知；只在 Source 成功持久化后请求 Main 调度远端镜像。 */
@@ -1208,13 +1208,13 @@ export function createLocalServices(options: {
   const isDesktopAttachedRemote = options?.serviceAuthorityMode === "desktop-attached-remote";
   // host / remote server 以前直接沿用当前进程环境启动后续服务。
   // GUI 启动的 desktop、SSH/WSL/Docker 拉起的 remote server 往往拿不到用户 login shell 里的 PATH，
-  // 导致 bun 这类只在 shell profile 里追加的命令在 ZCode Agent/终端里不可见。
+  // 导致 bun 这类只在 shell profile 里追加的命令在 Lumos Agent/终端里不可见。
   // 这里在所有本地服务启动前统一修正运行时环境，并顺带把内置 rg 注入 PATH，
-  // 让 ZCode Agent、终端、认证 runtime 共用同一套命令解析结果。
+  // 让 Lumos Agent、终端、认证 runtime 共用同一套命令解析结果。
   initializeRuntimeProcessEnv(options?.runtimeProcessEnvPatch);
 
   const desktopContextPromptEnabledRaw =
-    process.env[ZCODE_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV]?.trim();
+    process.env[LUMOS_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV]?.trim();
   const desktopContextPromptEnabled =
     desktopContextPromptEnabledRaw === "1"
       ? true
@@ -1234,9 +1234,9 @@ export function createLocalServices(options: {
   const settingService = createObservableSettingService(
     options?.settingService ?? localSettings!.service,
   );
-  const resolveCurrentZCodeEndpointOrigin = async () =>
-    resolveRuntimeZCodeEndpointOrigin(process.env, {
-      overrideOrigin: (await settingService.get()).zcodeEndpointOrigin,
+  const resolveCurrentLumosEndpointOrigin = async () =>
+    resolveRuntimeLumosEndpointOrigin(process.env, {
+      overrideOrigin: (await settingService.get()).lumosEndpointOrigin,
     });
   let invalidateProjectTokens = () => {};
   let invalidatePluginUiAccounts: (() => void) | undefined;
@@ -1266,17 +1266,17 @@ export function createLocalServices(options: {
         caCertPath: settings.httpProxyCaCertPath,
       };
     });
-  const zcodeJwtLogoutHandlerRef: {
+  const lumosJwtLogoutHandlerRef: {
     current: ((input: string | URL, headers: Headers) => void) | null;
   } = { current: null };
   const apiClient = createNodeApiClient({
     fetchImpl: hostApiNetworkTransport.fetch,
-    onZcodeJwtInvalid: (input, headers) => zcodeJwtLogoutHandlerRef.current?.(input, headers),
-    isZcodeJwtRequest: (input, headers) =>
+    onLumosJwtInvalid: (input, headers) => lumosJwtLogoutHandlerRef.current?.(input, headers),
+    isLumosJwtRequest: (input, headers) =>
       isCurrentOAuthCredentialRequest({ input, headers, credentialService }),
     isBusinessUnauthorizedRequest: (input, _headers) =>
       isOAuthBusinessRequest({ input, credentialService }),
-    resolveZCodeEndpointOrigin: resolveCurrentZCodeEndpointOrigin,
+    resolveLumosEndpointOrigin: resolveCurrentLumosEndpointOrigin,
   });
   const systemService = createSystemService();
   // onboarding 资格与任务列表共用同一份全局 tasks-index；repo 懒加载数据库，提前构造不会
@@ -1381,28 +1381,28 @@ export function createLocalServices(options: {
   const providerConfigLog = createServiceLogger("provider-config");
   const clientConfigPlatform = resolveClientConfigPlatform();
   const providerConfigRuntime = createProviderConfigRuntime({
-    zcodeBuiltinFilePath: options.zcodeBuiltinProviderConfigFilePath,
-    zcodeBuiltinEnvironment: {
+    lumosBuiltinFilePath: options.lumosBuiltinProviderConfigFilePath,
+    lumosBuiltinEnvironment: {
       environmentConfigRoot: resolveAppConfigDir(),
       platform: clientConfigPlatform,
-      appVersion: ZCODE_VERSION,
-      resolveEndpointOrigin: resolveCurrentZCodeEndpointOrigin,
+      appVersion: LUMOS_VERSION,
+      resolveEndpointOrigin: resolveCurrentLumosEndpointOrigin,
       onRefreshResult: (event) => {
         if (event.result === "updated")
-          providerConfigLog.info(undefined, "ZCode Built-in CDN 配置已更新", event);
-        else providerConfigLog.debug(undefined, "ZCode Built-in 刷新检查", event);
+          providerConfigLog.info(undefined, "Lumos Built-in CDN 配置已更新", event);
+        else providerConfigLog.debug(undefined, "Lumos Built-in 刷新检查", event);
       },
       fetchRelease: (endpointOrigin, signal) =>
-        fetchZCodeBuiltinRemoteRelease({
+        fetchLumosBuiltinRemoteRelease({
           apiClient,
           endpointOrigin,
           signal,
-          appVersion: ZCODE_VERSION,
+          appVersion: LUMOS_VERSION,
           platform: clientConfigPlatform,
         }),
     },
-    onZCodeBuiltinRefreshError: (error) => {
-      providerConfigLog.warn(undefined, "ZCode Built-in Config 远端刷新失败", { error });
+    onLumosBuiltinRefreshError: (error) => {
+      providerConfigLog.warn(undefined, "Lumos Built-in Config 远端刷新失败", { error });
     },
     onPersonalConfigRecovery: (event) => {
       providerConfigLog.warn(
@@ -1419,9 +1419,9 @@ export function createLocalServices(options: {
         error,
       });
     },
-    // 已发布 config.json 保存的是 ZCode 用户配置；清理第三方 ACP 不能移除这条升级路径。
+    // 已发布 config.json 保存的是 Lumos 用户配置；清理第三方 ACP 不能移除这条升级路径。
     // Repository 仅在新 Personal 配置不存在时导入，并保留旧文件以便回滚。
-    readLegacyProviders: () => readLegacyZCodeConfigProviders(),
+    readLegacyProviders: () => readLegacyLumosConfigProviders(),
   });
   const accountProviderConfigSource = createAccountProviderConfigSource({
     configSource: providerConfigRuntime.configService,
@@ -1481,7 +1481,7 @@ export function createLocalServices(options: {
     },
   );
   let providerConnectivityAgentService:
-    | Pick<IZCodeAgentService, "testModelConnectivity">
+    | Pick<ILumosAgentService, "testModelConnectivity">
     | undefined;
   const providerRuntime = createProviderRuntimeFromConfigRuntime({
     configRuntime: providerConfigRuntime,
@@ -1519,11 +1519,11 @@ export function createLocalServices(options: {
         modelSelectionService: providerRuntime.modelSelection,
       }),
   };
-  // mcpSync/hooks 里引用 zcodeAgentService 的闭包是惰性调用，声明顺序不影响初始化。
+  // mcpSync/hooks 里引用 lumosAgentService 的闭包是惰性调用，声明顺序不影响初始化。
   const skillsService = createSkillsService({ isDesktopRuntime: true });
   const mcpSyncService = createMcpSyncService({
     // mcp/list 的 host 消费点收拢到 mcpSync 服务；真实状态检查仍在 agent 进程。
-    listMcpServerStatuses: (params) => zcodeAgentService.listMcpServerStatuses(params),
+    listMcpServerStatuses: (params) => lumosAgentService.listMcpServerStatuses(params),
   });
   const pluginSyncService = createPluginSyncService();
   const pluginUiAccounts = createPluginUiAccountBindings({
@@ -1532,45 +1532,45 @@ export function createLocalServices(options: {
       const profile = provider ? await oauthCredentialRepo.loadUserProfile(provider) : null;
       return [provider, profile?.id ?? null];
     },
-    open: (params) => zcodeAgentService.openMcpUiInstance(params),
-    close: (params) => zcodeAgentService.closeMcpUiInstance(params),
+    open: (params) => lumosAgentService.openMcpUiInstance(params),
+    close: (params) => lumosAgentService.closeMcpUiInstance(params),
   });
   invalidatePluginUiAccounts = () => pluginUiAccounts.invalidate();
   const pluginUiBridgeService = createPluginUiBridgeService({
     openInstance: (params) => pluginUiAccounts.open(params),
     closeInstance: (params) => pluginUiAccounts.close(params),
-    validateInstance: (params) => zcodeAgentService.validateMcpUiInstance(params),
-    recycleInstance: (params) => zcodeAgentService.recycleMcpUiInstance(params),
+    validateInstance: (params) => lumosAgentService.validateMcpUiInstance(params),
+    recycleInstance: (params) => lumosAgentService.recycleMcpUiInstance(params),
     // 插件 UI：资源读取与 UI 工具调用都发生在 session 所在的 agent 进程；host 只做校验与登记。
-    readMcpResource: (params) => zcodeAgentService.readMcpResource(params),
-    callMcpToolForUi: (params) => zcodeAgentService.callMcpToolForUi(params),
-    cancelMcpToolCallForUi: (params) => zcodeAgentService.cancelMcpToolCallForUi(params),
-    readMcpResourceForUi: (params) => zcodeAgentService.readMcpResourceForUi(params),
-    listMcpResourcesForUi: (params) => zcodeAgentService.listMcpResourcesForUi(params),
+    readMcpResource: (params) => lumosAgentService.readMcpResource(params),
+    callMcpToolForUi: (params) => lumosAgentService.callMcpToolForUi(params),
+    cancelMcpToolCallForUi: (params) => lumosAgentService.cancelMcpToolCallForUi(params),
+    readMcpResourceForUi: (params) => lumosAgentService.readMcpResourceForUi(params),
+    listMcpResourcesForUi: (params) => lumosAgentService.listMcpResourcesForUi(params),
     listMcpResourceTemplatesForUi: (params) =>
-      zcodeAgentService.listMcpResourceTemplatesForUi(params),
-    subscribeMcpResourceForUi: (params) => zcodeAgentService.subscribeMcpResourceForUi(params),
-    unsubscribeMcpResourceForUi: (params) => zcodeAgentService.unsubscribeMcpResourceForUi(params),
-    listPluginUiSurfaces: (params) => zcodeAgentService.listPluginUiSurfaces(params),
+      lumosAgentService.listMcpResourceTemplatesForUi(params),
+    subscribeMcpResourceForUi: (params) => lumosAgentService.subscribeMcpResourceForUi(params),
+    unsubscribeMcpResourceForUi: (params) => lumosAgentService.unsubscribeMcpResourceForUi(params),
+    listPluginUiSurfaces: (params) => lumosAgentService.listPluginUiSurfaces(params),
     registerSandbox: options?.registerPluginSandbox,
   });
   // App-Provided Tools：页面工具登记与模型调用的认领 / 回传都发生在 session 所在的 agent 进程。
   const pluginUiSamplingService = createPluginUiSamplingService({
-    sample: (params) => zcodeAgentService.sampleMcpApp(params),
-    cancelSampling: (params) => zcodeAgentService.cancelMcpAppSampling(params),
+    sample: (params) => lumosAgentService.sampleMcpApp(params),
+    cancelSampling: (params) => lumosAgentService.cancelMcpAppSampling(params),
   });
   const pluginUiAppToolsService = createPluginUiAppToolsService({
-    registerAppToolsForUi: (params) => zcodeAgentService.registerAppToolsForUi(params),
-    unregisterAppToolsForUi: (params) => zcodeAgentService.unregisterAppToolsForUi(params),
-    claimAppToolCallForUi: (params) => zcodeAgentService.claimAppToolCallForUi(params),
-    resolveAppToolCallForUi: (params) => zcodeAgentService.resolveAppToolCallForUi(params),
+    registerAppToolsForUi: (params) => lumosAgentService.registerAppToolsForUi(params),
+    unregisterAppToolsForUi: (params) => lumosAgentService.unregisterAppToolsForUi(params),
+    claimAppToolCallForUi: (params) => lumosAgentService.claimAppToolCallForUi(params),
+    resolveAppToolCallForUi: (params) => lumosAgentService.resolveAppToolCallForUi(params),
   });
   const subagentsService = createSubagentsService({
     isDesktopRuntime: true,
   });
   const commandsService = createCommandsService({ isDesktopRuntime: true });
   const hooksService = createHooksService({
-    grantWorkspaceHookTrust: (params) => zcodeAgentService.grantWorkspaceHookTrust(params),
+    grantWorkspaceHookTrust: (params) => lumosAgentService.grantWorkspaceHookTrust(params),
   });
   const memoryService = createMemoryService();
   // 只要当前进程已经装配 Provider Runtime，就由该 Environment 自己的 Selection View
@@ -1581,18 +1581,18 @@ export function createLocalServices(options: {
   // 约束：lifecycle coordinator 懒获取 + 代际 fence（dispose 仅来自显式 workspace 生命周期）；
   // 不创建定时健康探测；Helper restart 尽可能复用 host transport，既有 Agent 的 session、
   // 进程与 MCP stream 保持不变。
-  // P1-a mitigation：createDefaultCuaProductHelper() 在 zcodeAgentService 存在之前就要组装 resolver，
-  // 但"是否有活跃 turn"这个信号只有 zcodeAgentService 建好之后才能查询。用前向引用占位——resolver 真正
+  // P1-a mitigation：createDefaultCuaProductHelper() 在 lumosAgentService 存在之前就要组装 resolver，
+  // 但"是否有活跃 turn"这个信号只有 lumosAgentService 建好之后才能查询。用前向引用占位——resolver 真正
   // 调用 hasActiveTurn() 发生在后续某次 resolveMcpServers（异步），那时 hasActiveTurnRef 早已被赋值。
   // 先用前向引用连接 agent service 的 CUA turn tracker，避免在活跃 CUA 请求中途重启 Helper；
   // service 创建完成后再赋值。Helper recovery 始终不能回收 Agent。
   let hasActiveTurnRef: (() => boolean) | undefined;
   const isCuaEnabledForContext = (context?: CuaProductMcpServerResolverContext): boolean =>
-    // 保留 main 原有 gate 行为（避免回归）：dev/internal 特性开启时（ZCODE_CUA_DEV_MODE=1 或
-    // ZCODE_CUA_PRODUCT_HELPER=1）即视为启用，不依赖 config.json 显式 enable——main 的 bootstrap
-    // 用 isZCodeCuaInternalFeatureEnabled 门控 bundled plugin，与 feat 的 workspace enablement 不同。
+    // 保留 main 原有 gate 行为（避免回归）：dev/internal 特性开启时（LUMOS_CUA_DEV_MODE=1 或
+    // LUMOS_CUA_PRODUCT_HELPER=1）即视为启用，不依赖 config.json 显式 enable——main 的 bootstrap
+    // 用 isLumosCuaInternalFeatureEnabled 门控 bundled plugin，与 feat 的 workspace enablement 不同。
     // 生产路径（dev mode off）回落到官方插件 workspace enablement 判定（与 feat 一致）。
-    isZCodeCuaInternalFeatureEnabled(process.env) ||
+    isLumosCuaInternalFeatureEnabled(process.env) ||
     isOfficialCuaPluginEnabledForWorkspace({
       env: process.env,
       workingDirectory: context?.workspacePath,
@@ -1605,7 +1605,7 @@ export function createLocalServices(options: {
     context?: CuaProductMcpServerResolverContext,
   ): ManagedDefaultCuaProductHelper | undefined => {
     const helper = createDefaultCuaProductHelper({
-      // 转发活跃-turn 查询（前向引用，zcodeAgentService 建好后赋值）。
+      // 转发活跃-turn 查询（前向引用，lumosAgentService 建好后赋值）。
       hasActiveTurn: () => hasActiveTurnRef?.() ?? false,
     });
     if (!helper) return undefined;
@@ -1683,17 +1683,17 @@ export function createLocalServices(options: {
   // 签名门查询；产品 Helper 不嵌 dev policy，这对 argv 无效（产品签名天然过 Team 门）。
   // 拉起后轮询 ping（5s/100ms），就绪返回 socket 路径，否则 null。
   //
-  // dev 判定直接用上游的 isCuaLocalDevelopmentRuntime（@zcode/zcode-cua/broker/server，
+  // dev 判定直接用上游的 isCuaLocalDevelopmentRuntime（@lumos/lumos-cua/broker/server，
   // 即本文件已经用来 import buildHelperOpenArgs 的那个 subpath，可正常导入）。
   //
   // 行为等价性（别误读成安全加固）：上游是 `COMPILED_LOCAL_DEVELOPMENT_RUNTIME &&
-  // ZCODE_RUNTIME_ENV!=="production"`，而那个编译期常量只有 scripts/build-cua-helper-app.mjs
+  // LUMOS_RUNTIME_ENV!=="production"`，而那个编译期常量只有 scripts/build-cua-helper-app.mjs
   // 会用 define 折叠（Helper bundle）；desktop host bundle 没有该 define，于是回退成
   // `process.env.NODE_ENV !== "production"` —— 正是复制品写的那一项。所以在**当前**打包形态下
-  // 两者逐字等价，关门靠的是 ZCODE_RUNTIME_ENV=production（打包态显式注入且不传 NODE_ENV）。
+  // 两者逐字等价，关门靠的是 LUMOS_RUNTIME_ENV=production（打包态显式注入且不传 NODE_ENV）。
   //
   // 换成上游的收益是消除漂移面：折叠点、因子个数与 fail-closed 方向都由上游一处决定，
-  // 哪天 host bundle 也补上 __ZCODE_LOCAL_DEVELOPMENT_RUNTIME__ define（Helper 侧已经有），
+  // 哪天 host bundle 也补上 __LUMOS_LOCAL_DEVELOPMENT_RUNTIME__ define（Helper 侧已经有），
   // 编译期门自动生效，不需要再回来改这里。
 
   const launchStandaloneCuaHelperForStatus = async (): Promise<string | null> => {
@@ -1751,7 +1751,7 @@ export function createLocalServices(options: {
     enabled: cuaPipSessionEnabled,
     resolveCredentials: async () => {
       const host = defaultCuaProductHelperLifecycle.peek()?.helper.macPermissionHost;
-      // PiP 客户端以 role=presentation 声明，资格由 Helper 按对端（ZCode 主进程）签名 identifier 裁决。
+      // PiP 客户端以 role=presentation 声明，资格由 Helper 按对端（Lumos 主进程）签名 identifier 裁决。
       if (host?.running && host.socketPath) {
         return {
           socketPath: host.socketPath,
@@ -1797,7 +1797,7 @@ export function createLocalServices(options: {
       ) {
         return {
           available: false,
-          reason: "ZCode Computer Use is not enabled (plugin off or not product mode).",
+          reason: "Lumos Computer Use is not enabled (plugin off or not product mode).",
         };
       }
       // 懒启动：状态查询绝不拉起 Helper。托管 host 在（如刚完成授权流）→ 全量查询；
@@ -1819,13 +1819,13 @@ export function createLocalServices(options: {
           return {
             available: false,
             reason:
-              "ZCode Computer Use is not running; it will start automatically on first Computer Use use.",
+              "Lumos Computer Use is not running; it will start automatically on first Computer Use use.",
             idle: true,
           } satisfies { available: false; reason: string; idle: true };
         }
         // standalone Helper 上直接查权限真值（身份模式，无 token）。
         try {
-          const { callBrokerMethod } = await import("@zcode/zcode-cua/broker/helperHealth");
+          const { callBrokerMethod } = await import("@lumos/lumos-cua/broker/helperHealth");
           const report = await callBrokerMethod<{
             grant_owner: string;
             owner?: { display_name?: string };
@@ -1848,7 +1848,7 @@ export function createLocalServices(options: {
         } catch {
           return {
             available: false,
-            reason: "ZCode Computer Use is starting up; retry in a moment.",
+            reason: "Lumos Computer Use is starting up; retry in a moment.",
             idle: true,
           } satisfies { available: false; reason: string; idle: true };
         }
@@ -1858,7 +1858,7 @@ export function createLocalServices(options: {
         if (!helper || !isDefaultCuaProductHelperCurrent(helper)) {
           return {
             available: false,
-            reason: "ZCode Computer Use lifecycle is disposed.",
+            reason: "Lumos Computer Use lifecycle is disposed.",
           };
         }
         // Screen Recording 的真值必须来自一个新进程：撤销对已运行的常驻 Helper 不生效，
@@ -1867,7 +1867,7 @@ export function createLocalServices(options: {
         if (!isDefaultCuaProductHelperCurrent(helper)) {
           return {
             available: false,
-            reason: "ZCode Computer Use lifecycle is disposed.",
+            reason: "Lumos Computer Use lifecycle is disposed.",
           };
         }
         // 真实 screen-capture 探针：TCC screen_recording === "granted" 只说明系统记录了授权，并不保证
@@ -1882,7 +1882,7 @@ export function createLocalServices(options: {
         if (!isDefaultCuaProductHelperCurrent(helper)) {
           return {
             available: false,
-            reason: "ZCode Computer Use lifecycle is disposed.",
+            reason: "Lumos Computer Use lifecycle is disposed.",
           };
         }
         const reportedOwnerDisplayName =
@@ -1926,7 +1926,7 @@ export function createLocalServices(options: {
       ) {
         return {
           ok: false,
-          reason: "ZCode Computer Use is not enabled (plugin off or not product mode).",
+          reason: "Lumos Computer Use is not enabled (plugin off or not product mode).",
         };
       }
       // 走 resolver.restart()，让 host 尽可能复用 transport；不得通过 disposeWorkspace
@@ -1939,7 +1939,7 @@ export function createLocalServices(options: {
       if (!resolver) {
         return {
           ok: false,
-          reason: "ZCode Computer Use is not enabled (plugin off or not product mode).",
+          reason: "Lumos Computer Use is not enabled (plugin off or not product mode).",
         };
       }
       try {
@@ -1951,14 +1951,14 @@ export function createLocalServices(options: {
         if (!helper || !isDefaultCuaProductHelperCurrent(helper)) {
           return {
             ok: false,
-            reason: "ZCode Computer Use lifecycle is disposed.",
+            reason: "Lumos Computer Use lifecycle is disposed.",
           };
         }
         return { ok: true };
       } catch (error) {
         return {
           ok: false,
-          reason: `Failed to restart ZCode Computer Use: ${
+          reason: `Failed to restart Lumos Computer Use: ${
             error instanceof Error ? error.message : String(error)
           }`,
         };
@@ -1967,7 +1967,7 @@ export function createLocalServices(options: {
   };
   // 动态工作流的用户选择（docs/dynamic-workflow/launch.md「The user's choice」）：本机设置文件是唯一来源，
   // 每次使用时读取。desktop-attached remote Host 读不到桌面的设置，选择由 desktop 推送
-  // （zcodeAgentService.syncDynamicWorkflowUserMode），这里不注入。读取失败按「跟随」处理。
+  // （lumosAgentService.syncDynamicWorkflowUserMode），这里不注入。读取失败按「跟随」处理。
   const resolveDynamicWorkflowUserMode = isDesktopAttachedRemote
     ? undefined
     : async () => (await settingService.get()).dynamicWorkflowMode;
@@ -1991,7 +1991,7 @@ export function createLocalServices(options: {
           resolveOffPeakClientConfig: () => codingPlanSubscriptionService.getOffPeakClientConfig(),
           resolveOffPeakTaskService: () => offPeakTaskServiceForAgent,
         };
-  const zcodeAgentService = createZCodeAgentService({
+  const lumosAgentService = createLumosAgentService({
     ...(agentAccountProviderConfigSource
       ? { accountProviderConfigSource: agentAccountProviderConfigSource }
       : {}),
@@ -2006,18 +2006,18 @@ export function createLocalServices(options: {
       codingPlanSubscriptionService.getDynamicWorkflowClientConfig(),
     ...(resolveDynamicWorkflowUserMode ? { resolveDynamicWorkflowUserMode } : {}),
     forwardDynamicWorkflowUserMode: options?.forwardDynamicWorkflowUserMode,
-    commandResolver: options?.zcodeAgentCommandResolver,
-    presentationSurface: resolveZCodeAgentPresentationSurface({
+    commandResolver: options?.lumosAgentCommandResolver,
+    presentationSurface: resolveLumosAgentPresentationSurface({
       runtimeSurface: options?.agentTelemetry?.runtimeSurface,
       serviceAuthorityMode: options?.serviceAuthorityMode,
       desktopContextPromptEnabled,
     }),
     onAutomationManualRunRequested: options?.onAutomationManualRunRequested,
     // createLocalServices 虽然暴露了 reporter 注入点，旧装配却没有继续传给
-    // ZCodeAgentProcessManager，导致 host 永远不向 main 上报 Agent spawn/exit，进程监控器
+    // LumosAgentProcessManager，导致 host 永远不向 main 上报 Agent spawn/exit，进程监控器
     // 因而看不到实际运行的 Agent，也无法验证只读到可写升级是否复用同一进程。
     processLifecycleReporter: options?.processLifecycleReporter,
-    spawnFallbackCwd: options?.zcodeAgentSpawnFallbackCwd,
+    spawnFallbackCwd: options?.lumosAgentSpawnFallbackCwd,
     // browser-use：host→main 执行桥透传给 agent service 的 onRequest browserExecute 路由。
     browserControlExecutor: options?.browserControlExecutor,
     // 机器人凭据只归属于授权 Host；远端独立服务不能借用本机配置扩大读取范围。
@@ -2074,13 +2074,13 @@ export function createLocalServices(options: {
       modelSelectionService: providerRuntime.modelSelection,
     }),
     // host 是身份权威边界：provenance/origin 必须在这里再校验一次，不能只依赖 agent
-    // adapter 的 fetch wrapper。判定实现与 CLI 侧共用 @zcode/shared 的同一份，避免分叉。
-    // origin 解析复用 resolveCurrentZCodeEndpointOrigin——与闲时任务同口径（含 settings
+    // adapter 的 fetch wrapper。判定实现与 CLI 侧共用 @lumos/shared 的同一份，避免分叉。
+    // origin 解析复用 resolveCurrentLumosEndpointOrigin——与闲时任务同口径（含 settings
     // 覆盖），否则会出现"闲时任务能连、官方 MCP 连不上"。
     // dev 开关必须同样传入，否则本地自测会被 host 单方面拒绝。
     officialMcpTrustedOrigins: createOfficialMcpTrustedOriginRegistry({
       devTrustedOriginsRaw: process.env[OFFICIAL_MCP_DEV_TRUSTED_ORIGINS_ENV],
-      resolveZCodeApiOrigin: resolveCurrentZCodeEndpointOrigin,
+      resolveLumosApiOrigin: resolveCurrentLumosEndpointOrigin,
     }),
     cuaOperationStateReporter: shouldEnableCuaOperationStateReporter({
       serviceAuthorityMode: options?.serviceAuthorityMode,
@@ -2088,7 +2088,7 @@ export function createLocalServices(options: {
     })
       ? options?.cuaOperationStateReporter
       : undefined,
-    // ZCode 只发布 turn/session 事实；面板 terminal policy 由 producer coordinator 决定。
+    // Lumos 只发布 turn/session 事实；面板 terminal policy 由 producer coordinator 决定。
     ...(options?.serviceAuthorityMode === "desktop-local"
       ? {
           onCuaPipSessionLifecycle: (_workspace, event) => {
@@ -2116,12 +2116,12 @@ export function createLocalServices(options: {
           process.platform === "win32" ? getStableCuaPipeName() : resolveBrokerSocketPath();
         cuaProductHelperEnv = {
           [BROKER_SOCKET_ENV]: brokerSocket,
-          [ZCODE_CUA_PLUGIN_AUTHORITY_ENV_KEY]: randomBytes(16).toString("hex"),
+          [LUMOS_CUA_PLUGIN_AUTHORITY_ENV_KEY]: randomBytes(16).toString("hex"),
         };
         if (process.platform === "win32") {
           const recipe = await resolveStableCuaWinRecipe();
           if (recipe) {
-            cuaProductHelperEnv["ZCODE_CUA_WIN_HELPER_RECIPE"] = JSON.stringify({
+            cuaProductHelperEnv["LUMOS_CUA_WIN_HELPER_RECIPE"] = JSON.stringify({
               ...recipe,
               hostPid: process.pid,
             });
@@ -2133,7 +2133,7 @@ export function createLocalServices(options: {
           }
         }
       }
-      const telemetryEnv = getCapturedZCodeAgentTelemetryEnv();
+      const telemetryEnv = getCapturedLumosAgentTelemetryEnv();
       const telemetryConfigured = Boolean(
         telemetryEnv.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT || telemetryEnv.OTEL_EXPORTER_OTLP_ENDPOINT,
       );
@@ -2154,9 +2154,9 @@ export function createLocalServices(options: {
         }),
         // 把 host 解析出的权威 origin（含 settings 覆盖）下发给 agent，否则 agent 侧只按
         // env 推导，test env + 自定义端点时两侧信任判定的输入分叉、官方 MCP 整体 fail closed。
-        ...buildAgentEndpointOriginEnv(await resolveCurrentZCodeEndpointOrigin()),
-        // broker 凭据（socket/token）注入 agent spawn env，让内置 zcode-cua plugin 的
-        // computer-use MCP server 经 __zcode-plugin-host 恢复 token 后连上 broker。
+        ...buildAgentEndpointOriginEnv(await resolveCurrentLumosEndpointOrigin()),
+        // broker 凭据（socket/token）注入 agent spawn env，让内置 lumos-cua plugin 的
+        // computer-use MCP server 经 __lumos-plugin-host 恢复 token 后连上 broker。
         ...cuaProductHelperEnv,
         ...buildAgentTelemetrySpawnEnv({
           deviceMid: telemetryDeviceMid,
@@ -2167,7 +2167,7 @@ export function createLocalServices(options: {
         ...createNodeProviderRuntimePathEnv({
           // Built-in Active 路径按当前 Endpoint 隔离，不能通过同步的固定路径
           // getter 读取；Agent spawn 必须等待本轮 Endpoint Source 完成解析和物化。
-          zcodeBuiltinFilePath: await providerConfigRuntime.resolveZCodeBuiltinActiveFilePath(),
+          lumosBuiltinFilePath: await providerConfigRuntime.resolveLumosBuiltinActiveFilePath(),
           personalFilePath: join(resolveAppConfigDir(), PERSONAL_PROVIDER_CONFIG_FILE_NAME),
         }),
       };
@@ -2182,7 +2182,7 @@ export function createLocalServices(options: {
           resolveSessionRuntimePreferences: async (scope) => {
             // 预算已统一，不能把可选远端配置作为本地/手机 shared-host 建会话的前置条件。
             const settings = await settingService.get();
-            const modelContextBudgetStrategy = DEFAULT_ZCODE_MODEL_CONTEXT_BUDGET_STRATEGY;
+            const modelContextBudgetStrategy = DEFAULT_LUMOS_MODEL_CONTEXT_BUDGET_STRATEGY;
             return {
               askUserQuestionAutoResolutionEnabled:
                 settings.askUserQuestionAutoResolutionEnabled !== false,
@@ -2198,16 +2198,16 @@ export function createLocalServices(options: {
           },
         }),
   });
-  providerConnectivityAgentService = zcodeAgentService;
+  providerConnectivityAgentService = lumosAgentService;
   // Helper health probe 短暂超时不应在 Computer Use turn 中途回收 Agent。resolver 会把 restart
   // 推迟到下一个 request/turn 边界；若 broker 确实已失效，当前 turn 会自然失败并由下一次请求恢复。
-  hasActiveTurnRef = () => zcodeAgentService.hasActiveCuaOperationTurn();
-  // desktop-continuous UI 直接订阅 zcodeSessionService，绕开 ZCode task adapter 的
+  hasActiveTurnRef = () => lumosAgentService.hasActiveCuaOperationTurn();
+  // desktop-continuous UI 直接订阅 lumosSessionService，绕开 Lumos task adapter 的
   // mapServiceEvent 路径，导致 task_complete 永远不会写回 sqlite，侧边栏 spinner 不停。
   // 在 services 层装配一个共享的 taskIndexRepo + syncer，session 任意入口都会唤醒
   // shadow 订阅，把 runtime 终态收敛进 sqlite。
-  const zcodeTaskIndexSyncer = createZCodeTaskIndexSyncer({
-    agentService: zcodeAgentService,
+  const lumosTaskIndexSyncer = createLumosTaskIndexSyncer({
+    agentService: lumosAgentService,
     taskIndexRepo,
   });
   // The plugin can be toggled at runtime. Do not let a previously created resolver continue
@@ -2227,9 +2227,9 @@ export function createLocalServices(options: {
   });
   const cuaProductMcpServerResolver =
     options?.cuaProductMcpServerResolver ?? defaultCuaProductMcpServerResolver;
-  const zcodeSessionService = createZCodeSessionService({
-    agentService: zcodeAgentService,
-    taskIndexSyncer: zcodeTaskIndexSyncer,
+  const lumosSessionService = createLumosSessionService({
+    agentService: lumosAgentService,
+    taskIndexSyncer: lumosTaskIndexSyncer,
     cuaProductMcpServerResolver,
   });
   const gitCommitMessageGenerator = new GitCommitMessageGenerator({
@@ -2242,7 +2242,7 @@ export function createLocalServices(options: {
     },
     textGenerator: {
       async generateText(params) {
-        return await zcodeAgentService.generateWorkspaceText({
+        return await lumosAgentService.generateWorkspaceText({
           workspacePath: params.workspacePath,
           ...(params.workspaceIdentity ? { workspaceIdentity: params.workspaceIdentity } : {}),
           selection: params.selection,
@@ -2256,11 +2256,11 @@ export function createLocalServices(options: {
   const gitService = createGitService({
     commitMessageGenerator: gitCommitMessageGenerator,
   });
-  // task wrapper 由 ZCode task service adapter 提供；核心 session 状态由 ZCode agent server 维护。
-  const zcodeTaskService = createZCodeTaskServiceAdapter({
-    zcodeAgentService,
+  // task wrapper 由 Lumos task service adapter 提供；核心 session 状态由 Lumos agent server 维护。
+  const lumosTaskService = createLumosTaskServiceAdapter({
+    lumosAgentService,
     taskIndexRepo,
-    taskIndexSyncer: zcodeTaskIndexSyncer,
+    taskIndexSyncer: lumosTaskIndexSyncer,
     settingService,
     cuaProductMcpServerResolver,
   });
@@ -2273,8 +2273,8 @@ export function createLocalServices(options: {
     apiClient,
     onProviderLogout: handleOAuthProviderLogout,
   });
-  const zcodeJwtLogoutLogger = createServiceLogger("zcode-jwt-logout");
-  zcodeJwtLogoutHandlerRef.current = (input, headers) => {
+  const lumosJwtLogoutLogger = createServiceLogger("lumos-jwt-logout");
+  lumosJwtLogoutHandlerRef.current = (input, headers) => {
     // 条件退出本身已串行去重；不能丢弃等待旧候选期间到来的新凭据 401。
     void oauthService
       .logoutIfCurrentCredentialRequest(input, headers)
@@ -2282,13 +2282,13 @@ export function createLocalServices(options: {
         // 401 分类后可能已完成新登录；只有队列内真正清理的旧会话才广播过期。
         if (invalidated) {
           void broadcastService.send({
-            channel: ZCODE_JWT_INVALID_BROADCAST_CHANNEL,
+            channel: LUMOS_JWT_INVALID_BROADCAST_CHANNEL,
             payload: {},
           });
         }
       })
       .catch((error) => {
-        zcodeJwtLogoutLogger.warn("ZCode JWT logout failed", { error });
+        lumosJwtLogoutLogger.warn("Lumos JWT logout failed", { error });
       });
   };
   // Desktop Host 曾从 Settings View 再扫描一次 Account Provider，既绕开
@@ -2310,12 +2310,12 @@ export function createLocalServices(options: {
       if (providers.length !== 1) return null;
       const provider = providers[0]!;
       const config = provider.config;
-      const staticAccess = zcodeProviderAccountAccessSchema.parse(config.access.toJSON());
+      const staticAccess = lumosProviderAccountAccessSchema.parse(config.access.toJSON());
       const access = await accountRequestAuthService.resolveAccessCurrent(staticAccess);
       if (!access) return null;
       return {
         providerId: provider.providerId,
-        access: zcodeAccountAccessSchema.parse(access),
+        access: lumosAccountAccessSchema.parse(access),
         ...(config.api?.baseUrl ? { baseURL: config.api.baseUrl } : {}),
       };
     },
@@ -2337,14 +2337,14 @@ export function createLocalServices(options: {
     // 分享运行时始终走真实 API；测试/Mock 场景应在 service 单测或 Web fixture 中显式注入，
     // 不能让开发环境默认生成仅存在于进程内存的 mock-share 链接。
     apiClient,
-    baseUrl: buildRuntimeZCodeApiUrl(process.env, "/api/v1"),
+    baseUrl: buildRuntimeLumosApiUrl(process.env, "/api/v1"),
     tokenProvider: async (): Promise<string | null> => {
       const activeProvider = await oauthCredentialRepo.getActiveProvider();
       if (!activeProvider) {
         return null;
       }
       const tokenSet = await oauthCredentialRepo.loadTokenSet(activeProvider);
-      return tokenSet?.zcodeJwtToken ?? tokenSet?.accessToken ?? null;
+      return tokenSet?.lumosJwtToken ?? tokenSet?.accessToken ?? null;
     },
   });
   const conversationShareService: IConversationShareServiceType = isDesktopAttachedRemote
@@ -2352,8 +2352,8 @@ export function createLocalServices(options: {
         message: "Conversation publishing is not available for remote workspaces",
       })
     : new ConversationShareService({
-        zcodeAgentService,
-        zcodeSessionService,
+        lumosAgentService,
+        lumosSessionService,
         client: conversationShareClient,
         artifactSource: createLocalConversationShareArtifactSource(),
       });
@@ -2361,17 +2361,17 @@ export function createLocalServices(options: {
   // services 集合建好后在 return 前统一登记进 sharedSqliteRepos 侧表
   const sqliteReposToClose: Array<{ close(): void }> = [];
   const marketingAssets = createMarketingAssetRegistry({
-    allowLoopback: ZCODE_ENV === "test" || process.env.NODE_ENV === "development",
+    allowLoopback: LUMOS_ENV === "test" || process.env.NODE_ENV === "development",
   });
   const services = new ServiceCollection()
     .register(
       IMarketingTouchService,
       createMarketingTouchService({
         apiClient,
-        getToken: () => credentialService.load("zcodejwttoken"),
+        getToken: () => credentialService.load("lumosjwttoken"),
         getDeviceMid: () => options?.agentTelemetry?.getDeviceMid?.(),
-        baseUrl: buildRuntimeZCodeApiUrl(process.env, "/"),
-        appVersion: ZCODE_VERSION,
+        baseUrl: buildRuntimeLumosApiUrl(process.env, "/"),
+        appVersion: LUMOS_VERSION,
         onSnapshot: (snapshot) => marketingAssets.accept(snapshot),
       }),
     )
@@ -2392,9 +2392,9 @@ export function createLocalServices(options: {
     .register(IOnboardingRecordService, onboardingRecordService)
     .register(ICredentialService, credentialService)
     .register(IBroadcastService, broadcastService)
-    .register(IZCodeTaskService, zcodeTaskService)
-    .register(IZCodeAgentService, zcodeAgentService)
-    .register(IZCodeSessionService, zcodeSessionService)
+    .register(ILumosTaskService, lumosTaskService)
+    .register(ILumosAgentService, lumosAgentService)
+    .register(ILumosSessionService, lumosSessionService)
     .register(ICuaPermissionService, cuaPermissionService)
     .register(ICuaPipSessionService, cuaPipSessionService)
     .register(IConversationShareService, conversationShareService)
@@ -2402,7 +2402,7 @@ export function createLocalServices(options: {
       IBotsService,
       createBotsService({
         credentialService,
-        zcodeTaskService,
+        lumosTaskService,
         broadcastService,
         settingService,
         modelSelectionService: providerRuntime.modelSelection,
@@ -2420,7 +2420,7 @@ export function createLocalServices(options: {
         apiClient,
         accountRequestAuthService,
         credentialService,
-        zcodeAgentService,
+        lumosAgentService,
         officialMcpCredentialSource,
       }),
     )
@@ -2430,8 +2430,8 @@ export function createLocalServices(options: {
       createClientConfigService({
         apiClient,
         resolveRequestContext: async () => ({
-          endpointOrigin: await resolveCurrentZCodeEndpointOrigin(),
-          appVersion: ZCODE_VERSION,
+          endpointOrigin: await resolveCurrentLumosEndpointOrigin(),
+          appVersion: LUMOS_VERSION,
           platform: `${process.platform}-${process.arch}`,
         }),
       }),
@@ -2502,7 +2502,7 @@ export function createLocalServices(options: {
           logger: offPeakLogger,
           requestSchedulerWake: options?.onOffPeakSchedulerWakeRequested,
           stopRunningTask: async (params) => {
-            await zcodeTaskService.stopGeneration({
+            await lumosTaskService.stopGeneration({
               taskId: params.conversationId,
               workspacePath: params.workspacePath,
               ...(params.workspaceIdentity ? { workspaceIdentity: params.workspaceIdentity } : {}),
@@ -2513,7 +2513,7 @@ export function createLocalServices(options: {
           },
         });
         offPeakTaskService.startSync();
-        // 回写前向引用，供 zcodeAgentService 的 offPeak/create、offPeak/list 协议 handler 调用。
+        // 回写前向引用，供 lumosAgentService 的 offPeak/create、offPeak/list 协议 handler 调用。
         offPeakTaskServiceForAgent = offPeakTaskService;
         return offPeakTaskService;
       })(),
@@ -2521,8 +2521,8 @@ export function createLocalServices(options: {
     .register(
       IHighspeedCardService,
       (() => {
-        const origin = resolveRuntimeZCodeEndpointOrigin(process.env);
-        const rawMockScenario = process.env.ZCODE_HIGHSPEED_MOCK_SCENARIO;
+        const origin = resolveRuntimeLumosEndpointOrigin(process.env);
+        const rawMockScenario = process.env.LUMOS_HIGHSPEED_MOCK_SCENARIO;
         const mockScenarios = new Set<HighspeedMockScenario>([
           "hit-fast",
           "miss",
@@ -2534,8 +2534,8 @@ export function createLocalServices(options: {
           ? (rawMockScenario as HighspeedMockScenario)
           : null;
         const resolveHighspeedLoginHeaders = async (): Promise<Record<string, string>> => {
-          const jwt = (await credentialService.load("zcodejwttoken"))?.trim() ?? "";
-          if (!jwt) throw new Error("highspeed request requires zcode jwt");
+          const jwt = (await credentialService.load("lumosjwttoken"))?.trim() ?? "";
+          if (!jwt) throw new Error("highspeed request requires lumos jwt");
           return { Authorization: /^Bearer\s/i.test(jwt) ? jwt : `Bearer ${jwt}` };
         };
         const transport = mockScenario
@@ -2553,7 +2553,7 @@ export function createLocalServices(options: {
                     await credentialService.load(`oauth:${credentials.providerFamily}:access_token`)
                   )?.trim() ?? "";
                 return buildHighspeedCodingPlanAuthHeaders({
-                  zcodeJwt: credentials.jwt,
+                  lumosJwt: credentials.jwt,
                   codingPlanAuthorization,
                   targetType:
                     credentials.organizationId && credentials.projectId ? "TEAM" : "PERSONAL",
@@ -2583,7 +2583,7 @@ export function createLocalServices(options: {
                 return provider?.models.some((model) => model.modelId === modelId) ?? false;
               },
           // 加速推理与 draw 走同一 highspeed 网关、同一 Coding Plan 双 JWT 契约：必须携带
-          // zcode JWT + Coding Plan 业务 JWT + Team 身份头。此前只发 zcode JWT + 卡 ID，网关
+          // lumos JWT + Coding Plan 业务 JWT + Team 身份头。此前只发 lumos JWT + 卡 ID，网关
           // 无法校验 Coding Plan 权益，返回 401 auth_failed。与 draw 头复用同一次 selected
           // connection 解析，避免把 ZAI 身份的卡打到 BigModel 加速 Provider。
           resolveInferenceAuth: async () => {
@@ -2595,7 +2595,7 @@ export function createLocalServices(options: {
                 await credentialService.load(`oauth:${credentials.providerFamily}:access_token`)
               )?.trim() ?? "";
             return {
-              zcodeJwt: credentials.jwt,
+              lumosJwt: credentials.jwt,
               family: credentials.providerFamily,
               codingPlanAuthorization,
               targetType: credentials.organizationId && credentials.projectId ? "TEAM" : "PERSONAL",
@@ -2621,13 +2621,13 @@ export function createLocalServices(options: {
     .register(IPluginSyncService, pluginSyncService)
     .register(IPluginsService, createPluginsService({ isDesktopRuntime: true }))
     // 设置页插件管理薄服务——plugins/* 旧协议词的 host 侧唯一消费点。
-    .register(IPluginManagementService, createPluginManagementService({ zcodeAgentService }))
+    .register(IPluginManagementService, createPluginManagementService({ lumosAgentService }))
     .register(ISubagentsService, subagentsService)
     .register(ICommandsService, createCommandsService({ isDesktopRuntime: true }))
     .register(
       IHooksService,
       createHooksService({
-        grantWorkspaceHookTrust: (params) => zcodeAgentService.grantWorkspaceHookTrust(params),
+        grantWorkspaceHookTrust: (params) => lumosAgentService.grantWorkspaceHookTrust(params),
       }),
     )
     .register(IMemoryService, createMemoryService())
@@ -2728,7 +2728,7 @@ export function createTelemetryUserIdLoader(
   };
 }
 
-/** 仅给同一事件账号返回当前 ZCode JWT；不缓存、不修改登录凭据。 */
+/** 仅给同一事件账号返回当前 Lumos JWT；不缓存、不修改登录凭据。 */
 export function createTelemetryAuthorizationLoader(
   credentialService: Pick<ICredentialService, "load">,
 ): (userId: string) => Promise<string | null> {
@@ -2740,7 +2740,7 @@ export function createTelemetryAuthorizationLoader(
       const readUserId = async () =>
         readTelemetryOAuthUserId(await credentialService.load(`oauth:${provider}:user_info`));
       if ((await readUserId()) !== userId) return null;
-      const jwt = (await credentialService.load("zcodejwttoken"))?.trim();
+      const jwt = (await credentialService.load("lumosjwttoken"))?.trim();
       // 退出/切账号可能发生在异步读取期间；禁止将旧身份的 token 附到其他账号事件上。
       if (
         (await credentialService.load("oauth:active_provider"))?.trim() !== provider ||
@@ -2756,7 +2756,7 @@ export function createTelemetryAuthorizationLoader(
 
 export function createTelemetryMarketingParamsLoader(
   credentialService: ICredentialService,
-): () => Promise<import("@zcode/shared").OAuthLoginAttribution | null> {
+): () => Promise<import("@lumos/shared").OAuthLoginAttribution | null> {
   // 恢复原因：固定返回 null 会丢掉已保存的渠道归因，数仓应读取 OAuth 的同一份事实。
   const repo = new OAuthCredentialRepo(credentialService);
   return () => repo.loadLoginAttribution();
@@ -2791,9 +2791,9 @@ export function disposeServiceResources(services: ServiceCollection): void {
   // 这里集中调用各服务的本地 disposeAll 钩子，把“退出 app = 回收所有托管资源”落成机械动作。
   const disposableServices = [
     services.getOptional(ITerminalService),
-    services.getOptional(IZCodeTaskService),
-    services.getOptional(IZCodeAgentService),
-    services.getOptional(IZCodeSessionService),
+    services.getOptional(ILumosTaskService),
+    services.getOptional(ILumosAgentService),
+    services.getOptional(ILumosSessionService),
     services.getOptional(IBotsService),
     services.getOptional(IFileWatcherService),
     services.getOptional(ISubagentsService),
@@ -2826,13 +2826,13 @@ export async function disposeServiceResourcesAndWait(services: ServiceCollection
     services.getOptional(IGenUiService) as (IGenUiService & { dispose?(): void }) | undefined
   )?.dispose?.();
   // app 关闭时 host 需要等 agent 进程树完成 graceful + force 清理。
-  // 旧的同步 dispose 会在 host 退出时丢掉强杀 timer，导致 zcode-cli/app-server 变成孤儿进程。
+  // 旧的同步 dispose 会在 host 退出时丢掉强杀 timer，导致 lumos-cli/app-server 变成孤儿进程。
   const disposableServices = [
     services.getOptional(ICloudContentService),
     services.getOptional(ITerminalService),
-    services.getOptional(IZCodeTaskService),
-    services.getOptional(IZCodeAgentService),
-    services.getOptional(IZCodeSessionService),
+    services.getOptional(ILumosTaskService),
+    services.getOptional(ILumosAgentService),
+    services.getOptional(ILumosSessionService),
     services.getOptional(IBotsService),
     services.getOptional(IFileWatcherService),
     services.getOptional(ISubagentsService),
@@ -2865,4 +2865,4 @@ export async function disposeServiceResourcesAndWait(services: ServiceCollection
     ?.disposeAndWait()
     .catch(() => {});
 }
-export { localRuntimeNetworkCapture } from "./zcode-agent/localRuntimeNetworkCapture.js";
+export { localRuntimeNetworkCapture } from "./lumos-agent/localRuntimeNetworkCapture.js";

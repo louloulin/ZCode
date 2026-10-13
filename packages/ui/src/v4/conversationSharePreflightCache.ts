@@ -2,9 +2,9 @@ import type {
   ConversationShareFailureIssue,
   ConversationSharePreflightResult,
   ConversationShareTurnPreflightResult,
-} from "@zcode/services";
-import { extractConversationPreviewFileReferences } from "@zcode/shared";
-import type { ConversationRow } from "@zcode/shared/zcode-protocol-v4";
+} from "@lumos/services";
+import { extractConversationPreviewFileReferences } from "@lumos/shared";
+import type { ConversationRow } from "@lumos/shared/lumos-protocol-v4";
 
 function hashString(value: string): string {
   let hash = 2166136261;

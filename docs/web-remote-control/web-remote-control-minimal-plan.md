@@ -1,8 +1,8 @@
 # Mobile Remote Access 最小跑通规划（历史方案）
 
 > **已废弃：** 本文描述的是已经移除的仓库内 relay 和远控专用 Host 方案，仅作为历史记录保留。
-> 当前实现按 endpoint 选择外部 relay：production 为 `wss://zcode.z.ai/ws`，标准 test 为
-> `wss://zcode.z.ai/ws`。默认二维码入口按 App 版本选择 `/remote/v3` 或 `/remote/v4`；
+> 当前实现按 endpoint 选择外部 relay：production 为 `wss://lumos.z.ai/ws`，标准 test 为
+> `wss://lumos.z.ai/ws`。默认二维码入口按 App 版本选择 `/remote/v3` 或 `/remote/v4`；
 > `3.4.0` 稳定版门槛及预发布版本规则见现行架构文档，显式 URL 覆盖优先。
 > 手机通过 shared-host attachment 连接目标桌面窗口唯一 Window Host 中的 local/remote workspace scope；
 > 不启动手机专用 Host/Agent。当前事实以 [Web Remote Control Architecture](./web-remote-control-architecture.md) 为准。
@@ -106,7 +106,7 @@
 1. **Host 内的 remote workspace scope 只暴露该 workspace 相关服务**
    没有本地 `setting/credential/oauth/modelProvider` 这些全局能力
 2. **base host 也不能代表当前 remote tab**
-   因为当前 tab 真正使用的 file/system/terminal/zcode task/session 可能来自另一个 remote session host
+   因为当前 tab 真正使用的 file/system/terminal/lumos task/session 可能来自另一个 remote session host
 
 所以 Web 远程控制 如果直接“借现有 host”，会很容易在 local / remote 场景下出现服务不完整的问题。
 
@@ -292,7 +292,7 @@ main 只要把 spawn 逻辑稍微抽一下，允许“**不要把 port 发给 re
 
 ## 4.3 `packages/desktop/src/preload`
 
-扩展 `window.zcode` bridge：
+扩展 `window.lumos` bridge：
 
 - `startWebRemoteControl(context)`
 - `stopWebRemoteControl()`
@@ -470,8 +470,8 @@ desktop session ws <-> MessagePortMain <-> host ChannelServer
 1. 新建 `packages/relay/package.json`
 2. 新建 `packages/relay/src/*`
 3. 接入根脚本：
-   - `pnpm --filter @zcode/relay dev`
-   - `pnpm --filter @zcode/relay build`
+   - `pnpm --filter @lumos/relay dev`
+   - `pnpm --filter @lumos/relay build`
 4. 把 relay 加进根 `typecheck`
 5. 把 relay 加进根 `lint`
 
@@ -667,7 +667,7 @@ relay 自己维护结构化前缀，例如：
 2. 启动 web
    - `pnpm dev:web`
 3. 启动 desktop，并指向 relay
-   - `ZCODE_WEB_REMOTE_CONTROL_RELAY_URL=http://localhost:8787 pnpm dev:desktop`
+   - `LUMOS_WEB_REMOTE_CONTROL_RELAY_URL=http://localhost:8787 pnpm dev:desktop`
 
 联调时还需要补一项环境约定：
 

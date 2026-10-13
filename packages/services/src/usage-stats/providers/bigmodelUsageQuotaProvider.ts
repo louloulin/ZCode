@@ -18,8 +18,8 @@ import type {
   UsageQuotaLimit,
   UsageStatsRequest,
   UsageStatsSnapshot,
-  ZCodeAccountAccess,
-} from "@zcode/shared";
+  LumosAccountAccess,
+} from "@lumos/shared";
 import {
   ApiError,
   BUILTIN_MODEL_PROVIDER_IDS,
@@ -28,9 +28,9 @@ import {
   isZaiCodingPlanProviderId,
   buildBigModelApiUrl,
   buildRuntimeZaiBusinessUrl,
-  buildRuntimeZCodeApiUrl,
-} from "@zcode/shared";
-import type { ProviderFamilyDomain } from "@zcode/shared";
+  buildRuntimeLumosApiUrl,
+} from "@lumos/shared";
+import type { ProviderFamilyDomain } from "@lumos/shared";
 import { createServiceLogger } from "#src/logger/serviceLogger.js";
 import type { ICredentialService } from "../../credential/credential.js";
 import type { IAccountRequestAuthService } from "../../model-provider/accountRequestAuthService.js";
@@ -66,13 +66,13 @@ import { fetchBigModelSubscriptionSummary } from "./bigmodelSubscriptionProvider
 import {
   fetchMcpQuotaSnapshot,
   type OfficialMcpCredentialSource,
-} from "./zcodeMcpQuotaProvider.js";
+} from "./lumosMcpQuotaProvider.js";
 import type { BigModelUsageQuotaEnvelope } from "./bigmodelUsageQuotaMapper.js";
 import { normalizeLimits, pickPrimaryLimit } from "./bigmodelUsageQuotaMapper.js";
 
 const BIGMODEL_QUOTA_PATH = "/api/monitor/usage/quota/limit";
 const CODING_PLAN_RESET_BASE_PATH = "/api/v1/coding-plan/reset";
-const ZCODE_JWT_TOKEN_KEY = "zcodejwttoken";
+const LUMOS_JWT_TOKEN_KEY = "lumosjwttoken";
 const ZAI_OAUTH_ACCESS_TOKEN_KEY = "oauth:zai:access_token";
 const BIGMODEL_OAUTH_ACCESS_TOKEN_KEY = "oauth:bigmodel:access_token";
 const REQUEST_TIMEOUT_MS = 15_000;
@@ -161,7 +161,7 @@ interface TeamPlanContext {
 }
 
 interface CodingPlanResetAuthorization {
-  zcodeAuthorization: string;
+  lumosAuthorization: string;
   codingPlanAuthorization: string;
   teamContext: TeamPlanContext | null;
 }
@@ -316,7 +316,7 @@ export class BigModelUsageQuotaProvider {
 
   private async resolveRequestAccountAccess(
     accountAccess: UsageEntitlementRequest["accountAccess"],
-  ): Promise<ZCodeAccountAccess | undefined> {
+  ): Promise<LumosAccountAccess | undefined> {
     if (!accountAccess) return undefined;
     if (!("mode" in accountAccess)) return accountAccess;
     return (await this.accountRequestAuthService.resolveAccessCurrent(accountAccess)) ?? undefined;
@@ -351,7 +351,7 @@ export class BigModelUsageQuotaProvider {
 
   private async getStartPlanSnapshot(
     providerId: string,
-    accountAccess: ZCodeAccountAccess | undefined,
+    accountAccess: LumosAccountAccess | undefined,
     invalidateBalanceCache = false,
   ): Promise<UsageEntitlementSnapshot> {
     const generatedAt = Date.now();
@@ -453,7 +453,7 @@ export class BigModelUsageQuotaProvider {
 
   private async resolveStartPlanAuthorization(
     providerId: string,
-    accountAccess: ZCodeAccountAccess | undefined,
+    accountAccess: LumosAccountAccess | undefined,
   ): Promise<{
     authorization: string;
     provider: ResolvedQuotaAuthorization["provider"];
@@ -526,7 +526,7 @@ export class BigModelUsageQuotaProvider {
     const authorization = await this.resolveCodingPlanResetAuthorization(request);
     const payload = await readCodingPlanResetApiJson(
       this.apiClient,
-      buildRuntimeZCodeApiUrl(this.env, `${CODING_PLAN_RESET_BASE_PATH}/status`),
+      buildRuntimeLumosApiUrl(this.env, `${CODING_PLAN_RESET_BASE_PATH}/status`),
       {
         method: "GET",
         timeoutMs: REQUEST_TIMEOUT_MS,
@@ -559,7 +559,7 @@ export class BigModelUsageQuotaProvider {
     const authorization = await this.resolveCodingPlanResetAuthorization(request);
     const payload = await readCodingPlanResetApiJson(
       this.apiClient,
-      buildRuntimeZCodeApiUrl(this.env, `${CODING_PLAN_RESET_BASE_PATH}/use`),
+      buildRuntimeLumosApiUrl(this.env, `${CODING_PLAN_RESET_BASE_PATH}/use`),
       {
         method: "POST",
         timeoutMs: REQUEST_TIMEOUT_MS,
@@ -589,7 +589,7 @@ export class BigModelUsageQuotaProvider {
     try {
       payload = await readCodingPlanResetApiJson(
         this.apiClient,
-        buildRuntimeZCodeApiUrl(this.env, `${CODING_PLAN_RESET_BASE_PATH}/opportunity`),
+        buildRuntimeLumosApiUrl(this.env, `${CODING_PLAN_RESET_BASE_PATH}/opportunity`),
         {
           method: "POST",
           timeoutMs: REQUEST_TIMEOUT_MS,
@@ -635,7 +635,7 @@ export class BigModelUsageQuotaProvider {
     const authorization = await this.resolveCodingPlanResetAuthorization(request);
     const payload = await readCodingPlanResetApiJson(
       this.apiClient,
-      buildRuntimeZCodeApiUrl(this.env, `${CODING_PLAN_RESET_BASE_PATH}/history/read`),
+      buildRuntimeLumosApiUrl(this.env, `${CODING_PLAN_RESET_BASE_PATH}/history/read`),
       {
         method: "POST",
         timeoutMs: REQUEST_TIMEOUT_MS,
@@ -657,9 +657,9 @@ export class BigModelUsageQuotaProvider {
       providerId: request.preferredProviderId,
       accountAccess,
     });
-    const zcodeJwt = (await this.credentialService?.load(ZCODE_JWT_TOKEN_KEY))?.trim() ?? "";
-    if (!zcodeJwt) {
-      throw new Error("coding_plan_reset_zcode_jwt_required");
+    const lumosJwt = (await this.credentialService?.load(LUMOS_JWT_TOKEN_KEY))?.trim() ?? "";
+    if (!lumosJwt) {
+      throw new Error("coding_plan_reset_lumos_jwt_required");
     }
     // reset 同时支持 Z.ai 与 BigModel Coding Plan。固定读取 oauth:bigmodel:access_token
     // 会让只登录 Z.ai 的用户在请求发出前失败；业务 JWT 必须跟随当前 provider family
@@ -671,7 +671,7 @@ export class BigModelUsageQuotaProvider {
       throw new Error("coding_plan_reset_maas_jwt_required");
     }
     return {
-      zcodeAuthorization: /^Bearer\s/i.test(zcodeJwt) ? zcodeJwt : `Bearer ${zcodeJwt}`,
+      lumosAuthorization: /^Bearer\s/i.test(lumosJwt) ? lumosJwt : `Bearer ${lumosJwt}`,
       codingPlanAuthorization: codingPlanJwt,
       teamContext: resolveTeamPlanContext(accountAccess),
     };
@@ -841,7 +841,7 @@ export class BigModelUsageQuotaProvider {
   ): Promise<ResolvedQuotaAuthorization | null> {
     if (request.allowEnvApiKey !== false && request.requirePreferredProvider !== true) {
       const envApiKey =
-        readEnv(this.env, "ZCODE_BIGMODEL_USAGE_API_KEY") ??
+        readEnv(this.env, "LUMOS_BIGMODEL_USAGE_API_KEY") ??
         readEnv(this.env, "BIGMODEL_USAGE_API_KEY");
       if (envApiKey) {
         return {
@@ -984,7 +984,7 @@ function createCodingPlanResetHeaders(
   includeTargetScope: boolean,
 ): Record<string, string> {
   const headers: Record<string, string> = {
-    Authorization: authorization.zcodeAuthorization,
+    Authorization: authorization.lumosAuthorization,
     "X-Bigmodel-Authorization": authorization.codingPlanAuthorization,
   };
   if (!includeTargetScope) {
@@ -1101,7 +1101,7 @@ function readCodingPlanResetEnvelopeData<TSchema extends z.ZodType>(
   return result.data;
 }
 
-function resolveTeamPlanContext(accountAccess: ZCodeAccountAccess): TeamPlanContext | null {
+function resolveTeamPlanContext(accountAccess: LumosAccountAccess): TeamPlanContext | null {
   return accountAccess.planKind === "team-coding-plan"
     ? {
         organizationId: accountAccess.organizationId,
@@ -1659,7 +1659,7 @@ function addDaysToDateKey(dateKey: string, days: number): string {
 }
 
 function resolveQuotaUrlFromEnv(env: NodeJS.ProcessEnv): string | undefined {
-  return readEnv(env, "ZCODE_BIGMODEL_USAGE_QUOTA_URL") ?? readEnv(env, "BIGMODEL_USAGE_QUOTA_URL");
+  return readEnv(env, "LUMOS_BIGMODEL_USAGE_QUOTA_URL") ?? readEnv(env, "BIGMODEL_USAGE_QUOTA_URL");
 }
 
 function resolveCodingPlanApiKeyError(providerId: string | undefined): string {

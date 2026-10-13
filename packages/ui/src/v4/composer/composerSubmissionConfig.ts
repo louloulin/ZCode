@@ -1,7 +1,7 @@
-import { resolveExecutionState, type ModelSelection } from "@zcode/shared";
-import { submissionModeSchema, type SubmissionMode } from "@zcode/shared/zcode-protocol-v4";
-import type { ModelSelectionView } from "@zcode/services";
-import { validateModelSelectionOptions } from "@zcode/provider";
+import { resolveExecutionState, type ModelSelection } from "@lumos/shared";
+import { submissionModeSchema, type SubmissionMode } from "@lumos/shared/lumos-protocol-v4";
+import type { ModelSelectionView } from "@lumos/services";
+import { validateModelSelectionOptions } from "@lumos/provider";
 
 export interface ComposerSubmissionConfig {
   modelSelection: ModelSelection;

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { Emitter } from "@zcode/rpc";
-import type { IModelSelectionService, ModelSelectionView } from "@zcode/services";
+import { Emitter } from "@lumos/rpc";
+import type { IModelSelectionService, ModelSelectionView } from "@lumos/services";
 import { describe, expect, it, vi } from "vitest";
 import {
   resolveModelSelectionReadinessStatus,

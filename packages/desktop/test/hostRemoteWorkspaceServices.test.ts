@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ChannelClient, ChannelServer, createQueuePair, Emitter, ProxyChannel } from "@zcode/rpc";
+import { ChannelClient, ChannelServer, createQueuePair, Emitter, ProxyChannel } from "@lumos/rpc";
 import {
   ServiceCollection,
   IFileService,
@@ -14,9 +14,9 @@ import {
   IOnboardingRecordService,
   ICredentialService,
   IBroadcastService,
-  IZCodeAgentService,
-  IZCodeSessionService,
-  IZCodeTaskService,
+  ILumosAgentService,
+  ILumosSessionService,
+  ILumosTaskService,
   IBotsService,
   IFileWatcherService,
   IOAuthService,
@@ -33,17 +33,17 @@ import {
   ISubagentsService,
   ICommandsService,
   ISettingsSyncService,
-  type ZCodeAgentSessionRuntimePreferencesRequest,
-} from "@zcode/services";
+  type LumosAgentSessionRuntimePreferencesRequest,
+} from "@lumos/services";
 import {
   BUILTIN_MODEL_PROVIDER_IDS,
   projectAccessTokenFingerprint,
   type ApiClient,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import { createRemoteConnectionServiceCollection } from "../src/host/remoteConnectionServiceCollection.js";
 import { createRemotePromptAttachmentTaskService } from "../src/host/remotePromptAttachments.js";
-import { setDataBaseDir } from "@zcode/services/node";
-import * as nodeServices from "@zcode/services/node";
+import { setDataBaseDir } from "@lumos/services/node";
+import * as nodeServices from "@lumos/services/node";
 import {
   createRemoteWorkspaceServiceCollection,
   createServerRemoteWorkspaceServiceCollection,
@@ -55,11 +55,11 @@ const clientConfigService = {
 };
 
 function createTempHome(): string {
-  const home = mkdtempSync(join(tmpdir(), "zcode-remote-workspace-services-"));
+  const home = mkdtempSync(join(tmpdir(), "lumos-remote-workspace-services-"));
   // Bug 根因：模型供应商存储的默认 data base dir 在模块加载时已经固定；只改 HOME
-  // 会继续读取真实 ~/.zcode/v2，并让 getAll 的后台权益请求污染下一个测试。
+  // 会继续读取真实 ~/.lumos/v2，并让 getAll 的后台权益请求污染下一个测试。
   setDataBaseDir(home);
-  // Bug 根因：设置服务按 process.env.HOME 实时定位 ~/.zcode/v2/setting.json。只改 data base dir
+  // Bug 根因：设置服务按 process.env.HOME 实时定位 ~/.lumos/v2/setting.json。只改 data base dir
   // 时会读到开发机真实设置；配置了 httpProxy 的机器上 Host API 改走 undici 代理 dispatcher，
   // 绕过 globalThis.fetch mock 直连线上并 401。HOME 由 afterEach 统一还原。
   process.env.HOME = home;
@@ -105,7 +105,7 @@ function createPresetFetchMock(modelContextBudgetStrategy: "legacy" | "preflight
 }
 
 function makeRemoteServices() {
-  const runtimePreferencesEmitter = new Emitter<ZCodeAgentSessionRuntimePreferencesRequest>();
+  const runtimePreferencesEmitter = new Emitter<LumosAgentSessionRuntimePreferencesRequest>();
 
   return {
     fileService: { remote: "file" },
@@ -113,13 +113,13 @@ function makeRemoteServices() {
     gitCheckpointService: { remote: "git-checkpoint" },
     systemService: { remote: "system" },
     terminalService: { remote: "terminal" },
-    zcodeAgentService: {
+    lumosAgentService: {
       onDynamicSessionRuntimePreferencesRequest: vi.fn(() => runtimePreferencesEmitter.event),
       respondSessionRuntimePreferences: vi.fn(async () => undefined),
     },
     runtimePreferencesEmitter,
-    zcodeTaskService: { sendPrompt: vi.fn() },
-    zcodeSessionService: { remote: "zcode-session" },
+    lumosTaskService: { sendPrompt: vi.fn() },
+    lumosSessionService: { remote: "lumos-session" },
     fileWatcherService: { remote: "file-watcher" },
     skillsService: { remote: "skills" },
     skillSyncService: { remote: "skill-sync" },
@@ -180,7 +180,7 @@ describe("remote workspace host service wiring", () => {
       parentPort: null,
       createRemotePromptAttachmentTaskService: passthroughService,
       createRemotePromptAttachmentSessionService: passthroughService,
-      createReportingRemoteZCodeTaskService: (service) => ({ wrapped: service }) as never,
+      createReportingRemoteLumosTaskService: (service) => ({ wrapped: service }) as never,
     });
 
     expect(services.get(IFileService)).toBe(remoteServices.fileService);
@@ -189,11 +189,11 @@ describe("remote workspace host service wiring", () => {
     expect(services.get(ISystemService)).toBe(remoteServices.systemService);
     expect(services.get(ITerminalService)).toBe(remoteServices.terminalService);
     expect(services.get(IFileWatcherService)).toBe(remoteServices.fileWatcherService);
-    expect(services.get(IZCodeTaskService)).toEqual({
-      wrapped: remoteServices.zcodeTaskService,
+    expect(services.get(ILumosTaskService)).toEqual({
+      wrapped: remoteServices.lumosTaskService,
     });
-    expect(services.get(IZCodeAgentService)).toBe(remoteServices.zcodeAgentService);
-    expect(services.get(IZCodeSessionService)).toBe(remoteServices.zcodeSessionService);
+    expect(services.get(ILumosAgentService)).toBe(remoteServices.lumosAgentService);
+    expect(services.get(ILumosSessionService)).toBe(remoteServices.lumosSessionService);
 
     expect(services.get(IClientConfigService)).toBe(clientConfigService);
     expect(services.get(ISettingService)).toBeTruthy();
@@ -246,7 +246,7 @@ describe("remote workspace host service wiring", () => {
               parentPort: null,
               createRemotePromptAttachmentTaskService: passthroughService,
               createRemotePromptAttachmentSessionService: passthroughService,
-              createReportingRemoteZCodeTaskService: passthroughService,
+              createReportingRemoteLumosTaskService: passthroughService,
             });
       const [serverProtocol, clientProtocol] = createQueuePair();
       const server = new ChannelServer(serverProtocol, "mobile-onboarding", 50);
@@ -311,7 +311,7 @@ describe("remote workspace host service wiring", () => {
         else if (url.includes("/api_keys") && !url.endsWith("/access_tokens"))
           data = [
             {
-              name: team ? "zcode-team-api-key" : "zcode-api-key",
+              name: team ? "lumos-team-api-key" : "lumos-api-key",
               apiKey: "key",
               keyType: 2,
             },
@@ -341,7 +341,7 @@ describe("remote workspace host service wiring", () => {
         parentPort: null,
         createRemotePromptAttachmentTaskService: passthroughService,
         createRemotePromptAttachmentSessionService: passthroughService,
-        createReportingRemoteZCodeTaskService: passthroughService,
+        createReportingRemoteLumosTaskService: passthroughService,
       });
       try {
         const credentials = services.get(ICredentialService);
@@ -421,7 +421,7 @@ describe("remote workspace host service wiring", () => {
           );
           data = [
             {
-              name: team ? "zcode-team-api-key" : "zcode-api-key",
+              name: team ? "lumos-team-api-key" : "lumos-api-key",
               apiKey: "key",
               keyType: 2,
             },
@@ -438,7 +438,7 @@ describe("remote workspace host service wiring", () => {
         parentPort: null,
         createRemotePromptAttachmentTaskService: passthroughService,
         createRemotePromptAttachmentSessionService: passthroughService,
-        createReportingRemoteZCodeTaskService: passthroughService,
+        createReportingRemoteLumosTaskService: passthroughService,
       });
       try {
         const credentials = services.get(ICredentialService);
@@ -499,7 +499,7 @@ describe("remote workspace host service wiring", () => {
       parentPort: null,
       createRemotePromptAttachmentTaskService: passthroughService,
       createRemotePromptAttachmentSessionService: passthroughService,
-      createReportingRemoteZCodeTaskService: (service) => service,
+      createReportingRemoteLumosTaskService: (service) => service,
     });
     const strategyResolver = vi.spyOn(
       services.get(ICodingPlanSubscriptionService),
@@ -527,10 +527,10 @@ describe("remote workspace host service wiring", () => {
 
       await vi.waitFor(() => {
         expect(
-          remoteServices.zcodeAgentService.onDynamicSessionRuntimePreferencesRequest,
+          remoteServices.lumosAgentService.onDynamicSessionRuntimePreferencesRequest,
         ).toHaveBeenCalledWith();
         expect(
-          remoteServices.zcodeAgentService.respondSessionRuntimePreferences,
+          remoteServices.lumosAgentService.respondSessionRuntimePreferences,
         ).toHaveBeenCalledWith({
           requestId: "request-runtime-preferences",
           resolution: {
@@ -554,7 +554,7 @@ describe("remote workspace host service wiring", () => {
 
       await vi.waitFor(() => {
         expect(
-          remoteServices.zcodeAgentService.respondSessionRuntimePreferences,
+          remoteServices.lumosAgentService.respondSessionRuntimePreferences,
         ).toHaveBeenCalledWith({
           requestId: "request-user-execution-preferences",
           resolution: {
@@ -588,7 +588,7 @@ describe("remote workspace host service wiring", () => {
     const remoteServices = makeRemoteServices();
     const transportError = new Error("transport closed");
     const onError = vi.fn();
-    remoteServices.zcodeAgentService.respondSessionRuntimePreferences.mockRejectedValueOnce(
+    remoteServices.lumosAgentService.respondSessionRuntimePreferences.mockRejectedValueOnce(
       transportError,
     );
     const services = createRemoteWorkspaceServiceCollection({
@@ -598,7 +598,7 @@ describe("remote workspace host service wiring", () => {
       parentPort: null,
       createRemotePromptAttachmentTaskService: passthroughService,
       createRemotePromptAttachmentSessionService: passthroughService,
-      createReportingRemoteZCodeTaskService: (service) => service,
+      createReportingRemoteLumosTaskService: (service) => service,
     });
 
     try {
@@ -618,10 +618,10 @@ describe("remote workspace host service wiring", () => {
       });
       expect(onError).toHaveBeenCalledWith(transportError);
       expect(
-        remoteServices.zcodeAgentService.respondSessionRuntimePreferences,
+        remoteServices.lumosAgentService.respondSessionRuntimePreferences,
       ).toHaveBeenCalledOnce();
       expect(
-        remoteServices.zcodeAgentService.respondSessionRuntimePreferences,
+        remoteServices.lumosAgentService.respondSessionRuntimePreferences,
       ).toHaveBeenCalledWith({
         requestId: "request-closed-transport",
         resolution: {
@@ -651,7 +651,7 @@ describe("remote workspace host service wiring", () => {
       parentPort: null,
       createRemotePromptAttachmentTaskService: passthroughService,
       createRemotePromptAttachmentSessionService: passthroughService,
-      createReportingRemoteZCodeTaskService: (service) => service,
+      createReportingRemoteLumosTaskService: (service) => service,
     });
 
     try {
@@ -676,8 +676,8 @@ describe("remote workspace host service wiring", () => {
       parentPort: null,
       credentialService,
       apiClient: { request: vi.fn() } as unknown as ApiClient,
-      remoteZCodeTaskService: { remote: "wrapped-task" } as never,
-      remoteZCodeSessionService: { remote: "wrapped-session" } as never,
+      remoteLumosTaskService: { remote: "wrapped-task" } as never,
+      remoteLumosSessionService: { remote: "wrapped-session" } as never,
     });
 
     expect(services.get(IClientConfigService)).toBe(clientConfigService);
@@ -738,13 +738,13 @@ describe("remote workspace host service wiring", () => {
     } as const;
     const remoteAttachment = {
       ...hostAttachment,
-      localPath: "/home/tester/.zcode/tmp/prompt-attachments/input-1/01-pasted.txt",
+      localPath: "/home/tester/.lumos/tmp/prompt-attachments/input-1/01-pasted.txt",
     };
     const rawSendPrompt = vi.fn(async () => undefined);
     const observedByReporting: unknown[] = [];
     const remoteServices = {
       ...makeRemoteServices(),
-      zcodeTaskService: { sendPrompt: rawSendPrompt },
+      lumosTaskService: { sendPrompt: rawSendPrompt },
     } as never;
     const services = createRemoteWorkspaceServiceCollection({
       clientConfigService,
@@ -759,7 +759,7 @@ describe("remote workspace host service wiring", () => {
           }),
         }),
       createRemotePromptAttachmentSessionService: passthroughService,
-      createReportingRemoteZCodeTaskService: (service) =>
+      createReportingRemoteLumosTaskService: (service) =>
         new Proxy(service, {
           get(target, property, receiver) {
             const value = Reflect.get(target, property, receiver);
@@ -774,7 +774,7 @@ describe("remote workspace host service wiring", () => {
         }) as never,
     });
 
-    await services.get(IZCodeTaskService).sendPrompt({
+    await services.get(ILumosTaskService).sendPrompt({
       taskId: "task-1",
       traceId: "input-1",
       content: "read /tmp/host-paste.txt",
@@ -784,7 +784,7 @@ describe("remote workspace host service wiring", () => {
     const expectedParams = {
       taskId: "task-1",
       traceId: "input-1",
-      content: "read /home/tester/.zcode/tmp/prompt-attachments/input-1/01-pasted.txt",
+      content: "read /home/tester/.lumos/tmp/prompt-attachments/input-1/01-pasted.txt",
       attachments: [remoteAttachment],
     };
     expect(observedByReporting).toEqual([expectedParams]);

@@ -1,4 +1,4 @@
-import type { SessionConfigState, SessionModelTransition } from "@zcode/shared/zcode-protocol-v4";
+import type { SessionConfigState, SessionModelTransition } from "@lumos/shared/lumos-protocol-v4";
 
 export interface ModelConfigProjectionObservation {
   sessionId: string;

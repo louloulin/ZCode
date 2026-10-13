@@ -1,4 +1,4 @@
-import type { WorkflowRunState } from "@zcode/shared/zcode-protocol-v4";
+import type { WorkflowRunState } from "@lumos/shared/lumos-protocol-v4";
 import { laneRefsById, type LaneRef } from "@/components/workflow-graph/lane-name.js";
 import {
   collapseStatuses,

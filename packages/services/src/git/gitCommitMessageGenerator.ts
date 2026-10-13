@@ -3,8 +3,8 @@ import type {
   GitDiffResult,
   GitFileChange,
   Locale,
-  ZCodeWorkspaceGenerateTextParams,
-} from "@zcode/shared";
+  LumosWorkspaceGenerateTextParams,
+} from "@lumos/shared";
 import type { ServiceLogger } from "#src/logger/serviceLogger.js";
 
 const MAX_PROMPT_FILES = 20;
@@ -24,17 +24,17 @@ export interface GitCommitMessageCurrentModelProvider {
   readCurrentModel(params: {
     workspacePath: string;
     workspaceIdentity?: string;
-  }): Promise<ZCodeWorkspaceGenerateTextParams["selection"] | null>;
+  }): Promise<LumosWorkspaceGenerateTextParams["selection"] | null>;
 }
 
 export interface GitCommitMessageTextGenerator {
   generateText(params: {
     workspacePath: string;
     workspaceIdentity?: string;
-    selection: ZCodeWorkspaceGenerateTextParams["selection"];
+    selection: LumosWorkspaceGenerateTextParams["selection"];
     prompt: string;
     querySource: string;
-  }): Promise<{ text: string; selection: ZCodeWorkspaceGenerateTextParams["selection"] }>;
+  }): Promise<{ text: string; selection: LumosWorkspaceGenerateTextParams["selection"] }>;
 }
 
 export interface GitCommitMessageGeneratorOptions {
@@ -120,7 +120,7 @@ export class GitCommitMessageGenerator {
   private async resolveCurrentModel(params: {
     workspacePath: string;
     workspaceIdentity?: string;
-  }): Promise<ZCodeWorkspaceGenerateTextParams["selection"]> {
+  }): Promise<LumosWorkspaceGenerateTextParams["selection"]> {
     const currentModel = await this.options.currentModelProvider.readCurrentModel({
       workspacePath: params.workspacePath,
       workspaceIdentity: params.workspaceIdentity,
@@ -147,7 +147,7 @@ export class GitCommitMessageGenerator {
   private async complete(params: {
     workspacePath: string;
     workspaceIdentity?: string;
-    selection: ZCodeWorkspaceGenerateTextParams["selection"];
+    selection: LumosWorkspaceGenerateTextParams["selection"];
     prompt: string;
   }): Promise<string> {
     try {

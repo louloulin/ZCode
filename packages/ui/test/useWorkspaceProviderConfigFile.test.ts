@@ -1,20 +1,20 @@
 import { act, createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { ILegacyTaskService } from "@zcode/services";
+import type { ILegacyTaskService } from "@lumos/services";
 import {
-  resolveWorkspaceProviderConfigZCodeService,
+  resolveWorkspaceProviderConfigLumosService,
   useWorkspaceProviderConfigFile,
 } from "@/hooks/useWorkspaceProviderConfigFile.js";
 
-const { stableWorkspaceZCodeService } = vi.hoisted(() => ({
-  stableWorkspaceZCodeService: {
+const { stableWorkspaceLumosService } = vi.hoisted(() => ({
+  stableWorkspaceLumosService: {
     getWorkspaceProviderConfigFile: vi.fn(),
   },
 }));
 
-vi.mock("@/hooks/useZCodeTaskService.js", () => ({
-  useZCodeTaskService: () => stableWorkspaceZCodeService,
+vi.mock("@/hooks/useLumosTaskService.js", () => ({
+  useLumosTaskService: () => stableWorkspaceLumosService,
 }));
 
 vi.mock("@/hooks/useResolvedRemoteWorkspaceSessionId.js", () => ({
@@ -27,7 +27,7 @@ vi.mock("@/store/remoteWorkspaceSessionStore.js", () => ({
   ) => selector({ baseServices: null }),
 }));
 
-function createMockZCodeService(tag: string): ILegacyTaskService {
+function createMockLumosService(tag: string): ILegacyTaskService {
   return {
     // 这里只需要 identity 区分，不会真的调用方法。
     __tag: tag,
@@ -101,49 +101,49 @@ function installMinimalDom() {
   return createMinimalElement(documentMock);
 }
 
-describe("resolveWorkspaceProviderConfigZCodeService", () => {
+describe("resolveWorkspaceProviderConfigLumosService", () => {
   afterEach(() => {
-    stableWorkspaceZCodeService.getWorkspaceProviderConfigFile.mockReset();
+    stableWorkspaceLumosService.getWorkspaceProviderConfigFile.mockReset();
     delete (globalThis as { document?: unknown }).document;
     delete (globalThis as { window?: unknown }).window;
     delete (globalThis as { IS_REACT_ACT_ENVIRONMENT?: unknown }).IS_REACT_ACT_ENVIRONMENT;
   });
 
-  it("workspace 作用域始终使用 workspace ZCode session service", () => {
-    const workspaceZCodeService = createMockZCodeService("workspace");
-    const baseZCodeService = createMockZCodeService("base");
+  it("workspace 作用域始终使用 workspace Lumos session service", () => {
+    const workspaceLumosService = createMockLumosService("workspace");
+    const baseLumosService = createMockLumosService("base");
 
-    const resolved = resolveWorkspaceProviderConfigZCodeService({
+    const resolved = resolveWorkspaceProviderConfigLumosService({
       configuredServiceScope: "workspace",
-      workspaceZCodeService,
-      baseZCodeService,
+      workspaceLumosService,
+      baseLumosService,
       remoteSessionId: "remote-session-1",
     });
 
-    expect(resolved).toBe(workspaceZCodeService);
+    expect(resolved).toBe(workspaceLumosService);
   });
 
-  it("base 作用域优先使用 base ZCode session service", () => {
-    const workspaceZCodeService = createMockZCodeService("workspace");
-    const baseZCodeService = createMockZCodeService("base");
+  it("base 作用域优先使用 base Lumos session service", () => {
+    const workspaceLumosService = createMockLumosService("workspace");
+    const baseLumosService = createMockLumosService("base");
 
-    const resolved = resolveWorkspaceProviderConfigZCodeService({
+    const resolved = resolveWorkspaceProviderConfigLumosService({
       configuredServiceScope: "base",
-      workspaceZCodeService,
-      baseZCodeService,
+      workspaceLumosService,
+      baseLumosService,
       remoteSessionId: "remote-session-1",
     });
 
-    expect(resolved).toBe(baseZCodeService);
+    expect(resolved).toBe(baseLumosService);
   });
 
   it("base 作用域在远程会话且 base service 缺失时返回 null，避免误回退远程路径", () => {
-    const workspaceZCodeService = createMockZCodeService("workspace");
+    const workspaceLumosService = createMockLumosService("workspace");
 
-    const resolved = resolveWorkspaceProviderConfigZCodeService({
+    const resolved = resolveWorkspaceProviderConfigLumosService({
       configuredServiceScope: "base",
-      workspaceZCodeService,
-      baseZCodeService: null,
+      workspaceLumosService,
+      baseLumosService: null,
       remoteSessionId: "remote-session-1",
     });
 
@@ -151,16 +151,16 @@ describe("resolveWorkspaceProviderConfigZCodeService", () => {
   });
 
   it("base 作用域在本地会话且 base service 缺失时回退 workspace service", () => {
-    const workspaceZCodeService = createMockZCodeService("workspace");
+    const workspaceLumosService = createMockLumosService("workspace");
 
-    const resolved = resolveWorkspaceProviderConfigZCodeService({
+    const resolved = resolveWorkspaceProviderConfigLumosService({
       configuredServiceScope: "base",
-      workspaceZCodeService,
-      baseZCodeService: null,
+      workspaceLumosService,
+      baseLumosService: null,
       remoteSessionId: null,
     });
 
-    expect(resolved).toBe(workspaceZCodeService);
+    expect(resolved).toBe(workspaceLumosService);
   });
 
   it("memoizes the returned provider config object across parent rerenders when fields are unchanged", () => {

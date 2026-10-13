@@ -1,16 +1,16 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { parseModelConfig, parseZCodeBuiltinModelConfigRules } from "@zcode/provider";
+import { parseModelConfig, parseLumosBuiltinModelConfigRules } from "@lumos/provider";
 
 describe("MCS published capability boundaries", () => {
   it("supports known Claude models across sites, without granting Sonnet or a different API", async () => {
     const release = JSON.parse(
       await readFile(
-        new URL("../../../config/provider/zcode-builtin.json", import.meta.url),
+        new URL("../../../config/provider/lumos-builtin.json", import.meta.url),
         "utf8",
       ),
     );
-    const rules = parseZCodeBuiltinModelConfigRules(release.config.modelConfigRules);
+    const rules = parseLumosBuiltinModelConfigRules(release.config.modelConfigRules);
     for (const baseUrl of ["https://api.anthropic.com/v1", "https://proxy.example/v1"]) {
       for (const modelId of [
         "claude-opus-4-8",
@@ -63,8 +63,8 @@ describe("MCS published capability boundaries", () => {
       );
     }
     for (const baseUrl of [
-      "https://zcode.z.ai/api/v1/off-peak/anthropic/",
-      "https://zcode.z.ai/api/v1/zcode-plan/anthropic/",
+      "https://lumos.z.ai/api/v1/off-peak/anthropic/",
+      "https://lumos.z.ai/api/v1/lumos-plan/anthropic/",
     ]) {
       expect(
         rules.resolve({
@@ -76,7 +76,7 @@ describe("MCS published capability boundaries", () => {
       ).toBe(true);
       for (const negative of [
         `${baseUrl}extra`,
-        baseUrl.replace("zcode.z.ai", "zcode.z.ai.evil.example"),
+        baseUrl.replace("lumos.z.ai", "lumos.z.ai.evil.example"),
       ]) {
         expect(
           rules.resolve({

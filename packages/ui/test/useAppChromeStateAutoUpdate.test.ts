@@ -5,10 +5,10 @@ import type {
   DesktopWindowChromeState,
   IPlatformService,
   UpdateStatePayload,
-} from "@zcode/shared";
+} from "@lumos/shared";
 
 vi.mock("@/i18n/IntlProvider.js", () => ({
-  useZCodeIntl: () => ({
+  useLumosIntl: () => ({
     intl: {
       formatMessage: ({ id }: { id: string }) => id,
     },

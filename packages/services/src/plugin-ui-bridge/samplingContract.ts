@@ -1,11 +1,11 @@
-import { ServiceChannels } from "@zcode/shared";
-import type { McpAppsSamplingResult } from "@zcode/shared/mcp-apps";
+import { ServiceChannels } from "@lumos/shared";
+import type { McpAppsSamplingResult } from "@lumos/shared/mcp-apps";
 import { createServiceDescriptor } from "../descriptors.js";
 import type { PluginUiPluginScope } from "./contract.js";
 
 export interface PluginUiSamplingParams extends PluginUiPluginScope {
   operationId: string;
-  request: import("@zcode/shared/mcp-apps").McpAppsSamplingParams;
+  request: import("@lumos/shared/mcp-apps").McpAppsSamplingParams;
 }
 export interface PluginUiCancelSamplingParams extends PluginUiPluginScope {
   operationId: string;

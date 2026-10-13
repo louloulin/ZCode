@@ -15,7 +15,7 @@ import {
   TID_V4_SESSION_PANE,
   TID_V4_TURN_NAVIGATOR_ITEM,
   testId,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import { clearAppData, seedSettings } from "../helpers/desktop-app.js";
 import {
   waitForCompactMarkerStatus,
@@ -2145,14 +2145,14 @@ describe("会话区 Background Runtime Task E2E", () => {
     await startNewBackgroundDraft();
     const requestCountBefore = await getUpstreamRequestRecordCount();
     await sendV4Prompt(
-      "E2E_BACKGROUND_AGENT_CONTROL_PRESERVE: Start one long cc background agent and three zcode background agents. The three zcode agents should finish before the cc agent.",
+      "E2E_BACKGROUND_AGENT_CONTROL_PRESERVE: Start one long cc background agent and three lumos background agents. The three lumos agents should finish before the cc agent.",
     );
     await waitForV4ComposerText("", "BG24 prompt 发送后输入框没有清空");
     await waitForV4UserMessageContaining("E2E_BACKGROUND_AGENT_CONTROL_PRESERVE");
     await waitForToolCallBlockByToolCallId("toolu_e2e_bg24_cc_agent", 60000);
-    await waitForToolCallBlockByToolCallId("toolu_e2e_bg24_zcode_one_agent", 60000);
-    await waitForToolCallBlockByToolCallId("toolu_e2e_bg24_zcode_two_agent", 60000);
-    await waitForToolCallBlockByToolCallId("toolu_e2e_bg24_zcode_three_agent", 60000);
+    await waitForToolCallBlockByToolCallId("toolu_e2e_bg24_lumos_one_agent", 60000);
+    await waitForToolCallBlockByToolCallId("toolu_e2e_bg24_lumos_two_agent", 60000);
+    await waitForToolCallBlockByToolCallId("toolu_e2e_bg24_lumos_three_agent", 60000);
     await respondToBackgroundBlockers();
 
     const launchIndex = await waitForFirstRequestIndex(
@@ -2160,9 +2160,9 @@ describe("会话区 Background Runtime Task E2E", () => {
         includes: [
           "E2E_BACKGROUND_AGENT_CONTROL_PRESERVE",
           "toolu_e2e_bg24_cc_agent",
-          "toolu_e2e_bg24_zcode_one_agent",
-          "toolu_e2e_bg24_zcode_two_agent",
-          "toolu_e2e_bg24_zcode_three_agent",
+          "toolu_e2e_bg24_lumos_one_agent",
+          "toolu_e2e_bg24_lumos_two_agent",
+          "toolu_e2e_bg24_lumos_three_agent",
           "Async agent launched successfully",
         ],
       },
@@ -2182,53 +2182,53 @@ describe("会话区 Background Runtime Task E2E", () => {
     );
     await waitForBackgroundTaskControlRow(
       "agent",
-      "E2E BG24 zcode three agent",
-      "BG24 初始第三个 zcode Agent background control row 没有显示在右上角面板",
+      "E2E BG24 lumos three agent",
+      "BG24 初始第三个 lumos Agent background control row 没有显示在右上角面板",
     );
 
-    const zcodeOneNotificationIndex = await waitForFirstRequestIndex(
+    const lumosOneNotificationIndex = await waitForFirstRequestIndex(
       {
         includes: [
           "E2E_BACKGROUND_AGENT_CONTROL_PRESERVE",
           "<task-notification>",
-          "<tool-use-id>toolu_e2e_bg24_zcode_one_agent</tool-use-id>",
+          "<tool-use-id>toolu_e2e_bg24_lumos_one_agent</tool-use-id>",
           "<status>completed</status>",
-          "E2E_BG24_ZCODE_ONE_CHILD_DONE",
+          "E2E_BG24_LUMOS_ONE_CHILD_DONE",
         ],
         lastUserMessageIncludes: ["<task-notification>"],
       },
       launchIndex,
-      "BG24 第一个 zcode background Agent completion notification 没有进入父模型请求",
+      "BG24 第一个 lumos background Agent completion notification 没有进入父模型请求",
     );
-    expect(zcodeOneNotificationIndex).toBeGreaterThan(launchIndex);
+    expect(lumosOneNotificationIndex).toBeGreaterThan(launchIndex);
     await waitForV4AssistantMessageContaining(
-      "background-agent-control-preserve-zcode-one-notification-ok",
+      "background-agent-control-preserve-lumos-one-notification-ok",
     );
     await waitForBackgroundTaskControlRow(
       "agent",
       "E2E BG24 cc keepalive agent",
-      "BG24 第一个 zcode Agent 完成后 cc running Agent row 被错误清掉",
+      "BG24 第一个 lumos Agent 完成后 cc running Agent row 被错误清掉",
     );
     await startBackgroundTaskControlPresenceProbe(
       "agent",
       "E2E BG24 cc keepalive agent",
       sourceTaskId,
     );
-    const zcodeTwoNotificationIndex = await waitForFirstRequestIndex(
+    const lumosTwoNotificationIndex = await waitForFirstRequestIndex(
       {
         includes: [
           "E2E_BACKGROUND_AGENT_CONTROL_PRESERVE",
           "<task-notification>",
-          "<tool-use-id>toolu_e2e_bg24_zcode_two_agent</tool-use-id>",
+          "<tool-use-id>toolu_e2e_bg24_lumos_two_agent</tool-use-id>",
           "<status>completed</status>",
-          "E2E_BG24_ZCODE_TWO_CHILD_DONE",
+          "E2E_BG24_LUMOS_TWO_CHILD_DONE",
         ],
         lastUserMessageIncludes: ["<task-notification>"],
       },
-      zcodeOneNotificationIndex,
-      "BG24 第二个 zcode background Agent completion notification 没有进入父模型请求",
+      lumosOneNotificationIndex,
+      "BG24 第二个 lumos background Agent completion notification 没有进入父模型请求",
     );
-    expect(zcodeTwoNotificationIndex).toBeGreaterThan(zcodeOneNotificationIndex);
+    expect(lumosTwoNotificationIndex).toBeGreaterThan(lumosOneNotificationIndex);
 
     await startNewBackgroundDraft();
     await waitForV4ConversationState(
@@ -2248,29 +2248,29 @@ describe("会话区 Background Runtime Task E2E", () => {
       "BG24 第二个 notification 处理中切回原 task 后 cc running Agent row 没有恢复",
     );
     await waitForV4AssistantMessageContaining(
-      "background-agent-control-preserve-zcode-two-notification-ok",
+      "background-agent-control-preserve-lumos-two-notification-ok",
     );
     await waitForBackgroundTaskControlRow(
       "agent",
       "E2E BG24 cc keepalive agent",
-      "BG24 第二个 zcode Agent 完成后 cc running Agent row 被错误清掉",
+      "BG24 第二个 lumos Agent 完成后 cc running Agent row 被错误清掉",
     );
 
-    const zcodeNotificationIndex = await waitForFirstRequestIndex(
+    const lumosNotificationIndex = await waitForFirstRequestIndex(
       {
         includes: [
           "E2E_BACKGROUND_AGENT_CONTROL_PRESERVE",
           "<task-notification>",
-          "<tool-use-id>toolu_e2e_bg24_zcode_three_agent</tool-use-id>",
+          "<tool-use-id>toolu_e2e_bg24_lumos_three_agent</tool-use-id>",
           "<status>completed</status>",
-          "E2E_BG24_ZCODE_THREE_CHILD_DONE",
+          "E2E_BG24_LUMOS_THREE_CHILD_DONE",
         ],
         lastUserMessageIncludes: ["<task-notification>"],
       },
-      zcodeTwoNotificationIndex,
-      "BG24 第三个 zcode background Agent completion notification 没有进入父模型请求",
+      lumosTwoNotificationIndex,
+      "BG24 第三个 lumos background Agent completion notification 没有进入父模型请求",
     );
-    expect(zcodeNotificationIndex).toBeGreaterThan(zcodeTwoNotificationIndex);
+    expect(lumosNotificationIndex).toBeGreaterThan(lumosTwoNotificationIndex);
     const afterTodoIndex = await waitForFirstRequestIndex(
       {
         includes: [
@@ -2279,26 +2279,26 @@ describe("会话区 Background Runtime Task E2E", () => {
           "E2E_BG24_TODO_UPDATED",
         ],
       },
-      zcodeNotificationIndex,
-      "BG24 zcode notification 中的 TodoWrite tool result 没有进入后续父模型请求",
+      lumosNotificationIndex,
+      "BG24 lumos notification 中的 TodoWrite tool result 没有进入后续父模型请求",
     );
-    expect(afterTodoIndex).toBeGreaterThan(zcodeNotificationIndex);
+    expect(afterTodoIndex).toBeGreaterThan(lumosNotificationIndex);
     await waitForV4AssistantMessageContaining(
-      "background-agent-control-preserve-zcode-notification-ok",
+      "background-agent-control-preserve-lumos-notification-ok",
     );
-    await waitForIdle("BG24 zcode Agent notification 后会话没有回到 idle");
+    await waitForIdle("BG24 lumos Agent notification 后会话没有回到 idle");
     const presenceProbe = await stopBackgroundTaskControlPresenceProbe();
     expect(presenceProbe.observedPresent).toBe(true);
     expect(presenceProbe.missingTransitions).toEqual([]);
     await waitForNoBackgroundTaskControlRow(
       "agent",
-      "E2E BG24 zcode three agent",
-      "BG24 已完成的第三个 zcode Agent row 没有从右上角面板消失",
+      "E2E BG24 lumos three agent",
+      "BG24 已完成的第三个 lumos Agent row 没有从右上角面板消失",
     );
     await waitForBackgroundTaskControlRow(
       "agent",
       "E2E BG24 cc keepalive agent",
-      "BG24 zcode Agent 完成后 cc running Agent row 被错误清掉",
+      "BG24 lumos Agent 完成后 cc running Agent row 被错误清掉",
     );
 
     await clickStopBackgroundTaskControlRow("agent", "E2E BG24 cc keepalive agent");
@@ -2312,10 +2312,10 @@ describe("会话区 Background Runtime Task E2E", () => {
         ],
         lastUserMessageIncludes: ["<task-notification>"],
       },
-      zcodeNotificationIndex,
+      lumosNotificationIndex,
       "BG24 cc background Agent stop notification 没有进入父模型请求",
     );
-    expect(stopNotificationIndex).toBeGreaterThan(zcodeNotificationIndex);
+    expect(stopNotificationIndex).toBeGreaterThan(lumosNotificationIndex);
     await waitForV4AssistantMessageContaining("background-agent-control-preserve-cc-stopped-ok");
     await waitForIdle("BG24 cc Agent stop notification 后会话没有回到 idle");
     await waitForNoBackgroundTaskControlRow(
@@ -2467,10 +2467,10 @@ async function startVisibleUserMessageSampler() {
         samples: VisibleUserMessageSample[];
       };
       const sampleWindow = window as typeof window & {
-        __zcodeBg17UserMessageSampler?: SamplerState;
+        __lumosBg17UserMessageSampler?: SamplerState;
       };
-      if (sampleWindow.__zcodeBg17UserMessageSampler) {
-        clearInterval(sampleWindow.__zcodeBg17UserMessageSampler.intervalId);
+      if (sampleWindow.__lumosBg17UserMessageSampler) {
+        clearInterval(sampleWindow.__lumosBg17UserMessageSampler.intervalId);
       }
       const collect = () => {
         const root = document.querySelector<HTMLElement>(`[data-testid="${messagesTestId}"]`);
@@ -2480,12 +2480,12 @@ async function startVisibleUserMessageSampler() {
           id: element.getAttribute("data-message-id"),
           text: element.innerText.replace(/\u00a0/g, " ").trim(),
         }));
-        sampleWindow.__zcodeBg17UserMessageSampler?.samples.push({
+        sampleWindow.__lumosBg17UserMessageSampler?.samples.push({
           at: Date.now(),
           messages,
         });
       };
-      sampleWindow.__zcodeBg17UserMessageSampler = {
+      sampleWindow.__lumosBg17UserMessageSampler = {
         intervalId: setInterval(collect, 50),
         samples: [],
       };
@@ -2499,17 +2499,17 @@ async function startVisibleUserMessageSampler() {
 async function stopVisibleUserMessageSampler() {
   return await browser.execute(() => {
     const sampleWindow = window as typeof window & {
-      __zcodeBg17UserMessageSampler?: {
+      __lumosBg17UserMessageSampler?: {
         intervalId: ReturnType<typeof setInterval>;
         samples: VisibleUserMessageSample[];
       };
     };
-    const sampler = sampleWindow.__zcodeBg17UserMessageSampler;
+    const sampler = sampleWindow.__lumosBg17UserMessageSampler;
     if (!sampler) {
       return [] satisfies VisibleUserMessageSample[];
     }
     clearInterval(sampler.intervalId);
-    delete sampleWindow.__zcodeBg17UserMessageSampler;
+    delete sampleWindow.__lumosBg17UserMessageSampler;
     return sampler.samples;
   });
 }
@@ -2748,9 +2748,9 @@ async function startBackgroundTaskControlPresenceProbe(
   await openV4ComposerRunningBackgroundWorks();
   await browser.execute(
     (expectedKind, expectedText, expectedTaskId, v4SessionPanePrefix) => {
-      const probeKey = "__zcodeBackgroundTaskControlPresenceProbe";
+      const probeKey = "__lumosBackgroundTaskControlPresenceProbe";
       const probeWindow = window as typeof window & {
-        __zcodeBackgroundTaskControlPresenceProbe?: {
+        __lumosBackgroundTaskControlPresenceProbe?: {
           intervalId: number;
           missingTransitions: Array<{
             atMs: number;
@@ -2826,7 +2826,7 @@ async function startBackgroundTaskControlPresenceProbe(
         if (state.hasReturnedToTask && state.wasPresent === true && !present) {
           const store = (
             window as typeof window & {
-              __zcodeSessionStoreE2E?: {
+              __lumosSessionStoreE2E?: {
                 getState: () => {
                   workspaces: Record<
                     string,
@@ -2846,7 +2846,7 @@ async function startBackgroundTaskControlPresenceProbe(
                 };
               };
             }
-          ).__zcodeSessionStoreE2E;
+          ).__lumosSessionStoreE2E;
           const taskRuntime = Object.values(store?.getState().workspaces ?? {})
             .map((workspace) => workspace.taskRuntimeByTaskId?.[expectedTaskId])
             .find(Boolean);
@@ -2877,9 +2877,9 @@ async function startBackgroundTaskControlPresenceProbe(
 
 async function stopBackgroundTaskControlPresenceProbe(): Promise<BackgroundTaskControlPresenceProbeResult> {
   return browser.execute(() => {
-    const probeKey = "__zcodeBackgroundTaskControlPresenceProbe";
+    const probeKey = "__lumosBackgroundTaskControlPresenceProbe";
     const probeWindow = window as typeof window & {
-      __zcodeBackgroundTaskControlPresenceProbe?: {
+      __lumosBackgroundTaskControlPresenceProbe?: {
         intervalId: number;
         missingTransitions: BackgroundTaskControlPresenceProbeResult["missingTransitions"];
         observedPresent: boolean;

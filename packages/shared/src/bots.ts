@@ -1,27 +1,27 @@
-import { zcodeProtocolTraceSchema, type ZCodeProtocolTrace } from "./zcode-protocol/trace.js";
+import { lumosProtocolTraceSchema, type LumosProtocolTrace } from "./lumos-protocol/trace.js";
 import { channelContentPartsSchema, type ChannelContentPart } from "./channel-mention.js";
 /* oxlint-disable eslint(max-lines) -- Bot 共享合约集中维护 provider、状态和 schema，保持类型与校验就近。 */
 import { z } from "zod";
 import { modelSelectionSchema, type ModelSelection } from "./model-selection.js";
 import { conversationQuotesSchema } from "./conversationSelection.js";
-import { ZCODE_AGENT_PROVIDER, ZCODE_AGENT_PROVIDER_LABEL } from "./zcode-agent-policy.js";
+import { LUMOS_AGENT_PROVIDER, LUMOS_AGENT_PROVIDER_LABEL } from "./lumos-agent-policy.js";
 import type {
-  ZCodeConfigOption,
-  ZCodeElicitationRequest,
-  ZCodeElicitationQuestion,
-  ZCodePermissionRequest,
-  ZCodePromptAttachment,
-  ZCodeProvider,
-  ZCodeStreamEvent,
-  ZCodeTaskMeta,
-  ZCodeTaskRuntimeStatus,
-} from "./zcode-task-types-core.js";
+  LumosConfigOption,
+  LumosElicitationRequest,
+  LumosElicitationQuestion,
+  LumosPermissionRequest,
+  LumosPromptAttachment,
+  LumosProvider,
+  LumosStreamEvent,
+  LumosTaskMeta,
+  LumosTaskRuntimeStatus,
+} from "./lumos-task-types-core.js";
 import {
-  zcodeInteractionRequestOriginSchema,
-  zcodePermissionResponseSchema,
-  type ZCodeInteractionRequestOrigin,
-  type ZCodePermissionResponse,
-} from "./zcode-protocol-legacy-types.js";
+  lumosInteractionRequestOriginSchema,
+  lumosPermissionResponseSchema,
+  type LumosInteractionRequestOrigin,
+  type LumosPermissionResponse,
+} from "./lumos-protocol-legacy-types.js";
 import type { Locale } from "./protocol.js";
 
 export const botProviders = [
@@ -41,7 +41,7 @@ export type FeishuBotProvider = Extract<BotProvider, "feishu" | "lark">;
  * 定时任务完成后的 Bot 回推目标。只保留未来仍稳定的会话地址；当前消息 id/context token
  * 属于一次入站交互，不能持久化后复用。该字段由 Host 注入，模型工具参数不直接暴露。
  */
-export const zcodeAutomationBotDeliveryTargetSchema = z
+export const lumosAutomationBotDeliveryTargetSchema = z
   .object({
     provider: z.enum(["feishu", "lark", "weixin"]),
     botId: z.string().trim().min(1),
@@ -52,8 +52,8 @@ export const zcodeAutomationBotDeliveryTargetSchema = z
   })
   .strict();
 
-export type ZCodeAutomationBotDeliveryTarget = z.infer<
-  typeof zcodeAutomationBotDeliveryTargetSchema
+export type LumosAutomationBotDeliveryTarget = z.infer<
+  typeof lumosAutomationBotDeliveryTargetSchema
 >;
 
 export function isFeishuBotProvider(provider: BotProvider): provider is FeishuBotProvider {
@@ -129,7 +129,7 @@ export interface BotPendingPermissionOption {
   optionId: string;
   command: "approve" | "deny";
   label: string;
-  response: ZCodePermissionResponse;
+  response: LumosPermissionResponse;
   handledAt?: number;
 }
 
@@ -137,10 +137,10 @@ export interface BotPendingElicitation {
   taskId: string;
   requestId: string;
   runId: string;
-  origin?: ZCodeInteractionRequestOrigin;
+  origin?: LumosInteractionRequestOrigin;
   actorKey?: string;
   currentQuestionIndex: number;
-  questions: ZCodeElicitationQuestion[];
+  questions: LumosElicitationQuestion[];
   answers: Record<string, string[]>;
   renderContext?: {
     kind: "plan_approval";
@@ -161,7 +161,7 @@ export interface BotOutboundElicitationRequest {
   taskId: string;
   runId: string;
   currentQuestionIndex: number;
-  questions: ZCodeElicitationQuestion[];
+  questions: LumosElicitationQuestion[];
   answers?: Record<string, string[]>;
   status?: "pending" | "completed" | "cancelled";
   expandedCustomAnswerQuestionIndexes?: number[];
@@ -169,7 +169,7 @@ export interface BotOutboundElicitationRequest {
 }
 
 export interface BotDraftOptions {
-  provider: ZCodeProvider;
+  provider: LumosProvider;
   modelSelection?: ModelSelection;
   mode?: string;
 }
@@ -210,7 +210,7 @@ export const botGroupDeliverySchema = z
       .regex(/^[a-f0-9]{64}$/u)
       .optional(),
     appId: z.string().optional(),
-    trace: zcodeProtocolTraceSchema.optional(),
+    trace: lumosProtocolTraceSchema.optional(),
     authorizationId: z.string().optional(),
     id: z.string().min(1),
     taskId: z.string().min(1),
@@ -589,7 +589,7 @@ export interface BotInboundMessage {
 }
 
 export interface BotOutboundMessage {
-  trace?: ZCodeProtocolTrace;
+  trace?: LumosProtocolTrace;
   contentParts?: ChannelContentPart[];
   groupCard?: BotGroupCard;
   threadId?: string;
@@ -620,10 +620,10 @@ export interface BotOutboundMessage {
 export interface BotTaskSummary {
   taskId: string;
   title: string;
-  status: ZCodeTaskRuntimeStatus | "persisted-completed" | "persisted-error" | "unknown";
+  status: LumosTaskRuntimeStatus | "persisted-completed" | "persisted-error" | "unknown";
   workspacePath: string;
   workspaceIdentity?: string;
-  provider?: ZCodeProvider;
+  provider?: LumosProvider;
   model?: string;
 }
 
@@ -649,17 +649,17 @@ export interface BotTaskBroadcastPayload {
   taskId: string;
   event: BotTaskBroadcastEvent;
   updatedAt: number;
-  task?: ZCodeTaskMeta;
-  provider?: ZCodeProvider;
-  configOptions?: ZCodeConfigOption[];
+  task?: LumosTaskMeta;
+  provider?: LumosProvider;
+  configOptions?: LumosConfigOption[];
   prompt?: {
     content: string;
-    attachments?: ZCodePromptAttachment[];
+    attachments?: LumosPromptAttachment[];
     messageId: string;
     sentAt: number;
   };
-  permissionRequest?: ZCodePermissionRequest;
-  elicitationRequest?: ZCodeElicitationRequest;
+  permissionRequest?: LumosPermissionRequest;
+  elicitationRequest?: LumosElicitationRequest;
   requestId?: string;
   error?: string;
 }
@@ -668,7 +668,7 @@ export interface BotTaskStreamBroadcastPayload {
   workspacePath: string;
   workspaceIdentity?: string;
   taskId: string;
-  event: ZCodeStreamEvent;
+  event: LumosStreamEvent;
   updatedAt: number;
 }
 
@@ -704,12 +704,12 @@ export const botAllowedCommandsSchema = z
 
 export const botCommandPolicySchema = botAllowedCommandsSchema;
 
-// 修复原因：第三方 CLI provider 已移除，ZCodeProvider 只剩 glm，但旧 bot 配置与状态文件里可能仍存有
+// 修复原因：第三方 CLI provider 已移除，LumosProvider 只剩 glm，但旧 bot 配置与状态文件里可能仍存有
 // 已移除 provider 的历史值。改成严格 literal 会让整份文件 parse 失败、Bot 全部不可用；
 // 因此解析时继续接受这些历史值，并统一归一到当前唯一的 agent provider。
 const legacyBotAgentProviderSchema = z
   .enum(["codex", "claude", "opencode", "gemini", "glm"])
-  .transform((): typeof ZCODE_AGENT_PROVIDER => ZCODE_AGENT_PROVIDER);
+  .transform((): typeof LUMOS_AGENT_PROVIDER => LUMOS_AGENT_PROVIDER);
 
 export const botCurrentOptionsSchema = z
   .object({
@@ -717,7 +717,7 @@ export const botCurrentOptionsSchema = z
     mode: z.string().min(1).optional(),
     sandboxMode: z.string().min(1).optional(),
     approvalPolicy: z.string().min(1).optional(),
-    // 兼容旧 bot-config.json；CLI provider 现在统一由 ZCode Protocol 侧配置决定。
+    // 兼容旧 bot-config.json；CLI provider 现在统一由 Lumos Protocol 侧配置决定。
     cli: legacyBotAgentProviderSchema.optional(),
   })
   .strict();
@@ -752,7 +752,7 @@ const botPendingElicitationSchema = z
     taskId: z.string().min(1),
     requestId: z.string().min(1),
     runId: z.string().min(1),
-    origin: zcodeInteractionRequestOriginSchema.optional(),
+    origin: lumosInteractionRequestOriginSchema.optional(),
     actorKey: z.string().min(1).optional(),
     currentQuestionIndex: z.number().int().min(0),
     questions: z.array(botElicitationQuestionSchema),
@@ -875,7 +875,7 @@ export const botsStateFileSchema = z
               optionId: z.string().min(1),
               command: z.enum(["approve", "deny"]),
               label: z.string().min(1),
-              response: zcodePermissionResponseSchema,
+              response: lumosPermissionResponseSchema,
               handledAt: z.number().optional(),
             }),
           )
@@ -924,7 +924,7 @@ export function normalizeBotReplyGranularity(
   return supported.includes(candidate) ? candidate : supported[0]!;
 }
 
-export const BOT_ZCODE_PROVIDER_OPTIONS: Array<{
-  id: ZCodeProvider;
+export const BOT_LUMOS_PROVIDER_OPTIONS: Array<{
+  id: LumosProvider;
   label: string;
-}> = [{ id: ZCODE_AGENT_PROVIDER, label: ZCODE_AGENT_PROVIDER_LABEL }];
+}> = [{ id: LUMOS_AGENT_PROVIDER, label: LUMOS_AGENT_PROVIDER_LABEL }];

@@ -1,23 +1,23 @@
-import { createLocalServices, createTopicResourcePeers, getAppConfigDir } from "@zcode/services/node";
+import { createLocalServices, createTopicResourcePeers, getAppConfigDir } from "@lumos/services/node";
 import {
-  materializeBundledZCodeBuiltinProviderConfig,
-  readBundledZCodeBuiltinProviderConfig,
-} from "./bundledZCodeBuiltinProviderConfig.js";
+  materializeBundledLumosBuiltinProviderConfig,
+  readBundledLumosBuiltinProviderConfig,
+} from "./bundledLumosBuiltinProviderConfig.js";
 import { createHttpServer } from "./http.js";
 
 async function main(): Promise<void> {
-  const zcodeBuiltinProviderConfigFilePath = await materializeBundledZCodeBuiltinProviderConfig({
+  const lumosBuiltinProviderConfigFilePath = await materializeBundledLumosBuiltinProviderConfig({
     environmentConfigRoot: getAppConfigDir(),
-    content: readBundledZCodeBuiltinProviderConfig(),
+    content: readBundledLumosBuiltinProviderConfig(),
   });
   const port = Number(process.env["PORT"]) || 3030;
-  const host = process.env["ZCODE_SERVER_HOST"]?.trim() || process.env["HOST"]?.trim() || undefined;
-  const staticRoot = process.env["ZCODE_WEB_STATIC_ROOT"]?.trim() || undefined;
-  const authToken = process.env["ZCODE_SERVER_AUTH_TOKEN"]?.trim() || undefined;
+  const host = process.env["LUMOS_SERVER_HOST"]?.trim() || process.env["HOST"]?.trim() || undefined;
+  const staticRoot = process.env["LUMOS_WEB_STATIC_ROOT"]?.trim() || undefined;
+  const authToken = process.env["LUMOS_SERVER_AUTH_TOKEN"]?.trim() || undefined;
   const topicResourcePeers = createTopicResourcePeers();
   const services = createLocalServices({
     topicResourceRelayChannel: (request) => topicResourcePeers.getChannel(request),
-    zcodeBuiltinProviderConfigFilePath,
+    lumosBuiltinProviderConfigFilePath,
     providerProvisioningTargetEnabled: Boolean(authToken),
   });
 
@@ -30,6 +30,6 @@ async function main(): Promise<void> {
 }
 
 void main().catch((error: unknown) => {
-  console.error("[zcode-server:http] startup failed", error);
+  console.error("[lumos-server:http] startup failed", error);
   process.exitCode = 1;
 });

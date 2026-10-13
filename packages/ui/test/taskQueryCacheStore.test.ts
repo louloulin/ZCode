@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { ZCodeTaskMeta } from "@zcode/shared";
+import type { LumosTaskMeta } from "@lumos/shared";
 import {
   buildTaskListCacheDescriptor,
   buildTaskListCacheKeyFromDescriptor,
@@ -16,7 +16,7 @@ import { attachTaskListRowActivity, getTaskListRowActivity } from "@/v4/taskList
 
 const WORKSPACE_PATH = "/repo/app";
 
-function createTaskMeta(overrides: Partial<ZCodeTaskMeta>): ZCodeTaskMeta {
+function createTaskMeta(overrides: Partial<LumosTaskMeta>): LumosTaskMeta {
   return {
     taskId: "task-default",
     traceId: "trace-default",

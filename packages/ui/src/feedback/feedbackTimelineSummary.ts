@@ -1,4 +1,4 @@
-import type { FeedbackTicketEvent, FeedbackTicketStatus } from "@zcode/shared";
+import type { FeedbackTicketEvent, FeedbackTicketStatus } from "@lumos/shared";
 import {
   FEEDBACK_STATUS_MESSAGE_IDS,
   formatFeedbackStatusLabel,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { classifyDatabaseStartupError } from "@zcode/shared";
+import { classifyDatabaseStartupError } from "@lumos/shared";
 import { DatabaseStartupCoordinator } from "../src/host/databaseStartupCoordinator.js";
 
 describe("global database startup", () => {

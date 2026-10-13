@@ -1,38 +1,38 @@
 import { z } from "zod";
 
 // 启动早期或协议故障时 stdout 尚不可用，进程诊断使用独立的 stderr 单行契约。
-export const ZCODE_PROCESS_DIAGNOSTIC_PREFIX = "[zcode-process-exception] ";
-export const ZCODE_PROCESS_DIAGNOSTIC_NAME_MAX_CHARS = 128;
-export const ZCODE_PROCESS_DIAGNOSTIC_MESSAGE_MAX_CHARS = 4_000;
-export const ZCODE_PROCESS_DIAGNOSTIC_STACK_MAX_CHARS = 16_000;
-export const ZCODE_PROCESS_DIAGNOSTIC_MAX_LINE_CHARS = 128 * 1024;
-export const ZCODE_AGENT_LIFECYCLE_LOG_MARKER = "[zcode-agent-lifecycle-reported]";
+export const LUMOS_PROCESS_DIAGNOSTIC_PREFIX = "[lumos-process-exception] ";
+export const LUMOS_PROCESS_DIAGNOSTIC_NAME_MAX_CHARS = 128;
+export const LUMOS_PROCESS_DIAGNOSTIC_MESSAGE_MAX_CHARS = 4_000;
+export const LUMOS_PROCESS_DIAGNOSTIC_STACK_MAX_CHARS = 16_000;
+export const LUMOS_PROCESS_DIAGNOSTIC_MAX_LINE_CHARS = 128 * 1024;
+export const LUMOS_AGENT_LIFECYCLE_LOG_MARKER = "[lumos-agent-lifecycle-reported]";
 
 const processErrorKindSchema = z.enum(["uncaughtException", "unhandledRejection"]);
-export const zcodeProcessDiagnosticSchema = z
+export const lumosProcessDiagnosticSchema = z
   .object({
     version: z.literal(1),
     errorId: z.uuid(),
     kind: processErrorKindSchema,
     origin: processErrorKindSchema,
-    name: z.string().min(1).max(ZCODE_PROCESS_DIAGNOSTIC_NAME_MAX_CHARS),
-    message: z.string().max(ZCODE_PROCESS_DIAGNOSTIC_MESSAGE_MAX_CHARS),
-    stack: z.string().max(ZCODE_PROCESS_DIAGNOSTIC_STACK_MAX_CHARS).optional(),
+    name: z.string().min(1).max(LUMOS_PROCESS_DIAGNOSTIC_NAME_MAX_CHARS),
+    message: z.string().max(LUMOS_PROCESS_DIAGNOSTIC_MESSAGE_MAX_CHARS),
+    stack: z.string().max(LUMOS_PROCESS_DIAGNOSTIC_STACK_MAX_CHARS).optional(),
     occurredAt: z.number().int().nonnegative(),
   })
   .strict();
-export type ZCodeProcessDiagnostic = z.infer<typeof zcodeProcessDiagnosticSchema>;
+export type LumosProcessDiagnostic = z.infer<typeof lumosProcessDiagnosticSchema>;
 
-export function parseZCodeProcessDiagnostic(line: string): ZCodeProcessDiagnostic | undefined {
+export function parseLumosProcessDiagnostic(line: string): LumosProcessDiagnostic | undefined {
   if (
-    !line.startsWith(ZCODE_PROCESS_DIAGNOSTIC_PREFIX) ||
-    line.length > ZCODE_PROCESS_DIAGNOSTIC_MAX_LINE_CHARS
+    !line.startsWith(LUMOS_PROCESS_DIAGNOSTIC_PREFIX) ||
+    line.length > LUMOS_PROCESS_DIAGNOSTIC_MAX_LINE_CHARS
   ) {
     return undefined;
   }
   try {
-    const result = zcodeProcessDiagnosticSchema.safeParse(
-      JSON.parse(line.slice(ZCODE_PROCESS_DIAGNOSTIC_PREFIX.length)),
+    const result = lumosProcessDiagnosticSchema.safeParse(
+      JSON.parse(line.slice(LUMOS_PROCESS_DIAGNOSTIC_PREFIX.length)),
     );
     return result.success ? result.data : undefined;
   } catch {

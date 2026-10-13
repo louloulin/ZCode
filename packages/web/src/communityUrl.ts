@@ -1,11 +1,11 @@
 import {
-  DEFAULT_ZCODE_ENDPOINT_ORIGIN,
-  ZCODE_VERSION,
+  DEFAULT_LUMOS_ENDPOINT_ORIGIN,
+  LUMOS_VERSION,
   buildHelpAppConfigUrl,
   createHelpAppConfigReader,
   resolveHelpAppConfig,
   type Locale,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import localDefaultAppConfig from "../../../config/default.json" with { type: "json" };
 
 interface ResolveWebCommunityUrlOptions {
@@ -22,11 +22,11 @@ export async function resolveWebHelpConfig(options: ResolveWebCommunityUrlOption
   const env = import.meta.env;
   const endpoint =
     options.endpointOrigin ??
-    (env?.VITE_ZCODE_BASE_URL?.trim() ||
-      env?.VITE_ZCODE_ENDPOINT_ORIGIN?.trim() ||
-      DEFAULT_ZCODE_ENDPOINT_ORIGIN);
+    (env?.VITE_LUMOS_BASE_URL?.trim() ||
+      env?.VITE_LUMOS_ENDPOINT_ORIGIN?.trim() ||
+      DEFAULT_LUMOS_ENDPOINT_ORIGIN);
   // 服务端拒绝 platform=web；浏览器省略可选平台参数，避免伪装桌面系统。
-  const url = buildHelpAppConfigUrl(endpoint, ZCODE_VERSION);
+  const url = buildHelpAppConfigUrl(endpoint, LUMOS_VERSION);
   let remote: unknown;
   try {
     remote = await (

@@ -1,19 +1,19 @@
-import type { ZCodePluginReferenceCatalogEntry } from "@zcode/shared";
+import type { LumosPluginReferenceCatalogEntry } from "@lumos/shared";
 import { describe, expect, it, vi } from "vitest";
 import { buildDraftSuggestedPromptPrefill } from "@/v4/draftSuggestedPromptPrefill.js";
 
 const DOCUMENT_SKILLS_PLUGIN = {
-  stableId: "document-skills@zcode-plugins-official",
+  stableId: "document-skills@lumos-plugins-official",
   label: "文档技能",
 };
 
 function catalogEntry(
-  overrides: Partial<ZCodePluginReferenceCatalogEntry> = {},
-): ZCodePluginReferenceCatalogEntry {
+  overrides: Partial<LumosPluginReferenceCatalogEntry> = {},
+): LumosPluginReferenceCatalogEntry {
   return {
     pluginId: DOCUMENT_SKILLS_PLUGIN.stableId,
     name: "document-skills",
-    marketplace: "zcode-plugins-official",
+    marketplace: "lumos-plugins-official",
     enabled: true,
     conflictingPluginIds: [],
     skillQualifiedNames: ["document-skills:pdf"],
@@ -45,16 +45,16 @@ describe("buildDraftSuggestedPromptPrefill", () => {
         loadPluginCatalog: async () => [catalogEntry()],
       }),
     ).resolves.toEqual({
-      text: "[@文档技能](plugin://document-skills@zcode-plugins-official) 根据当前工作区内容制作一份 PDF 文档",
+      text: "[@文档技能](plugin://document-skills@lumos-plugins-official) 根据当前工作区内容制作一份 PDF 文档",
       mention: {
-        id: "plugin:document-skills@zcode-plugins-official",
+        id: "plugin:document-skills@lumos-plugins-official",
         category: "plugins",
         label: "文档技能",
-        value: "document-skills@zcode-plugins-official",
+        value: "document-skills@lumos-plugins-official",
         markdown:
-          "[@文档技能](plugin://document-skills@zcode-plugins-official)",
+          "[@文档技能](plugin://document-skills@lumos-plugins-official)",
         data: {
-          pluginId: "document-skills@zcode-plugins-official",
+          pluginId: "document-skills@lumos-plugins-official",
           icon: "https://cdn.example.com/document-skills.png",
         },
       },

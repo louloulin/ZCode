@@ -8,14 +8,14 @@
 // 各写一份的话，总有一天确认窗里能选的模型与弹层里能选的不一样。
 
 import { useCallback, useMemo } from "react";
-import { completeNewModelSelection } from "@zcode/provider";
-import { ZCODE_AGENT_PROVIDER, type ZCodeConfigOption } from "@zcode/shared";
+import { completeNewModelSelection } from "@lumos/provider";
+import { LUMOS_AGENT_PROVIDER, type LumosConfigOption } from "@lumos/shared";
 import { useModelSelectionView } from "@/hooks/useModelSelectionView.js";
-import { useZCodeIntl } from "@/i18n/IntlProvider.js";
+import { useLumosIntl } from "@/i18n/IntlProvider.js";
 import { buildRegistryModelSelectGroups } from "@/lib/modelSelectionGroups.js";
 import { resolveModelThoughtOption } from "@/lib/modelThoughtOption.js";
-import { encodeCustomModelValue } from "@/lib/zcodeCustomModelValue.js";
-import { parseModelPickerValue } from "@/lib/zcodeSessionProjection.js";
+import { encodeCustomModelValue } from "@/lib/lumosCustomModelValue.js";
+import { parseModelPickerValue } from "@/lib/lumosSessionProjection.js";
 import type { ModelSelectGroup, ModelSelectGroupItem } from "@/ModelConfigSelect.js";
 import { formatProviderModelLabel } from "@/v4/composer/modelTriggerDisplay.js";
 import { describeWorkflowSubagentModel } from "./subagent-model-label.js";
@@ -45,11 +45,11 @@ export interface WorkflowSettingsModelFace {
   /** 清单读好了却找不到它：被删或停用。 */
   unavailable: boolean;
   /** 它的思考档；没有档位（或不可用）即 null。 */
-  thoughtOption: ZCodeConfigOption | null;
+  thoughtOption: LumosConfigOption | null;
 }
 
 export function useWorkflowSettingsModelChoices(scope: WorkflowSettingsModelScope) {
-  const { intl } = useZCodeIntl();
+  const { intl } = useLumosIntl();
   const format = useCallback(
     (id: string, values?: Record<string, string | number>) => intl.formatMessage({ id }, values),
     [intl],
@@ -64,7 +64,7 @@ export function useWorkflowSettingsModelChoices(scope: WorkflowSettingsModelScop
     () =>
       view === null
         ? []
-        : buildRegistryModelSelectGroups(ZCODE_AGENT_PROVIDER, view, {
+        : buildRegistryModelSelectGroups(LUMOS_AGENT_PROVIDER, view, {
             apiKeyLabel: format("settings.modelProvider.apiKey"),
             apiKeyBadgeLabel: format("settings.modelProvider.connectionMode.apiKeyBadge"),
             codingPlanLabel: format("settings.modelProvider.connectionMode.codingPlan"),

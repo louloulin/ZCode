@@ -1,4 +1,4 @@
-import type { ProviderFamilyDomain, ProjectAccessTokenMaterial } from "@zcode/shared";
+import type { ProviderFamilyDomain, ProjectAccessTokenMaterial } from "@lumos/shared";
 import { createServiceLogger } from "../logger/serviceLogger.js";
 
 const log = createServiceLogger("account-project-token");

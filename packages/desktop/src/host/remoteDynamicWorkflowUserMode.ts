@@ -1,5 +1,5 @@
-import type { DynamicWorkflowMode, RemoteTarget } from "@zcode/shared";
-import type { IZCodeAgentService } from "@zcode/services";
+import type { DynamicWorkflowMode, RemoteTarget } from "@lumos/shared";
+import type { ILumosAgentService } from "@lumos/services";
 
 /**
  * 把动态工作流的用户选择推给远程 Host（docs/dynamic-workflow/launch.md「The user's choice」）。
@@ -12,7 +12,7 @@ import type { IZCodeAgentService } from "@zcode/services";
 export async function pushDynamicWorkflowUserModeToRemoteHosts(
   connections: ReadonlyArray<{
     target: RemoteTarget;
-    zcodeAgentService: Pick<IZCodeAgentService, "syncDynamicWorkflowUserMode">;
+    lumosAgentService: Pick<ILumosAgentService, "syncDynamicWorkflowUserMode">;
   }>,
   mode: DynamicWorkflowMode | undefined,
   onError: (error: unknown) => void,
@@ -22,7 +22,7 @@ export async function pushDynamicWorkflowUserModeToRemoteHosts(
       .filter((connection) => connection.target.kind !== "server")
       .map(async (connection) => {
         try {
-          await connection.zcodeAgentService.syncDynamicWorkflowUserMode(mode ? { mode } : {});
+          await connection.lumosAgentService.syncDynamicWorkflowUserMode(mode ? { mode } : {});
         } catch (error) {
           onError(error);
         }

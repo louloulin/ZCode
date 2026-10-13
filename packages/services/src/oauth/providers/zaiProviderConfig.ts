@@ -3,11 +3,11 @@ import {
   buildRuntimeZaiBusinessUrl,
   buildRuntimeZaiOAuthUrl,
   resolveZaiOAuthClientId,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import type { OAuthProviderRuntimeConfig } from "../runtimeConfig.js";
 import {
   buildDesktopOAuthRedirectUriFromEnv,
-  buildZCodeApiUrlFromEnv,
+  buildLumosApiUrlFromEnv,
   readBoolean,
   readEnv,
 } from "./configUtils.js";
@@ -19,12 +19,12 @@ export const ZAI_OAUTH_PROVIDER_CONFIG: Omit<OAuthProviderRuntimeConfig, "appSec
   order: 1,
   // ZAI 当前 OAuth 授权入口使用 /api/oauth 前缀，继续走 /auth/oauth 会打开旧入口。
   authorizeUrl: "https://chat.z.ai/api/oauth/authorize",
-  tokenUrl: "https://zcode.z.ai/api/v1/oauth/token",
+  tokenUrl: "https://lumos.z.ai/api/v1/oauth/token",
   userinfoUrl: "https://chat.z.ai/api/oauth/userinfo",
   businessLoginUrl: "https://api.z.ai/api/auth/z/login",
   // 生产 client_id 不是 secret，但保留 fallback 可以避免未配置 env 的旧构建直接无法登录。
   appId: "client_P8X5CMWmlaRO9gyO-KSqtg",
-  redirectUri: "zcode://oauth/callback",
+  redirectUri: "lumos://oauth/callback",
 };
 
 export function createZaiProviderRuntimeConfig(env: NodeJS.ProcessEnv): OAuthProviderRuntimeConfig {
@@ -35,7 +35,7 @@ export function createZaiProviderRuntimeConfig(env: NodeJS.ProcessEnv): OAuthPro
       readEnv(env, "ZAI_OAUTH_AUTHORIZE_URL") ??
       buildRuntimeZaiOAuthUrl(env, "/api/oauth/authorize"),
     tokenUrl:
-      readEnv(env, "ZAI_OAUTH_TOKEN_URL") ?? buildZCodeApiUrlFromEnv(env, "/api/v1/oauth/token"),
+      readEnv(env, "ZAI_OAUTH_TOKEN_URL") ?? buildLumosApiUrlFromEnv(env, "/api/v1/oauth/token"),
     userinfoUrl: resolveZaiUserinfoUrl(env),
     businessLoginUrl:
       readEnv(env, "ZAI_BUSINESS_LOGIN_URL") ??

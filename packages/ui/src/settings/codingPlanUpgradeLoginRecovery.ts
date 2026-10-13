@@ -1,4 +1,4 @@
-import type { OAuthProviderId } from "@zcode/shared";
+import type { OAuthProviderId } from "@lumos/shared";
 import type { PurchaseAudience } from "@/settings/model-provider-section/codingPlanEnterpriseTiers.js";
 
 export interface CodingPlanUpgradeDialogTarget {

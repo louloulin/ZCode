@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "ZCode Desktop: Main",
+      "name": "Lumos Desktop: Main",
       "type": "pwa-node",
       "request": "attach",
       "port": 9231,
-      "preLaunchTask": "zcode: start electron (debug)",
+      "preLaunchTask": "lumos: start electron (debug)",
       "restart": true,
       "timeout": 30000,
       "outFiles": [
@@ -23,11 +23,11 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "ZCode Desktop: Main (with host inspect)",
+      "name": "Lumos Desktop: Main (with host inspect)",
       "type": "pwa-node",
       "request": "attach",
       "port": 9231,
-      "preLaunchTask": "zcode: start electron (debug with host inspect)",
+      "preLaunchTask": "lumos: start electron (debug with host inspect)",
       "restart": true,
       "timeout": 30000,
       "outFiles": [
@@ -42,7 +42,7 @@
       ]
     },
     {
-      "name": "ZCode Desktop: Renderer",
+      "name": "Lumos Desktop: Renderer",
       "type": "pwa-chrome",
       "request": "attach",
       "port": 9229,
@@ -50,7 +50,7 @@
       "timeout": 30000
     },
     {
-      "name": "ZCode Desktop: Host",
+      "name": "Lumos Desktop: Host",
       "type": "pwa-node",
       "request": "attach",
       "port": 9230,
@@ -70,19 +70,19 @@
   ],
   "compounds": [
     {
-      "name": "ZCode Desktop: F5",
+      "name": "Lumos Desktop: F5",
       "configurations": [
-        "ZCode Desktop: Main",
-        "ZCode Desktop: Renderer"
+        "Lumos Desktop: Main",
+        "Lumos Desktop: Renderer"
       ],
       "stopAll": true
     },
     {
-      "name": "ZCode Desktop: F5 (with host inspect)",
+      "name": "Lumos Desktop: F5 (with host inspect)",
       "configurations": [
-        "ZCode Desktop: Main (with host inspect)",
-        "ZCode Desktop: Renderer",
-        "ZCode Desktop: Host"
+        "Lumos Desktop: Main (with host inspect)",
+        "Lumos Desktop: Renderer",
+        "Lumos Desktop: Host"
       ],
       "stopAll": true
     }

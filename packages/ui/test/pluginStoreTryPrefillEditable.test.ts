@@ -23,21 +23,21 @@ import {
 } from "@/mentions/nodes/PromptMentionNode.js";
 
 const TRY_NOW_MENTION = {
-  id: "plugin:commit-commands@zcode-official",
+  id: "plugin:commit-commands@lumos-official",
   category: "plugins" as const,
   label: "commit-commands",
-  value: "commit-commands@zcode-official",
-  markdown: "[@commit-commands](plugin://commit-commands@zcode-official)",
-  data: { pluginId: "commit-commands@zcode-official" },
+  value: "commit-commands@lumos-official",
+  markdown: "[@commit-commands](plugin://commit-commands@lumos-official)",
+  data: { pluginId: "commit-commands@lumos-official" },
 };
 
 const SECOND_PLUGIN_MENTION = {
-  id: "plugin:pdf@zcode-plugins-official",
+  id: "plugin:pdf@lumos-plugins-official",
   category: "plugins" as const,
   label: "pdf",
-  value: "pdf@zcode-plugins-official",
-  markdown: "[@pdf](plugin://pdf@zcode-plugins-official)",
-  data: { pluginId: "pdf@zcode-plugins-official" },
+  value: "pdf@lumos-plugins-official",
+  markdown: "[@pdf](plugin://pdf@lumos-plugins-official)",
+  data: { pluginId: "pdf@lumos-plugins-official" },
 };
 
 async function prefill(trailingText?: string) {

@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { ZCodeProvider } from "@zcode/shared";
+import type { LumosProvider } from "@lumos/shared";
 import {
   resolveProviderConfigOpenTargetPath,
   useTaskListItemContextActions,
@@ -84,7 +84,7 @@ function HookProbe({
   workspacePath: string;
   remoteSessionId?: string;
   workspaceIdentity?: string;
-  provider?: ZCodeProvider;
+  provider?: LumosProvider;
   loadProviderConfig?: boolean;
 }) {
   latestResult = useTaskListItemContextActions({

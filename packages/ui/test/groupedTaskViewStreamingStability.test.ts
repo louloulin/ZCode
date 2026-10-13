@@ -8,16 +8,16 @@ import { describe, expect, it, vi } from "vitest";
 import type {
   IServiceAccessor,
   WindowHostControllerTaskListResult,
-  ZCodeGroupedTaskViewStructure,
-  ZCodeTaskListQuery,
-} from "@zcode/services";
-import type { ZCodeTaskMeta } from "@zcode/shared";
-import type { ZCodeGroupedTaskView } from "@zcode/services";
+  LumosGroupedTaskViewStructure,
+  LumosTaskListQuery,
+} from "@lumos/services";
+import type { LumosTaskMeta } from "@lumos/shared";
+import type { LumosGroupedTaskView } from "@lumos/services";
 import {
   CONTROLLER_TASKS_INDEX_TOPIC,
   type WindowHostControllerFrame,
   type WindowHostControllerTaskRow,
-} from "@zcode/shared/zcode-protocol-v4";
+} from "@lumos/shared/lumos-protocol-v4";
 import { ServiceProvider } from "@/hooks/useServices.js";
 import {
   clearCachedGroupedViewsForTest,
@@ -26,7 +26,7 @@ import {
 } from "@/hooks/useGroupedTaskView.js";
 import { clearTaskListMembershipCache } from "@/lib/taskListMembershipSets.js";
 import { useRemoteWorkspaceSessionStore } from "@/store/remoteWorkspaceSessionStore.js";
-import { useZCodeSessionStore } from "@/store/zcodeSessionStore.js";
+import { useLumosSessionStore } from "@/store/lumosSessionStore.js";
 import type { WorkspaceTabState } from "@/store/tabStore.js";
 import { bumpTaskListMembershipVersion } from "@/v4/taskListMembershipVersion.js";
 
@@ -137,7 +137,7 @@ function cleanupHookTestGlobals(): void {
     sessionIdByWorkspaceIdentity: {},
     sessionIdByWorkspacePath: {},
   });
-  useZCodeSessionStore.setState({ workspaces: {} });
+  useLumosSessionStore.setState({ workspaces: {} });
   clearCachedGroupedViewsForTest();
   clearTaskListMembershipCache();
   delete (globalThis as { document?: unknown }).document;
@@ -145,7 +145,7 @@ function cleanupHookTestGlobals(): void {
   delete (globalThis as { IS_REACT_ACT_ENVIRONMENT?: unknown }).IS_REACT_ACT_ENVIRONMENT;
 }
 
-function createTaskMeta(overrides: Partial<ZCodeTaskMeta> = {}): ZCodeTaskMeta {
+function createTaskMeta(overrides: Partial<LumosTaskMeta> = {}): LumosTaskMeta {
   return {
     taskId: TASK_ID,
     traceId: "trace-nanjing",
@@ -175,7 +175,7 @@ function createControllerRow(lastActivityAt: number): WindowHostControllerTaskRo
   };
 }
 
-function createStructure(): ZCodeGroupedTaskViewStructure {
+function createStructure(): LumosGroupedTaskViewStructure {
   return {
     groups: [
       {
@@ -206,7 +206,7 @@ function createControllerHarness() {
   let seq = 0;
   let lastActivityAt = 2_000;
   const listTaskList = vi.fn(
-    async (_params: ZCodeTaskListQuery): Promise<WindowHostControllerTaskListResult> => ({
+    async (_params: LumosTaskListQuery): Promise<WindowHostControllerTaskListResult> => ({
       items: [
         {
           ...createTaskMeta({ updatedAt: lastActivityAt }),
@@ -293,12 +293,12 @@ function createServices(windowControllerService: unknown): IServiceAccessor {
   const activeTasks = [createTaskMeta()];
   return {
     windowControllerService,
-    zcodeTaskService: {
+    lumosTaskService: {
       listGroupedTaskViewStructure: vi.fn(async () => structure),
       listPinnedTaskIds: vi.fn(async (): Promise<string[]> => []),
-      listArchivedTasks: vi.fn(async (): Promise<ZCodeTaskMeta[]> => []),
-      listTasks: vi.fn(async (): Promise<ZCodeTaskMeta[]> => activeTasks),
-      listPinnedTasks: vi.fn(async (): Promise<ZCodeTaskMeta[]> => []),
+      listArchivedTasks: vi.fn(async (): Promise<LumosTaskMeta[]> => []),
+      listTasks: vi.fn(async (): Promise<LumosTaskMeta[]> => activeTasks),
+      listPinnedTasks: vi.fn(async (): Promise<LumosTaskMeta[]> => []),
       listDeletedTaskIds: vi.fn(async (): Promise<string[]> => []),
       applyGroupedTaskViewOrder: vi.fn(async () => ({ nodes: [] })),
       onDynamicWorkspaceEvent: () => () => ({ dispose() {} }),
@@ -315,7 +315,7 @@ interface GateSample {
   taskRowCount: number;
 }
 
-function countTaskRows(view: { nodes: ZCodeGroupedTaskView["nodes"] }): number {
+function countTaskRows(view: { nodes: LumosGroupedTaskView["nodes"] }): number {
   return view.nodes.reduce(
     (total, node) => total + (node.type === "group" ? node.tasks.length : 1),
     0,

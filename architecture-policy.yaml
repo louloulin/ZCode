@@ -37,8 +37,8 @@ modules:
   - id: server
     roots: [packages/server/src]
     managed: false
-  - id: zcode-server-cli
-    roots: [packages/zcode-server-cli/src]
+  - id: lumos-server-cli
+    roots: [packages/lumos-server-cli/src]
     managed: false
   - id: ui
     roots: [packages/ui/src]
@@ -58,8 +58,8 @@ modules:
   - id: e2e-report
     roots: [packages/e2e-report/src]
     managed: false
-  - id: zcode-cli
-    roots: [apps/zcode-cli]
+  - id: lumos-cli
+    roots: [apps/lumos-cli]
     managed: false
 
   - id: gen-ui-protocol
@@ -112,13 +112,13 @@ modules:
       domain: "."
     owner: plugin
   - id: mcp-ui
-    roots: [apps/zcode-cli/packages/bootstrap/src/zcode-protocol/mcp-ui]
+    roots: [apps/lumos-cli/packages/bootstrap/src/lumos-protocol/mcp-ui]
     managed: true
-    requires: [zcode-cli, shared, mcp-apps-protocol]
+    requires: [lumos-cli, shared, mcp-apps-protocol]
     publicEntrypoints:
       [
-        apps/zcode-cli/packages/bootstrap/src/zcode-protocol/mcp-ui/index.ts,
-        apps/zcode-cli/packages/bootstrap/src/zcode-protocol/mcp-ui/contract.ts,
+        apps/lumos-cli/packages/bootstrap/src/lumos-protocol/mcp-ui/index.ts,
+        apps/lumos-cli/packages/bootstrap/src/lumos-protocol/mcp-ui/contract.ts,
       ]
     layers:
       app: "."

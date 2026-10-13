@@ -20,7 +20,7 @@ Historical `remoteControlToken` / `relayOrigin` notes below only describe old
 
 The web runtime stores the same core keys as desktop Z.AI login:
 
-- `zcodejwttoken`
+- `lumosjwttoken`
 - `oauth:zai:access_token`
 - `oauth:zai:user_info`
 - `oauth:active_provider`
@@ -41,4 +41,4 @@ This only writes `return_to` into OAuth state. A deployed callback page will for
 VITE_WEB_REMOTE_ALLOW_DEV_RETURN_TO=true
 ```
 
-The Vite dev server proxies `/api/v1/oauth/token` to `https://zcode.z.ai` before the generic `/api` proxy so local token exchange does not accidentally hit the local server.
+The Vite dev server proxies `/api/v1/oauth/token` to `https://lumos.z.ai` before the generic `/api` proxy so local token exchange does not accidentally hit the local server.

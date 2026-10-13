@@ -6,17 +6,17 @@ import {
   ProviderConfigMap,
   ProviderConfigResolver,
   ZhipuAccountAccessConfig,
-} from "@zcode/provider";
-import { NodeZCodeBuiltinProviderConfigSource } from "../src/index.js";
+} from "@lumos/provider";
+import { NodeLumosBuiltinProviderConfigSource } from "../src/index.js";
 import { fileURLToPath } from "node:url";
 
 const bundledFilePath = fileURLToPath(
-  new URL("../../../config/provider/zcode-builtin.json", import.meta.url),
+  new URL("../../../config/provider/lumos-builtin.json", import.meta.url),
 );
 
 describe("Account preset membership", () => {
   it("trims only individual/team defaults and keeps personal additions executable", async () => {
-    const source = new NodeZCodeBuiltinProviderConfigSource({ bundledFilePath, watch: false });
+    const source = new NodeLumosBuiltinProviderConfigSource({ bundledFilePath, watch: false });
     try {
       const snapshot = await source.read();
       for (const family of ["zai", "bigmodel"]) {
@@ -27,9 +27,9 @@ describe("Account preset membership", () => {
             "GLM-5.3-Flash",
           ]);
           const result = new ProviderConfigResolver().resolve({
-            zcodeBuiltinProviders: snapshot.providers,
-            zcodeBuiltinProviderTemplates: snapshot.providerTemplates,
-            zcodeBuiltinModelRules: snapshot.models,
+            lumosBuiltinProviders: snapshot.providers,
+            lumosBuiltinProviderTemplates: snapshot.providerTemplates,
+            lumosBuiltinModelRules: snapshot.models,
             accountProviders: new ProviderConfigMap([
               [
                 providerId,

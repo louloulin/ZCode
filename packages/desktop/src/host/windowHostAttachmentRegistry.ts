@@ -1,5 +1,5 @@
-import type { WindowHostAttachmentScope } from "@zcode/shared";
-import type { ZCodeAgentV4ClientMode } from "@zcode/services";
+import type { WindowHostAttachmentScope } from "@lumos/shared";
+import type { LumosAgentV4ClientMode } from "@lumos/services";
 
 export interface WindowHostAttachmentPort {
   once(event: "close", listener: () => void): unknown;
@@ -18,7 +18,7 @@ export interface WindowHostResolvedAttachmentScope<TServices, TCapabilities = ne
 export interface WindowHostExposeAttachmentParams<TServices, TPort, TCapabilities = never> {
   requestId: string;
   attachmentId: string;
-  clientMode: ZCodeAgentV4ClientMode;
+  clientMode: LumosAgentV4ClientMode;
   scope: WindowHostAttachmentScope;
   services: TServices;
   generation: number;
@@ -57,7 +57,7 @@ export function createWindowHostAttachmentRegistry<
   function attach(params: {
     requestId: string;
     attachmentId: string;
-    clientMode: ZCodeAgentV4ClientMode;
+    clientMode: LumosAgentV4ClientMode;
     scope: WindowHostAttachmentScope;
     port: TPort;
   }): void {

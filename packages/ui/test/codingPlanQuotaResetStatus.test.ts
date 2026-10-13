@@ -7,7 +7,7 @@ import { CodingPlanQuotaResetStatusContent } from "@/components/coding-plan-quot
 import { burstCodingPlanQuotaResetConfetti } from "@/lib/codingPlanQuotaResetConfetti.js";
 
 vi.mock("@/i18n/IntlProvider.js", () => ({
-  useZCodeIntl: () => ({
+  useLumosIntl: () => ({
     locale: "zh-CN",
     intl: {
       formatMessage: (

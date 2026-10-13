@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { ZCodeTaskMeta } from "@zcode/shared";
+import type { LumosTaskMeta } from "@lumos/shared";
 import { countWorkspaceUnreadTasks } from "@/lib/unreadTaskCount.js";
-import { getTaskMeta, getTaskUnreadIndicator } from "@/store/zcodeSessionStore.js";
-import { getDefaultWorkspaceState } from "@/store/zcodeSessionStoreTypes.js";
+import { getTaskMeta, getTaskUnreadIndicator } from "@/store/lumosSessionStore.js";
+import { getDefaultWorkspaceState } from "@/store/lumosSessionStoreTypes.js";
 
-function createTaskMeta(overrides: Partial<ZCodeTaskMeta> = {}): ZCodeTaskMeta {
+function createTaskMeta(overrides: Partial<LumosTaskMeta> = {}): LumosTaskMeta {
   return {
     taskId: "task-unread",
     traceId: "trace-unread",

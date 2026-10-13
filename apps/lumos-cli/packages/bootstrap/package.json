@@ -1,0 +1,48 @@
+{
+  "name": "@lumos/bootstrap",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./v4-replay": {
+      "types": "./dist/lumos-protocol-v4/replay.d.ts",
+      "import": "./dist/lumos-protocol-v4/replay.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "node ../../scripts/clean-dist.mjs",
+    "test": "vitest tests",
+    "test:fault-matrix": "LUMOS_FAULT_MATRIX=full vitest run tests/workflow-fault-matrix tests/fault-matrix-harness.test.ts tests/fake-provider-server.test.ts",
+    "coverage": "vitest run tests --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint src",
+    "lint:fix": "oxlint --write src"
+  },
+  "dependencies": {
+    "@lumos/adapters": "workspace:*",
+    "@lumos/contracts": "workspace:*",
+    "@lumos/core": "workspace:*",
+    "@lumos/dynamic-workflow": "workspace:*",
+    "@lumos/dynamic-workflow-runtime": "workspace:*",
+    "@lumos/i18n": "workspace:*",
+    "@lumos/provider": "workspace:*",
+    "@lumos/provider-node": "workspace:*",
+    "@lumos/shared": "workspace:*",
+    "@lumos/telemetry": "workspace:*",
+    "diff": "^9.0.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/yazl": "^3.3.1",
+    "@lumos/formal-proof": "workspace:*",
+    "yazl": "^3.3.1"
+  }
+}

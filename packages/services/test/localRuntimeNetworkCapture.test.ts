@@ -1,13 +1,13 @@
-import { Emitter } from "@zcode/rpc";
+import { Emitter } from "@lumos/rpc";
 import { expect, it, vi } from "vitest";
-import { LocalRuntimeNetworkCapture } from "../src/zcode-agent/localRuntimeNetworkCapture.js";
-import type { ZCodeProtocolClient } from "../src/zcode-agent/zcodeProtocolClient.js";
-import type { ZCodeProtocolNotification } from "@zcode/shared";
+import { LocalRuntimeNetworkCapture } from "../src/lumos-agent/localRuntimeNetworkCapture.js";
+import type { LumosProtocolClient } from "../src/lumos-agent/lumosProtocolClient.js";
+import type { LumosProtocolNotification } from "@lumos/shared";
 
 it("已有和新本地 CLI 继承启停，旧批次隔离，不注册的 remote 不控制", () => {
   const registry = new LocalRuntimeNetworkCapture();
   const makeClient = () => {
-    const events = new Emitter<ZCodeProtocolNotification>();
+    const events = new Emitter<LumosProtocolNotification>();
     const notify = vi.fn(async () => {});
     return {
       events,
@@ -16,7 +16,7 @@ it("已有和新本地 CLI 继承启停，旧批次隔离，不注册的 remote 
         onNotification: events.event,
         notify,
         isDisposed: false,
-      } as unknown as ZCodeProtocolClient,
+      } as unknown as LumosProtocolClient,
     };
   };
   const a = makeClient(),

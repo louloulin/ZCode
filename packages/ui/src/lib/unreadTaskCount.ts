@@ -1,11 +1,11 @@
-import { getVisibleTaskMetas } from "@/store/zcodeSessionStoreSelectors.js";
-import type { WorkspaceZCodeUIState } from "@/store/zcodeSessionStoreTypes.js";
+import { getVisibleTaskMetas } from "@/store/lumosSessionStoreSelectors.js";
+import type { WorkspaceLumosUIState } from "@/store/lumosSessionStoreTypes.js";
 
 type WorkspaceUnreadState = Pick<
-  WorkspaceZCodeUIState,
+  WorkspaceLumosUIState,
   "optimisticTaskListByTaskId" | "taskListCache"
 > &
-  Partial<Pick<WorkspaceZCodeUIState, "taskUnreadByTaskId">>;
+  Partial<Pick<WorkspaceLumosUIState, "taskUnreadByTaskId">>;
 
 export function countWorkspaceUnreadTasks(workspace: WorkspaceUnreadState): number {
   const visibleTasks = getVisibleTaskMetas(workspace);

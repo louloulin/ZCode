@@ -207,12 +207,12 @@ describe("buildTreemappingActivityModel", () => {
     expect(model.files[0]).toMatchObject({ kind: "modified", added: 3, removed: 1 });
   });
 
-  it("uses ZCode file_diff display stats without treating title=Write as written", () => {
+  it("uses Lumos file_diff display stats without treating title=Write as written", () => {
     const filePath = "/workspace/src/app/components/TodoList.tsx";
     const model = buildTreemappingActivityModel(
       message([
         toolCall({
-          toolId: "zcode-edit-1",
+          toolId: "lumos-edit-1",
           kind: "edit",
           title: "Write",
           input: { file_path: filePath, content: "large content" },
@@ -276,14 +276,14 @@ describe("buildTreemappingActivityModel", () => {
     });
   });
 
-  it("uses rawOutput content type as the ZCode write/edit/delete source of truth", () => {
+  it("uses rawOutput content type as the Lumos write/edit/delete source of truth", () => {
     const createPath = "/workspace/src/created.ts";
     const updatePath = "/workspace/src/updated.ts";
     const deletePath = "/workspace/src/deleted.ts";
     const model = buildTreemappingActivityModel(
       message([
         toolCall({
-          toolId: "zcode-create-1",
+          toolId: "lumos-create-1",
           kind: "edit",
           title: "Write",
           input: { file_path: createPath, content: "one\ntwo\n" },
@@ -304,7 +304,7 @@ describe("buildTreemappingActivityModel", () => {
           },
         }),
         toolCall({
-          toolId: "zcode-update-1",
+          toolId: "lumos-update-1",
           kind: "edit",
           title: "Write",
           input: { file_path: updatePath, content: "changed\n" },
@@ -325,7 +325,7 @@ describe("buildTreemappingActivityModel", () => {
           },
         }),
         toolCall({
-          toolId: "zcode-delete-1",
+          toolId: "lumos-delete-1",
           kind: "edit",
           title: "Write",
           input: { file_path: deletePath },

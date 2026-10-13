@@ -46,7 +46,7 @@ export type {
   ConversationShareTurnPreflightResult,
   PublishTextConversationInput,
 } from "./conversation-share/conversationShare.js";
-// Conversation share 的具体实现依赖 Node 文件系统，只能从 @zcode/services/node 引入；
+// Conversation share 的具体实现依赖 Node 文件系统，只能从 @lumos/services/node 引入；
 // 根入口必须保持 browser-safe，避免 renderer 解析到 node:* 模块。
 export {
   createConversationTelemetryService,
@@ -87,7 +87,7 @@ export type {
   OnboardingRecordServiceFactory,
 } from "./onboarding/onboardingRecord.js";
 // 这里只能导出 descriptor 和类型。根 index 会被 renderer 经 value import 拉进浏览器包，
-// 若 value 导出 createOnboardingRecordService，会连带 fs/atomicFileUtils → @zcode/shared/node →
+// 若 value 导出 createOnboardingRecordService，会连带 fs/atomicFileUtils → @lumos/shared/node →
 // node:timers/promises 整条 Node 链进浏览器，模块加载直接抛错导致整个应用黑屏。
 // 工厂函数由 host 侧（node.ts）与测试从实现文件路径直接导入，与 createSettingService 同惯例。
 export type {
@@ -96,36 +96,36 @@ export type {
   BroadcastMessage,
 } from "./broadcast/broadcast.js";
 
-// ZCode task wrapper service — task 列表/置顶/归档等 app 侧包装状态入口。
-export { IZCodeTaskService } from "./session/zcodeTaskService.js";
+// Lumos task wrapper service — task 列表/置顶/归档等 app 侧包装状态入口。
+export { ILumosTaskService } from "./session/lumosTaskService.js";
 export type {
-  ZCodeArchivedTaskDeletionResult,
-  ZCodeModelTrajectory,
-  ZCodeModelTrajectoryCallSource,
-  ZCodeModelTrajectoryCallSourceKind,
-  ZCodeModelTrajectoryContentPart,
-  ZCodeModelTrajectoryMessage,
-  ZCodeModelTrajectoryRecord,
-  ZCodeModelTrajectoryUsage,
-  ZCodeTaskListKind,
-  ZCodeTaskListQuery,
-  ZCodeTaskListResult,
-  ZCodeTaskListSortBy,
-  ZCodeTaskListWorkspaceScope,
-  ZCodeTaskReadyOutcome,
-  ZCodeGroupedTaskRef,
-  ZCodeGroupedTaskView,
-  ZCodeGroupedTaskViewNode,
-  ZCodeGroupedTaskViewOrderInput,
-  ZCodeGroupedTaskViewQuery,
-  ZCodeGroupedTaskViewStructure,
-  ZCodeGroupedTaskViewStructureMember,
-  ZCodeGroupedTaskViewStructureTopOrder,
-  ZCodeGroupedTaskViewTopLevelNodeRef,
-  ZCodeTaskGroup,
-  ZCodeTaskGroupColor,
-} from "./session/zcodeTaskService.js";
-export type { ZCodeTaskListItem } from "./session/zcodeTaskListTypes.js";
+  LumosArchivedTaskDeletionResult,
+  LumosModelTrajectory,
+  LumosModelTrajectoryCallSource,
+  LumosModelTrajectoryCallSourceKind,
+  LumosModelTrajectoryContentPart,
+  LumosModelTrajectoryMessage,
+  LumosModelTrajectoryRecord,
+  LumosModelTrajectoryUsage,
+  LumosTaskListKind,
+  LumosTaskListQuery,
+  LumosTaskListResult,
+  LumosTaskListSortBy,
+  LumosTaskListWorkspaceScope,
+  LumosTaskReadyOutcome,
+  LumosGroupedTaskRef,
+  LumosGroupedTaskView,
+  LumosGroupedTaskViewNode,
+  LumosGroupedTaskViewOrderInput,
+  LumosGroupedTaskViewQuery,
+  LumosGroupedTaskViewStructure,
+  LumosGroupedTaskViewStructureMember,
+  LumosGroupedTaskViewStructureTopOrder,
+  LumosGroupedTaskViewTopLevelNodeRef,
+  LumosTaskGroup,
+  LumosTaskGroupColor,
+} from "./session/lumosTaskService.js";
+export type { LumosTaskListItem } from "./session/lumosTaskListTypes.js";
 
 export { IWindowControllerService } from "./window-controller/windowController.js";
 export type {
@@ -135,69 +135,69 @@ export type {
   WindowHostControllerTaskListResult,
 } from "./window-controller/windowController.js";
 
-// ZCode agent service — IZCodeAgentService is both a type (interface) and value (descriptor)
+// Lumos agent service — ILumosAgentService is both a type (interface) and value (descriptor)
 export {
-  IZCodeAgentService,
-  type ZCodeAgentLocalRuntimeChildProcesses,
-  ZCODE_AGENT_RUNTIME_UNAVAILABLE_CODE,
-} from "./zcode-agent/zcodeAgent.js";
+  ILumosAgentService,
+  type LumosAgentLocalRuntimeChildProcesses,
+  LUMOS_AGENT_RUNTIME_UNAVAILABLE_CODE,
+} from "./lumos-agent/lumosAgent.js";
 export {
-  isZCodeAgentMcpStatusModeUnsupportedError,
-  ZCODE_AGENT_MCP_STATUS_MODE_UNSUPPORTED_ERROR_CODE,
-  ZCodeAgentMcpStatusModeUnsupportedError,
-} from "./zcode-agent/zcodeAgentErrors.js";
+  isLumosAgentMcpStatusModeUnsupportedError,
+  LUMOS_AGENT_MCP_STATUS_MODE_UNSUPPORTED_ERROR_CODE,
+  LumosAgentMcpStatusModeUnsupportedError,
+} from "./lumos-agent/lumosAgentErrors.js";
 export {
-  createZCodeAgentConnectionScope,
-  readTrustedZCodeAgentV4Connection,
-} from "./zcode-agent/zcodeAgentConnectionScope.js";
+  createLumosAgentConnectionScope,
+  readTrustedLumosAgentV4Connection,
+} from "./lumos-agent/lumosAgentConnectionScope.js";
 export type {
-  ZCodeAgentConnectionScope,
-  ZCodeAgentV4ClientMode,
-  ZCodeAgentV4ConnectionContext,
-} from "./zcode-agent/zcodeAgentConnectionScope.js";
+  LumosAgentConnectionScope,
+  LumosAgentV4ClientMode,
+  LumosAgentV4ConnectionContext,
+} from "./lumos-agent/lumosAgentConnectionScope.js";
 export type {
-  ZCodeAgentAttachmentBeginParams,
-  ZCodeAgentAttachmentChunkParams,
-  ZCodeAgentAttachmentTerminalParams,
-  ZCodeAgentCreateSessionParams,
-  ZCodeAgentCuaPermissionObservation,
-  ZCodeAgentInitializeResult,
-  ZCodeAgentStorageStartupSnapshot,
-  ZCodeAgentRuntimeLifecycleEvent,
-  ZCodeAgentRuntimePolicy,
-  ZCodeAgentReadSessionParams,
-  ZCodeAgentRespondProviderRuntimeHeadersParams,
-  ZCodeAgentResumeSessionParams,
-  ZCodeAgentRunAutomationNowResult,
-  ZCodeAgentSavedWorkflowTarget,
-  ZCodeAgentSendPromptParams,
-  ZCodeAgentServiceEvent,
-  ZCodeAgentSessionSubscribeParams,
-  ZCodeAgentSessionTarget,
-  ZCodeAgentSetModeParams,
-  ZCodeAgentSetModelParams,
-  ZCodeAgentSetThoughtLevelParams,
-  ZCodeAgentWorkspaceTarget,
-} from "./zcode-agent/zcodeAgent.js";
+  LumosAgentAttachmentBeginParams,
+  LumosAgentAttachmentChunkParams,
+  LumosAgentAttachmentTerminalParams,
+  LumosAgentCreateSessionParams,
+  LumosAgentCuaPermissionObservation,
+  LumosAgentInitializeResult,
+  LumosAgentStorageStartupSnapshot,
+  LumosAgentRuntimeLifecycleEvent,
+  LumosAgentRuntimePolicy,
+  LumosAgentReadSessionParams,
+  LumosAgentRespondProviderRuntimeHeadersParams,
+  LumosAgentResumeSessionParams,
+  LumosAgentRunAutomationNowResult,
+  LumosAgentSavedWorkflowTarget,
+  LumosAgentSendPromptParams,
+  LumosAgentServiceEvent,
+  LumosAgentSessionSubscribeParams,
+  LumosAgentSessionTarget,
+  LumosAgentSetModeParams,
+  LumosAgentSetModelParams,
+  LumosAgentSetThoughtLevelParams,
+  LumosAgentWorkspaceTarget,
+} from "./lumos-agent/lumosAgent.js";
 
-// ZCode session service — app-facing session facade without ZCode Agent naming.
-export { IZCodeSessionService } from "./zcode-session/zcodeSession.js";
+// Lumos session service — app-facing session facade without Lumos Agent naming.
+export { ILumosSessionService } from "./lumos-session/lumosSession.js";
 export type {
-  ZCodeSessionCreateParams,
-  ZCodeSessionEventsParams,
-  ZCodeSessionInitializeResult,
-  ZCodeSessionListParams,
-  ZCodeSessionMessagesParams,
-  ZCodeSessionReadParams,
-  ZCodeSessionResumeParams,
-  ZCodeSessionServiceEvent,
-  ZCodeSessionSetModeParams,
-  ZCodeSessionSetModelParams,
-  ZCodeSessionSetThoughtLevelParams,
-  ZCodeSessionSubscribeParams,
-  ZCodeTaskTarget,
-  ZCodeSessionWorkspaceTarget,
-} from "./zcode-session/zcodeSession.js";
+  LumosSessionCreateParams,
+  LumosSessionEventsParams,
+  LumosSessionInitializeResult,
+  LumosSessionListParams,
+  LumosSessionMessagesParams,
+  LumosSessionReadParams,
+  LumosSessionResumeParams,
+  LumosSessionServiceEvent,
+  LumosSessionSetModeParams,
+  LumosSessionSetModelParams,
+  LumosSessionSetThoughtLevelParams,
+  LumosSessionSubscribeParams,
+  LumosTaskTarget,
+  LumosSessionWorkspaceTarget,
+} from "./lumos-session/lumosSession.js";
 
 // Bots service — IBotsService is both a type (interface) and value (descriptor).
 export { IBotsService } from "./bots/bots.js";
@@ -233,7 +233,7 @@ export { IOAuthService } from "./oauth/oauth.js";
 // UsageStats service — IUsageStatsService is both a type (interface) and value (descriptor)
 export { IUsageStatsService } from "./usage-stats/usageStats.js";
 
-// Storage（资源管理器「存储」tab）：数据类型在 @zcode/shared；这里只导出服务接口与卷分组纯函数
+// Storage（资源管理器「存储」tab）：数据类型在 @lumos/shared；这里只导出服务接口与卷分组纯函数
 export type { IStorageService } from "./storage/contract.js";
 
 // CodingPlanSubscription service — ICodingPlanSubscriptionService is both a type (interface) and value (descriptor)
@@ -276,7 +276,7 @@ export {
 
 // Plugins service — IPluginsService is both a type (interface) and value (descriptor)
 export { IPluginsService } from "./plugins/plugins.js";
-// 设置页插件管理薄服务（UI 平台能力面不再直触 zcodeAgentService）
+// 设置页插件管理薄服务（UI 平台能力面不再直触 lumosAgentService）
 export { IPluginManagementService } from "./plugins/pluginManagement.js";
 
 // Subagents service — ISubagentsService is both a type (interface) and value (descriptor)
@@ -312,7 +312,7 @@ export type {
   FeedbackTicketStatus,
   FeedbackTicketSummary,
   FeedbackTicketType,
-} from "@zcode/shared";
+} from "@lumos/shared";
 
 // 插件 UI 桥：描述符、参数类型与工厂；App-Provided Tools 另有独立描述符。
 export {

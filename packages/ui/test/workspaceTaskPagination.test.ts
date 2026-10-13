@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { ZCodeTaskMeta } from "@zcode/shared";
+import type { LumosTaskMeta } from "@lumos/shared";
 import {
   buildTaskEntityKey,
   buildTaskListCacheDescriptor,
@@ -20,7 +20,7 @@ import {
 const WORKSPACE_PATH = "/workspace";
 const WORKSPACE_KEY = buildTaskWorkspaceKey(WORKSPACE_PATH);
 
-function createTask(index: number): ZCodeTaskMeta {
+function createTask(index: number): LumosTaskMeta {
   return {
     createdAt: 100 - index,
     mode: "default",
@@ -34,9 +34,9 @@ function createTask(index: number): ZCodeTaskMeta {
 }
 
 function createCachedResult(
-  tasks: ZCodeTaskMeta[],
+  tasks: LumosTaskMeta[],
   total: number,
-  allTasks: ZCodeTaskMeta[],
+  allTasks: LumosTaskMeta[],
 ): CachedTaskListResult {
   const descriptor = buildTaskListCacheDescriptor({
     kind: "workspace",
@@ -64,8 +64,8 @@ function createCachedResult(
 }
 
 function buildDisplayGroup(params: {
-  allTasks: ZCodeTaskMeta[];
-  cachedTasks?: ZCodeTaskMeta[];
+  allTasks: LumosTaskMeta[];
+  cachedTasks?: LumosTaskMeta[];
   previousGroup?: WorkspaceTaskListGroup;
   taskUnreadOverlayByEntityKey?: Record<string, number | null>;
   visibleLimit: number;

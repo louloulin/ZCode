@@ -3,7 +3,7 @@ import {
   TID_V4_COMPOSER_SEND,
   TID_V4_SESSION_PANE,
   testId,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import { clearAppData } from "../../../helpers/desktop-app.js";
 import {
   clickV4Stop,
@@ -116,13 +116,13 @@ async function setPaneComposerText(paneTestId: string, text: string): Promise<vo
           const bridge = (
             input as
               | (HTMLElement & {
-                  __zcodeLexicalInputE2E?: {
+                  __lumosLexicalInputE2E?: {
                     getText: () => string;
                     setText: (value: string) => void;
                   };
                 })
               | undefined
-          )?.__zcodeLexicalInputE2E;
+          )?.__lumosLexicalInputE2E;
           if (!bridge) return false;
           bridge.setText(nextText);
           return bridge.getText() === nextText;

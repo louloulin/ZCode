@@ -7,7 +7,7 @@ import type {
 } from "react";
 import type { PanelImperativeHandle } from "react-resizable-panels";
 import { GripHorizontal, LoaderIcon } from "lucide-react";
-import { TID_APP_HEADER } from "@zcode/shared";
+import { TID_APP_HEADER } from "@lumos/shared";
 // 保活：workspace tab 真正关闭时，按 workspaceKey 回收 side pane terminal 的常驻 PTY/xterm。
 // 对称下侧 Terminal.tsx 的 openWorkspaceKeys 回收。
 import { sidePaneTerminalSessionRegistry } from "@/terminal/sidePaneTerminalSessionRegistry.js";
@@ -90,7 +90,7 @@ import {
 } from "@/components/ui/resizable.js";
 import { toast } from "@/components/ui/toast.js";
 import { getGitDirtyFileCount } from "@/git-branch-switcher/display.js";
-import { useZCodeIntl } from "@/i18n/IntlProvider.js";
+import { useLumosIntl } from "@/i18n/IntlProvider.js";
 import { useBaseWorkspaceServices } from "@/hooks/useWorkspaceServices.js";
 import { getPathLeaf, toFileUrl } from "@/lib/path.js";
 import { shouldOpenAssistantHtmlInBrowser } from "@/lib/assistantPreviewCards.js";
@@ -114,19 +114,19 @@ import {
 } from "@/workspace-file-tree/model.js";
 import type { WorkspaceShellLayoutProps } from "@/app-shell/types.js";
 import { useTabStoreApi } from "@/store/TabStoreProvider.js";
-import { useZCodeSessionStore } from "@/store/zcodeSessionStore.js";
-import type { ComposerMentionPrefill } from "@/store/zcodeSessionStoreTypes.js";
+import { useLumosSessionStore } from "@/store/lumosSessionStore.js";
+import type { ComposerMentionPrefill } from "@/store/lumosSessionStoreTypes.js";
 
 const WEB_REMOTE_CONTROL_MOBILE_QUERY = "(max-width: 767px)";
 const WEB_REMOTE_CONTROL_COLLAPSE_ONCE_SESSION_KEY =
-  "zcode:web-remote-control:collapse-navigation-once";
+  "lumos:web-remote-control:collapse-navigation-once";
 const WEB_REMOTE_CONTROL_VIEWPORT_HEIGHT_FALLBACK_PX = 800;
 const WEB_REMOTE_CONTROL_DRAG_CLICK_THRESHOLD_PX = 4;
 const WORKSPACE_SIDEBAR_DEFAULT_WIDTH_PX = 264;
 const WORKSPACE_SIDEBAR_MIN_WIDTH_PX = 264;
 const WORKSPACE_SIDEBAR_MAX_WIDTH_RATIO = 0.5;
 const WORKSPACE_SIDEBAR_WIDTH_STORAGE_KEY =
-  "zcode:workspace-shell:sidebar-width-px";
+  "lumos:workspace-shell:sidebar-width-px";
 const LEGACY_WORKSPACE_SHELL_LAYOUT_STORAGE_KEY =
   "react-resizable-panels:workspace-shell-layout:sidebar:content";
 const WORKSPACE_SIDEBAR_RESIZE_KEYBOARD_STEP_PX = 16;
@@ -336,7 +336,7 @@ export const WorkspaceShellLayout = memo(
     isDesktop,
     isMacDesktop,
     isWindowsDesktop,
-    workspaceShellZCodeState,
+    workspaceShellLumosState,
     theme,
     isMacFullscreen,
     desktopWindowChromeState,
@@ -445,7 +445,7 @@ export const WorkspaceShellLayout = memo(
     setGitSelectedSourceId,
     taskFindDialogProps,
   }: WorkspaceShellLayoutProps) {
-    const { intl } = useZCodeIntl();
+    const { intl } = useLumosIntl();
     const isOfficeMode = useIsOfficeMode();
     const baseServices = useBaseWorkspaceServices();
     const tabStoreApi = useTabStoreApi();
@@ -525,7 +525,7 @@ export const WorkspaceShellLayout = memo(
     usePaneSessionPersistence({
       workspaceKey,
       activeSessionId: activeTaskId,
-      draftFocusVersion: workspaceShellZCodeState.draftFocusVersion,
+      draftFocusVersion: workspaceShellLumosState.draftFocusVersion,
       enabled: !isWebRemoteControlShell,
       selectSession: (sessionId) =>
         handleSelectTask(workspaceAbsPath, sessionId, workspaceIdentity),
@@ -1600,8 +1600,8 @@ export const WorkspaceShellLayout = memo(
       (
         targetWorkspacePath: string,
         targetWorkspaceIdentity?: string,
-        targetWorkspacePurpose?: import("@zcode/shared").WorkspacePurpose,
-        createSource?: import("@zcode/shared").SessionCreateSource,
+        targetWorkspacePurpose?: import("@lumos/shared").WorkspacePurpose,
+        createSource?: import("@lumos/shared").SessionCreateSource,
       ) => {
         showChatMainView();
         handleStartDraftInWorkspace(
@@ -1659,7 +1659,7 @@ export const WorkspaceShellLayout = memo(
     ]);
     const handleSelectComposerPlugin = useCallback(
       (mention: ComposerMentionPrefill) => {
-        useZCodeSessionStore
+        useLumosSessionStore
           .getState()
           .requestComposerTextInsert(
             workspaceAbsPath,
@@ -2064,7 +2064,7 @@ export const WorkspaceShellLayout = memo(
     ) {
       return (
         <DesktopWindowFrame
-          title={`ZCode / ${getPathLeaf(workspaceAbsPath)}`}
+          title={`Lumos / ${getPathLeaf(workspaceAbsPath)}`}
           showHeader
           isDesktop={isDesktop}
           isMacDesktop={isMacDesktop}
@@ -2126,7 +2126,7 @@ export const WorkspaceShellLayout = memo(
                     providerWorkspaceConfigPath={providerConfigFile.path}
                     providerWorkspaceConfigExists={providerConfigFile.exists}
                     providerWorkspaceConfigLoading={providerConfigFile.loading}
-                    workspaceHeaderState={workspaceShellZCodeState}
+                    workspaceHeaderState={workspaceShellLumosState}
                     gitSummary={gitState.summary}
                     gitDirtyFileCount={gitDirtyFileCount}
                     isMacDesktop={isMacDesktop}
@@ -2329,7 +2329,7 @@ export const WorkspaceShellLayout = memo(
         navigateToRun={handleNavigateToLaunchedRun}
       >
       <DesktopWindowFrame
-        title={`ZCode / ${getPathLeaf(workspaceAbsPath)}`}
+        title={`Lumos / ${getPathLeaf(workspaceAbsPath)}`}
         showHeader
         isDesktop={isDesktop}
         isMacDesktop={isMacDesktop}
@@ -2603,7 +2603,7 @@ export const WorkspaceShellLayout = memo(
                           providerWorkspaceConfigPath={providerConfigFile.path}
                           providerWorkspaceConfigExists={providerConfigFile.exists}
                           providerWorkspaceConfigLoading={providerConfigFile.loading}
-                          workspaceHeaderState={workspaceShellZCodeState}
+                          workspaceHeaderState={workspaceShellLumosState}
                           gitSummary={gitState.summary}
                           gitDirtyFileCount={gitDirtyFileCount}
                           isMacDesktop={isMacDesktop}

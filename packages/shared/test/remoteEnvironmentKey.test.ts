@@ -9,8 +9,8 @@ describe("buildRemoteEnvironmentKey", () => {
     expect(buildRemoteEnvironmentKey({ kind: "wsl", distro: " Ubuntu ", user: "dev" })).toBe(
       "wsl:Ubuntu\0dev",
     );
-    expect(buildRemoteEnvironmentKey({ kind: "docker", container: " zcode-dev " })).toBe(
-      "docker:zcode-dev",
+    expect(buildRemoteEnvironmentKey({ kind: "docker", container: " lumos-dev " })).toBe(
+      "docker:lumos-dev",
     );
     expect(
       buildRemoteEnvironmentKey({ kind: "server", url: "wss://host.example/ws?token=x" }),

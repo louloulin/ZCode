@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import type { IServiceAccessor } from "@zcode/services";
-import { useRemoteWorkspaceSessionStore } from "@zcode/ui/remote-workspace-session-store";
+import type { IServiceAccessor } from "@lumos/services";
+import { useRemoteWorkspaceSessionStore } from "@lumos/ui/remote-workspace-session-store";
 import { registerWebRemoteControlWorkspaceBridgeServices } from "@web/webRemoteControlWorkspaceBridgeSession.js";
 
 describe("registerWebRemoteControlWorkspaceBridgeServices", () => {

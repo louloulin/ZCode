@@ -1,6 +1,6 @@
-import { buildRuntimeZCodeApiUrl, resolveZaiBusinessBaseUrl } from "@zcode/shared";
+import { buildRuntimeLumosApiUrl, resolveZaiBusinessBaseUrl } from "@lumos/shared";
 
-export const ZCODE_CLIENT_SCENES_URL = buildRuntimeZCodeApiUrl(
+export const LUMOS_CLIENT_SCENES_URL = buildRuntimeLumosApiUrl(
   process.env,
   "/api/v1/client/scenes",
 );

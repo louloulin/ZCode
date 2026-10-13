@@ -1,5 +1,5 @@
-import type { AppSettings } from "@zcode/shared";
-import { ServiceChannels } from "@zcode/shared";
+import type { AppSettings } from "@lumos/shared";
+import { ServiceChannels } from "@lumos/shared";
 import { createServiceDescriptor } from "../descriptors.js";
 
 export interface ISettingService {

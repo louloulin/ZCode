@@ -1,4 +1,4 @@
-import type { ModelSelectionView } from "@zcode/services";
+import type { ModelSelectionView } from "@lumos/services";
 
 export interface ProviderAvailabilityState {
   readonly source: "registry";

@@ -1,25 +1,25 @@
 import {
-  ZCODE_AGENT_PROVIDER,
-  ZCODE_COMMAND_AGENT_SOURCES,
-  type ZCodeProvider,
+  LUMOS_AGENT_PROVIDER,
+  LUMOS_COMMAND_AGENT_SOURCES,
+  type LumosProvider,
   type CommandAgentSource,
-} from "@zcode/shared";
+} from "@lumos/shared";
 
 export const COMMAND_AGENT_SOURCES = [
-  ...ZCODE_COMMAND_AGENT_SOURCES,
+  ...LUMOS_COMMAND_AGENT_SOURCES,
 ] as const satisfies readonly CommandAgentSource[];
 
 export const COMMAND_AGENT_SOURCE_META: Record<
   CommandAgentSource,
   {
     labelId: string;
-    provider: ZCodeProvider;
+    provider: LumosProvider;
     pathHint: string;
   }
 > = {
-  zcodeAgent: {
-    labelId: "settings.commands.source.zcodeAgent",
-    pathHint: "~/.zcode/commands",
-    provider: ZCODE_AGENT_PROVIDER,
+  lumosAgent: {
+    labelId: "settings.commands.source.lumosAgent",
+    pathHint: "~/.lumos/commands",
+    provider: LUMOS_AGENT_PROVIDER,
   },
 };

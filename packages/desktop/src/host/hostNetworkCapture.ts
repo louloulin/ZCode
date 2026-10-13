@@ -1,6 +1,6 @@
-import { HostResponseTypes, type NetworkCaptureBatch } from "@zcode/shared";
-import { createNodeNetworkCapture } from "@zcode/shared/node";
-import { localRuntimeNetworkCapture } from "@zcode/services/node";
+import { HostResponseTypes, type NetworkCaptureBatch } from "@lumos/shared";
+import { createNodeNetworkCapture } from "@lumos/shared/node";
+import { localRuntimeNetworkCapture } from "@lumos/services/node";
 
 export function createHostNetworkCapture(
   port: { postMessage(message: unknown): void } | undefined,

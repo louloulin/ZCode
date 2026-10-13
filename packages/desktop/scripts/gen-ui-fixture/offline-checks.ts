@@ -14,8 +14,8 @@ export function installOfflineChecks() {
         callback({ cancel: true });
       },
     );
-    session.webRequest.onCompleted({ urls: ["zcode-sandbox://*/*"] }, (details) => {
-      if (details.url.includes("/__zcode__/vendor/")) localScripts.add(details.url);
+    session.webRequest.onCompleted({ urls: ["lumos-sandbox://*/*"] }, (details) => {
+      if (details.url.includes("/__lumos__/vendor/")) localScripts.add(details.url);
     });
   });
   return {

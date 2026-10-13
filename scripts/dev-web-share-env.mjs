@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 
-const TEST_SHARE_ENDPOINT_ORIGIN = "https://zcode.z.ai";
+const TEST_SHARE_ENDPOINT_ORIGIN = "https://lumos.z.ai";
 
 const mode = process.argv[2]?.trim().toLowerCase();
 if (mode !== "test" && mode !== "mock") {
@@ -11,14 +11,14 @@ if (mode !== "test" && mode !== "mock") {
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 const env = {
   ...process.env,
-  ZCODE_ENV: "test",
-  VITE_ZCODE_BASE_URL: TEST_SHARE_ENDPOINT_ORIGIN,
+  LUMOS_ENV: "test",
+  VITE_LUMOS_BASE_URL: TEST_SHARE_ENDPOINT_ORIGIN,
   VITE_DEV_ORIGIN: "http://localhost:5173",
   VITE_CONVERSATION_SHARE_PREVIEW_MOCK: mode === "mock" ? "true" : "false",
 };
 const args = [
   "--filter",
-  "@zcode/web-share",
+  "@lumos/web-share",
   "exec",
   "vite",
   "dev",

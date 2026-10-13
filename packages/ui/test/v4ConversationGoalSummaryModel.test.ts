@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { GoalState } from "@zcode/shared/zcode-protocol-v4";
+import type { GoalState } from "@lumos/shared/lumos-protocol-v4";
 import {
   buildConversationGoalIterationSummaries,
   getConversationGoalElapsedSeconds,

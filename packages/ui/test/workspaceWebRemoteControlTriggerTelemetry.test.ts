@@ -17,7 +17,7 @@ vi.mock("@/components/ui/button.js", () => ({
 }));
 
 vi.mock("@/i18n/IntlProvider.js", () => ({
-  useZCodeIntl: () => ({
+  useLumosIntl: () => ({
     intl: {
       formatMessage: ({ id }: { id: string }) => id,
     },

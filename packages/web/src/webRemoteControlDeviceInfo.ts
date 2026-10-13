@@ -1,4 +1,4 @@
-import type { WebRemoteControlMobileDeviceInfo } from "@zcode/shared";
+import type { WebRemoteControlMobileDeviceInfo } from "@lumos/shared";
 
 interface NavigatorLike {
   userAgent?: string;

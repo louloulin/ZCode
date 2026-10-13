@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createCipheriv } from "node:crypto";
-import type { BotConfig } from "@zcode/shared";
+import type { BotConfig } from "@lumos/shared";
 import { createWeixinBotProvider, getWeixinUpdates } from "../src/bots/providers/weixinProvider.js";
 import { beginWeixinRegistration, pollWeixinRegistration } from "../src/bots/providers/weixinRegistration.js";
 

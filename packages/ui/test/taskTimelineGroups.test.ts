@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { ZCodeTaskMeta } from "@zcode/shared";
+import type { LumosTaskMeta } from "@lumos/shared";
 import { groupTaskTimelineItems, resolveTaskTimelineGroupKey } from "@/lib/taskTimelineGroups.js";
 
 function localTimestamp(
@@ -14,12 +14,12 @@ function localTimestamp(
   return new Date(year, month - 1, day, hour, minute).getTime();
 }
 
-function createTask(taskId: string, createdAt: number, updatedAt = createdAt): ZCodeTaskMeta {
+function createTask(taskId: string, createdAt: number, updatedAt = createdAt): LumosTaskMeta {
   return {
     taskId,
     traceId: `trace-${taskId}`,
     title: taskId,
-    workspacePath: "/tmp/zcode-task-timeline",
+    workspacePath: "/tmp/lumos-task-timeline",
     createdAt,
     updatedAt,
     mode: "default",

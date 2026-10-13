@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { Emitter } from "@zcode/rpc";
-import type { IFileWatcherService } from "@zcode/services";
-import type { FileWatchEvent } from "@zcode/shared";
+import { Emitter } from "@lumos/rpc";
+import type { IFileWatcherService } from "@lumos/services";
+import type { FileWatchEvent } from "@lumos/shared";
 import { describe, expect, it, vi } from "vitest";
 import {
   shouldReloadPptxPreviewForWatchEvent,

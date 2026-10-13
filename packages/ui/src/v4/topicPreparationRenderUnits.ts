@@ -1,5 +1,5 @@
-import type { BotTopicPreparation as Preparation } from "@zcode/shared";
-import type { ConversationRow } from "@zcode/shared/zcode-protocol-v4";
+import type { BotTopicPreparation as Preparation } from "@lumos/shared";
+import type { ConversationRow } from "@lumos/shared/lumos-protocol-v4";
 import type { ConversationTurnRenderUnit } from "@/v4/conversationTurnRenderUnits.js";
 
 export function pendingTopicPreparations(

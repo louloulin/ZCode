@@ -1,5 +1,5 @@
-import { InternalChannels, PluginSandboxChannels } from "@zcode/shared";
-import { buildMcpAppsIframeAllow } from "@zcode/shared/mcp-apps";
+import { InternalChannels, PluginSandboxChannels } from "@lumos/shared";
+import { buildMcpAppsIframeAllow } from "@lumos/shared/mcp-apps";
 import type { WebContents, WebPreferences } from "electron";
 import type { PluginSandboxRegistryPort } from "./contract.js";
 import { PLUGIN_SANDBOX_SCHEME, buildPluginSandboxPluginOrigin } from "./contract.js";

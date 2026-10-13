@@ -1,36 +1,36 @@
 /* eslint-disable max-lines -- autoUpdater 需要集中维护 Electron 事件、菜单状态与 IPC 交互，过度拆分会让更新状态流更难追踪 */
 import { app, BrowserWindow, ipcMain, Menu } from "electron";
-import type { ISettingService } from "@zcode/services";
+import type { ISettingService } from "@lumos/services";
 import pkg, { CancellationToken } from "electron-updater";
 import semver from "semver";
 const { autoUpdater } = pkg;
 import {
   DEFAULT_LOCALE,
-  DEFAULT_ZCODE_ENDPOINT_ORIGIN,
+  DEFAULT_LUMOS_ENDPOINT_ORIGIN,
   PlatformChannels,
-  ZCODE_VERSION,
+  LUMOS_VERSION,
   desktopMenuMessageIds,
   formatDesktopMenuMessage,
   getDesktopMenuMessage,
-  resolveRuntimeZCodeEndpointOrigin,
+  resolveRuntimeLumosEndpointOrigin,
   type ElectronReleaseChannel,
   type Locale,
   type PostUpdateReleaseNotesPayload,
   type UpdateCheckResultPayload,
   type UpdateStatePayload,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import { logger } from "./logger.js";
 import { ManifestUpdateProvider, getElectronReleasePlatform } from "./manifestUpdateProvider.js";
 
 export const CHECK_FOR_UPDATE_MENU_ID = "check-for-update";
 const AUTO_UPDATE_POLL_INTERVAL_MS = 15 * 60 * 1000;
 const AUTO_UPDATE_VISIBLE_POLL_INTERVAL_MS = 2 * 60 * 1000;
-const UPDATE_FEED_URL_ENV = "ZCODE_UPDATE_FEED_URL";
-const UPDATE_FEED_URL_SWITCH = "--zcode-update-feed-url";
-const DEV_AUTO_UPDATE_ENV = "ZCODE_AUTO_UPDATE_DEV";
-const DEV_AUTO_UPDATE_SWITCH = "--zcode-auto-update-dev";
-const DEV_AUTO_UPDATE_VERSION_ENV = "ZCODE_AUTO_UPDATE_DEV_VERSION";
-const DEV_AUTO_UPDATE_VERSION_SWITCH = "--zcode-auto-update-dev-version";
+const UPDATE_FEED_URL_ENV = "LUMOS_UPDATE_FEED_URL";
+const UPDATE_FEED_URL_SWITCH = "--lumos-update-feed-url";
+const DEV_AUTO_UPDATE_ENV = "LUMOS_AUTO_UPDATE_DEV";
+const DEV_AUTO_UPDATE_SWITCH = "--lumos-auto-update-dev";
+const DEV_AUTO_UPDATE_VERSION_ENV = "LUMOS_AUTO_UPDATE_DEV_VERSION";
+const DEV_AUTO_UPDATE_VERSION_SWITCH = "--lumos-auto-update-dev-version";
 let readyUpdateVersion: string | null = null;
 let readyUpdateReleaseNotes: PostUpdateReleaseNotesPayload | null = null;
 let readyUpdateRestoredFromPendingReleaseNotes = false;
@@ -75,7 +75,7 @@ type UpdateDownloadedInfoLike = {
   path?: string | null;
   files?: Array<{ url?: string | null } | null> | null;
   packages?: Record<string, { path?: string | null } | null> | null;
-  zcodeReleaseChannel?: ElectronReleaseChannel | null;
+  lumosReleaseChannel?: ElectronReleaseChannel | null;
   releaseName?: string | null;
   releaseNotes?: string | ReleaseNoteInfoLike[] | null;
   releaseDate?: string | Date | null;
@@ -171,7 +171,7 @@ function resolveDevAutoUpdateVersion(): string | null {
   const configuredVersion =
     process.env[DEV_AUTO_UPDATE_VERSION_ENV]?.trim() ||
     readCommandLineSwitchValue(DEV_AUTO_UPDATE_VERSION_SWITCH)?.trim() ||
-    ZCODE_VERSION;
+    LUMOS_VERSION;
   const parsed = semver.parse(configuredVersion);
   if (!parsed) {
     logger.warn(`[auto-update] ignore invalid dev update version=${configuredVersion}`);
@@ -257,8 +257,8 @@ function getAutoUpdaterReleaseChannelForCurrentState(): ElectronReleaseChannel {
 function readUpdateInfoReleaseChannel(
   info: UpdateDownloadedInfoLike,
 ): ElectronReleaseChannel | null {
-  return info.zcodeReleaseChannel === "preview" || info.zcodeReleaseChannel === "stable"
-    ? info.zcodeReleaseChannel
+  return info.lumosReleaseChannel === "preview" || info.lumosReleaseChannel === "stable"
+    ? info.lumosReleaseChannel
     : null;
 }
 
@@ -785,12 +785,12 @@ function applyManifestUpdateProvider(options: InitAutoUpdaterOptions): void {
   autoUpdater.setFeedURL({
     provider: "custom",
     updateProvider: ManifestUpdateProvider,
-    endpointOrigin: DEFAULT_ZCODE_ENDPOINT_ORIGIN,
+    endpointOrigin: DEFAULT_LUMOS_ENDPOINT_ORIGIN,
     ...(manifestUrl ? { manifestUrl } : {}),
     releasePlatform: getElectronReleasePlatform(),
     deviceMid: options.deviceMid,
     resolveEndpointOrigin:
-      options.resolveEndpointOrigin ?? (() => resolveRuntimeZCodeEndpointOrigin(process.env)),
+      options.resolveEndpointOrigin ?? (() => resolveRuntimeLumosEndpointOrigin(process.env)),
     resolveReleaseChannel: async () => {
       availableUpdateChannel = await resolveUpdateReleaseChannel(options.settingService);
       return availableUpdateChannel;

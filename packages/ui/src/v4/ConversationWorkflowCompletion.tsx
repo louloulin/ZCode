@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { WorkflowRunArtifactSummary } from "@zcode/shared/zcode-protocol-v4";
+import type { WorkflowRunArtifactSummary } from "@lumos/shared/lumos-protocol-v4";
 import {
   WorkflowCompletionCard,
   type WorkflowCompletionFigures,

@@ -15,7 +15,7 @@ const originalHome = process.env.HOME;
 const tempRoots: string[] = [];
 
 function makeTempRoot(): string {
-  const root = mkdtempSync(join(tmpdir(), "zcode-commands-"));
+  const root = mkdtempSync(join(tmpdir(), "lumos-commands-"));
   tempRoots.push(root);
   return root;
 }
@@ -27,11 +27,11 @@ function officialPluginRoot(
 ): string {
   return join(
     home,
-    ".zcode",
+    ".lumos",
     "cli",
     "plugins",
     "cache",
-    "zcode-plugins-official",
+    "lumos-plugins-official",
     pluginName,
     version,
   );
@@ -45,7 +45,7 @@ function marketplacePluginRoot(
 ): string {
   return join(
     home,
-    ".zcode",
+    ".lumos",
     "cli",
     "plugins",
     "cache",
@@ -59,9 +59,9 @@ function writePluginManifest(
   pluginRoot: string,
   manifest: Record<string, unknown>,
 ): void {
-  mkdirSync(join(pluginRoot, ".zcode-plugin"), { recursive: true });
+  mkdirSync(join(pluginRoot, ".lumos-plugin"), { recursive: true });
   writeFileSync(
-    join(pluginRoot, ".zcode-plugin", "plugin.json"),
+    join(pluginRoot, ".lumos-plugin", "plugin.json"),
     JSON.stringify(manifest, null, 2),
     "utf-8",
   );
@@ -88,7 +88,7 @@ function writeInstalledPluginRecord(
     version?: string;
   },
 ): void {
-  const pluginsRoot = join(home, ".zcode", "cli", "plugins");
+  const pluginsRoot = join(home, ".lumos", "cli", "plugins");
   mkdirSync(pluginsRoot, { recursive: true });
   writeFileSync(
     join(pluginsRoot, "installed_plugins.json"),
@@ -117,8 +117,8 @@ function writeInstalledPluginRecord(
 }
 
 function writeCliConfig(home: string, config: Record<string, unknown>): void {
-  const configPath = join(home, ".zcode", "cli", "config.json");
-  mkdirSync(join(home, ".zcode", "cli"), { recursive: true });
+  const configPath = join(home, ".lumos", "cli", "config.json");
+  mkdirSync(join(home, ".lumos", "cli"), { recursive: true });
   writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
 }
 
@@ -146,17 +146,17 @@ describe("commandsService", () => {
   it("lists user commands and workspace project commands", async () => {
     const home = makeTempRoot();
     const workspacePath = join(makeTempRoot(), "workspace");
-    mkdirSync(join(home, ".zcode", "commands"), { recursive: true });
-    mkdirSync(join(workspacePath, ".zcode", "commands", "ops"), {
+    mkdirSync(join(home, ".lumos", "commands"), { recursive: true });
+    mkdirSync(join(workspacePath, ".lumos", "commands", "ops"), {
       recursive: true,
     });
     writeFileSync(
-      join(home, ".zcode", "commands", "global.md"),
+      join(home, ".lumos", "commands", "global.md"),
       "---\ndescription: Global command\n---\n\nRun globally",
       "utf-8",
     );
     writeFileSync(
-      join(workspacePath, ".zcode", "commands", "ops", "deploy.md"),
+      join(workspacePath, ".lumos", "commands", "ops", "deploy.md"),
       "---\ndescription: Deploy command\nargument-hint: <env>\n---\n\nDeploy project",
       "utf-8",
     );
@@ -170,28 +170,28 @@ describe("commandsService", () => {
     expect(result.userCommands).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          agentSource: "zcodeAgent",
-          id: "zcodeAgent:zcode:global:/global",
+          agentSource: "lumosAgent",
+          id: "lumosAgent:lumos:global:/global",
           name: "/global",
           scope: "global",
           description: "Global command",
           location: expect.objectContaining({
-            source: "zcode",
+            source: "lumos",
             scope: "user",
-            directoryPath: join(home, ".zcode", "commands"),
+            directoryPath: join(home, ".lumos", "commands"),
           }),
         }),
         expect.objectContaining({
-          agentSource: "zcodeAgent",
-          id: "zcodeAgent:zcode:project:/ops/deploy",
+          agentSource: "lumosAgent",
+          id: "lumosAgent:lumos:project:/ops/deploy",
           name: "/ops/deploy",
           scope: "project",
           projectPath: workspacePath,
           argumentHint: "<env>",
           location: expect.objectContaining({
-            source: "zcode",
+            source: "lumos",
             scope: "project",
-            directoryPath: join(workspacePath, ".zcode", "commands"),
+            directoryPath: join(workspacePath, ".lumos", "commands"),
           }),
         }),
       ]),
@@ -204,10 +204,10 @@ describe("commandsService", () => {
   it("returns project commands even when the user commands directory is missing", async () => {
     const home = makeTempRoot();
     const workspacePath = join(makeTempRoot(), "workspace");
-    mkdirSync(join(workspacePath, ".zcode", "commands"), { recursive: true });
+    mkdirSync(join(workspacePath, ".lumos", "commands"), { recursive: true });
     mkdirSync(join(workspacePath, ".agents", "commands"), { recursive: true });
     writeFileSync(
-      join(workspacePath, ".zcode", "commands", "project-only.md"),
+      join(workspacePath, ".lumos", "commands", "project-only.md"),
       "Project command",
       "utf-8",
     );
@@ -217,31 +217,31 @@ describe("commandsService", () => {
 
     expect(result.userCommands).toEqual([
       expect.objectContaining({
-        agentSource: "zcodeAgent",
-        id: "zcodeAgent:zcode:project:/project-only",
+        agentSource: "lumosAgent",
+        id: "lumosAgent:lumos:project:/project-only",
         name: "/project-only",
         scope: "project",
         location: expect.objectContaining({
-          source: "zcode",
+          source: "lumos",
           scope: "project",
-          directoryPath: join(workspacePath, ".zcode", "commands"),
+          directoryPath: join(workspacePath, ".lumos", "commands"),
         }),
       }),
     ]);
   });
 
-  it("reads .zcode command directories first and skips .agents/.claude when zcode has commands", async () => {
+  it("reads .lumos command directories first and skips .agents/.claude when lumos has commands", async () => {
     const home = makeTempRoot();
     const workspacePath = join(makeTempRoot(), "workspace");
-    mkdirSync(join(home, ".zcode", "commands"), { recursive: true });
+    mkdirSync(join(home, ".lumos", "commands"), { recursive: true });
     mkdirSync(join(home, ".agents", "commands"), { recursive: true });
     mkdirSync(join(home, ".claude", "commands"), { recursive: true });
-    mkdirSync(join(workspacePath, ".zcode", "commands"), { recursive: true });
+    mkdirSync(join(workspacePath, ".lumos", "commands"), { recursive: true });
     mkdirSync(join(workspacePath, ".agents", "commands"), { recursive: true });
     mkdirSync(join(workspacePath, ".claude", "commands"), { recursive: true });
     writeFileSync(
-      join(home, ".zcode", "commands", "review.md"),
-      "ZCode review",
+      join(home, ".lumos", "commands", "review.md"),
+      "Lumos review",
       "utf-8",
     );
     writeFileSync(
@@ -270,25 +270,25 @@ describe("commandsService", () => {
       "utf-8",
     );
     writeFileSync(
-      join(workspacePath, ".zcode", "commands", "project.md"),
-      "ZCode project",
+      join(workspacePath, ".lumos", "commands", "project.md"),
+      "Lumos project",
       "utf-8",
     );
 
     const service = await createCommandsServiceInEnv(home);
     const all = await service.list({ workspacePath });
-    const zcodeOnly = await service.list({
-      agentSource: "zcodeAgent",
+    const lumosOnly = await service.list({
+      agentSource: "lumosAgent",
       workspacePath,
     });
 
     expect(all.userCommands.map((command) => command.id)).toEqual([
-      "zcodeAgent:zcode:project:/project",
-      "zcodeAgent:zcode:global:/review",
+      "lumosAgent:lumos:project:/project",
+      "lumosAgent:lumos:global:/review",
     ]);
-    expect(zcodeOnly.userCommands.map((command) => command.id)).toEqual([
-      "zcodeAgent:zcode:project:/project",
-      "zcodeAgent:zcode:global:/review",
+    expect(lumosOnly.userCommands.map((command) => command.id)).toEqual([
+      "lumosAgent:lumos:project:/project",
+      "lumosAgent:lumos:global:/review",
     ]);
   });
 
@@ -297,7 +297,7 @@ describe("commandsService", () => {
     const service = await createCommandsServiceInEnv(home);
 
     const created = await service.writeCommandFile({
-      agentSource: "zcodeAgent",
+      agentSource: "lumosAgent",
       config: {
         name: "ship-it",
         prompt: "Ship it",
@@ -305,19 +305,19 @@ describe("commandsService", () => {
       },
     });
     const directory = await service.getPrimaryUserCommandsDirectory({
-      agentSource: "zcodeAgent",
+      agentSource: "lumosAgent",
     });
 
-    expect(directory.path).toBe(join(home, ".zcode", "commands"));
+    expect(directory.path).toBe(join(home, ".lumos", "commands"));
     expect(created.command).toMatchObject({
-      agentSource: "zcodeAgent",
-      filePath: join(home, ".zcode", "commands", "ship-it.md"),
-      id: "zcodeAgent:zcode:global:/ship-it",
+      agentSource: "lumosAgent",
+      filePath: join(home, ".lumos", "commands", "ship-it.md"),
+      id: "lumosAgent:lumos:global:/ship-it",
       name: "/ship-it",
       location: expect.objectContaining({
-        source: "zcode",
+        source: "lumos",
         scope: "user",
-        directoryPath: join(home, ".zcode", "commands"),
+        directoryPath: join(home, ".lumos", "commands"),
       }),
     });
     expect(readFileSync(created.command.filePath, "utf-8")).toContain(
@@ -331,19 +331,19 @@ describe("commandsService", () => {
 
     const directory = await service.getPrimaryUserCommandsDirectory();
 
-    expect(directory.path).toBe(join(home, ".zcode", "commands"));
+    expect(directory.path).toBe(join(home, ".lumos", "commands"));
     expect(statSync(directory.path).isDirectory()).toBe(true);
   });
 
-  it("skips .agents/commands when .zcode/commands has any valid command", async () => {
+  it("skips .agents/commands when .lumos/commands has any valid command", async () => {
     const home = makeTempRoot();
     const workspacePath = join(makeTempRoot(), "workspace");
-    mkdirSync(join(workspacePath, ".zcode", "commands"), { recursive: true });
+    mkdirSync(join(workspacePath, ".lumos", "commands"), { recursive: true });
     mkdirSync(join(workspacePath, ".agents", "commands"), { recursive: true });
-    // 同一 scope 中 .zcode 读到命令后，.agents 不再参与，即便包含不同命令名。
+    // 同一 scope 中 .lumos 读到命令后，.agents 不再参与，即便包含不同命令名。
     writeFileSync(
-      join(workspacePath, ".zcode", "commands", "dup.md"),
-      "---\ndescription: from zcode\n---\n\nzcode body",
+      join(workspacePath, ".lumos", "commands", "dup.md"),
+      "---\ndescription: from lumos\n---\n\nlumos body",
       "utf-8",
     );
     writeFileSync(
@@ -364,16 +364,16 @@ describe("commandsService", () => {
       (command) => command.name === "/dup",
     );
     expect(dup).toHaveLength(1);
-    expect(dup[0]?.description).toBe("from zcode");
+    expect(dup[0]?.description).toBe("from lumos");
     expect(result.userCommands.map((command) => command.name)).not.toContain(
       "/agents-only",
     );
   });
 
-  it("falls back to .agents/commands when .zcode/commands has no valid command", async () => {
+  it("falls back to .agents/commands when .lumos/commands has no valid command", async () => {
     const home = makeTempRoot();
     const workspacePath = join(makeTempRoot(), "workspace");
-    mkdirSync(join(workspacePath, ".zcode", "commands"), { recursive: true });
+    mkdirSync(join(workspacePath, ".lumos", "commands"), { recursive: true });
     mkdirSync(join(workspacePath, ".agents", "commands"), { recursive: true });
     writeFileSync(
       join(workspacePath, ".agents", "commands", "agents-only.md"),
@@ -386,7 +386,7 @@ describe("commandsService", () => {
 
     expect(result.userCommands).toEqual([
       expect.objectContaining({
-        id: "zcodeAgent:agents:project:/agents-only",
+        id: "lumosAgent:agents:project:/agents-only",
         name: "/agents-only",
         description: "agents only",
         location: expect.objectContaining({
@@ -402,10 +402,10 @@ describe("commandsService", () => {
     const home = makeTempRoot();
     const workspacePath = join(makeTempRoot(), "workspace");
     const pluginRoot = officialPluginRoot(home, "ios-simulator");
-    mkdirSync(join(home, ".zcode", "commands"), { recursive: true });
+    mkdirSync(join(home, ".lumos", "commands"), { recursive: true });
     mkdirSync(join(pluginRoot, "commands", "ios"), { recursive: true });
     writeFileSync(
-      join(home, ".zcode", "commands", "local-review.md"),
+      join(home, ".lumos", "commands", "local-review.md"),
       "---\ndescription: Local review\n---\n\nReview locally",
       "utf-8",
     );
@@ -422,7 +422,7 @@ describe("commandsService", () => {
     writeCliConfig(home, {
       plugins: {
         enabledPlugins: {
-          "ios-simulator@zcode-plugins-official": true,
+          "ios-simulator@lumos-plugins-official": true,
         },
       },
     });
@@ -440,7 +440,7 @@ describe("commandsService", () => {
         enabled: true,
         name: "/ios/dev",
         pluginEnabled: true,
-        pluginMarketplace: "zcode-plugins-official",
+        pluginMarketplace: "lumos-plugins-official",
         pluginName: "ios-simulator",
         source: "plugin",
       }),
@@ -483,7 +483,7 @@ describe("commandsService", () => {
     // document-skills 被卸载（suppressed），skill-creator 保持默认启用。
     writeCliConfig(home, {
       plugins: {
-        suppressedBuiltins: ["document-skills@zcode-plugins-official"],
+        suppressedBuiltins: ["document-skills@lumos-plugins-official"],
       },
     });
 
@@ -549,7 +549,7 @@ describe("commandsService", () => {
     ]);
   });
 
-  it("stores command disabled overrides in the user zcode config", async () => {
+  it("stores command disabled overrides in the user lumos config", async () => {
     const home = makeTempRoot();
     const service = await createCommandsServiceInEnv(home);
     const created = await service.writeCommandFile({
@@ -566,7 +566,7 @@ describe("commandsService", () => {
     });
 
     const saved = JSON.parse(
-      readFileSync(join(home, ".zcode", "cli", "config.json"), "utf-8"),
+      readFileSync(join(home, ".lumos", "cli", "config.json"), "utf-8"),
     );
     expect(saved.command[created.command.filePath]).toEqual({ enable: false });
 
@@ -582,7 +582,7 @@ describe("commandsService", () => {
     });
     const enabled = await service.list({});
     const reenabledConfig = JSON.parse(
-      readFileSync(join(home, ".zcode", "cli", "config.json"), "utf-8"),
+      readFileSync(join(home, ".lumos", "cli", "config.json"), "utf-8"),
     ) as { command?: Record<string, { enable?: boolean }> };
     expect(enabled.userCommands[0]).toEqual(
       expect.objectContaining({ enabled: true }),

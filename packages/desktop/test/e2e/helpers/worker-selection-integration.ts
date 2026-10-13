@@ -8,17 +8,17 @@ import {
   createAccountProviderConfigSnapshot,
   createFailClosedAccountProviderConfigSnapshot,
   type ModelSelectionViewInput,
-} from "@zcode/provider";
-import { NodeProviderRegistryRuntime, createNodeModelSelectionFacade } from "@zcode/provider-node";
+} from "@lumos/provider";
+import { NodeProviderRegistryRuntime, createNodeModelSelectionFacade } from "@lumos/provider-node";
 import {
-  createZCodeAgentService,
-  createZCodeTaskServiceAdapter,
+  createLumosAgentService,
+  createLumosTaskServiceAdapter,
   getDataBaseDir,
   setDataBaseDir,
-} from "@zcode/services/node";
-import { BUILTIN_MODEL_PROVIDER_IDS } from "@zcode/shared";
+} from "@lumos/services/node";
+import { BUILTIN_MODEL_PROVIDER_IDS } from "@lumos/shared";
 import { TaskIndexRepo } from "../../../../services/src/session/taskIndexRepo.js";
-import { createZCodeTaskIndexSyncer } from "../../../../services/src/zcode-agent/zcodeTaskIndexSyncer.js";
+import { createLumosTaskIndexSyncer } from "../../../../services/src/lumos-agent/lumosTaskIndexSyncer.js";
 import { getE2EAppDataPaths } from "./desktop-app.js";
 
 /** 独立测试 Host + 真实 stdio Worker；仅账号上游和模型 HTTP 使用隔离 fixture。 */
@@ -33,8 +33,8 @@ export async function createWorkerSelectionIntegration() {
   const deliverySource = new MutableAccountProviderConfigSource();
   let deliveryPaused = false;
   const runtimePaths = {
-    zcodeBuiltinFilePath: resolve("../../config/provider/zcode-builtin.json"),
-    personalFilePath: join(home, ".zcode/v2/provider_config.json"),
+    lumosBuiltinFilePath: resolve("../../config/provider/lumos-builtin.json"),
+    personalFilePath: join(home, ".lumos/v2/provider_config.json"),
   };
   const runtime = new NodeProviderRegistryRuntime({
     ...runtimePaths,
@@ -61,7 +61,7 @@ export async function createWorkerSelectionIntegration() {
     }
     source.replace(
       createAccountProviderConfigSnapshot(
-        config.zcodeBuiltinRevision,
+        config.lumosBuiltinRevision,
         new ProviderConfigMap([...providers]),
         Object.fromEntries(
           [individual, team].map((id) => [
@@ -86,17 +86,17 @@ export async function createWorkerSelectionIntegration() {
       dispose: facade.onDidChange(listener),
     }),
   };
-  const agent = createZCodeAgentService({
+  const agent = createLumosAgentService({
     commandResolver: () => ({
       command: process.execPath,
-      args: [resolve("../../apps/zcode-cli/packages/cli/dist/zcode.cjs"), "app-server", "--stdio"],
+      args: [resolve("../../apps/lumos-cli/packages/cli/dist/lumos.cjs"), "app-server", "--stdio"],
       env: {
         HOME: home,
         USERPROFILE: home,
-        ZCODE_DATA_BASE_DIR: home,
-        ZCODE_RUNTIME_ENV: "development",
-        ZCODE_BUILTIN_PROVIDER_CONFIG_FILE: runtimePaths.zcodeBuiltinFilePath,
-        ZCODE_PERSONAL_PROVIDER_CONFIG_FILE: runtimePaths.personalFilePath,
+        LUMOS_DATA_BASE_DIR: home,
+        LUMOS_RUNTIME_ENV: "development",
+        LUMOS_BUILTIN_PROVIDER_CONFIG_FILE: runtimePaths.lumosBuiltinFilePath,
+        LUMOS_PERSONAL_PROVIDER_CONFIG_FILE: runtimePaths.personalFilePath,
       },
     }),
     modelSelectionReadinessSource: modelSelectionService,
@@ -116,9 +116,9 @@ export async function createWorkerSelectionIntegration() {
     },
   });
   const repo = new TaskIndexRepo();
-  const syncer = createZCodeTaskIndexSyncer({ agentService: agent, taskIndexRepo: repo });
-  const task = createZCodeTaskServiceAdapter({
-    zcodeAgentService: agent,
+  const syncer = createLumosTaskIndexSyncer({ agentService: agent, taskIndexRepo: repo });
+  const task = createLumosTaskServiceAdapter({
+    lumosAgentService: agent,
     taskIndexRepo: repo,
     taskIndexSyncer: syncer,
   });

@@ -18,7 +18,7 @@ vi.mock("@/components/ai-elements/context.js", () => ({
 }));
 
 vi.mock("@/i18n/IntlProvider.js", () => ({
-  useZCodeIntl: () => ({
+  useLumosIntl: () => ({
     intl: {
       formatMessage: ({ id }: { id: string }) => id,
     },

@@ -30,7 +30,7 @@ Windows/Linux 的奖励页及其登录入口必须保留顶部窗口按钮，关
 
 布局约束：App WebView 撑满窗口可用宽度，页面滚动条位于窗口右侧；网站内部负责内容限宽居中。顶部导航位于滚动视口外固定显示，不增加 App 外层滚动容器。此修复不改变 Coding Plan 或 Web/mobile 外部打开路径。
 
-- 本地显式开发联调：http://localhost:3000；测试：https://zcode.z.ai；正式：https://zcode.z.ai。
+- 本地显式开发联调：http://localhost:3000；测试：https://lumos.z.ai；正式：https://lumos.z.ai。
 - `pnpm dev:desktop:test` 默认使用测试域名；`pnpm dev:desktop` 默认使用正式域名，开发模式不自动切换到 localhost。
 - 本地 Website 联调显式启动：`VITE_REWARDS_WEBVIEW_ORIGIN=http://localhost:3000 pnpm dev:desktop:test`。仅覆盖奖励网页地址，App 接口仍使用测试环境；不改变语言、主题或鉴权协议。
 - URL：/{cn|en}/rewards?embedded=app&theme={zai-light|zai-dark}；zh-CN 映射 cn，en-US 映射 en。
@@ -77,8 +77,8 @@ sequenceDiagram
 
 - 改动层级：presentation / validation / commit-effect / persistence；既有状态归属不变。
 - 页面级目录、组件、函数、类型、i18n、日志、测试标识与构建入口统一 Rewards/rewards；本地环境配置改为 VITE_REWARDS_WEBVIEW_ORIGIN，不读取旧变量。
-- 新分区为 persist:zcode-rewards，新上下文事件为 zcode-rewards-context；window.zcodeBridge、OAuth/JWT key 不变。
-- 不迁移、不读取、不自动清理旧 persist:zcode-referrals 分区，不订阅旧事件、不导出旧别名、不兼容旧路径，不添加重定向或切换失败时回旧页。现有非法配置校验、安全拒绝及普通 Web 无 bridge 行为不属于迁移兜底，继续保留。
+- 新分区为 persist:lumos-rewards，新上下文事件为 lumos-rewards-context；window.lumosBridge、OAuth/JWT key 不变。
+- 不迁移、不读取、不自动清理旧 persist:lumos-referrals 分区，不订阅旧事件、不导出旧别名、不兼容旧路径，不添加重定向或切换失败时回旧页。现有非法配置校验、安全拒绝及普通 Web 无 bridge 行为不属于迁移兜底，继续保留。
 - Website 的 /invite、/invite/accept、/invite/unavailable 与 /referrals/unavailable 是实际邀请业务，不属于被移除的奖励主页，保持原语义；仅旧 /{cn|en}/referrals 根页面返回 404。
 - 升级、领取、营销上报、任务/session、手机 replayable 与桌面 continuous 均不改变。用户数据/奖励仍归服务端，页面展示状态归 Website，登录续接归窗口 Provider。
 
@@ -91,9 +91,9 @@ sequenceDiagram
 
 以上用例已按用户决定 accepted；迁移/旧版本兼容组合 pruned，不增加迁移测试。沿用 REF-01…12 的原登录/桥接隔离用例 ID；初始新增 E2E 保持 pending，2026-09-16 转正决定见下文，不使用 Docker。图谱保留稳定 capability ID，增加 Rewards 别名及营销入口关系；codegraph 不可用，采用二层静态调用核对，不声称完整索引扫描。
 
-window.zcodeBridge 提供 getTheme/onThemeChange、getLang/onLangChange、getAuthState/onAuthChange。订阅返回取消函数；读取在尚未就绪时返回 null。theme 为 zai-light/zai-dark，locale 为 zh-CN/en-US。AuthState 为 {status: ready|anonymous, provider: zai|bigmodel|null, revision: number}，ready 仅表示注入完成，不等于服务端验签成功。事件不携带 token。禁止购买完成能力出现在邀请页。
+window.lumosBridge 提供 getTheme/onThemeChange、getLang/onLangChange、getAuthState/onAuthChange。订阅返回取消函数；读取在尚未就绪时返回 null。theme 为 zai-light/zai-dark，locale 为 zh-CN/en-US。AuthState 为 {status: ready|anonymous, provider: zai|bigmodel|null, revision: number}，ready 仅表示注入完成，不等于服务端验签成功。事件不携带 token。禁止购买完成能力出现在邀请页。
 
-凭据 key 与购买页一致：当前渠道 oauth:zai:access_token 或 oauth:bigmodel:access_token，以及 zcodejwttoken。切账号和关闭时清除旧值；每次注入前与异步读取后都检查当前 URL、组件生命周期和账号代次，旧结果不能写进新页面。不添加主动邀请提交或鉴权失败自动业务重试。
+凭据 key 与购买页一致：当前渠道 oauth:zai:access_token 或 oauth:bigmodel:access_token，以及 lumosjwttoken。切账号和关闭时清除旧值；每次注入前与异步读取后都检查当前 URL、组件生命周期和账号代次，旧结果不能写进新页面。不添加主动邀请提交或鉴权失败自动业务重试。
 
 ## 影响面（静态核对）
 

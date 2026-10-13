@@ -8,9 +8,9 @@ import type {
   PendingInteraction,
   SubagentRow,
   UserInputRow,
-} from "@zcode/shared/zcode-protocol-v4";
+} from "@lumos/shared/lumos-protocol-v4";
 import { SessionPane } from "@/v4/SessionPane.js";
-import { ZCodeIntlProvider } from "@/i18n/IntlProvider.js";
+import { LumosIntlProvider } from "@/i18n/IntlProvider.js";
 import type {
   OpenScopedSubagentSideTabRequest,
   OpenScopedWorkflowRunSideTabRequest,
@@ -75,12 +75,12 @@ vi.mock("@/v4/V4ConversationContext.js", () => ({
 }));
 
 vi.mock("@/store/StoreProvider.js", () => ({
-  useZCodeStoreWithDefault: (_selector: unknown, fallback: unknown) => fallback,
+  useLumosStoreWithDefault: (_selector: unknown, fallback: unknown) => fallback,
 }));
 
 vi.mock("@/hooks/useSettingService.js", () => ({
   useSettings: () => ({
-    settings: { zcodeInteractionBehavior: "queue" },
+    settings: { lumosInteractionBehavior: "queue" },
     loading: false,
     error: null,
     update: vi.fn(async () => {}),
@@ -91,10 +91,10 @@ vi.mock("@/hooks/useSettingService.js", () => ({
 vi.mock("@/hooks/useServices.js", () => ({
   useOptionalServices: () => null,
   useServices: () => ({
-    zcodeSessionService: {
+    lumosSessionService: {
       updateProviderRegistry: vi.fn(),
     },
-    zcodeTaskService: {
+    lumosTaskService: {
       restartWorkspaceProcess: vi.fn(),
     },
   }),
@@ -351,7 +351,7 @@ function renderPane({
 
   return renderToStaticMarkup(
     createElement(
-      ZCodeIntlProvider,
+      LumosIntlProvider,
       { initialLocale: "zh-CN" },
       createElement(SessionPane, {
         paneId: "workspace-main",

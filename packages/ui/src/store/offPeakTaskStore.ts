@@ -5,14 +5,14 @@ import {
   type OffPeakCodingPlanSupport,
   type OffPeakTaskCreateResult,
   type OffPeakTakeNumberAvailability,
-  type ZCodeOffPeakTask,
+  type LumosOffPeakTask,
   type ModelSelection,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import type {
   ICodingPlanSubscriptionService,
   IOffPeakTaskService,
   OffPeakClientConfig,
-} from "@zcode/services";
+} from "@lumos/services";
 import { logger } from "@/logger.js";
 
 // 闲时任务管理 store（与 automationManagementStore 独立）：走 IOffPeakTaskService RPC。
@@ -49,7 +49,7 @@ export interface OffPeakCreateDraft {
 export type OffPeakTakeNumberAvailabilityStatus = "idle" | "loading" | "ready" | "error";
 
 interface OffPeakTaskState {
-  tasks: ZCodeOffPeakTask[];
+  tasks: LumosOffPeakTask[];
   loading: boolean;
   error: string | null;
   operationId: string | null;
@@ -180,7 +180,7 @@ export const useOffPeakTaskStore = create<OffPeakTaskState>((set, get) => ({
         }),
       offPeakTaskService.list().catch((error) => {
         logger.warn("[off-peak] list failed", toErrorMessage(error));
-        return [] as ZCodeOffPeakTask[];
+        return [] as LumosOffPeakTask[];
       }),
     ]).then(([grayConfig, tasks]) => {
       set({ grayConfig, tasks });

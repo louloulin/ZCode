@@ -50,9 +50,9 @@
 
 ## 代码入口
 
-- `apps/zcode-cli/packages/core/src/runtime/helpers/subagent-selection.ts`
-- `apps/zcode-cli/packages/core/src/errors/error-payload.ts`
-- `apps/zcode-cli/packages/core/src/tool/executor/errors.ts`
-- `apps/zcode-cli/packages/core/src/subagent/runner.ts`
-- `apps/zcode-cli/packages/adapters/src/logging/serialize.ts`
+- `apps/lumos-cli/packages/core/src/runtime/helpers/subagent-selection.ts`
+- `apps/lumos-cli/packages/core/src/errors/error-payload.ts`
+- `apps/lumos-cli/packages/core/src/tool/executor/errors.ts`
+- `apps/lumos-cli/packages/core/src/subagent/runner.ts`
+- `apps/lumos-cli/packages/adapters/src/logging/serialize.ts`
 - `packages/ui/src/ToolCallBlocks/ToolLayout.tsx`

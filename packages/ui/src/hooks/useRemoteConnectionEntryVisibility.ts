@@ -1,7 +1,7 @@
-import type { ZCodeEnv } from "@zcode/shared";
+import type { LumosEnv } from "@lumos/shared";
 
 export function shouldShowRemoteConnectionEntry(params: {
-  env: ZCodeEnv;
+  env: LumosEnv;
   isIntranet: boolean;
 }): boolean {
   void params;

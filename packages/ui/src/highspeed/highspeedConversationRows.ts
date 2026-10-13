@@ -1,4 +1,4 @@
-import type { ConversationRow } from "@zcode/shared/zcode-protocol-v4";
+import type { ConversationRow } from "@lumos/shared/lumos-protocol-v4";
 
 export function resolveNextHighspeedExpiryMs(
   rows: readonly ConversationRow[],

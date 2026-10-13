@@ -13,13 +13,13 @@ import {
   type ModelSelection,
   type ModelSelectionValidation,
   type ProviderConfigLayerUpdate,
-} from "@zcode/provider";
+} from "@lumos/provider";
 import {
   NodePersonalProviderConfigRepository,
   NodeModelSelectionConfigRepository,
   encodeProviderConfigFile,
-} from "@zcode/provider-node";
-import { providerProvisioningEnvelopeSchema } from "@zcode/shared";
+} from "@lumos/provider-node";
+import { providerProvisioningEnvelopeSchema } from "@lumos/shared";
 import { createProviderProvisioningSource } from "../src/model-provider/providerProvisioningSource.js";
 import { createProviderProvisioningTarget } from "../src/model-provider/providerProvisioningTarget.js";
 

@@ -33,7 +33,7 @@ vi.mock("@pierre/diffs/react", () => ({
 }));
 
 vi.mock("@/i18n/IntlProvider.js", () => ({
-  useZCodeIntl: () => ({
+  useLumosIntl: () => ({
     intl: {
       formatMessage: ({ id }: { id: string }) => id,
     },

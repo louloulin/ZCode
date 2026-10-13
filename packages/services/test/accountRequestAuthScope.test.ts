@@ -15,7 +15,7 @@ function fixture() {
       projectId,
       productId: "product",
     }),
-    loadOAuthTokenSet: async () => ({ accessToken: login, zcodeJwtToken: "zcode-jwt" }),
+    loadOAuthTokenSet: async () => ({ accessToken: login, lumosJwtToken: "lumos-jwt" }),
     loadIndividualPlanMaterial: async () => null,
     resolveTeamPlanMaterial: async () => {
       duringIssue?.();

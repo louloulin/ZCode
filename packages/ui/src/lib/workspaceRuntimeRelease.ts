@@ -1,16 +1,16 @@
-import type { IZCodeTaskService } from "@zcode/services";
+import type { ILumosTaskService } from "@lumos/services";
 import type { WorkspaceTabState } from "@/store/tabStore.js";
 import { logger } from "@/logger.js";
 
 export function releaseWorkspaceRuntimeAfterProjectRemoval({
   tab,
-  zcodeTaskService,
+  lumosTaskService,
 }: {
   tab: Pick<WorkspaceTabState, "workspacePath" | "workspaceIdentity">;
-  zcodeTaskService: Pick<IZCodeTaskService, "releaseWorkspacePreparation">;
+  lumosTaskService: Pick<ILumosTaskService, "releaseWorkspacePreparation">;
 }): void {
   const workspaceIdentity = tab.workspaceIdentity?.trim() || undefined;
-  void zcodeTaskService
+  void lumosTaskService
     .releaseWorkspacePreparation({
       workspacePath: tab.workspacePath,
       ...(workspaceIdentity ? { workspaceIdentity } : {}),

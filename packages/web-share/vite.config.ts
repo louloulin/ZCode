@@ -6,10 +6,10 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import {
   resolveBigModelApiOrigin,
-  resolveRuntimeZCodeEndpointOrigin,
+  resolveRuntimeLumosEndpointOrigin,
   resolveZaiOAuthClientId,
   resolveZaiOAuthOrigin,
-} from "../shared/src/zcodeEndpoint.js";
+} from "../shared/src/lumosEndpoint.js";
 
 const HERE = fileURLToPath(new URL(".", import.meta.url));
 const REPO_ROOT = resolve(HERE, "../..");
@@ -17,12 +17,12 @@ const { version } = JSON.parse(readFileSync(resolve(REPO_ROOT, "package.json"), 
 
 export default defineConfig(({ mode }) => {
   const env = { ...loadEnv(mode, REPO_ROOT, ""), ...process.env };
-  const zcodeEnv = env.ZCODE_ENV?.trim().toLowerCase() === "production" ? "production" : "test";
-  const endpointEnv = { ...env, ZCODE_ENV: zcodeEnv };
-  const endpointOrigin = resolveRuntimeZCodeEndpointOrigin(endpointEnv);
+  const lumosEnv = env.LUMOS_ENV?.trim().toLowerCase() === "production" ? "production" : "test";
+  const endpointEnv = { ...env, LUMOS_ENV: lumosEnv };
+  const endpointOrigin = resolveRuntimeLumosEndpointOrigin(endpointEnv);
   const oauthOrigin = resolveZaiOAuthOrigin(endpointEnv);
   const oauthClientId = resolveZaiOAuthClientId(endpointEnv);
-  // BigModel 授权入口必须跟随 ZCODE_ENV，否则测试环境会把测试账号带到生产授权页。
+  // BigModel 授权入口必须跟随 LUMOS_ENV，否则测试环境会把测试账号带到生产授权页。
   const bigmodelOAuthOrigin = resolveBigModelApiOrigin(endpointEnv);
 
   return {
@@ -35,27 +35,27 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@": resolve(REPO_ROOT, "packages/ui/src"),
-        "@zcode/shared": resolve(REPO_ROOT, "packages/shared/src/index.ts"),
-        // Share 镜像不安装 @zcode/ui（它会带入 services/rpc 闭包），子路径导入必须显式指向源码。
-        "@zcode/ui/useTheme": resolve(REPO_ROOT, "packages/ui/src/useTheme.ts"),
-        "@zcode/ui/conversation-share-readonly": resolve(
+        "@lumos/shared": resolve(REPO_ROOT, "packages/shared/src/index.ts"),
+        // Share 镜像不安装 @lumos/ui（它会带入 services/rpc 闭包），子路径导入必须显式指向源码。
+        "@lumos/ui/useTheme": resolve(REPO_ROOT, "packages/ui/src/useTheme.ts"),
+        "@lumos/ui/conversation-share-readonly": resolve(
           REPO_ROOT,
           "packages/share-ui/src/index.ts",
         ),
         // 登录卡片要用 provider 图标（svg 走 @ -> packages/ui/src 别名解析）。
         // 该模块只依赖 shared/lucide/cn，不会把 services/rpc 闭包带进 share 镜像。
-        "@zcode/ui/oauth-provider-icon": resolve(
+        "@lumos/ui/oauth-provider-icon": resolve(
           REPO_ROOT,
           "packages/ui/src/lib/oauthProviderIcon.tsx",
         ),
       },
     },
     define: {
-      __ZCODE_VERSION__: JSON.stringify(version),
-      __ZCODE_COMMIT__: JSON.stringify(env.ZCODE_COMMIT || "unknown"),
-      __ZCODE_ENV__: JSON.stringify(zcodeEnv),
-      "import.meta.env.VITE_ZCODE_BASE_URL": JSON.stringify(endpointOrigin),
-      "import.meta.env.VITE_ZCODE_ENDPOINT_ORIGIN": JSON.stringify(endpointOrigin),
+      __LUMOS_VERSION__: JSON.stringify(version),
+      __LUMOS_COMMIT__: JSON.stringify(env.LUMOS_COMMIT || "unknown"),
+      __LUMOS_ENV__: JSON.stringify(lumosEnv),
+      "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify(endpointOrigin),
+      "import.meta.env.VITE_LUMOS_ENDPOINT_ORIGIN": JSON.stringify(endpointOrigin),
       "import.meta.env.VITE_ZAI_OAUTH_CLIENT_ID": JSON.stringify(oauthClientId),
       "import.meta.env.VITE_ZAI_OAUTH_ORIGIN": JSON.stringify(oauthOrigin),
       "import.meta.env.VITE_BIGMODEL_OAUTH_ORIGIN": JSON.stringify(bigmodelOAuthOrigin),

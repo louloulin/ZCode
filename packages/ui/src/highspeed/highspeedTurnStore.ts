@@ -1,4 +1,4 @@
-import type { HighspeedCardSnapshot, HighspeedMessageMeta } from "@zcode/shared";
+import type { HighspeedCardSnapshot, HighspeedMessageMeta } from "@lumos/shared";
 import { planHighspeedTranscriptHydration } from "@/highspeed/highspeedTurnHydration.js";
 import { calculateHighspeedSavedDurationMs } from "@/highspeed/highspeedSavedTime.js";
 import { isHighspeedShareEligible } from "@/highspeed/highspeedShare.js";

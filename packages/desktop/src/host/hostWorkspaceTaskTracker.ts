@@ -1,4 +1,4 @@
-import { resolveWorkspaceKey } from "@zcode/shared";
+import { resolveWorkspaceKey } from "@lumos/shared";
 
 export interface HostWorkspaceTaskContext {
   workspacePath: string;

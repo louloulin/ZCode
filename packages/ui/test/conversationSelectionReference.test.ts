@@ -144,7 +144,7 @@ describe("conversation selection references", () => {
       "Explain legacy",
       "",
       "# Conversation selections:",
-      "```zcode-conversation-selections",
+      "```lumos-conversation-selections",
       JSON.stringify(references),
       "```",
     ].join("\n");

@@ -88,14 +88,14 @@ async function fillComposerDraft(taskId: string | null, expectation: DraftExpect
 async function seedComposerAttachmentScope(filenames: string[]) {
   const result = await browser.execute((nextFilenames) => {
     const w = window as typeof window & {
-      __zcodeComposerAttachmentUploadStoreE2E?: {
+      __lumosComposerAttachmentUploadStoreE2E?: {
         getState: () => { scopes: Record<string, unknown[]> };
         setState: (state: { scopes: Record<string, unknown[]> }) => void;
       };
-      __zcodeCurrentComposerAttachmentScopeKeyE2E?: string;
+      __lumosCurrentComposerAttachmentScopeKeyE2E?: string;
     };
-    const store = w.__zcodeComposerAttachmentUploadStoreE2E;
-    const scopeKey = w.__zcodeCurrentComposerAttachmentScopeKeyE2E;
+    const store = w.__lumosComposerAttachmentUploadStoreE2E;
+    const scopeKey = w.__lumosCurrentComposerAttachmentScopeKeyE2E;
     if (!store || !scopeKey) return { ok: false, reason: "scope-missing" };
     store.setState({
       scopes: {

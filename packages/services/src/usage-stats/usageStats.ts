@@ -14,8 +14,8 @@ import type {
   UsageEntitlementSnapshot,
   UsageStatsRequest,
   UsageStatsSnapshot,
-} from "@zcode/shared";
-import { ServiceChannels } from "@zcode/shared";
+} from "@lumos/shared";
+import { ServiceChannels } from "@lumos/shared";
 import { createServiceDescriptor } from "../descriptors.js";
 
 export interface IUsageStatsService {

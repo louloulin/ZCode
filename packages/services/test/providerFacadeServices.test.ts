@@ -2,7 +2,7 @@ import type {
   ModelSelectionFacade,
   ModelSelectionView,
   ProviderSettingsFacade,
-} from "@zcode/provider";
+} from "@lumos/provider";
 import { describe, expect, it, vi } from "vitest";
 import {
   createModelSelectionService,

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { ICodingPlanSubscriptionService, IOffPeakTaskService } from "@zcode/services";
+import type { ICodingPlanSubscriptionService, IOffPeakTaskService } from "@lumos/services";
 import { useOffPeakTaskStore } from "@/store/offPeakTaskStore.js";
 
 function deferred<T>() {

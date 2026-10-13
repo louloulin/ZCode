@@ -3,13 +3,13 @@ import {
   ProviderConfigMap,
   ZhipuAccountAccessConfig,
   createAccountProviderConfigResolver,
-} from "@zcode/provider";
+} from "@lumos/provider";
 import {
   BUILTIN_MODEL_PROVIDER_IDS,
   migrateLegacyModelProviderId,
-  zcodeProviderUpdateAccountConfigParamsSchema,
+  lumosProviderUpdateAccountConfigParamsSchema,
   type ProviderFamilyDomain,
-} from "@zcode/shared";
+} from "@lumos/shared";
 import { describe, expect, it, vi } from "vitest";
 import {
   createAccountProviderConnectionResolver,
@@ -71,7 +71,7 @@ function configuredProviders(options: { bigmodelTeam?: boolean } = {}): Provider
 describe("createAccountProviderConnectionResolver", () => {
   it("Start 与付费连接并存，切团队不改变 Start 身份，退出登录则失效", async () => {
     let identity: string | null = "account-a";
-    let selections: import("@zcode/shared").ProviderFamilyConnectionSelectionSettings = {
+    let selections: import("@lumos/shared").ProviderFamilyConnectionSelectionSettings = {
       bigmodel: { kind: "individual-coding-plan" },
     };
     const resolve = createAccountProviderConnectionResolver({
@@ -169,7 +169,7 @@ describe("createAccountProviderConnectionResolver", () => {
                   code: 0,
                   success: true,
                   data: {
-                    plans: [{ plan_id: "zcode-v3-start-plan", status: "active" }],
+                    plans: [{ plan_id: "lumos-v3-start-plan", status: "active" }],
                     balances: [],
                   },
                 }),
@@ -184,9 +184,9 @@ describe("createAccountProviderConnectionResolver", () => {
       configuredProviders: configured,
       previousProviders: new ProviderConfigMap(),
     });
-    const parsed = zcodeProviderUpdateAccountConfigParamsSchema.parse({
+    const parsed = lumosProviderUpdateAccountConfigParamsSchema.parse({
       revision: "account-1",
-      basedOnZCodeBuiltinRevision: "builtin-1",
+      basedOnLumosBuiltinRevision: "builtin-1",
       providers: {},
       states: result.states,
     });

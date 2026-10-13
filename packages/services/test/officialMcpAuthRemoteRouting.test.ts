@@ -10,7 +10,7 @@
  * **响应通道**，不是 per-workspace 的不同凭证。
  */
 import { describe, expect, it, vi } from "vitest";
-import { zcodeProtocolMethods } from "@zcode/shared";
+import { lumosProtocolMethods } from "@lumos/shared";
 
 const LOCAL_WORKSPACE = {
   workspaceKey: "/workspace/app",
@@ -59,8 +59,8 @@ async function createServiceWithClients(options: {
   const clients = new Map<string, FakeClient>();
 
   vi.resetModules();
-  vi.doMock("../src/zcode-agent/zcodeAgentProcessManager.js", () => ({
-    ZCodeAgentProcessManager: class {
+  vi.doMock("../src/lumos-agent/lumosAgentProcessManager.js", () => ({
+    LumosAgentProcessManager: class {
       onRuntimeRestarted() {
         return { dispose() {} };
       }
@@ -101,10 +101,10 @@ async function createServiceWithClients(options: {
         return { dispose() {} };
       },
       request: async (method: string) => {
-        if (method === zcodeProtocolMethods.initialize) {
+        if (method === lumosProtocolMethods.initialize) {
           return {
             available: true,
-            protocolName: "ZCode Protocol",
+            protocolName: "Lumos Protocol",
             protocolVersion: 1,
             workspaceKey: "/workspace/app",
           };
@@ -117,8 +117,8 @@ async function createServiceWithClients(options: {
     };
   }
 
-  const { createZCodeAgentService } = await import("../src/zcode-agent/zcodeAgentService.js");
-  const service = createZCodeAgentService({
+  const { createLumosAgentService } = await import("../src/lumos-agent/lumosAgentService.js");
+  const service = createLumosAgentService({
     // initialize 会先确认当前模型选择 View 中存在可执行模型，否则以
     // provider_not_ready 提前返回、不建 client。
     modelSelectionReadinessSource: {
@@ -131,7 +131,7 @@ async function createServiceWithClients(options: {
                 kind: "account" as const,
                 api: {
                   type: "anthropic-messages" as const,
-                  baseUrl: "https://zcode.z.ai/api/v1/zcode-plan",
+                  baseUrl: "https://lumos.z.ai/api/v1/lumos-plan",
                 },
                 models: ["GLM-5.2"],
               },
@@ -172,12 +172,12 @@ function officialMcpAuthRequest(
 ): Record<string, unknown> {
   return {
     id,
-    method: zcodeProtocolMethods.interactionRequestOfficialMcpAuthHeaders,
+    method: lumosProtocolMethods.interactionRequestOfficialMcpAuthHeaders,
     params: {
       mcpKey: "image-search",
-      pluginId: "zcode-tools@zcode-plugins-official",
+      pluginId: "lumos-tools@lumos-plugins-official",
       requestId: `official-mcp-auth:${id}`,
-      targetOrigin: "https://mcp.zcode.example",
+      targetOrigin: "https://mcp.lumos.example",
       workspace,
     },
   };
@@ -364,9 +364,9 @@ describe("official mcp auth headers over desktop-attached remote", () => {
           seen.push(input);
           return {
             trusted:
-              input.pluginId === "zcode-tools@zcode-plugins-official" &&
+              input.pluginId === "lumos-tools@lumos-plugins-official" &&
               input.mcpKey === "image-search" &&
-              input.origin === "https://mcp.zcode.example",
+              input.origin === "https://mcp.lumos.example",
           };
         },
       },
@@ -421,8 +421,8 @@ describe("official mcp auth headers over desktop-attached remote", () => {
       expect(resolveHeaders).toHaveBeenCalledWith(
         expect.objectContaining({
           mcpKey: "image-search",
-          pluginId: "zcode-tools@zcode-plugins-official",
-          targetOrigin: "https://mcp.zcode.example",
+          pluginId: "lumos-tools@lumos-plugins-official",
+          targetOrigin: "https://mcp.lumos.example",
           workspace: expect.objectContaining({
             workspaceIdentity: REMOTE_WORKSPACE.workspaceIdentity,
           }),
@@ -447,12 +447,12 @@ describe("official mcp auth headers over desktop-attached remote", () => {
       const remote = harness.clients.get(REMOTE_WORKSPACE.workspaceIdentity);
       remote?.onRequestListener?.({
         id: "remote-bad",
-        method: zcodeProtocolMethods.interactionRequestOfficialMcpAuthHeaders,
+        method: lumosProtocolMethods.interactionRequestOfficialMcpAuthHeaders,
         // 走私凭证字段 + 缺 targetOrigin：strict schema 必须拒绝
         params: {
           jwt: "leaked",
           mcpKey: "image-search",
-          pluginId: "zcode-tools@zcode-plugins-official",
+          pluginId: "lumos-tools@lumos-plugins-official",
           requestId: "official-mcp-auth:bad",
           workspace: REMOTE_WORKSPACE,
         },

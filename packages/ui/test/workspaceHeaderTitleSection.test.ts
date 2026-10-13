@@ -1,7 +1,7 @@
 import { createElement, type ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
-import { TID_WORKSPACE_MORE_BUTTON, TID_WORKSPACE_PATH, TID_WORKSPACE_TITLE } from "@zcode/shared";
+import { TID_WORKSPACE_MORE_BUTTON, TID_WORKSPACE_PATH, TID_WORKSPACE_TITLE } from "@lumos/shared";
 
 const capturedGitBranchSwitcherProps = vi.hoisted(() => [] as Array<Record<string, unknown>>);
 
@@ -108,7 +108,7 @@ vi.mock("@/hooks/useWorkspaceServices.js", () => ({
     skillSyncService: {},
     mcpSyncService: {},
     pluginSyncService: {},
-    zcodeTaskService: {
+    lumosTaskService: {
       archiveTask: vi.fn(),
       renameTask: vi.fn(),
       setTaskPinned: vi.fn(),
@@ -130,7 +130,7 @@ vi.mock("@/useTaskListItemContextActions.js", () => ({
 }));
 
 vi.mock("@/i18n/IntlProvider.js", () => ({
-  useZCodeIntl: () => ({
+  useLumosIntl: () => ({
     intl: {
       formatMessage: ({ id }: { id: string }) => id,
     },
@@ -146,8 +146,8 @@ vi.mock("@/store/taskQueryCacheStore.js", () => ({
   applyTaskQueryCacheMutation: vi.fn(),
 }));
 
-vi.mock("@/store/zcodeSessionStore.js", () => ({
-  useZCodeSessionStore: (selector: (state: Record<string, unknown>) => unknown) =>
+vi.mock("@/store/lumosSessionStore.js", () => ({
+  useLumosSessionStore: (selector: (state: Record<string, unknown>) => unknown) =>
     selector({
       removeTaskState: vi.fn(),
       removeOptimisticTaskListItem: vi.fn(),
@@ -190,8 +190,8 @@ describe("WorkspaceHeaderTitleSection", () => {
     const html = renderToStaticMarkup(
       createElement(WorkspaceHeaderTitleSection, {
         variant: "draft",
-        workspaceAbsPath: "/workspace/zcode-cli",
-        projectName: "zcode-cli",
+        workspaceAbsPath: "/workspace/lumos-cli",
+        projectName: "lumos-cli",
         activeTaskTitle: "New task",
         activeTaskId: null,
         activeTraceId: null,
@@ -225,8 +225,8 @@ describe("WorkspaceHeaderTitleSection", () => {
 
     const html = renderToStaticMarkup(
       createElement(WorkspaceHeaderTitleSection, {
-        workspaceAbsPath: "/workspace/zcode-cli",
-        projectName: "zcode-cli",
+        workspaceAbsPath: "/workspace/lumos-cli",
+        projectName: "lumos-cli",
         activeTaskTitle: "hello",
         activeTaskId: "task-1",
         activeTraceId: "trace-1",
@@ -256,7 +256,7 @@ describe("WorkspaceHeaderTitleSection", () => {
 
     expect(capturedGitBranchSwitcherProps).toHaveLength(0);
     expect(html).toContain('data-icon="folder"');
-    expect(html).toContain('aria-label="zcode-cli · main"');
+    expect(html).toContain('aria-label="lumos-cli · main"');
     expect(html.indexOf(`data-testid="${TID_WORKSPACE_PATH}"`)).toBeLessThan(
       html.indexOf(`data-testid="${TID_WORKSPACE_TITLE}"`),
     );
