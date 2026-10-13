@@ -321,7 +321,7 @@ Figma（⚫️ Z.ai - Lumos / 自动化 & 闲时任务页）定稿范式：闲�
 6. **终态卡片**：保留展示（Succeeded/Failed 徽章+时间），可 Delete，不自动清理。排序口径已修订为只按 `createdAt` 倒序，不再按活跃/终态分组。
 7. **编辑窗口期**：queued/paused 全字段可编辑（票只锁队列身份，prompt 派发时才读）；running 起锁定编辑（仅可取消）；终态只读。丢弃草稿弹窗沿用 scheduled 范式。
 8. **D25 取舍修订（范式连带）**：不再"提交时预建宿主对话"——创建只落表单数据+取号；**派发时 createTask 新建 session**（automation 同款），sessionId 首跑回填，中断恢复仍 resume 同一 session。
-9. **D23 修订（范式连带）**：composer 锁定作废——run session 是普通对话，running 中用户插话走 z.code 现状（busy 排队消息）；但**排队消息必须走用户自己的 provider**——D23 的「provider 绑定 run 作用域」比以前更关键（防中途插话和终态后聊天烧免费池），列 MR3 验收 + spike 覆盖。
+9. **D23 修订（范式连带）**：composer 锁定作废——run session 是普通对话，running 中用户插话走 lumos 现状（busy 排队消息）；但**排队消息必须走用户自己的 provider**——D23 的「provider 绑定 run 作用域」比以前更关键（防中途插话和终态后聊天烧免费池），列 MR3 验收 + spike 覆盖。
 10. **状态机新增 paused 态**（用户主动）：queued ⇄ paused（Pause/Continue）；paused 中票过期仍停在 paused（D29-3）；paused 可取消、可编辑。
 
 ### 给设计的反馈清单（拿去和 Mico 对）
@@ -336,7 +336,7 @@ Figma（⚫️ Z.ai - Lumos / 自动化 & 闲时任务页）定稿范式：闲�
 
 ## D31 客户端灰度开关接入（已定 2026-07-15，对齐服务端 §11.1）
 
-服务端设计新增 §11.1：Off Peak 客户端入口经**现有共用配置接口**灰度下发——`GET /api/v1/client/configs`（Authorization 可选、Common Params 走现有统一 Header），客户端从 `data.configs.offPeak` 读取，**零新增请求**。z.code 已有该接口消费者（`forceUpdateGuard.ts` 启动强更检查、`bigmodelCodingPlanSubscriptionProvider.ts`），直接复用拉取链路。
+服务端设计新增 §11.1：Off Peak 客户端入口经**现有共用配置接口**灰度下发——`GET /api/v1/client/configs`（Authorization 可选、Common Params 走现有统一 Header），客户端从 `data.configs.offPeak` 读取，**零新增请求**。lumos 已有该接口消费者（`forceUpdateGuard.ts` 启动强更检查、`bigmodelCodingPlanSubscriptionProvider.ts`），直接复用拉取链路。
 
 字段：`enable_offpeak_task`（功能总开关，false/缺失/未命中灰度不下发 key 均按关闭）+ `allowed_models`（灰度用户可选模型列表）。服务端明确：该配置**只控曝光与模型展示**，不替代服务端鉴权/低峰判断/ticket 准入/白名单校验（3006 兜底不变，D27 成立）。
 

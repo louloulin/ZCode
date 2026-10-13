@@ -3,7 +3,7 @@ import { DEFAULT_LUMOS_ENDPOINT_ORIGIN } from "./lumosEndpoint.js";
 export const LUMOS_SOURCE_HEADERS = {
   "User-Agent": "Lumos/unknown",
   "HTTP-Referer": DEFAULT_LUMOS_ENDPOINT_ORIGIN,
-  "X-Title": "Z Code@electron",
+  "X-Title": "Lumos@electron",
 } as const;
 
 export interface BuildLumosSourceHeadersFromContextOptions {
@@ -47,7 +47,7 @@ export function buildLumosSourceHeadersFromContext(
     "HTTP-Referer": endpointOrigin,
     "User-Agent": `Lumos/${appVersion ?? "unknown"}`,
     ...(appVersion ? { "X-Lumos-App-Version": appVersion } : {}),
-    "X-Title": `Z Code@${sourceTitle}`,
+    "X-Title": `Lumos@${sourceTitle}`,
     ...(platform && arch ? { "X-Platform": `${platform}-${arch}` } : {}),
     ...(releaseChannel ? { "X-Release-Channel": releaseChannel } : {}),
     "X-Client-Language": clientLanguage,

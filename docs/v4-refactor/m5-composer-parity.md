@@ -1,7 +1,7 @@
 # M5 Composer Parity — 输入框全量对齐老版 · 能力审计对账
 
 分界原则：**壳老芯新**——旧 `ChatViewComposer` / `ChatPromptEditor` / `ChatInputToolbar` 的
-JSX/样式原样复用（z-code-2 参考），wiring 全部新写：数据读 v4 投影（`snapshot.inputRouting /
+JSX/样式原样复用（lumos-2 参考），wiring 全部新写：数据读 v4 投影（`snapshot.inputRouting /
 control / config / usage`）+ sessions-index + 存活配置面服务；操作发 v4 命令（`sendText /
 createSession / editUserQuery / stop / switchModelConfig / switchCollaborationMode /
 attachment.put`）；不复活旧 hooks 编排 / 旧 store 会话态。
@@ -99,7 +99,7 @@ Esc-停止 / 工具条 + 键盘热键 / 动态 placeholder / Enter 策略）已�
 
 ## 五、草稿态（draft / 空态）对账 —— 2026-07-07 补审
 
-参考基线：z-code-2 线上 `ChatView.tsx` 草稿路径（`shouldShowChatViewEmptyState` /
+参考基线：lumos-2 线上 `ChatView.tsx` 草稿路径（`shouldShowChatViewEmptyState` /
 `shouldUseCenteredDraftChatLayout` 分支）+ `ChatInputToolbar.tsx`（`taskId=null` 分支）。
 v4 现状载体：`SessionPane`（`sessionId===null` → `draftMode`）、`ConversationComposer`、
 `V4ComposerToolbar`。

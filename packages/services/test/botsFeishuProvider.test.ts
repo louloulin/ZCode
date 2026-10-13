@@ -2114,7 +2114,7 @@ describe("feishu bot provider", () => {
       provider: "feishu",
       providerUserId: "oc_chat",
       text: [
-        "Workspace: z-code",
+        "Workspace: lumos",
         "Model: DeepSeek/deepseek-v4-flash",
         "------",
         "Task: 你好啊 (sess_1)",
@@ -2136,7 +2136,7 @@ describe("feishu bot provider", () => {
           {
             tag: "markdown",
             content: [
-              "Workspace: z-code  ",
+              "Workspace: lumos  ",
               "Model: DeepSeek/deepseek-v4-flash",
               "",
               "---",

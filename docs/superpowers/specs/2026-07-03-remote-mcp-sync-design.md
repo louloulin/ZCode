@@ -94,7 +94,7 @@ filesystem MCP 识别规则：
       "filesystem": {
         "type": "stdio",
         "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/alice/workspace/z-code", "/Users/alice/Documents"],
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/alice/workspace/lumos", "/Users/alice/Documents"],
         "enable": true
       },
       "context7": {
@@ -114,7 +114,7 @@ filesystem MCP 识别规则：
 }
 ```
 
-同步到远端 `dev@host:/home/dev/z-code`，远端 home 为 `/home/dev`，写入：
+同步到远端 `dev@host:/home/dev/lumos`，远端 home 为 `/home/dev`，写入：
 
 ```json
 {
@@ -123,7 +123,7 @@ filesystem MCP 识别规则：
       "filesystem": {
         "type": "stdio",
         "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/dev/z-code", "/home/dev/Documents"],
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/dev/lumos", "/home/dev/Documents"],
         "enable": true
       },
       "context7": {

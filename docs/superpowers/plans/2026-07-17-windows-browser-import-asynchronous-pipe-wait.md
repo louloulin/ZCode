@@ -190,7 +190,7 @@ Expected: 14 tests passed；helper built；`git diff --check` 通过；状态只
 
 - [ ] **Step 5: 清理临时运行时探针**
 
-用 `apply_patch` 删除三个 `.ps1`，并在确认路径均位于 `C:\Users\dev\z-code` 后删除四个 `.txt` 结果文件。再次运行 `git status --short`，不得残留 `.tmp-*`。
+用 `apply_patch` 删除三个 `.ps1`，并在确认路径均位于 `C:\Users\dev\lumos` 后删除四个 `.txt` 结果文件。再次运行 `git status --short`，不得残留 `.tmp-*`。
 
 - [ ] **Step 6: 提交实现**
 

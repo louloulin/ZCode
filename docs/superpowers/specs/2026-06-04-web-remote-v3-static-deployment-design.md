@@ -24,7 +24,7 @@ deployment 和服务行为不变。
 
 1. 不修改外部 relay 协议、`rpc-frame` 透传、shared-host attachment、task stream 或 replayable 恢复语义。
 2. 不把 `/remote/v3` 做成 `/remote` 容器中的子路由复用。
-3. 不在 z-code 发布脚本里创建 k8s service、ingress 或 deployment 文件。
+3. 不在 lumos 发布脚本里创建 k8s service、ingress 或 deployment 文件。
 4. 不改变旧 `/web-remote` OAuth 兼容入口。
 5. 不迁移或删除旧 `/remote` 镜像与部署。
 
@@ -154,7 +154,7 @@ commit and push MR branch
 ```
 
 如果 `deployment-remote-v3.yaml` 不存在，脚本直接失败并提示。原因是 service、ingress、deployment
-资源边界属于 k8s 仓库，不应由 z-code 发布脚本临时生成。
+资源边界属于 k8s 仓库，不应由 lumos 发布脚本临时生成。
 
 ## 桌面二维码 URL
 
@@ -174,7 +174,7 @@ LUMOS_WEB_REMOTE_CONTROL_URL=https://lumos.z.ai/remote pnpm dev:desktop
 
 ## k8s 配套要求
 
-z-code 发布脚本只更新 v3 deployment 的 image。k8s 仓库需要独立准备：
+lumos 发布脚本只更新 v3 deployment 的 image。k8s 仓库需要独立准备：
 
 1. `lumos/frontend/deployment-remote-v3.yaml`
 2. 指向 v3 deployment 的 service，例如 `remote-mobile-v3`
@@ -239,7 +239,7 @@ bash scripts/test-web-remote-control-v3-docker-build.sh
 
 ## 待实施文件
 
-z-code 仓库内预计改动：
+lumos 仓库内预计改动：
 
 1. `package.json`
 2. `packages/web/src/main.tsx`

@@ -9,7 +9,7 @@ Current state:
 - `/expert` command exists and defaults to yolo.
 - Workflow runs are persisted under `~/.lumos/cli/workflows`.
 - Lumos app-server exposes `start/list/get/cancel` plus workflow event notifications.
-- z-code-2 has a Workflows side pane that shows runs, phases, activities, events, and graph/frontier state.
+- lumos-2 has a Workflows side pane that shows runs, phases, activities, events, and graph/frontier state.
 - The runtime executes non-exec expert phases serially, and routes `exec` through the generic workflow DAG scheduler.
 
 Target state:
@@ -17,7 +17,7 @@ Target state:
 - `exec` becomes a real DAG scheduler.
 - The graph grows and changes during execution.
 - Child agent sessions are first-class node activities.
-- Lumos app-server streams fine-grained scheduler state so z-code-2 can debug what is running, ready, blocked, retried, reopened, or done.
+- Lumos app-server streams fine-grained scheduler state so lumos-2 can debug what is running, ready, blocked, retried, reopened, or done.
 
 ## P0: Real DAG Executor
 
@@ -50,7 +50,7 @@ Acceptance criteria:
 - Two independent graph nodes can run concurrently.
 - A node with unfinished dependencies remains blocked.
 - A failed node is retried or reset according to the configured error policy.
-- `lumos.dev/workflow/get` returns a graph where z-code-2 can show active, ready, and blocked nodes correctly.
+- `lumos.dev/workflow/get` returns a graph where lumos-2 can show active, ready, and blocked nodes correctly.
 
 Tests:
 
@@ -128,7 +128,7 @@ Acceptance criteria:
 - A graph can grow during `exec`.
 - The scheduler sees newly added ready nodes without restarting the workflow.
 - Planner run count and exhausted state survive resume.
-- z-code-2 can show collection/frontier status if returned by Lumos app-server.
+- lumos-2 can show collection/frontier status if returned by Lumos app-server.
 
 Tests:
 
@@ -210,7 +210,7 @@ Tests:
 
 ## P4: Lumos app-server State Surface
 
-Goal: expose enough state for z-code-2 to act as a useful workflow debugger.
+Goal: expose enough state for lumos-2 to act as a useful workflow debugger.
 
 Tasks:
 
@@ -228,9 +228,9 @@ Tasks:
 
 Acceptance criteria:
 
-- z-code-2 can update the Workflows panel without polling every field from disk.
+- lumos-2 can update the Workflows panel without polling every field from disk.
 - A user can see what will run next and why blocked nodes are blocked.
-- A user can jump from a workflow node/activity to the child session when z-code-2 supports that link.
+- A user can jump from a workflow node/activity to the child session when lumos-2 supports that link.
 
 Tests:
 
@@ -238,15 +238,15 @@ Tests:
 - [x] Lumos Protocol workflow get returns derived scheduler state.
 - [x] Lumos Protocol workflow notification fires for node start/complete/fail and frontier changes.
 - [x] Malformed workflow request returns structured invalid request errors.
-- App follow-up: the current z-code app no longer has the Lumos Protocol handler. `packages/shared/src/lumos-task-types.ts` already models `LumosWorkflowEventRecord.nodeId` and `payload`, but `packages/services/src/lumos-agent/lumosTaskServiceAdapter.ts` still leaves workflow methods as empty/unsupported. Reconnect workflow transport through `ILumosTaskService` before productizing the debugger.
+- App follow-up: the current lumos app no longer has the Lumos Protocol handler. `packages/shared/src/lumos-task-types.ts` already models `LumosWorkflowEventRecord.nodeId` and `payload`, but `packages/services/src/lumos-agent/lumosTaskServiceAdapter.ts` still leaves workflow methods as empty/unsupported. Reconnect workflow transport through `ILumosTaskService` before productizing the debugger.
   - Required app change: route workflow list/get/start/cancel/retry to the Lumos agent server and publish `workspace_workflow_event` through dynamic workspace events.
   - Keep `LumosWorkflowKind` as a non-empty string so custom definition-backed workflows are observable.
 
-## P5: z-code-2 Debugger Polish
+## P5: lumos-2 Debugger Polish
 
 Goal: make the current debug UI good enough for real workflow debugging.
 
-Tasks in `/Users/dev/workspace/z-code-2`:
+Tasks in `/Users/dev/workspace/lumos-2`:
 
 - Add graph filters: all, active, ready, blocked, failed.
 - Link activity/session rows to the corresponding task/session view.
@@ -312,13 +312,13 @@ Tests:
 
 1. P0 real DAG executor.
 2. P4 Lumos app-server scheduler state for active/ready/blocked.
-3. P5 z-code-2 links and filters.
+3. P5 lumos-2 links and filters.
 4. P2 final critic reopen loop.
 5. P1 exploration planner.
 6. P3 harden resume/cancel/recovery.
 7. P6 configurable definitions.
 
-The first useful milestone is P0 + part of P4: after that, z-code-2 can show a real moving frontier instead of only a static phase graph.
+The first useful milestone is P0 + part of P4: after that, lumos-2 can show a real moving frontier instead of only a static phase graph.
 
 ## Reference Files
 
@@ -338,9 +338,9 @@ GSAP reference:
 - `/Users/dev/workspace/lumos-cli-bak/src/gsap/graph/engine.ts`
 - `/Users/dev/workspace/lumos-cli-bak/src/gsap/graph/ops.ts`
 
-z-code-2 debugger:
+lumos-2 debugger:
 
-- `/Users/dev/workspace/z-code-2/docs/workflow-debugger.md`
-- `/Users/dev/workspace/z-code-2/packages/ui/src/WorkflowDebugPane.tsx`
-- `/Users/dev/workspace/z-code-2/packages/ui/src/WorkflowGraphView.tsx`
-- `/Users/dev/workspace/z-code/packages/services/src/lumos-agent/lumosTaskServiceAdapter.ts`
+- `/Users/dev/workspace/lumos-2/docs/workflow-debugger.md`
+- `/Users/dev/workspace/lumos-2/packages/ui/src/WorkflowDebugPane.tsx`
+- `/Users/dev/workspace/lumos-2/packages/ui/src/WorkflowGraphView.tsx`
+- `/Users/dev/workspace/lumos/packages/services/src/lumos-agent/lumosTaskServiceAdapter.ts`

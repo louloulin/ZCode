@@ -24,7 +24,7 @@ describe("runtimeToolResolver", () => {
   it("会发现内置 bfs 和 ugrep 并把两个原生目录追加到 PATH", () => {
     const sandboxRoot = mkdtempSync(join(tmpdir(), "lumos-native-search-tools-"));
     createdDirs.push(sandboxRoot);
-    const appRepoDir = join(sandboxRoot, "z-code-2");
+    const appRepoDir = join(sandboxRoot, "lumos-2");
     const userBinDir = join(sandboxRoot, "user-bin");
     const platformKey = `${process.platform}-${process.arch}`;
     const executableSuffix = process.platform === "win32" ? ".exe" : "";
@@ -70,7 +70,7 @@ describe("runtimeToolResolver", () => {
     const sandboxRoot = mkdtempSync(join(tmpdir(), "lumos-ripgrep-tool-"));
     createdDirs.push(sandboxRoot);
 
-    const appRepoDir = join(sandboxRoot, "z-code-2");
+    const appRepoDir = join(sandboxRoot, "lumos-2");
     const userBinDir = join(sandboxRoot, "user-bin");
     const platformKey = `${process.platform}-${process.arch}`;
     const binaryName = process.platform === "win32" ? "rg.exe" : "rg";

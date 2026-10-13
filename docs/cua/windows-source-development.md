@@ -35,7 +35,7 @@ unavailable。不要为源码验收自动关闭系统安全策略；使用具备
 官方 `lumos-cua` plugin 必须已启用。随后在 Lumos source 根目录运行：
 
 ```powershell
-$lumosRoot = 'D:\path\to\z-code'
+$lumosRoot = 'D:\path\to\lumos'
 Set-Location $lumosRoot
 $env:LUMOS_CUA_DEV_MODE='1'
 $env:LUMOS_CUA_DEV_ROOT=$lumosCuaRoot

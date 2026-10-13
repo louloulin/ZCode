@@ -827,7 +827,7 @@ export default {
     // 预签名脚本走的是原生 codesign，要求完整的 "Developer ID Application: ..." 身份串；
     // 但 electron-builder 的 mac.identity 在 26.x 下会拒绝带此前缀的名字。
     // 这里仅对 electron-builder 侧做前缀归一化，避免本地预签名和最终 .app 签名互相打架。
-    // z-code 之前只有本地未签名打包配置，CI 即使注入了证书变量，
+    // lumos 之前只有本地未签名打包配置，CI 即使注入了证书变量，
     // electron-builder 也不会自动切到 hardened runtime / entitlement 这套发布参数。
     // 这里显式收拢到环境开关，保证本地开发不被签名配置绑死，CI 发布时再按需打开。
     identity: shouldEnableMacSigning ? macSigningIdentity : null,

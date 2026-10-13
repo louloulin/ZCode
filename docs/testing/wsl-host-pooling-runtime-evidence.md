@@ -13,7 +13,7 @@
   `LUMOS_REMOTE_ASSET_CDN_BASE_URL` 指向上述内网根。
 
 本次验证使用当前分支重新构建的 `packages/desktop/out`，renderer 的 Chromium 参数包含
-`--app-path="E:\GitProject\z-code\z-code\packages\desktop"`。没有使用已安装的旧版 Lumos。
+`--app-path="E:\GitProject\lumos\lumos\packages\desktop"`。没有使用已安装的旧版 Lumos。
 
 ## 自动化验证
 

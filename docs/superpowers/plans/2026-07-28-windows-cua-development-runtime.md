@@ -52,7 +52,7 @@
 - Modify: `docs/KNOWN-ISSUES.md`
 - Modify: `docs/platforms.md`
 
-### `C:\Users\dev\z-code`
+### `C:\Users\dev\lumos`
 
 - Modify: `docs/superpowers/specs/2026-07-28-windows-cua-development-runtime-design.md`
 - Modify: `apps/lumos-cli/docs/design/v2/tool/00-tool-change-chain.md`
@@ -396,10 +396,10 @@ git commit -m "feat(windows): add source Computer Use Helper entry"
 
 **Files:**
 
-- Modify: `C:\Users\dev\z-code\docs\superpowers\specs\2026-07-28-windows-cua-development-runtime-design.md`
-- Modify: `C:\Users\dev\z-code\apps\lumos-cli\docs\design\v2\tool\00-tool-change-chain.md`
-- Add: `C:\Users\dev\z-code\packages\services\src\cua-permission-broker\windowsCuaDevRuntime.ts`
-- Add: `C:\Users\dev\z-code\packages\services\test\windowsCuaDevRuntime.test.ts`
+- Modify: `C:\Users\dev\lumos\docs\superpowers\specs\2026-07-28-windows-cua-development-runtime-design.md`
+- Modify: `C:\Users\dev\lumos\apps\lumos-cli\docs\design\v2\tool\00-tool-change-chain.md`
+- Add: `C:\Users\dev\lumos\packages\services\src\cua-permission-broker\windowsCuaDevRuntime.ts`
+- Add: `C:\Users\dev\lumos\packages\services\test\windowsCuaDevRuntime.test.ts`
 
 **Step 1: Close the spec’s accepted open item**
 
@@ -479,9 +479,9 @@ git commit -m "docs(cua): finalize Windows runtime contract"
 
 **Files:**
 
-- Add: `C:\Users\dev\z-code\packages\services\src\cua-permission-broker\windowsCuaDevHelperHost.ts`
-- Modify: `C:\Users\dev\z-code\packages\services\src\cua-permission-broker\index.ts`
-- Add: `C:\Users\dev\z-code\packages\services\test\windowsCuaDevHelperHost.test.ts`
+- Add: `C:\Users\dev\lumos\packages\services\src\cua-permission-broker\windowsCuaDevHelperHost.ts`
+- Modify: `C:\Users\dev\lumos\packages\services\src\cua-permission-broker\index.ts`
+- Add: `C:\Users\dev\lumos\packages\services\test\windowsCuaDevHelperHost.test.ts`
 
 **Step 1: Write failing lifecycle tests**
 
@@ -563,9 +563,9 @@ git commit -m "feat(cua): manage Windows development Helper"
 
 **Files:**
 
-- Modify: `C:\Users\dev\z-code\packages\services\src\node.ts`
-- Modify: `C:\Users\dev\z-code\packages\services\test\cuaPermissionBrokerProductAgentEnv.test.ts`
-- Modify: `C:\Users\dev\z-code\packages\services\test\cuaPermissionBrokerServiceDispose.test.ts`
+- Modify: `C:\Users\dev\lumos\packages\services\src\node.ts`
+- Modify: `C:\Users\dev\lumos\packages\services\test\cuaPermissionBrokerProductAgentEnv.test.ts`
+- Modify: `C:\Users\dev\lumos\packages\services\test\cuaPermissionBrokerServiceDispose.test.ts`
 
 **Step 1: Write failing admission tests**
 
@@ -640,8 +640,8 @@ git commit -m "feat(cua): enable Windows source Helper"
 
 **Files:**
 
-- Add: `C:\Users\dev\z-code\packages\services\test\windowsCuaDevHelper.integration.test.ts`
-- Add: `C:\Users\dev\z-code\docs\cua\windows-source-development.md`
+- Add: `C:\Users\dev\lumos\packages\services\test\windowsCuaDevHelper.integration.test.ts`
+- Add: `C:\Users\dev\lumos\docs\cua\windows-source-development.md`
 
 **Step 1: Write the opt-in real integration test**
 
@@ -700,7 +700,7 @@ pnpm rebuild:native
 pnpm build
 pnpm test
 
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 $env:LUMOS_CUA_DEV_MODE='1'
 $env:LUMOS_CUA_DEV_ROOT='C:\Users\dev\lumos-cua'
 pnpm dev:desktop:prod
@@ -755,7 +755,7 @@ pnpm typecheck
 pnpm lint
 pnpm test
 
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 pnpm typecheck
 pnpm lint
 pnpm exec vitest run packages/services/test/windowsCuaDevRuntime.test.ts packages/services/test/windowsCuaDevHelperHost.test.ts packages/services/test/windowsCuaDevHelper.integration.test.ts packages/services/test/cuaPermissionBrokerProductAgentEnv.test.ts packages/services/test/cuaPermissionBrokerServiceDispose.test.ts
@@ -823,7 +823,7 @@ If the first live attempt fails, collect the actual service log, child stderr, p
 
 **Step 6: Run repository-wide mandatory gates**
 
-In `C:\Users\dev\z-code`:
+In `C:\Users\dev\lumos`:
 
 ```powershell
 pnpm typecheck
@@ -847,9 +847,9 @@ Expected: all exit `0`.
 Run:
 
 ```powershell
-git -C C:\Users\dev\z-code status --short
+git -C C:\Users\dev\lumos status --short
 git -C C:\Users\dev\lumos-cua status --short
-git -C C:\Users\dev\z-code log --oneline -5
+git -C C:\Users\dev\lumos log --oneline -5
 git -C C:\Users\dev\lumos-cua log --oneline -5
 ```
 

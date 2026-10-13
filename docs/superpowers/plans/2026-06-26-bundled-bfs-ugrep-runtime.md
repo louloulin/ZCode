@@ -205,7 +205,7 @@ it("会从 bundled-tools 平台目录发现 bfs 和 ugrep binary 并注入 PATH"
   const sandboxRoot = mkdtempSync(join(tmpdir(), "lumos-search-tool-"));
   createdDirs.push(sandboxRoot);
 
-  const appRepoDir = join(sandboxRoot, "z-code-2");
+  const appRepoDir = join(sandboxRoot, "lumos-2");
   const platformKey = `${process.platform}-${process.arch}`;
   const bfsName = process.platform === "win32" ? "bfs.exe" : "bfs";
   const ugrepName = process.platform === "win32" ? "ugrep.exe" : "ugrep";

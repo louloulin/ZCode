@@ -42,7 +42,7 @@ The same boundary applies on macOS, Linux, and Windows. Windows retry cleanup af
 
 `scripts/ci/run-e2e-bitable-loop.ps1` provides a PowerShell 7 entry point for a dedicated Windows E2E host. Each iteration:
 
-1. enters the configured z-code checkout;
+1. enters the configured lumos checkout;
 2. fetches `staging` from the configured HTTPS repository and updates the local branch with a fast-forward merge;
 3. clears inherited spec filters and runs the desktop E2E suite once, without entering the shard runner, through `pnpm --filter @lumos/desktop test:e2e:serial`;
 4. invokes `scripts/ci/push-e2e-metrics-to-bitable.mjs` and then `scripts/ci/push-e2e-report-to-feedback.mjs` for that artifact directory, including when the E2E command fails. Failure artifact collection is enabled so the report upload can attach failed-case videos.

@@ -180,10 +180,10 @@ describe("subagent provider-visible prompt assembly", () => {
           path: "C:\\Program Files\\Git\\bin\\bash.exe",
           source: "user-config",
         },
-        workingDirectory: "/Users/dev/Desktop/Z/z-code/apps/lumos-cli",
+        workingDirectory: "/Users/dev/Desktop/Z/lumos/apps/lumos-cli",
         currentDate: "2026-06-04",
         envInfo: {
-          cwd: "/Users/dev/Desktop/Z/z-code/apps/lumos-cli",
+          cwd: "/Users/dev/Desktop/Z/lumos/apps/lumos-cli",
           platform: "darwin",
           shell: "zsh",
           osVersion: "Darwin 24.3.0",
@@ -252,7 +252,7 @@ describe("subagent provider-visible prompt assembly", () => {
       "\n\nHere is useful information about the environment you are running in:",
     );
     expect(systems[1]).toContain(
-      "Working directory: /Users/dev/Desktop/Z/z-code/apps/lumos-cli",
+      "Working directory: /Users/dev/Desktop/Z/lumos/apps/lumos-cli",
     );
     expect(systems[1]).toContain("Is directory a git repo: Yes");
     expect(systems[1]).toContain("Platform: darwin");

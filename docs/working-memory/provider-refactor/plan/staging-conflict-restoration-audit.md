@@ -134,7 +134,7 @@ Team 没有具体组织/项目身份时不得任选团队猜权益，保持未�
 - 16:53 CUA 原测试：35 条中 4 失败；证实既有 producer 仍轮换 broker、调用 Agent 回收，Host 文案也是旧 recycle 语义。原测试支持恢复原行为，不降低断言。
 - 16:54 E2E 启动凭据、领取 mock、消息气泡单测：3 文件 51/51 通过。
 - 先前 Hook 定向 19/19 通过；全链类型检查被 project-memory-recall.ts 的 supportsJsonSchemaOutput 缺失阻断，尚未归因，不能标全量通过。
-- Air 当前 /Users/dev/Desktop/projects/z-code-e2e 位于 fed3705326，含 7 条未提交/未跟踪改动，不能 reset 或覆盖。需用独立验证工作树；Node 通过 /Users/dev/.local/share/mise/shims。
+- Air 当前 /Users/dev/Desktop/projects/lumos-e2e 位于 fed3705326，含 7 条未提交/未跟踪改动，不能 reset 或覆盖。需用独立验证工作树；Node 通过 /Users/dev/.local/share/mise/shims。
 - 为恢复固定 CUA producer 创建临时目录 /tmp/lumos-todo85-producer-1N45YP；不修改用户账号数据。
 - 17:06 领取/余额相关测试 146/146 通过；恢复前服务时间测试 5 失败/94 通过。不是仅改断言，生产边界现统一输出毫秒 serverTime，effectiveAt/startsAt 仍为 Unix 秒。
 - CUA producer 拉取：本机代理 HTTPS 握手失败，直连与 Air 连接超时；尚未改 pin，继续其他独立恢复。无系统网络配置变更。

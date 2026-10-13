@@ -11,7 +11,7 @@ afterEach(() => {
 
 describe("desktop e2e test id lookup", () => {
   it.each([
-    ["macOS", "workspace-item-/Users/dev/Code/z-code/.e2e-home/LumosProject"],
+    ["macOS", "workspace-item-/Users/dev/Code/lumos/.e2e-home/LumosProject"],
     [
       "Windows",
       String.raw`workspace-item-C:\gitlab-runner\builds\project\packages\desktop\.e2e-home\LumosProject`,

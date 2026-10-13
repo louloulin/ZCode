@@ -1126,8 +1126,8 @@ export const stdioTrafficFrames: StdioTrafficFrame[] = [
   "method": "session/create",
   "params": {
     "workspace": {
-      "workspacePath": "/Users/dev/workspace/z-code",
-      "workspaceKey": "/Users/dev/workspace/z-code"
+      "workspacePath": "/Users/dev/workspace/lumos",
+      "workspaceKey": "/Users/dev/workspace/lumos"
     },
     "deliveryKind": "desktop-continuous"
   }

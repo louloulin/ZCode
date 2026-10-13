@@ -641,7 +641,7 @@ async function persistSession(
       status: "completed",
     });
     // 之前只把 first_input title 写进 sessionStore 但不 appendEvent，
-    // 导致下游 (z-code services 层的 task index sqlite syncer) 等不到 session.titleUpdated，
+    // 导致下游 (lumos services 层的 task index sqlite syncer) 等不到 session.titleUpdated，
     // 侧边栏一直显示 "New session" 直到后台 LLM 生成 title。这里补一条 source="first_input"
     // 事件，让 desktop/web/mobile 三端的 syncer 走同一条收敛路径。
     phase = "session_title_event";

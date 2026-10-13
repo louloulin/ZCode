@@ -11363,7 +11363,7 @@ describe("AgentRuntime tool loop", () => {
       },
       handler: async () => ({
         content: "- 喜欢吃炸鸡\n",
-        filePath: "C:\\Users\\dev\\.lumos\\cli\\memories\\projects\\z-code\\memory\\MEMORY.md",
+        filePath: "C:\\Users\\dev\\.lumos\\cli\\memories\\projects\\lumos\\memory\\MEMORY.md",
         originalFile: null,
         structuredPatch: [
           {
@@ -11380,7 +11380,7 @@ describe("AgentRuntime tool loop", () => {
 
     const runtime = createTestAgentRuntime(
       sessionId,
-      { mode: "yolo", workingDirectory: "C:\\Users\\dev\\Projects\\z-code" },
+      { mode: "yolo", workingDirectory: "C:\\Users\\dev\\Projects\\lumos" },
       {
         artifactStore,
         eventStore,

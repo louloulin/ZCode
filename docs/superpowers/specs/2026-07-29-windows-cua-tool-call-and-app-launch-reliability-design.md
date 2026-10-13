@@ -6,7 +6,7 @@
 >
 > 范围：Windows 本地 desktop continuous 源码开发链路
 >
-> 关联仓库：`z-code`、`C:\Users\dev\lumos-cua`
+> 关联仓库：`lumos`、`C:\Users\dev\lumos-cua`
 
 ## 1. 运行时证据与根因
 
@@ -194,7 +194,7 @@ AUMID；之后完全复用方案 C。这样既修复模型把展示名当 execut
 
 ## 5. 组件边界
 
-### `z-code`
+### `lumos`
 
 - MCP descriptor 和 provider-visible contract 保持当前上游 namespaced 连字符名称；
 - `registerMcpTools` 不为模型拼写错误设置 alias；

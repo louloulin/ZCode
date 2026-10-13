@@ -4,7 +4,7 @@
 - 当前统一鉴权与 scope 事实见 `lumos-official-server-mcp-auth-spec.md`；本文只维护 quota/banner 产品行为。
 - 前置：`lumos-official-server-mcp-client-phase-1-spec.md`（下称 "phase-1"）。信任判定口径、身份头集合、
   凭证解析与失败分类全部沿用 phase-1，本文不重复
-- 涉及仓库：`z-code`（客户端）与 `lumos-server`（服务端），两侧共用同一组 tool error code
+- 涉及仓库：`lumos`（客户端）与 `lumos-server`（服务端），两侧共用同一组 tool error code
 - 驱动需求：官方 Server MCP 有权益门槛与每日配额。两者任一不通过时，用户在界面上得不到任何解释，
   只能看到模型"工具调用失败了"然后自行猜测
 - 文中行号取自 2026-08-20 的 staging，仅用于定位，会随代码漂移；§4 的契约以服务端
@@ -149,7 +149,7 @@ tool error 的 text content 下发（`IsError: true`）：
 服务端文案里带了桶名与 used/limit，但**没有** `next_refresh_at`。因此界面不承诺具体恢复时刻，
 只说"明天恢复"——自然日重置这一点由 `QuotaConfig.NextRefreshAt` 保证，输入框浮层里的 MCP 额度
 那一格另有精确重置日期可看。
-## 6. 客户端实现（`z-code`，已完成 T1）
+## 6. 客户端实现（`lumos`，已完成 T1）
 
 | 触发源 | 场景 | 信号 | 状态 |
 |---|---|---|---|

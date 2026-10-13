@@ -587,7 +587,7 @@ export class TaskIndexRepo {
     if (!isTasksStorageMigrated(path, this.db)) runTasksDatabaseMigrations(this.db);
     this.backfillOffPeakTaskMarkers();
     this.backfillOffPeakGroupMemberships();
-    // Bugfix: z-code-2 早期列表 task_id 是 wrapper id，真实 Lumos session id 在旧列
+    // Bugfix: lumos-2 早期列表 task_id 是 wrapper id，真实 Lumos session id 在旧列
     // acp_session_id。直接运行时映射会让 read/send/subscribe 到处变成双 ID 兜底；
     // 初始化时把索引行迁到真实 session id，后续统一走新协议正常路径。
     this.migrateLegacyAcpTaskIds();

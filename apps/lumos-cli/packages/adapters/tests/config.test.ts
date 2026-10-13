@@ -1814,7 +1814,7 @@ describe("config adapters", () => {
             baseURL: "https://api.deepseek.com",
             apiKey: "secret",
             headers: {
-              "X-Title": "Z Code",
+              "X-Title": "Lumos",
             },
           },
         }),

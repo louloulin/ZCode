@@ -46,7 +46,7 @@ describe("createProviderEndpointRoutingSourceHeaders", () => {
       "X-Os-Version": readOsRelease(),
       "X-Platform": `${process.platform}-${readOsArch()}`,
       "X-Release-Channel": "test",
-      "X-Title": "Z Code@electron",
+      "X-Title": "Lumos@electron",
       "X-Lumos-App-Version": "1.2.3",
     });
     expect(headers).not.toHaveProperty("Authorization");
@@ -70,7 +70,7 @@ describe("createProviderEndpointRoutingSourceHeaders", () => {
       "HTTP-Referer": "https://lumos.z.ai",
       "User-Agent": "Lumos/2.0.0",
       "X-Release-Channel": "production",
-      "X-Title": "Z Code@cli",
+      "X-Title": "Lumos@cli",
     });
     expect(headers).not.toHaveProperty("X-Device-Mid");
   });

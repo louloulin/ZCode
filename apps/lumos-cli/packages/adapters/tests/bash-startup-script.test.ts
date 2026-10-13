@@ -126,7 +126,7 @@ describe("bash source script materializer", () => {
           backend: {
             kind: "internal-cli" as const,
             command: "C:\\Program Files\\Lumos\\lumos.exe",
-            args: ["C:\\Users\\me\\z-code\\apps\\lumos-cli\\src\\run.ts", "__internal-search"],
+            args: ["C:\\Users\\me\\lumos\\apps\\lumos-cli\\src\\run.ts", "__internal-search"],
           },
         },
       };
@@ -155,7 +155,7 @@ describe("bash source script materializer", () => {
       expect(startupFile).toBeDefined();
       const startupContent = readFileSync(join(startupDir, startupFile!), "utf8");
       expect(startupContent).toContain(
-        "command '/c/Program Files/Lumos/lumos.exe' /c/Users/me/z-code/apps/lumos-cli/src/run.ts __internal-search grep \"$@\"",
+        "command '/c/Program Files/Lumos/lumos.exe' /c/Users/me/lumos/apps/lumos-cli/src/run.ts __internal-search grep \"$@\"",
       );
     } finally {
       rmSync(rootDir, { force: true, recursive: true });

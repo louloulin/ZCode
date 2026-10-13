@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - Update specs before implementation.
-- Work only in `C:\Users\dev\z-code` and `C:\Users\dev\lumos-cua`.
+- Work only in `C:\Users\dev\lumos` and `C:\Users\dev\lumos-cua`.
 - Do not modify SSH, WSL, Docker, remote workspace, mobile `/remote`, or replayable paths.
 - Do not rename the canonical official server or change the 30-tool manifest.
 - Never globally normalize hyphens and underscores.
@@ -92,5 +92,5 @@
 - [ ] Run the Windows native build.
 - [ ] Start or refresh the source desktop dev runtime without SSH/WSL/Docker.
 - [ ] Run an exact Calculator AUMID broker smoke and inspect runtime logs.
-- [ ] Commit `lumos-cua` and `z-code` with Conventional Commits.
+- [ ] Commit `lumos-cua` and `lumos` with Conventional Commits.
 - [ ] Leave the dev runtime running for user testing.

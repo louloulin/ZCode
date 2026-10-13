@@ -60,7 +60,7 @@ pnpm dev:e2e-report
 E2E 结束后，`summary.md` 和 `summary.json` 的 `files.viewerUrl` 会给出带 `summary` 参数的访问地址，例如：
 
 ```text
-http://127.0.0.1:4173/?summary=%2F%40fs%2FUsers%2Fdev%2Fworkspace%2Fz-code%2Fpackages%2Fdesktop%2F.e2e-artifacts%2F...%2Fsummary.json
+http://127.0.0.1:4173/?summary=%2F%40fs%2FUsers%2Fdev%2Fworkspace%2Flumos%2Fpackages%2Fdesktop%2F.e2e-artifacts%2F...%2Fsummary.json
 ```
 
 页面包含：

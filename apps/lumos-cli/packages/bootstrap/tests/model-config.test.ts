@@ -54,7 +54,7 @@ describe("createRuntimeAiSdkModelExecutionConfig", () => {
       defaultHeaders: {
         "User-Agent": "Lumos/3.9.0",
         "X-Lumos-App-Version": "3.9.0",
-        "X-Title": "Z Code@electron",
+        "X-Title": "Lumos@electron",
       },
       endpointRoutingPort,
       network: {
@@ -83,7 +83,7 @@ describe("buildCliLumosSourceHeaders", () => {
       ),
     ).toMatchObject({
       "User-Agent": "Lumos/3.9.0",
-      "X-Title": "Z Code@cli",
+      "X-Title": "Lumos@cli",
       "X-Lumos-App-Version": "3.9.0",
     });
   });

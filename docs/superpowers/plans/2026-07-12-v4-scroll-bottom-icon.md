@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Restore the v4 timeline scroll-to-bottom control to the icon-only design used by `~/workspace/z-code-2` while preserving its position and accessible name.
+**Goal:** Restore the v4 timeline scroll-to-bottom control to the icon-only design used by `~/workspace/lumos-2` while preserving its position and accessible name.
 
 **Architecture:** Keep `ConversationTimeline` as the owner of visibility and click behavior. Add one module-level button renderer that uses the shared `Button` primitive and `ArrowDownIcon`, then reuse it in both the composer-dock and no-dock placements.
 

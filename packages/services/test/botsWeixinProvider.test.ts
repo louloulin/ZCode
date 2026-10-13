@@ -469,14 +469,14 @@ describe("weixin bot provider", () => {
       botId: "weixin-1",
       provider: "weixin",
       providerUserId: "wx_user",
-      text: ["Workspace: z-code", "Model: DeepSeek/deepseek-v4-flash", "State: completed"].join("\n"),
+      text: ["Workspace: lumos", "Model: DeepSeek/deepseek-v4-flash", "State: completed"].join("\n"),
     });
 
     const body = JSON.parse(fetchMock.mock.calls[0]?.[1]?.body as string) as {
       msg?: { item_list?: Array<{ text_item?: { text?: string } }> };
     };
     expect(body.msg?.item_list?.[0]?.text_item?.text).toBe(
-      ["Workspace: z-code", "Model: DeepSeek/deepseek-v4-flash", "State: completed"].join("\r\n"),
+      ["Workspace: lumos", "Model: DeepSeek/deepseek-v4-flash", "State: completed"].join("\r\n"),
     );
   });
 

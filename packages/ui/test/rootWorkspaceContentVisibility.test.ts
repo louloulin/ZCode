@@ -39,10 +39,10 @@ function renderRootWorkspaceContent(
     renderToStaticMarkup(
       createElement(RootWorkspaceContent, {
         workspaceScopedServices: {},
-        workspaceShellPath: "/workspace/z-code",
+        workspaceShellPath: "/workspace/lumos",
         workspaceIdentity: params?.workspaceIdentity,
         workspaceRemoteSessionId: params?.workspaceRemoteSessionId,
-        activeWorkspacePath: "/workspace/z-code",
+        activeWorkspacePath: "/workspace/lumos",
         isSettingsTabActive,
         handleConnectRemote: vi.fn(),
         handleSelectRemoteProject: vi.fn(),

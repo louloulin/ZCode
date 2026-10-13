@@ -27,7 +27,7 @@ defined in [the project credential spec](../../../../../docs/model-provider-proj
 ## Scope
 
 Lumos CLI login uses the Lumos/Z.AI CLI OAuth device flow and shares the same
-local credential store as the desktop Z Code product. The login boundary is a
+local credential store as the desktop Lumos product. The login boundary is a
 CLI/bootstrap/adapter concern. Core runtime does not open browsers, call OAuth
 HTTP endpoints, read environment variables directly, or write credential files.
 
@@ -48,7 +48,7 @@ Sensitive login state is stored in:
 ~/.lumos/v2/credentials.json
 ```
 
-The base directory follows the Z Code desktop convention:
+The base directory follows the Lumos desktop convention:
 
 1. Explicit data base dir passed by the caller.
 2. `LUMOS_DATA_BASE_DIR`.

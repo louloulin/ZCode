@@ -76,7 +76,7 @@ async function assertAppReportHeaders(authenticated: boolean) {
     versionMatches: true,
     osMatches: true,
     userAgentMatches: true,
-    title: "Z Code@electron",
+    title: "Lumos@electron",
     platform: true,
     channel: true,
     refererMatches: true,

@@ -905,7 +905,7 @@ describe("AgentRuntime session persistence", () => {
   });
 
   // Bugfix: ensureSessionPersisted 之前只把 first_input title 写进 sessionStore，没有 appendEvent，
-  // 导致 z-code services 层的 task index sqlite syncer 等不到 session.titleUpdated 事件，
+  // 导致 lumos services 层的 task index sqlite syncer 等不到 session.titleUpdated 事件，
   // 侧边栏一直显示 "New session" 直到后台 LLM 生成 title。这条测试保证首条 prompt 入栈后
   // event store 立刻拿到一条 SessionTitleUpdated（source="first_input"）。
   it("emits SessionTitleUpdated with source=first_input when ensureSessionPersisted runs", async () => {

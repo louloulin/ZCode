@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - 先改测试再改实现；每个任务都必须观察到 RED，再完成 GREEN。
-- 仅修改 `C:\Users\dev\lumos-cua` 的本地 Windows source Helper 链路，以及 `C:\Users\dev\z-code` 的事实文档；不启动或修改 SSH、WSL、Docker、remote workspace、手机 `/remote`。
+- 仅修改 `C:\Users\dev\lumos-cua` 的本地 Windows source Helper 链路，以及 `C:\Users\dev\lumos` 的事实文档；不启动或修改 SSH、WSL、Docker、remote workspace、手机 `/remote`。
 - Windows clipboard 必须使用 Win32 `CF_UNICODETEXT`；禁止 PowerShell、shell、外部命令和 Electron clipboard fallback。
 - additive ABI 固定为 `readClipboardTextAsync(): Promise<NativeClipboardReadOutcome>` 与 `writeClipboardTextAsync(text): Promise<NativeClipboardWriteOutcome>`；任一导出缺失都必须令 Windows `supportsClipboard=false`。
 - `ElectronAutomationAdapter.readClipboardText` 返回 `string | Promise<string>`；`writeClipboardText` 返回 `void | Promise<void>`；macOS/Linux 同步 system surface 保持兼容。
@@ -25,8 +25,8 @@
 - 工具名、tier、annotation、broker method 和 30-tool manifest 不变。
 - live smoke 默认关闭；没有显式 opt-in 时必须在启动 Helper、读取或修改 clipboard 前以 exit code 2 退出。
 - live smoke 只恢复原始纯文本，无法恢复被测试写入替换掉的 HTML、图片等附加格式；恢复失败必须非零退出并明确提示 clipboard 可能仍是测试值。
-- `lumos-cua` 必须执行 focused tests、native rebuild、typecheck、lint、build、全量 test；`z-code` 必须执行 Windows source Helper integration、CUA focused suite、official plugin test、typecheck、lint。
-- `z-code` 当前 Windows 全仓 `pnpm test:unit:affected` 存在已记录的非 CUA baseline；仍须执行并逐项记录，不得把非零结果改称通过。
+- `lumos-cua` 必须执行 focused tests、native rebuild、typecheck、lint、build、全量 test；`lumos` 必须执行 Windows source Helper integration、CUA focused suite、official plugin test、typecheck、lint。
+- `lumos` 当前 Windows 全仓 `pnpm test:unit:affected` 存在已记录的非 CUA baseline；仍须执行并逐项记录，不得把非零结果改称通过。
 
 ---
 
@@ -49,7 +49,7 @@
 - Modify: `docs/platforms.md` — Windows clipboard 当前能力、边界和实机命令。
 - Modify after all source tests pass: `dist/**` — 由 `pnpm build` 生成并纳入提交的发布产物。
 
-### `C:\Users\dev\z-code`
+### `C:\Users\dev\lumos`
 
 - Modify: `docs/cua/windows-source-development.md` — source desktop 的构建、验证、风险与实机记录。
 
@@ -1302,7 +1302,7 @@ git commit -m "test(windows): add clipboard live smoke"
 **Files:**
 
 - Modify: `C:\Users\dev\lumos-cua\docs\platforms.md`
-- Modify: `C:\Users\dev\z-code\docs\cua\windows-source-development.md`
+- Modify: `C:\Users\dev\lumos\docs\cua\windows-source-development.md`
 
 **Interfaces:**
 
@@ -1323,7 +1323,7 @@ OpenClipboard 重试，单次文本上限为 8 Mi UTF-16 code units。
 
 Document outcome mapping, no shell/Electron fallback, pure-text replacement semantics, and the exact opt-in command. Keep WGC and UIA worker isolation listed as pending.
 
-- [ ] **Step 2: Update `z-code/docs/cua/windows-source-development.md`**
+- [ ] **Step 2: Update `lumos/docs/cua/windows-source-development.md`**
 
 Add source build and live verification:
 
@@ -1353,7 +1353,7 @@ Add the actual machine/date/build/test results from Task 4 without recording tex
 Run:
 
 ```powershell
-rg -n "clipboard|CF_UNICODETEXT|PowerShell|WGC|UIA worker|remote|smoke:windows:clipboard" C:\Users\dev\lumos-cua\docs\platforms.md C:\Users\dev\z-code\docs\cua\windows-source-development.md
+rg -n "clipboard|CF_UNICODETEXT|PowerShell|WGC|UIA worker|remote|smoke:windows:clipboard" C:\Users\dev\lumos-cua\docs\platforms.md C:\Users\dev\lumos\docs\cua\windows-source-development.md
 ```
 
 Expected: native clipboard is described as implemented only for Windows source Helper; WGC/UIA worker/product packaging remain pending; no remote claim is broadened.
@@ -1365,7 +1365,7 @@ cd C:\Users\dev\lumos-cua
 git add docs/platforms.md
 git commit -m "docs(windows): record native clipboard support"
 
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 git add docs/cua/windows-source-development.md
 git commit -m "docs(cua): record Windows clipboard source flow"
 ```
@@ -1409,7 +1409,7 @@ Expected: exit 0. Record exact passed、skipped 和待处理数量 from this run
 - [ ] **Step 3: Verify the source Lumos integration without remote paths**
 
 ```powershell
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 $env:LUMOS_CUA_DEV_ROOT='C:\Users\dev\lumos-cua'
 pnpm exec vitest run packages/services/test/windowsCuaDevHelper.integration.test.ts
 pnpm exec vitest run packages/services/test/cua
@@ -1424,7 +1424,7 @@ Expected: Helper integration, CUA focused suite, official plugin, typecheck and 
 - [ ] **Step 4: Execute and classify the full Lumos affected-unit baseline**
 
 ```powershell
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 pnpm test:unit:affected
 ```
 
@@ -1437,7 +1437,7 @@ cd C:\Users\dev\lumos-cua
 git status --short
 git diff --check
 
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 git status --short
 git diff --check
 
@@ -1465,7 +1465,7 @@ cd C:\Users\dev\lumos-cua
 git status --short --branch
 git log -5 --oneline
 
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 git status --short --branch
 git log -3 --oneline
 ```

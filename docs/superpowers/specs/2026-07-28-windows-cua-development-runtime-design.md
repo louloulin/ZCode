@@ -6,7 +6,7 @@
 >
 > 范围：Windows 本地桌面源码开发环境
 >
-> 关联仓库：`z-code`、`C:\Users\dev\lumos-cua`
+> 关联仓库：`lumos`、`C:\Users\dev\lumos-cua`
 
 ## 1. 背景
 
@@ -444,7 +444,7 @@ Bearer token 不得出现在：
 
 ## 13. 仓库职责
 
-### `z-code`
+### `lumos`
 
 - Windows 本地 Helper admission；
 - `WindowsCuaHelperHost` 生命周期实现；
@@ -538,7 +538,7 @@ Bearer token 不得出现在：
 - Helper lifecycle tests
 - Windows screenshot/input contract tests
 
-`z-code`：
+`lumos`：
 
 - `pnpm typecheck`
 - `pnpm lint`

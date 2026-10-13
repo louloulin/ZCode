@@ -2351,7 +2351,7 @@ describe("deployServer legacy agent node-script bundle deployment", () => {
       join(tmpdir(), "lumos-remote-dev-agent-missing-browser-client-"),
     );
     tempDirs.push(rootDir);
-    const repoDir = join(rootDir, "z-code");
+    const repoDir = join(rootDir, "lumos");
     const cliBundlePath = join(
       repoDir,
       "apps",
@@ -2408,7 +2408,7 @@ describe("deployServer legacy agent node-script bundle deployment", () => {
   it("开发态 SSH 部署应上传本地 lumos.cjs 并生成远端 wrapper", async () => {
     const rootDir = await mkdtemp(join(tmpdir(), "lumos-remote-dev-agent-"));
     tempDirs.push(rootDir);
-    const repoDir = join(rootDir, "z-code");
+    const repoDir = join(rootDir, "lumos");
     const cliBundlePath = join(
       repoDir,
       "apps",
@@ -2506,7 +2506,7 @@ describe("deployServer legacy agent node-script bundle deployment", () => {
       join(tmpdir(), "lumos-remote-dev-agent-skip-"),
     );
     tempDirs.push(rootDir);
-    const repoDir = join(rootDir, "z-code");
+    const repoDir = join(rootDir, "lumos");
     const cliBundlePath = join(
       repoDir,
       "apps",

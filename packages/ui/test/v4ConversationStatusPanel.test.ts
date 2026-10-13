@@ -199,7 +199,7 @@ function planState(overrides: Partial<PlanState> = {}): PlanState {
   return {
     updatedAt: 1_700_000_000_000,
     items: [
-      { id: "1", content: "看 z-code-2", status: "completed" },
+      { id: "1", content: "看 lumos-2", status: "completed" },
       { id: "2", content: "复刻浮层", status: "inProgress" },
     ],
     ...overrides,
@@ -1439,7 +1439,7 @@ describe("ConversationStatusPanel", () => {
     expect(endedDirectoryRow).toBeLessThan(agentSectionEnd);
   });
 
-  it("renders the expanded z-code-2 panel controls and sections", async () => {
+  it("renders the expanded lumos-2 panel controls and sections", async () => {
     const html = await renderStatusPanel({
       summaryPanelVariantOverride: "panel",
       goal: goalState(),

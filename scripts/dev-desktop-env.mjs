@@ -61,7 +61,7 @@ async function resolveComputerUseDevEnv() {
 
 function run(command, args) {
   return new Promise((resolveRun, rejectRun) => {
-    // Windows 下 shell:true 只按空格拼接参数；仓库路径含空格（如 E:\Z Code\...）时
+    // Windows 下 shell:true 只按空格拼接参数；仓库路径含空格（如 E:\Lumos\...）时
     // node <script> 的脚本路径会被 cmd 截断成 E:\Z 并报 Cannot find module，因此先补引号。
     const spawnArgs = process.platform === "win32" ? quoteArgsForWindowsShell(args) : args;
     const child = spawn(command, spawnArgs, {

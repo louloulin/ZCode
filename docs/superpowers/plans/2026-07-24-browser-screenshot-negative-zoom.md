@@ -705,7 +705,7 @@ Expected: both exit `0`.
 - [ ] **Step 3: Restart the dev desktop**
 
 Stop only the dev processes launched from
-`C:\Users\dev\z-code\.worktrees\fix-browser-screenshot-negative-zoom`, verify their resolved
+`C:\Users\dev\lumos\.worktrees\fix-browser-screenshot-negative-zoom`, verify their resolved
 paths, and restart the existing dev command with hidden helper windows. Confirm the Electron main
 process is alive and CDP port `9229` responds.
 

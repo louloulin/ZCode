@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - 先写测试并观察 RED，再写最小实现并观察 GREEN；每个任务独立提交。
-- 只修改 `C:\Users\dev\lumos-cua` 的本地 Windows source Helper 和 `C:\Users\dev\z-code` 的事实/计划文档；不启动或修改 SSH、WSL、Docker、remote workspace、手机 `/remote`。
+- 只修改 `C:\Users\dev\lumos-cua` 的本地 Windows source Helper 和 `C:\Users\dev\lumos` 的事实/计划文档；不启动或修改 SSH、WSL、Docker、remote workspace、手机 `/remote`。
 - 复用现有 C++ addon，不新增 Rust sidecar、常驻进程或 Electron 依赖。
 - 像素来源只能是 WGC；禁止 BitBlt、PrintWindow、PowerShell 截图、外部截图命令、Electron `desktopCapturer` 和私有二进制 fallback。
 - source 开发接受 Windows 系统默认 WGC 捕获边框，不申请或绕过受限无边框 capability。
@@ -69,7 +69,7 @@
 - Modify `docs/platforms.md` — Windows WGC 当前能力和限制。
 - Regenerate `dist/**` only through `pnpm build`.
 
-### `C:\Users\dev\z-code`
+### `C:\Users\dev\lumos`
 
 - Modify `docs/cua/windows-source-development.md` — source 构建、自动门禁、live smoke 与已知风险。
 
@@ -824,7 +824,7 @@ git commit -m "test(windows): add WGC live acceptance"
 **Files:**
 
 - Modify: `C:\Users\dev\lumos-cua\docs\platforms.md`
-- Modify: `C:\Users\dev\z-code\docs\cua\windows-source-development.md`
+- Modify: `C:\Users\dev\lumos\docs\cua\windows-source-development.md`
 - Regenerate: `C:\Users\dev\lumos-cua\dist\**`
 
 - [ ] **Step 1: Update platform facts**
@@ -856,7 +856,7 @@ git add -- docs/platforms.md dist
 git commit -m "docs(windows): record WGC visual support"
 ```
 
-In `z-code`:
+In `lumos`:
 
 ```powershell
 git add -- docs/cua/windows-source-development.md
@@ -957,7 +957,7 @@ files.
 - Create: `C:\Users\dev\lumos-cua\test\windows-tool-surface-live-smoke.test.ts`
 - Modify: `C:\Users\dev\lumos-cua\package.json`
 - Modify: `C:\Users\dev\lumos-cua\docs\platforms.md`
-- Modify: `C:\Users\dev\z-code\docs\cua\windows-source-development.md`
+- Modify: `C:\Users\dev\lumos\docs\cua\windows-source-development.md`
 
 **State and event chain:**
 

@@ -532,7 +532,7 @@ describe("SessionPane v4 chat layout parity", () => {
     );
   });
 
-  it("uses the z-code-2 icon-only back-to-bottom control", () => {
+  it("uses the lumos-2 icon-only back-to-bottom control", () => {
     const timelineSource = readFileSync(
       resolve(process.cwd(), "packages/ui/src/v4/ConversationTimeline.tsx"),
       "utf8",

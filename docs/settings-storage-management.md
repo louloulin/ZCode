@@ -418,7 +418,7 @@ desktop/src/main/lumosDataSizeWorker.ts      改为 import services 的 fsWalker
 - `IStorageService` 公开方法：`startScan`、`cancelScan`、`getSnapshot`、`onScanProgress`、`clean`，共 5 个。「在文件管理器中显示」复用平台已有的 `openInFileManager` 能力，UI 用 `root.path + relativePath` 直接调用，不经过 storage 服务。
 - 字节格式化复用 UI 现有的大小格式化工具（实现时先 grep `formatBytes`/`formatFileSize`，禁止新写第二个）。
 
-## 11. 实现落点（2026-09-10，z-code-2 staging）
+## 11. 实现落点（2026-09-10，lumos-2 staging）
 
 > 2026-09-10 迁入资源管理器后的差异：服务实例改由 **desktop main** 持有（不再注册为 host RPC 服务，无 ServiceDescriptor / channel），renderer 通过 preload 的 `window.resourceManager.storage`（`StorageManagementBridge`）调用；数据类型统一放在 `packages/shared/src/storage.ts`；UI 在 `packages/ui/src/resource-manager/storage/`；「在文件管理器中显示」经 `StorageRevealPath` 由 main 校验路径在数据根内后调用 `shell.showItemInFolder`。下表为迁移后的落点。
 

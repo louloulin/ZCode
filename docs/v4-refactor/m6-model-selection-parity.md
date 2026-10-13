@@ -7,7 +7,7 @@
 分界原则续 `m5-composer-parity.md`：**壳老芯新**——展示件复用旧 `ModelConfigSelect` / `ChatInputToolbar`
 的纯组件；状态编排与写路径全部 v4（读投影 `snapshot.config`、写 v4 命令、无桥、新不调旧）。
 
-参考基线：z-code-2（线上老版）`packages/ui/src/chat-input-toolbar/*`、`packages/ui/src/lib/*`、
+参考基线：lumos-2（线上老版）`packages/ui/src/chat-input-toolbar/*`、`packages/ui/src/lib/*`、
 `packages/ui/src/ChatInputToolbar.tsx`、`apps/lumos-cli/packages/*`。
 现状载体：`packages/ui/src/v4/composer/V4ComposerToolbar.tsx`、`SessionPane.tsx`、
 `apps/lumos-cli/packages/bootstrap/src/lumos-protocol-v4/commands/handlers/model-config.ts`。
@@ -23,7 +23,7 @@
    不做这层，coding-plan 列表「点了不换」、选任意别的 provider 的模型都是摆设。
 2. **「记住上次选择」= 恢复老版全局语义**：Lumos-Agent 模型跨 workspace 全局记住，
    custom provider per-workspace；含 legacy 键迁移。
-3. **实施隔离**：在独立 worktree `z-code-m6-model`（分支 `m6-model-selection`，
+3. **实施隔离**：在独立 worktree `lumos-m6-model`（分支 `m6-model-selection`，
    基于 feature/v4-vertical-slice 52fb19e61）改+提交+测，主目录另有并发 session，回头 cherry-pick/merge。
 
 ## 一、缺口清单（能力 × 老版实现 × v4 现状）

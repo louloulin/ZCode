@@ -16,7 +16,7 @@ screenshot/clipboard behavior while adding pointer support.
 
 ## Global Constraints
 
-- Work only in `C:\Users\dev\lumos-cua` and the local Windows desktop CUA integration in `C:\Users\dev\z-code`.
+- Work only in `C:\Users\dev\lumos-cua` and the local Windows desktop CUA integration in `C:\Users\dev\lumos`.
 - Do not start, attach, or change SSH, WSL, Docker, remote workspace, mobile `/remote`, or replayable realtime paths.
 - Do not add or rename MCP tools; `TOOL_NAMES`, `TOOL_REGISTRY`, `TIER_TABLE`, and the evaluator manifest remain at 30 tools.
 - Keep all native Windows behavior behind the existing broker and optional native adapter ABI.
@@ -48,7 +48,7 @@ screenshot/clipboard behavior while adding pointer support.
 - Modify `package.json`: add a named opt-in Windows pointer smoke command.
 - Modify `docs/platforms.md`: record the implemented pointer capability and remaining WGC/UIA-worker limits.
 
-`C:\Users\dev\z-code`:
+`C:\Users\dev\lumos`:
 
 - Modify `docs/cua/windows-source-development.md`: add rebuild, direct smoke, source desktop, and cleanup verification commands.
 
@@ -1193,7 +1193,7 @@ git commit -m "test(windows): add pointer live smoke"
 **Files:**
 
 - Modify: `C:\Users\dev\lumos-cua\docs\platforms.md`
-- Modify: `C:\Users\dev\z-code\docs\cua\windows-source-development.md`
+- Modify: `C:\Users\dev\lumos\docs\cua\windows-source-development.md`
 
 **Interfaces:**
 
@@ -1219,7 +1219,7 @@ Expected: both commands exit `0`; both `Test-Path` calls print `True`.
 Run:
 
 ```powershell
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 $env:LUMOS_CUA_DEV_ROOT='C:\Users\dev\lumos-cua'
 pnpm exec vitest run packages/services/test/windowsCuaDevHelper.integration.test.ts
 Remove-Item Env:LUMOS_CUA_DEV_ROOT
@@ -1260,7 +1260,7 @@ Expected: every command exits `0`.
 Run:
 
 ```powershell
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 pnpm exec vitest run packages/services/test/cua
 pnpm --filter @lumos/lumos-cua-plugin test
 pnpm typecheck
@@ -1314,10 +1314,10 @@ git add -- docs/platforms.md
 git commit -m "docs(windows): record pointer source support"
 ```
 
-- [ ] **Step 9: Commit z-code runbook documentation**
+- [ ] **Step 9: Commit lumos runbook documentation**
 
 ```powershell
-cd C:\Users\dev\z-code
+cd C:\Users\dev\lumos
 git add -- docs/cua/windows-source-development.md
 git commit -m "docs(cua): add Windows pointer source smoke"
 ```
@@ -1328,7 +1328,7 @@ Run:
 
 ```powershell
 git -C C:\Users\dev\lumos-cua status --short
-git -C C:\Users\dev\z-code status --short
+git -C C:\Users\dev\lumos status --short
 ```
 
 Expected: both commands print nothing.

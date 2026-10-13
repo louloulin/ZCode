@@ -3,7 +3,7 @@
 ## Scope and evidence levels
 
 This catalog is the product-level index for Computer Use. It maps product cases
-to the producer (`lumos-cua`) and consumer (`z-code`) evidence that proves them.
+to the producer (`lumos-cua`) and consumer (`lumos`) evidence that proves them.
 Passing one platform never implies another platform passed.
 
 Evidence levels:

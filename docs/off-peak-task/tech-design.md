@@ -112,7 +112,7 @@ HTTP 限流路径，不得按 `3103` 额度解释。客户端仅补齐标准来�
 
 ```mermaid
 flowchart LR
-  subgraph Client["z.code 桌面客户端"]
+  subgraph Client["lumos 桌面客户端"]
     subgraph Renderer["renderer (packages/ui)"]
       Automations["AutomationsSection<br/>Idle-time tab + 创建表单 + 模板卡<br/>（灰度门控 D31）"]
       TurnCard["ConversationTurnGroup<br/>会话内创建轮尾静态卡（D49）"]

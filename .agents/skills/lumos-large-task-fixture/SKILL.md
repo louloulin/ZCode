@@ -16,7 +16,7 @@ The generated task is synthetic test data. Always back up before writing and rec
 
 ## Quick Commands
 
-From the z-code repository root:
+From the lumos repository root:
 
 ```bash
 node .agents/skills/lumos-large-task-fixture/scripts/generate-large-task-fixture.mjs \

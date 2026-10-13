@@ -1112,7 +1112,7 @@ export function SessionPane({
   const pluginReferenceIconsEnabled =
     isSessionPluginCatalogReady(state.status, sessionId, snapshot?.sessionId) &&
     hasPluginReferenceUserRows(snapshot?.rows.window ?? []);
-  // send_result 的落定信号：用户消息真正画进对话历史。z-code 没有乐观渲染，
+  // send_result 的落定信号：用户消息真正画进对话历史。lumos 没有乐观渲染，
   // 气泡必须等投影回流出 userInput row 才出现，所以 ACK accepted 不能算发送完成。
   // 取 useEffect 而非 store 订阅回调 —— effect 在 DOM commit 之后跑，此刻气泡已在屏幕上。
   useEffect(() => {

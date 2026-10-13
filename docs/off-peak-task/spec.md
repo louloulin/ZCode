@@ -7,7 +7,7 @@
 > `enable_offpeak_task` 曝光开关；模型成员来自 Built-in `builtin:offpeak-idle-plan`，模型能力来自
 > Effective Model Config。下文历史 `allowed_models` 描述均由此条覆盖。
 
-> 来源：PRD《z.ai-z.code-闲时任务 PRD v0.2》经 grilling 会话收敛后的实现口径。
+> 来源：PRD《z.ai-lumos-闲时任务 PRD v0.2》经 grilling 会话收敛后的实现口径。
 > 配套：`glossary.md`（术语/领域模型）、`decisions.md`（D1–D40 历史决策记录）。
 > 与 PRD 的差异见文末「明确不做」——**该清单需拿去与产品对齐确认**。
 >

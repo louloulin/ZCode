@@ -46,4 +46,4 @@ child MCP call (runtime_scope=subagent)
 - 子 Agent provider-visible tool/Skill surface 不含官方 CUA，非官方 MCP/Skill 仍可用。
 - 直接绕过 surface 的 CUA 调用不会触发 Broker。
 - 主 Agent 官方 CUA 调用行为保持不变。
-- 覆盖 z-code 单元测试、lumos-cua producer 单元测试及一条 conversation manual-review/replay case。
+- 覆盖 lumos 单元测试、lumos-cua producer 单元测试及一条 conversation manual-review/replay case。

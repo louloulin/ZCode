@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-**z-code 仓库（本 worktree：`/Users/dev/orca/workspaces/z-code/petrel`，分支 `feat/cua-helper-lazy-startup`）**
+**lumos 仓库（本 worktree：`/Users/dev/orca/workspaces/lumos/petrel`，分支 `feat/cua-helper-lazy-startup`）**
 
 - 每个任务前 `node scripts/check-workspace-freshness.mjs` 通过、`git status --short` 干净再开工；保留他人改动。
 - 必要验证：`pnpm typecheck`、`pnpm lint`、`pnpm architecture:check --changed`、受影响单测（根 `pnpm test:unit:affected` 不替代 CLI 测试与 desktop E2E）。
@@ -29,14 +29,14 @@
   dist/js_eval/helper_lifecycle/package_smoke/e2e 全部 skipped（看起来只有一个 job 失败，实际整条流水线没验）。
 - `dist/` 是 git-tracked 且就是包本体：改 src 必须同一 commit 重建 dist。重建前确认 `node_modules`
   不是软链（worktree 常软链到主克隆；是则 `rm node_modules` 摘链后 `corepack pnpm install --frozen-lockfile`）。
-- producer pin 只能用脚本改：`pnpm --filter @lumos/lumos-cua-plugin bump:producer <完整40位sha>`（在 z-code 仓库跑；
+- producer pin 只能用脚本改：`pnpm --filter @lumos/lumos-cua-plugin bump:producer <完整40位sha>`（在 lumos 仓库跑；
   producer worktree 场景先 `export LUMOS_CUA_REPO=/Users/dev/.codex/worktrees/cua-refactor/lumos-cua`）。
   手改 `pnpm-workspace.yaml` 的 SHA 会被 `check-cua-baseline.mjs` 拒绝；pin 目标必须已推到远端。**必须全 sha**（短前缀会造混合 sha）。
 - 两仓库都提交后立刻 push（并发会话 amend 吞 commit 的历史教训；pin 只信远端 ref）。
 
 **跨仓契约**
 
-- recipe env 键名：`LUMOS_CUA_WIN_HELPER_RECIPE`（producer helperConstants 常量 + z-code 同名字面量，两处一致）。
+- recipe env 键名：`LUMOS_CUA_WIN_HELPER_RECIPE`（producer helperConstants 常量 + lumos 同名字面量，两处一致）。
 - fork argv：`[entryPath, "--socket", <稳定pipe名>, "--parent-pid", <hostPid>]`（fork 的 child 侧
   `process.argv.slice(2)` 恰为 4 元，满足 `parseWindowsDevHelperConfig` 校验）。
 - fork env：`ELECTRON_RUN_AS_NODE=1`、`[HELPER_ADDON_ENV]=addonPath`（HELPER_ADDON_ENV 即
@@ -44,7 +44,7 @@
 
 ## File Structure
 
-**z-code 仓库**
+**lumos 仓库**
 
 | 文件 | 动作 | 职责 |
 | --- | --- | --- |
@@ -431,7 +431,7 @@ git -C /Users/dev/.codex/worktrees/cua-refactor/lumos-cua push -u origin feat/wi
 
 ---
 
-### Task 4: z-code——稳定 pipe 名与 recipe 模块
+### Task 4: lumos——稳定 pipe 名与 recipe 模块
 
 **Files:**
 - Create: `packages/services/src/cua-permission-broker/stableCuaTransport.ts`
@@ -557,7 +557,7 @@ EOF
 
 ---
 
-### Task 5: z-code——spawn env win32 懒分支
+### Task 5: lumos——spawn env win32 懒分支
 
 **Files:**
 - Modify: `packages/services/src/node.ts:2175-2225`（Task 1 改后的块）
@@ -663,7 +663,7 @@ EOF
 
 ---
 
-### Task 6: z-code——getStatus win32 对齐（MC-9）
+### Task 6: lumos——getStatus win32 对齐（MC-9）
 
 **Files:**
 - Modify: `packages/services/src/node.ts:1894-1971`（getStatus）与 `node.ts:1037-1055`（win32 host 创建处注入 mintSocketPath）
@@ -752,7 +752,7 @@ EOF
 
 ---
 
-### Task 7: z-code——producer pin bump
+### Task 7: lumos——producer pin bump
 
 **Files:**
 - Modify（脚本自动）: `apps/lumos-cli/packages/lumos-cua-plugin/upstream.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml` 等 bump 脚本触达面。
@@ -800,7 +800,7 @@ EOF
 
 ---
 
-### Task 8: z-code——删除 spawn 侧尸体与测试收敛
+### Task 8: lumos——删除 spawn 侧尸体与测试收敛
 
 **Files:**
 - Modify: `packages/services/src/node.ts`（`buildCuaProductHelperAgentEnv` 1123-1281、常量 566、相关 import）

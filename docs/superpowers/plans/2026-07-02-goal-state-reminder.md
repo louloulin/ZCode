@@ -26,10 +26,10 @@
 **目标:** 增加一个专门表达 goal 状态变化的 persisted + MCS-capable system reminder source。
 
 **Files:**
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/src/system-reminder/source.ts`
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/src/agent/session-history-hydrator.ts`
-- Test: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/tests/session-history-hydrator.test.ts`
-- Test: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/tests/runtime-provider-request-messages.test.ts` 或现有 provider projection 测试文件
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/src/system-reminder/source.ts`
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/src/agent/session-history-hydrator.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/tests/session-history-hydrator.test.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/tests/runtime-provider-request-messages.test.ts` 或现有 provider projection 测试文件
 
 **Checklist:**
 - [x] 新增 source：`goal_state_change`
@@ -57,15 +57,15 @@
 **目标:** 在 `/goal pause|clear|resume` 发生时追加 model-only synthetic notice，表达最新 goal 状态。`set|replace` 的目标正文已经是真实 user message，不再重复写 reminder。
 
 **Files:**
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/bootstrap/src/app/session-facade.ts`
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/bootstrap/src/lumos-protocol/server-operations.ts` 如需要补 protocol 边界行为
-- Add: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/src/runtime/methods/goal-state-reminder.ts`
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/src/runtime/methods/turn.ts`
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/src/runtime/types.ts`
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/src/runtime/internal-methods.ts` 如需要新增 runtime helper
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/src/runtime/agent-runtime.ts` 如需要声明 helper
-- Test: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/bootstrap/tests/session-persistence.test.ts`
-- Test: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/bootstrap/tests/lumos-protocol.test.ts`
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/bootstrap/src/app/session-facade.ts`
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/bootstrap/src/lumos-protocol/server-operations.ts` 如需要补 protocol 边界行为
+- Add: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/src/runtime/methods/goal-state-reminder.ts`
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/src/runtime/methods/turn.ts`
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/src/runtime/types.ts`
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/src/runtime/internal-methods.ts` 如需要新增 runtime helper
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/src/runtime/agent-runtime.ts` 如需要声明 helper
+- Test: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/bootstrap/tests/session-persistence.test.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/bootstrap/tests/lumos-protocol.test.ts`
 
 **Reminder 文案建议:**
 - pause:
@@ -100,8 +100,8 @@
 **目标:** 删除普通请求过滤 `target_continuation` 的特殊逻辑，让 goal continuation 成为稳定 history 事实。
 
 **Files:**
-- Modify: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts`
-- Test: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/tests/runtime-tool-loop.test.ts`
+- Modify: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/tests/runtime-tool-loop.test.ts`
 
 **Checklist:**
 - [x] 删除 `includeTargetContinuationReminders` 分支过滤
@@ -123,8 +123,8 @@
 **目标:** 确认 pause/replace/clear 与正在运行的 verifier/continuation 不会串目标。
 
 **Files:**
-- Test: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/tests/runtime-tool-loop.test.ts`
-- Test: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/bootstrap/tests/lumos-protocol.test.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/tests/runtime-tool-loop.test.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/bootstrap/tests/lumos-protocol.test.ts`
 
 **Checklist:**
 - [x] verifier 返回期间用户 replace goal：旧 targetID 不继续，新 targetID 继续
@@ -174,11 +174,11 @@
 **目标:** 确认新 synthetic reminder 对 UI、visible content、compact、session context 没有副作用。
 
 **Files:**
-- Modify if needed: `/Users/dev/Desktop/Z/z-code/packages/shared/src/lumos-session-visible-content.ts`
-- Modify if needed: `/Users/dev/Desktop/Z/z-code/packages/ui/src/lib/lumosChatMessages.ts`
-- Test: `/Users/dev/Desktop/Z/z-code/packages/shared/test/lumosSessionVisibleContent.test.ts`
-- Test: `/Users/dev/Desktop/Z/z-code/packages/ui/test/lumosSessionProjection.test.ts`
-- Test: `/Users/dev/Desktop/Z/z-code/apps/lumos-cli/packages/core/tests/session-history-hydrator.test.ts`
+- Modify if needed: `/Users/dev/Desktop/Z/lumos/packages/shared/src/lumos-session-visible-content.ts`
+- Modify if needed: `/Users/dev/Desktop/Z/lumos/packages/ui/src/lib/lumosChatMessages.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/packages/shared/test/lumosSessionVisibleContent.test.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/packages/ui/test/lumosSessionProjection.test.ts`
+- Test: `/Users/dev/Desktop/Z/lumos/apps/lumos-cli/packages/core/tests/session-history-hydrator.test.ts`
 
 **Checklist:**
 - [x] `goal_state_change` model-only synthetic notice 不显示为普通 user bubble

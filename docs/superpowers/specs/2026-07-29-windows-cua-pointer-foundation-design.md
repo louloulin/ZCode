@@ -6,7 +6,7 @@
 >
 > 范围：Windows 本地 desktop continuous 源码开发链路
 >
-> 关联仓库：`z-code`、`C:\Users\dev\lumos-cua`
+> 关联仓库：`lumos`、`C:\Users\dev\lumos-cua`
 
 ## 1. 背景
 
@@ -370,7 +370,7 @@ pnpm rebuild:native
 pnpm build
 ```
 
-`z-code`：
+`lumos`：
 
 ```powershell
 pnpm typecheck

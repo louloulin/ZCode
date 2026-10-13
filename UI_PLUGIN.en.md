@@ -201,7 +201,7 @@ The shell examples below target macOS / Linux. Replace both paths with your own 
 ### First Run: Install Only the Plugins You Want to Test
 
 ```sh
-LUMOS_REPO=/path/to/z-code
+LUMOS_REPO=/path/to/lumos
 PLUGINS_REPO=/path/to/lumos-plugins
 
 # Optional isolated development profile; use the same value for the CLI and desktop.

@@ -4,13 +4,13 @@
 >
 > 状态：已确认
 >
-> 关联仓库：`C:\Users\dev\lumos-cua`、`C:\Users\dev\z-code`
+> 关联仓库：`C:\Users\dev\lumos-cua`、`C:\Users\dev\lumos`
 
 ## 1. 目标
 
 以 `lumos-cua` 最新 `origin/main` 中上游已合入的实现为唯一基线，把 Windows 移植
 分支上已经验证过的 Windows UIA、WGC、指针、剪贴板、AUMID 和 Helper runtime
-能力正向迁移到该基线；随后让 `z-code` 当前分支通过显式本地 producer 路径消费新的
+能力正向迁移到该基线；随后让 `lumos` 当前分支通过显式本地 producer 路径消费新的
 producer commit，恢复 clean consumer tree 下可生成、校验、暂存和打包的 Windows CUA
 产品链路。用户要求本轮不 push，因此远端 Git SHA pin 与任意机器 clean install 在 producer
 commit 可从 remote 获取后再闭环；本轮不得提交不可获取的 SHA 或 `file:` 本地路径。
@@ -20,7 +20,7 @@ Esc 中断、用户输入失效检测、PiP 和 UIA-only 后台模式属于后�
 
 ## 2. 已确认的仓库与历史边界
 
-- `z-code` 继续在当前 `feat/cua-helper-app` 分支修改，不新建功能分支。
+- `lumos` 继续在当前 `feat/cua-helper-app` 分支修改，不新建功能分支。
 - `lumos-cua` 的工作基线是最新 `origin/main`；本地 `main` 对齐该基线后直接产生新 commit。
 - Windows 移植当前 `codex/windows-cua-pointer-foundation` 分支保留为迁移来源和安全备份。
 - Windows 移植从共同基线分叉出的 Windows 提交合并为一个新 commit，放在最新 `main` 顶部。
@@ -43,7 +43,7 @@ lumos-cua
       `---- 一个新的 Windows forward-port commit
 
 
-z-code
+lumos
 
 当前 feat/cua-helper-app
       |
@@ -63,7 +63,7 @@ adapter 和生成产物。逐提交 rebase 会反复解决同一语义冲突，�
 不采用。它会丢失上游在 `0.4.x`、`0.5.x` 上的安全、增量状态、PiP 和产品 Helper
 修复，也违背“以上游修改为准”的约束。
 
-### 3.3 只修改 z-code 中的版本常量
+### 3.3 只修改 lumos 中的版本常量
 
 不采用。当前 `0.5.2` producer 不发布 `dist/windows-helper.js`，并缺少完整 Windows
 WGC、pointer、clipboard ABI；消费者放宽检查会把缺失能力伪装成可用产品资源。
@@ -133,7 +133,7 @@ Windows Helper 的入口和必需产物由 producer 在根 `package.json` 声明
 - Linux AT-SPI 行为；
 - flat canonical 30-tool surface。
 
-## 5. Consumer 设计：z-code
+## 5. Consumer 设计：lumos
 
 ### 5.1 Staging
 
@@ -257,7 +257,7 @@ pnpm pack --dry-run
 Windows live smoke 在自动化门禁后运行，覆盖 WGC、pointer、clipboard 和 30-tool surface；
 它们不能替代 unit/integration tests。
 
-### 8.2 z-code
+### 8.2 lumos
 
 先修改测试使其期望 producer-owned contract 和 clean staging，并观察旧实现失败：
 
@@ -302,7 +302,7 @@ pnpm lint
 
 | 等级           | 关系                                          | 原因                                   |
 | -------------- | --------------------------------------------- | -------------------------------------- |
-| must-inspect   | lumos-cua package -> z-code staging/resolver  | producer/consumer 同一运行时契约       |
+| must-inspect   | lumos-cua package -> lumos staging/resolver  | producer/consumer 同一运行时契约       |
 | must-inspect   | Host lifecycle -> official plugin credentials | Helper ready 后才可投影 authority      |
 | should-inspect | electron-builder/runtime preparation          | clean checkout 必须可重现              |
 | invariant-only | macOS Helper/TCC/PiP                          | Windows 迁移不得改变上游 macOS 语义 |
@@ -320,7 +320,7 @@ runtime/Host code seeds；是否“发布可用”仍由本 spec 的 clean-packa
 | ID      | Setup                                      | Action                 | Assertions                                  | 状态               |
 | ------- | ------------------------------------------ | ---------------------- | ------------------------------------------- | ------------------ |
 | WCFR-01 | clean lumos-cua latest main                | build/package          | contract、entry、native source 均在 pack 中 | accepted           |
-| WCFR-02 | clean z-code checkout + fixed producer SHA | prepare runtime        | 不依赖 ignored 文件，生成 digest manifest   | accepted           |
+| WCFR-02 | clean lumos checkout + fixed producer SHA | prepare runtime        | 不依赖 ignored 文件，生成 digest manifest   | accepted           |
 | WCFR-03 | packaged Windows local desktop             | enable official plugin | Helper ready，30 tools 可调用，退出无孤儿   | accepted           |
 | WCFR-04 | occluded non-minimized test window         | capture                | WGC 返回与 HWND 绑定的非空图片              | accepted           |
 | WCFR-05 | minimized/locked/high-IL target            | capture/action         | fail closed，不伪造成功                     | accepted           |
@@ -333,7 +333,7 @@ runtime/Host code seeds；是否“发布可用”仍由本 spec 的 clean-packa
 ## 11. 提交策略
 
 - `lumos-cua/main`：一个 `feat(windows): forward-port CUA runtime onto current main` commit。
-- `z-code/feat/cua-helper-app`：设计 spec commit 与后续实现 commit 分开；实现使用
+- `lumos/feat/cua-helper-app`：设计 spec commit 与后续实现 commit 分开；实现使用
   Conventional Commits。
 - 不 push、不建 MR、不创建 tag。
 
@@ -342,7 +342,7 @@ runtime/Host code seeds；是否“发布可用”仍由本 spec 的 clean-packa
 只有同时满足以下条件才进入 Windows 设置页里程碑：
 
 1. `lumos-cua` 最新 main + 单一 Windows forward-port commit 可通过全部必需门禁；
-2. 新 producer commit 可由 `z-code` 通过显式本地 producer 路径消费；
+2. 新 producer commit 可由 `lumos` 通过显式本地 producer 路径消费；
 3. clean consumer tree 可生成 Windows runtime assets，且不依赖历史 ignored 文件；
 4. packaged runtime resolver 能校验并启动真实 Helper；
 5. WGC、pointer、clipboard、AUMID 和 30-tool focused/live evidence 均保留；

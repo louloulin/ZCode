@@ -14,7 +14,7 @@ describe("codexConfigToml", () => {
           http_headers: {
             "User-Agent": "Lumos/unknown",
             "HTTP-Referer": "https://lumos.z.ai",
-            "X-Title": "Z Code@electron",
+            "X-Title": "Lumos@electron",
           },
         },
       },
@@ -32,7 +32,7 @@ describe("codexConfigToml", () => {
           http_headers: {
             "User-Agent": "Lumos/unknown",
             "HTTP-Referer": "https://lumos.z.ai",
-            "X-Title": "Z Code@electron",
+            "X-Title": "Lumos@electron",
           },
         },
       },
@@ -50,7 +50,7 @@ describe("codexConfigToml", () => {
         "Provider Demo": {
           base_url: "https://example.com/v1",
           http_headers: {
-            "X-Title": "Z Code@electron",
+            "X-Title": "Lumos@electron",
           },
         },
       },
@@ -78,7 +78,7 @@ describe("codexConfigToml", () => {
           http_headers: {
             "User-Agent": "Lumos/unknown",
             "HTTP-Referer": "https://lumos.z.ai",
-            "X-Title": "Z Code@electron",
+            "X-Title": "Lumos@electron",
           },
         },
       },
@@ -103,7 +103,7 @@ describe("codexConfigToml", () => {
     expect(parsed.model_providers?.custom?.http_headers).toMatchObject({
       "User-Agent": "Lumos/unknown",
       "HTTP-Referer": "https://lumos.z.ai",
-      "X-Title": "Z Code@electron",
+      "X-Title": "Lumos@electron",
     });
   });
 });

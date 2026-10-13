@@ -43,5 +43,5 @@ CUA 插件的历史 manifest 名称是 `lumos-cua`，而 Browser Use 的内部 s
 ## 验证
 
 - 单元测试覆盖 CUA listing 的中英文展示名解析，以及已安装插件列表使用 listing 名称。
-- z-code 运行 `pnpm typecheck`、`pnpm lint` 和受影响 UI/插件单测。
+- lumos 运行 `pnpm typecheck`、`pnpm lint` 和受影响 UI/插件单测。
 - CUA 运行 `pnpm typecheck`、`pnpm lint` 和受影响脚本/文案契约测试。

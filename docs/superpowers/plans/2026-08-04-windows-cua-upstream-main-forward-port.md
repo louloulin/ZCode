@@ -2,15 +2,15 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 把已验证的 Windows CUA runtime 正向迁移到 `lumos-cua` 最新上游 main，并让 `z-code` 当前分支在 clean consumer tree 中通过显式本地 producer 路径生成、校验和打包该 runtime；远端 Git pin 留到 producer commit push 后闭环。
+**Goal:** 把已验证的 Windows CUA runtime 正向迁移到 `lumos-cua` 最新上游 main，并让 `lumos` 当前分支在 clean consumer tree 中通过显式本地 producer 路径生成、校验和打包该 runtime；远端 Git pin 留到 producer commit push 后闭环。
 
-**Architecture:** `lumos-cua` 是 Windows Helper entry、native addon 和 package runtime contract 的 producer；`z-code` 只固定 producer Git SHA、读取 producer contract、生成 digest manifest，并由 desktop-local Host 按需启动。迁移按当前上游 broker/incremental/input-cleanup 语义重新接线，不覆盖其提交或恢复旧实现。
+**Architecture:** `lumos-cua` 是 Windows Helper entry、native addon 和 package runtime contract 的 producer；`lumos` 只固定 producer Git SHA、读取 producer contract、生成 digest manifest，并由 desktop-local Host 按需启动。迁移按当前上游 broker/incremental/input-cleanup 语义重新接线，不覆盖其提交或恢复旧实现。
 
 **Tech Stack:** TypeScript 5/6、Vitest、Node 24、N-API/node-gyp、C++/Win32 UIA/WGC/D3D11、Electron 41、pnpm 10。
 
 ## Global Constraints
 
-- `z-code` 在当前 `feat/cua-helper-app` 分支原地开发。
+- `lumos` 在当前 `feat/cua-helper-app` 分支原地开发。
 - `lumos-cua` 在本地 `main` 上开发；先保留安全分支，再把 `main` 指向最新 `origin/main`。
 - Windows 移植变更在 `lumos-cua/main` 最终只有一个新 commit；不改写上游 commit，不 push。
 - producer contract schema 固定为 `1`，package name 固定为 `@lumos/lumos-cua`。
@@ -38,11 +38,11 @@
 - [ ] **Step 1: 验证两个工作区没有未提交修改**
 
 ```powershell
-git -C C:\Users\dev\z-code status --short
+git -C C:\Users\dev\lumos status --short
 git -C C:\Users\dev\lumos-cua status --short
 ```
 
-Expected: 两个命令都不输出文件；`z-code` 只允许 branch ahead 状态。
+Expected: 两个命令都不输出文件；`lumos` 只允许 branch ahead 状态。
 
 - [ ] **Step 2: 刷新并记录 producer 基线**
 
@@ -98,7 +98,7 @@ Expected: 所有命令 exit 0。若 baseline 失败，停止并记录失败，�
 
 - Produces: `packageJson.lumosCuaRuntime.windows.entry === "dist/windows-helper.js"`。
 - Produces: export `./windows-helper` 指向 `./dist/windows-helper.js`。
-- Consumes later: z-code staging/runtime resolver。
+- Consumes later: lumos staging/runtime resolver。
 
 - [ ] **Step 1: 写 package contract RED test**
 
@@ -417,13 +417,13 @@ Expected: `origin/main..main` 只有一个新 commit，且未 push。
 
 ---
 
-### Task 7: z-code consumer 先用 RED tests 去掉旧版本真相
+### Task 7: lumos consumer 先用 RED tests 去掉旧版本真相
 
 **Files:**
 
-- Modify: `C:\Users\dev\z-code\packages\desktop\test\windows-cua-helper-assets.test.ts`
-- Modify: `C:\Users\dev\z-code\packages\services\test\windowsCuaDevRuntime.test.ts`
-- Modify: `C:\Users\dev\z-code\packages\desktop\test\runtime-asset-scripts.test.ts`
+- Modify: `C:\Users\dev\lumos\packages\desktop\test\windows-cua-helper-assets.test.ts`
+- Modify: `C:\Users\dev\lumos\packages\services\test\windowsCuaDevRuntime.test.ts`
+- Modify: `C:\Users\dev\lumos\packages\desktop\test\runtime-asset-scripts.test.ts`
 
 **Interfaces:**
 
@@ -481,12 +481,12 @@ Expected: FAIL，旧实现仍要求 `0.3.28`，且 preparation 未调用 Windows
 
 **Files:**
 
-- Modify: `C:\Users\dev\z-code\packages\desktop\scripts\windows-cua-helper-assets.mjs`
-- Modify: `C:\Users\dev\z-code\packages\desktop\scripts\prepare-runtime-assets.mjs`
-- Modify: `C:\Users\dev\z-code\packages\services\src\cua-permission-broker\windowsCuaDevRuntime.ts`
+- Modify: `C:\Users\dev\lumos\packages\desktop\scripts\windows-cua-helper-assets.mjs`
+- Modify: `C:\Users\dev\lumos\packages\desktop\scripts\prepare-runtime-assets.mjs`
+- Modify: `C:\Users\dev\lumos\packages\services\src\cua-permission-broker\windowsCuaDevRuntime.ts`
 - Keep validation local to each allowed layer: desktop staging validates producer package contract；services validates the staged manifest and explicit dev-root contract。两处通过同一 parity fixture 锁定 schema/name/path 规则，不跨层导入 desktop/service 实现。
-- Update: `C:\Users\dev\z-code\docs\cua\windows-product-runtime.md`
-- Update: `C:\Users\dev\z-code\docs\cua\windows-source-development.md`
+- Update: `C:\Users\dev\lumos\docs\cua\windows-product-runtime.md`
+- Update: `C:\Users\dev\lumos\docs\cua\windows-source-development.md`
 
 **Interfaces:**
 
@@ -533,7 +533,7 @@ Expected: 全部 exit 0。
 
 ---
 
-### Task 9: Clean-tree/package smoke 与 z-code commit
+### Task 9: Clean-tree/package smoke 与 lumos commit
 
 **Files:**
 
@@ -541,7 +541,7 @@ Expected: 全部 exit 0。
 
 **Interfaces:**
 
-- Produces: P0 completion evidence and z-code implementation commit。
+- Produces: P0 completion evidence and lumos implementation commit。
 
 - [ ] **Step 1: 在独立临时目录验证无 ignored 资源依赖**
 
@@ -552,7 +552,7 @@ Expected: 全部 exit 0。
 Expected: 不复制当前工作区历史 `bundled-tools` 也能生成资源。由于 producer commit 未 push，
 该结果是 local producer + clean consumer tree 证据，不宣称远端 Git dependency clean install 已闭环。
 
-- [ ] **Step 2: 执行 z-code focused/integration gates**
+- [ ] **Step 2: 执行 lumos focused/integration gates**
 
 ```powershell
 pnpm exec vitest run packages/services/test/windowsCuaDevHelperHost.test.ts
@@ -576,7 +576,7 @@ Expected: 两个命令 exit 0。若全量或 affected tests 有既有失败，�
 用测试/静态断言证明：remote workspace、SSH、WSL、Docker、mobile `/remote` 不进入
 Windows Helper start/staging；desktop continuous 与 web replayable 无协议变化。
 
-- [ ] **Step 5: 创建 z-code 实现 commit**
+- [ ] **Step 5: 创建 lumos 实现 commit**
 
 ```powershell
 git add --all
@@ -602,16 +602,16 @@ Expected: commit 成功，工作区 clean，未 push。
 
 ```powershell
 git -C C:\Users\dev\lumos-cua log --oneline origin/main..main
-git -C C:\Users\dev\z-code log --oneline origin/feat/cua-helper-app..HEAD
+git -C C:\Users\dev\lumos log --oneline origin/feat/cua-helper-app..HEAD
 ```
 
-Expected: lumos-cua 只有一个新 Windows commit；z-code 包含既有 Windows integration、spec 和本次 consumer fix。
+Expected: lumos-cua 只有一个新 Windows commit；lumos 包含既有 Windows integration、spec 和本次 consumer fix。
 
 - [ ] **Step 2: 核对工作区与 push 状态**
 
 ```powershell
 git -C C:\Users\dev\lumos-cua status --short --branch
-git -C C:\Users\dev\z-code status --short --branch
+git -C C:\Users\dev\lumos status --short --branch
 ```
 
 Expected: 两个 working tree clean；分支只在本地 ahead，没有 push。

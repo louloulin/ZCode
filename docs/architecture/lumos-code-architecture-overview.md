@@ -1,10 +1,10 @@
-# Z Code 代码架构总览（当前事实）
+# Lumos 代码架构总览（当前事实）
 
 > 本文是进程与分层架构的当前入口。历史方案和迁移计划不能覆盖本文口径。
 
 ## 一句话模型
 
-Z Code 可以运行多个 workspace window；每个窗口有且只有一个 Window Host，每个 workspaceKey 最多一个聊天 CLI。Renderer 只通过 service/protocol 边界访问能力；CLI 持有 conversation 的权威状态。远程 workspace 的连接和 scoped services 也由该窗口的同一个 Host 管理。
+Lumos 可以运行多个 workspace window；每个窗口有且只有一个 Window Host，每个 workspaceKey 最多一个聊天 CLI。Renderer 只通过 service/protocol 边界访问能力；CLI 持有 conversation 的权威状态。远程 workspace 的连接和 scoped services 也由该窗口的同一个 Host 管理。
 
 ```text
 Electron App

@@ -2,13 +2,13 @@
 
 ## 背景
 
-z-code 桌面端后续不再通过 Lumos app-server 兼容多 agent，而是只把 lumos-cli 作为私有 agent server 集成。桌面、SSH、Docker 场景里，GUI/host process 需要以薄客户端方式连接 lumos-cli，由 server 统一持有 session、模型、思考深度、模式、消息和运行态。
+lumos 桌面端后续不再通过 Lumos app-server 兼容多 agent，而是只把 lumos-cli 作为私有 agent server 集成。桌面、SSH、Docker 场景里，GUI/host process 需要以薄客户端方式连接 lumos-cli，由 server 统一持有 session、模型、思考深度、模式、消息和运行态。
 
 ## 范围
 
 - 新增 `lumos app-server --stdio` 入口，输出只承载 Lumos Protocol NDJSON frame。
 - `agent-server --stdio` 作为同一能力的别名，方便后续命名切换。
-- Lumos Protocol schema 仍由外层 z-code workspace 的 `packages/shared/src/lumos-protocol/index.ts` 单文件导出。
+- Lumos Protocol schema 仍由外层 lumos workspace 的 `packages/shared/src/lumos-protocol/index.ts` 单文件导出。
 - v1 只实现 stdio transport；WebSocket 留给 cloud IDE/remote sandbox 后续复用同一 envelope。
 
 ## 状态归属

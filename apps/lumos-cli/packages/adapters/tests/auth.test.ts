@@ -23,7 +23,7 @@ afterEach(() => {
 });
 
 describe("shared Lumos credentials", () => {
-  it("stores ZAI login credentials with z-code compatible encrypted keys", async () => {
+  it("stores ZAI login credentials with lumos compatible encrypted keys", async () => {
     const dir = await mkdtemp(join(tmpdir(), "lumos-auth-"));
 
     try {

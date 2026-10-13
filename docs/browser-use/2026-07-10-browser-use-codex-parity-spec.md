@@ -461,7 +461,7 @@ turn ended
 
 ### 8.5 `playwright.domSnapshot()` 合同
 
-`tab.snapshot()` 是 z-code 为兼容早期 ref/action 工作流保留的结构化接口，不属于 common
+`tab.snapshot()` 是 lumos 为兼容早期 ref/action 工作流保留的结构化接口，不属于 common
 Playwright API。locator 工作流的事实源必须是
 `tab.playwright.domSnapshot(): Promise<string>`；两者不得再共用同一“snapshot 合同”的表述。
 
@@ -850,7 +850,7 @@ IAB 应支持以下序列：
 - Playwright locator/wait/download/file chooser、clipboard/dev/content/capabilities。
 - action-time confirmation。
 
-实施结果：member-level manifest/interpreter/runtime proxy/docs 已与当前 IAB capability 动态绑定，补齐 common Playwright 的方法名集合、locator/frame locator、受信任 CDP input 与 IAB download object；IAB file chooser 明确不支持。`playwright.domSnapshot()` 已使用 AI/ARIA 输出及 3000/1000/500ms 顶层/iframe 预算，navigation wait 与 `expectNavigation` 采用并发等待语义，`networkidle` 按 IAB 实现明确拒绝。`tab.snapshot()` 仍是 z-code ref/action 兼容入口但不进入有效 common manifest；clipboard/dev/content/pageAssets/raw CDP 等未由 IAB descriptor 宣称，未来 backend 只能在真实实现后通过 capability/override 暴露。
+实施结果：member-level manifest/interpreter/runtime proxy/docs 已与当前 IAB capability 动态绑定，补齐 common Playwright 的方法名集合、locator/frame locator、受信任 CDP input 与 IAB download object；IAB file chooser 明确不支持。`playwright.domSnapshot()` 已使用 AI/ARIA 输出及 3000/1000/500ms 顶层/iframe 预算，navigation wait 与 `expectNavigation` 采用并发等待语义，`networkidle` 按 IAB 实现明确拒绝。`tab.snapshot()` 仍是 lumos ref/action 兼容入口但不进入有效 common manifest；clipboard/dev/content/pageAssets/raw CDP 等未由 IAB descriptor 宣称，未来 backend 只能在真实实现后通过 capability/override 暴露。
 
 ### Slice D：Plugin/runtime 解耦
 

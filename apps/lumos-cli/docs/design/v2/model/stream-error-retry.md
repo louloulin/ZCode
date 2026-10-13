@@ -4,7 +4,7 @@
 
 app-server 模式默认开启模型流式输出。Vercel AI SDK 的 `streamText().fullStream` 可能把 provider 429、5xx 或网络失败作为 `error` chunk 产出，而不是直接从 async iterator 抛出异常。
 
-历史实现把 `error` chunk 立即转成 `ModelStreamEvent.error` 交给 core。core 收到后会终止 turn，导致 adapter 的自定义重试循环没有机会发布 `model_retry_scheduled`，Lumos app-server 侧也就无法通过 `_meta.lumos.apiRetry` 通知 z-code-2。
+历史实现把 `error` chunk 立即转成 `ModelStreamEvent.error` 交给 core。core 收到后会终止 turn，导致 adapter 的自定义重试循环没有机会发布 `model_retry_scheduled`，Lumos app-server 侧也就无法通过 `_meta.lumos.apiRetry` 通知 lumos-2。
 
 ## 契约
 

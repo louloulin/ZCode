@@ -2,7 +2,7 @@
 
 ## 审计范围
 
-- 仓库：`/Users/dev/workspace/z-code`
+- 仓库：`/Users/dev/workspace/lumos`
 - 扫描对象：源码、配置、脚本、文档示例、当前 Git 跟踪文件、部分 Git 历史、生产依赖树。
 - 重点：AK/SK 泄漏、凭据存储、Electron/IPC 暴露、Web/远控接口、命令执行、日志脱敏、依赖漏洞。
 - 未做：真实渗透测试、运行时 CDP/抓包验证、第三方 relay 服务端代码审计。

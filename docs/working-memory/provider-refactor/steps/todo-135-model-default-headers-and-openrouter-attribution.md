@@ -31,7 +31,7 @@
 | 类别 | 恢复的默认内容 |
 | --- | --- |
 | 客户端版本 | `User-Agent: Lumos/<version>`、有效版本对应的 `X-Lumos-App-Version` |
-| 产品来源 | `HTTP-Referer`、`X-Title: Z Code@electron/cli`、`X-Lumos-Agent: glm` |
+| 产品来源 | `HTTP-Referer`、`X-Title: Lumos@electron/cli`、`X-Lumos-Agent: glm` |
 | 环境 | `X-Release-Channel`、`X-Client-Language`、`X-Client-Timezone` |
 | 平台 | `X-Platform`、`X-Os-Category`、`X-Os-Version` |
 

@@ -1216,7 +1216,7 @@ getAppUsageStats(params: LumosAgentAppUsageParams): Promise<AppUsageSnapshot>;
 
 - [ ] **Step 5: 类型编译验证**
 
-Run: `cd /Users/dev/workspace/z-code && npx tsc --noEmit -p packages/shared && npx tsc --noEmit -p apps/lumos-cli/packages/bootstrap`
+Run: `cd /Users/dev/workspace/lumos && npx tsc --noEmit -p packages/shared && npx tsc --noEmit -p apps/lumos-cli/packages/bootstrap`
 Expected: PASS。
 
 - [ ] **Step 6: Commit**
@@ -1317,7 +1317,7 @@ git rm packages/services/src/usage-stats/usageStatsAggregator.ts \
 
 - [ ] **Step 5: 编译验证**
 
-Run: `cd /Users/dev/workspace/z-code && npx tsc --noEmit -p packages/services && npx tsc --noEmit -p packages/desktop`
+Run: `cd /Users/dev/workspace/lumos && npx tsc --noEmit -p packages/services && npx tsc --noEmit -p packages/desktop`
 Expected: PASS。
 
 - [ ] **Step 6: Commit**
@@ -1362,7 +1362,7 @@ export const RANGE_OPTIONS: AppUsageRange[] = ["7d", "30d"];
 
 - [ ] **Step 4: 编译验证（局部）**
 
-Run: `cd /Users/dev/workspace/z-code && npx tsc --noEmit -p packages/ui`
+Run: `cd /Users/dev/workspace/lumos && npx tsc --noEmit -p packages/ui`
 Expected: 仍会因后续 Task 未完成而报概要/热力图字段错误——本步只确认 range 相关无类型错误（忽略 summary/heatmap 字段类错误，下一 Task 修）。
 
 - [ ] **Step 5: Commit**
@@ -1482,7 +1482,7 @@ import {
 
 - [ ] **Step 2: 编译验证**
 
-Run: `cd /Users/dev/workspace/z-code && npx tsc --noEmit -p packages/ui`
+Run: `cd /Users/dev/workspace/lumos && npx tsc --noEmit -p packages/ui`
 Expected: 概要相关字段错误消失；剩余热力图/趋势错误在后续 Task 修。
 
 - [ ] **Step 3: Commit**
@@ -1526,7 +1526,7 @@ title={intl.formatMessage(
 
 - [ ] **Step 3: 编译验证**
 
-Run: `cd /Users/dev/workspace/z-code && npx tsc --noEmit -p packages/ui`
+Run: `cd /Users/dev/workspace/lumos && npx tsc --noEmit -p packages/ui`
 Expected: 热力图字段错误消失。
 
 - [ ] **Step 4: Commit**
@@ -1557,7 +1557,7 @@ git commit -m "feat(ui): 30-day token heatmap"
 
 - [ ] **Step 3: 编译验证**
 
-Run: `cd /Users/dev/workspace/z-code && npx tsc --noEmit -p packages/ui`
+Run: `cd /Users/dev/workspace/lumos && npx tsc --noEmit -p packages/ui`
 Expected: 趋势/排行字段错误消失。
 
 - [ ] **Step 4: Commit**
@@ -1642,7 +1642,7 @@ function AppUsageToolUsageSection({ snapshot }: { snapshot: AppUsageSnapshot }) 
 
 - [ ] **Step 3: 编译验证**
 
-Run: `cd /Users/dev/workspace/z-code && npx tsc --noEmit -p packages/ui`
+Run: `cd /Users/dev/workspace/lumos && npx tsc --noEmit -p packages/ui`
 Expected: PASS（UI 包无类型错误）。
 
 - [ ] **Step 4: Commit**
@@ -1705,7 +1705,7 @@ Expected: 仅 message 文件自身命中（无组件引用），删之。
 
 - [ ] **Step 4: 编译 + lint + 全量测试**
 
-Run: `cd /Users/dev/workspace/z-code && npm run lint && npm test`
+Run: `cd /Users/dev/workspace/lumos && npm run lint && npm test`
 Expected: PASS。
 
 - [ ] **Step 5: Commit**
@@ -1721,7 +1721,7 @@ git commit -m "feat(ui): app usage i18n keys"
 
 - [ ] **Step 1: 全量 lint + test**
 
-Run: `cd /Users/dev/workspace/z-code && npm run lint && npm test`
+Run: `cd /Users/dev/workspace/lumos && npm run lint && npm test`
 Expected: PASS。
 
 - [ ] **Step 2: 残留引用扫描**

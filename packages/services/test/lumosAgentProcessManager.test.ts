@@ -161,7 +161,7 @@ describe("resolveDefaultLumosAgentCommand", () => {
     const sandboxRoot = mkdtempSync(join(tmpdir(), "lumos-agent-default-command-"));
     createdDirs.push(sandboxRoot);
 
-    const appRepoDir = join(sandboxRoot, "z-code");
+    const appRepoDir = join(sandboxRoot, "lumos");
     const desktopDir = join(appRepoDir, "packages", "desktop");
     const distEntrypoint = join(
       appRepoDir,
@@ -253,7 +253,7 @@ describe("resolveDefaultLumosAgentCommand", () => {
     const sandboxRoot = mkdtempSync(join(tmpdir(), "lumos-agent-desktop-surface-"));
     createdDirs.push(sandboxRoot);
 
-    const appRepoDir = join(sandboxRoot, "z-code");
+    const appRepoDir = join(sandboxRoot, "lumos");
     const desktopDir = join(appRepoDir, "packages", "desktop");
     const distEntrypoint = join(
       appRepoDir,

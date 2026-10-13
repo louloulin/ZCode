@@ -1291,8 +1291,8 @@ describe("workspaceSidePane", () => {
   });
 
   it("can open multiple terminal tabs with workspace titles", () => {
-    const first = openTerminalSidePane(null, { title: "z-code" });
-    const second = openTerminalSidePane(first, { title: "z-code 2" });
+    const first = openTerminalSidePane(null, { title: "lumos" });
+    const second = openTerminalSidePane(first, { title: "lumos 2" });
 
     expect(withoutOpenedAt(second)).toEqual({
       activeTabId: second.activeTabId,
@@ -1300,12 +1300,12 @@ describe("workspaceSidePane", () => {
         {
           id: first.activeTabId,
           type: "terminal",
-          title: "z-code",
+          title: "lumos",
         },
         {
           id: second.activeTabId,
           type: "terminal",
-          title: "z-code 2",
+          title: "lumos 2",
         },
       ],
     });

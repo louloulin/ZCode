@@ -57,7 +57,7 @@ legacy family mode / selectedKey
 ### 2.1 基线
 
 - Samantha 工作区：独立 worktree
-- MacBook Pro 标准仓库：`/Users/dev/Desktop/projects/Z.AI/z-code`
+- MacBook Pro 标准仓库：`/Users/dev/Desktop/projects/Z.AI/lumos`
 - 两端提交：`21c38683e1 test(ui): remove stale built-in model label assertion`
 - MacBook Pro 使用已有标准 bootstrap/build 结果；执行时设置 `LUMOS_E2E_SKIP_BUILD=1`、`LUMOS_E2E_SKIP_AGENT_BUILD=1`，没有修改系统配置。
 
@@ -73,7 +73,7 @@ legacy family mode / selectedKey
 Artifact 根目录：
 
 ```text
-/Users/dev/Desktop/projects/Z.AI/z-code/packages/desktop/.e2e-artifacts/
+/Users/dev/Desktop/projects/Z.AI/lumos/packages/desktop/.e2e-artifacts/
 ```
 
 四轮报告均显示 `0 flaky`、`0 infra failure`。

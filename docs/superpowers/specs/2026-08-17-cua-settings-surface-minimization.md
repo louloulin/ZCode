@@ -1,7 +1,7 @@
 # CUA 设置面收敛（helper 状态与实验性开关下线）
 
 - 日期：2026-08-17
-- 状态：已实现（MR z-code!2068 配套）
+- 状态：已实现（MR lumos!2068 配套）
 - 范围：仅 CUA 相关面；不触碰非 CUA 设置与其它功能区
 
 ## 背景
@@ -66,7 +66,7 @@ CUA 状态。
 - **controller lease 本体保留**：lumos-cua Helper 侧的用户级 lease 仲裁（多实例共存、
   仅 owner 可派发副作用与 overlay）是安全机制，本次只下线桌面端的手动 UI。
 - **desktop controller facade 已退役**：producer 0.5.7 已从 `ICuaPermissionService` 删除
-  `takeController/stopController/getHelperStatus`，z-code 同步删除零调用实现。raw broker
+  `takeController/stopController/getHelperStatus`，lumos 同步删除零调用实现。raw broker
   controller protocol、lease/admission 与 Helper 内部显式 takeover 安全机械不受影响。
 - 权限引导流（onboarding、授权返回恢复、stale 验证、重启 Lumos 兜底）行为不变；
   `restartHelper` / `getStatus` 服务面不变。

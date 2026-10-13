@@ -124,7 +124,7 @@ export function resolveSendAckSettlement(ack: {
   // 一旦落定，first-wins 会把用户确认后的真实成败结果吃掉。
   if (ack.reasonCode === HELD_QUEUE_CONFIRMATION_STALE_REASON) return null;
   // accepted/duplicate 只代表 Host 收下了命令，此时屏幕上还什么都没有；
-  // z-code 没有乐观渲染，要等投影回流出 userInput row 才算发送成功。
+  // lumos 没有乐观渲染，要等投影回流出 userInput row 才算发送成功。
   if (ack.status === "accepted" || ack.status === "duplicate") {
     return { kind: "awaitRender", ackStatus: ack.status };
   }

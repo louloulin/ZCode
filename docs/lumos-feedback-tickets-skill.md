@@ -16,7 +16,7 @@
 
 `/.agents/skills/lumos-feedback-tickets`
 
-选择项目级目录而不是全局目录，是因为该 skill 绑定 Lumos 反馈工单域名、状态流转和项目处理流程，应该随 z-code 工作区加载。
+选择项目级目录而不是全局目录，是因为该 skill 绑定 Lumos 反馈工单域名、状态流转和项目处理流程，应该随 lumos 工作区加载。
 
 ## 触发范围
 

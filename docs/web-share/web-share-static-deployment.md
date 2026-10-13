@@ -9,7 +9,7 @@ Lumos API/OAuth endpoint；页面入口为 `/cn/share`（中文）或 `/share`�
 ## 发布链路
 
 ```text
-Jenkins checkout z-code
+Jenkins checkout lumos
   -> pnpm / Dockerfile.web-share
   -> Vite build:web-share (base=/cn/share/)
   -> nginx static image

@@ -159,7 +159,7 @@ Agent(SDK)                                    Helper
   `{ env: { ELECTRON_RUN_AS_NODE: "1", [ADDON_ENV]: recipe.addonPath, …白名单 } })`。
 - recipe 经 spawn env 注入，键名定稿为 `LUMOS_CUA_WIN_HELPER_RECIPE`（值为 JSON：
   `entryPath`、`command`、`root`、`addonPath`、`commandEnv`、`hostPid`；常量登记进
-  producer helperConstants，z-code 侧用同名字面量，两处一致属跨仓契约）。
+  producer helperConstants，lumos 侧用同名字面量，两处一致属跨仓契约）。
 - `--parent-pid` 恒为 **hostPid**：Helper 生命周期挂 Host（watchdog 只认 Host pid），
   不随 fork 方 Agent 退出；Agent 进程死亡后 Helper 存续，stdio control channel 断写
   属可接受损耗（该 channel 仅作拉起方可观测性，见下）。

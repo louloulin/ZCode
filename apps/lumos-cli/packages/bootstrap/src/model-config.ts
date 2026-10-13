@@ -59,7 +59,7 @@ export function buildCliLumosSourceHeaders(
     "HTTP-Referer": resolveRuntimeLumosEndpointOrigin(env),
     "User-Agent": `Lumos/${appVersion ?? "unknown"}`,
     ...(appVersion ? { "X-Lumos-App-Version": appVersion } : {}),
-    "X-Title": `Z Code@${sourceTitle}`,
+    "X-Title": `Lumos@${sourceTitle}`,
     "X-Release-Channel": resolveRuntimeLumosEnv(env),
     "X-Client-Language": locale ?? "unknown",
     "X-Client-Timezone": timezone ?? "unknown",

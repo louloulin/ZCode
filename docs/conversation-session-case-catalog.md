@@ -2236,7 +2236,7 @@ log/projection；relay、desktop main 和 renderer 不重新执行截图。完�
 
 ## VDP. v4 Conversation Detail Parity / v4 会话细节回归
 
-v4 Conversation Detail Parity 只覆盖本次从 z-code-2 对照出的 P0 renderer 行为恢复：工具失败正文必须能在 tool block 中看见；assistant markdown 文件链接必须保留 hover 下划线交互，并点击进入现有右侧文件详情/文件树链路。本组不新增 protocol、host process、relay、session stream、desktop continuous 或 web remote replayable 语义。
+v4 Conversation Detail Parity 只覆盖本次从 lumos-2 对照出的 P0 renderer 行为恢复：工具失败正文必须能在 tool block 中看见；assistant markdown 文件链接必须保留 hover 下划线交互，并点击进入现有右侧文件详情/文件树链路。本组不新增 protocol、host process、relay、session stream、desktop continuous 或 web remote replayable 语义。
 
 ```text
 v4 rows

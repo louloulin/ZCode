@@ -41,7 +41,7 @@ describe("providerRuntimeResolver glm workdir discovery", () => {
     const sandboxRoot = mkdtempSync(join(tmpdir(), "lumos-glm-workdir-"));
     createdDirs.push(sandboxRoot);
 
-    const appRepoDir = join(sandboxRoot, "z-code-2");
+    const appRepoDir = join(sandboxRoot, "lumos-2");
     const glmRepoDir = join(sandboxRoot, "lumos-cli");
     mkdirSync(appRepoDir, { recursive: true });
     mkdirSync(join(glmRepoDir, "packages", "cli", "src"), { recursive: true });
@@ -60,7 +60,7 @@ describe("providerRuntimeResolver glm workdir discovery", () => {
     const sandboxRoot = mkdtempSync(join(tmpdir(), "lumos-glm-desktop-cwd-"));
     createdDirs.push(sandboxRoot);
 
-    const appRepoDir = join(sandboxRoot, "z-code-3");
+    const appRepoDir = join(sandboxRoot, "lumos-3");
     const desktopDir = join(appRepoDir, "packages", "desktop");
     const glmRepoDir = join(sandboxRoot, "lumos-cli");
     mkdirSync(desktopDir, { recursive: true });
@@ -81,7 +81,7 @@ describe("providerRuntimeResolver glm workdir discovery", () => {
     const sandboxRoot = mkdtempSync(join(tmpdir(), "lumos-glm-src-cli-"));
     createdDirs.push(sandboxRoot);
 
-    const appRepoDir = join(sandboxRoot, "z-code");
+    const appRepoDir = join(sandboxRoot, "lumos");
     const glmRepoDir = join(sandboxRoot, "lumos-cli");
     mkdirSync(appRepoDir, { recursive: true });
     mkdirSync(join(glmRepoDir, "src"), { recursive: true });
@@ -103,7 +103,7 @@ describe("providerRuntimeResolver glm workdir discovery", () => {
     // bundled resources in production.
     process.env.HOME = sandboxRoot;
 
-    const appRepoDir = join(sandboxRoot, "z-code-2");
+    const appRepoDir = join(sandboxRoot, "lumos-2");
     // Bugfix: GLM 生产态二进制名会按平台解析，Windows 下实际查找的是 lumos-agent.exe。
     // 之前测试固定写成无后缀文件，导致 findBinary("glm") 返回 null，
     // 最终被 realpathSync(null) 表现成对 ...\\null 的 lstat，掩盖了真实原因。

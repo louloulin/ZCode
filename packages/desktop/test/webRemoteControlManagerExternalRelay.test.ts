@@ -1636,9 +1636,9 @@ describe("createWebRemoteControlManager external relay", () => {
   it("keeps the dialog status target on the window workspace after mobile opens another workspace bridge", async () => {
     const { deliverPayload, manager, sentPayloads } = createManagerHarness();
 
-    await manager.start(1, { workspacePath: "/workspace/z-code" });
+    await manager.start(1, { workspacePath: "/workspace/lumos" });
     manager.syncAvailableWorkspaces(1, [
-      { workspacePath: "/workspace/z-code", label: "z-code", kind: "local" },
+      { workspacePath: "/workspace/lumos", label: "lumos", kind: "local" },
       { workspacePath: "/workspace/cgx-dev-web", label: "cgx-dev-web", kind: "local" },
     ]);
 
@@ -1660,7 +1660,7 @@ describe("createWebRemoteControlManager external relay", () => {
 
     expect(manager.getStatus(1)).toMatchObject({
       status: "active",
-      workspacePath: "/workspace/z-code",
+      workspacePath: "/workspace/lumos",
     });
   });
 

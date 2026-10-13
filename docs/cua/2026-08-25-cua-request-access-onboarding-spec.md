@@ -2,7 +2,7 @@
 
 - 日期：2026-08-25
 - 状态：实现中
-- 关联：producer `lumos-cua` !576、consumer `z-code` !2315
+- 关联：producer `lumos-cua` !576、consumer `lumos` !2315
 
 ## 产品合同
 

@@ -187,7 +187,7 @@ describe("模型请求默认 Header：Bootstrap → Adapter → 真实 SDK", () 
         const headers = requests[0]!.headers;
         expect(headers.get("user-agent")).toContain(`Lumos/${CLIENT_VERSION}`);
         expect(headers.get("x-lumos-app-version")).toBe(CLIENT_VERSION);
-        expect(headers.get("x-title")).toBe("Z Code@electron");
+        expect(headers.get("x-title")).toBe("Lumos@electron");
         expect(headers.get("http-referer")).toBe("https://lumos.z.ai");
         expect(headers.get("x-lumos-agent")).toBe("glm");
         expect(headers.get("x-release-channel")).toBe("production");
@@ -260,7 +260,7 @@ describe("模型请求默认 Header：Bootstrap → Adapter → 真实 SDK", () 
       `Lumos/${options.expected ?? "unknown"}`,
     );
     expect(requests[0]!.headers.get("x-lumos-app-version")).toBe(options.expected ?? null);
-    expect(requests[0]!.headers.get("x-title")).toBe(`Z Code@${options.sourceTitle}`);
+    expect(requests[0]!.headers.get("x-title")).toBe(`Lumos@${options.sourceTitle}`);
   });
 
   it("真实 Runtime 标题 sidecar 沿公共工厂携带版本、other 类型和会话追踪", async () => {

@@ -46,7 +46,7 @@ it("adds every public header and re-reads authorization on retry and logout", as
     "Content-Type": "application/json",
     "User-Agent": "Lumos/1.2.3",
     "HTTP-Referer": "https://lumos.z.ai",
-    "X-Title": "Z Code@electron",
+    "X-Title": "Lumos@electron",
     "X-Lumos-App-Version": "1.2.3",
     "X-Platform": "darwin-arm64",
     "X-Release-Channel": "test",

@@ -106,20 +106,20 @@ type MemoryCatalogService = Pick<IMemoryService, "listProjectMemories">;
 
 const workspaces = [
   {
-    id: "z-code-1111111111111111",
-    label: "z-code",
+    id: "lumos-1111111111111111",
+    label: "lumos",
     updatedAt: 20,
     files: [
       {
         name: "MEMORY.md",
-        path: "/memory/z-code/MEMORY.md",
+        path: "/memory/lumos/MEMORY.md",
         kind: "index" as const,
         size: 12,
         updatedAt: 20,
       },
       {
         name: "fact-a.md",
-        path: "/memory/z-code/fact-a.md",
+        path: "/memory/lumos/fact-a.md",
         kind: "item" as const,
         size: 10,
         updatedAt: 10,
@@ -184,9 +184,9 @@ describe("MemorySettingsSection", () => {
   });
 
   it("默认选择首个 Workspace 并直接显示该 Scope 的文件", async () => {
-    renderSection(createService(), true, ["Z Code", "Second"]);
+    renderSection(createService(), true, ["Lumos", "Second"]);
     const scopeTrigger = await screen.findByTestId(TID_SETTINGS_MEMORY_SCOPE_TRIGGER);
-    expect(scopeTrigger.textContent).toContain("Z Code");
+    expect(scopeTrigger.textContent).toContain("Lumos");
     expect(screen.getByTestId(TID_SETTINGS_MEMORY_SCOPE_ICON)).toBeTruthy();
     expect(screen.queryByText("User")).toBeNull();
     expect(screen.getByTestId(TID_SETTINGS_MEMORY_COUNT).textContent).toBe(
@@ -210,7 +210,7 @@ describe("MemorySettingsSection", () => {
     expect(fileName.className).toContain("font-medium");
     expect(fileName.className).not.toContain("font-mono");
     expect(
-      screen.getByTestId("memory-editor-/memory/z-code/MEMORY.md"),
+      screen.getByTestId("memory-editor-/memory/lumos/MEMORY.md"),
     ).toBeTruthy();
     expect(
       screen.getByTestId(
@@ -233,14 +233,14 @@ describe("MemorySettingsSection", () => {
   });
 
   it("Workspace Scope 按 settings.json 提供的 recentProjects 顺序排列", async () => {
-    renderSection(createService(), true, ["Second", "Z Code"]);
+    renderSection(createService(), true, ["Second", "Lumos"]);
 
     expect(
       (await screen.findByTestId(TID_SETTINGS_MEMORY_SCOPE_TRIGGER)).textContent,
     ).toContain("Second");
     expect(
       screen.getAllByRole("menuitemradio").map((item) => item.textContent),
-    ).toEqual(["Second", "Z Code"]);
+    ).toEqual(["Second", "Lumos"]);
     expect(
       screen.getByTestId(testId(TID_SETTINGS_MEMORY_FILE, "fact-b.md")),
     ).toBeTruthy();
@@ -312,7 +312,7 @@ describe("MemorySettingsSection", () => {
       expect(
         screen.getByTestId(TID_SETTINGS_MEMORY_SCOPE_TRIGGER).textContent,
       ).toContain(
-        "z-code",
+        "lumos",
       ),
     );
   });

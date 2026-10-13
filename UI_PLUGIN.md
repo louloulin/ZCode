@@ -201,7 +201,7 @@ flowchart LR
 ### 首次联调：只安装要测的插件
 
 ```sh
-LUMOS_REPO=/path/to/z-code
+LUMOS_REPO=/path/to/lumos
 PLUGINS_REPO=/path/to/lumos-plugins
 
 # 可选隔离开发配置；后续 CLI 和桌面启动保持同一个值。

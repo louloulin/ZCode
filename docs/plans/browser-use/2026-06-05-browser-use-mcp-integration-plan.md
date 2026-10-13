@@ -6,7 +6,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 让 lumos-cli 内模型可以在受控开关开启后，通过内置 `browser_use` session-injected MCP 操作 z-code 桌面内置浏览器，并为未来 iOS Simulator、Android Emulator 等可视化自动化实例复用同一套 session/instance 管理结构。
+**Goal:** 让 lumos-cli 内模型可以在受控开关开启后，通过内置 `browser_use` session-injected MCP 操作 lumos 桌面内置浏览器，并为未来 iOS Simulator、Android Emulator 等可视化自动化实例复用同一套 session/instance 管理结构。
 
 **Architecture:** 采用内置 session-injected MCP，而不是普通 official plugin。Host/service 层按 Lumos task/session 创建 `AutomationSurfaceSession`，按需注入 per-session loopback HTTP MCP；桌面 main 只承载 Electron WebContents/platform provider，UI 负责 retained/visible view 渲染。`browser` 是第一个 `AutomationSurfaceProvider`，未来 `ios-simulator`、`android-emulator` 只新增 provider 与 tool adapter，不重做 session 管理。
 
@@ -29,7 +29,7 @@
 
 3. z-ai-pc 的方向可迁移，但不能照搬：
    - 可迁移：per-session HTTP MCP、runtime Map 管 session、partition/lastUrl 按 session 持久化、renderer 自动打开并 attach webview、guest preload 执行 DOM 操作。
-   - 需要改进：去掉全局 `registerBrowserRuntime` 风格，改为 z-code DI；`BrowserRuntime` 提升为通用 `AutomationSurfaceRuntime`；`active/visible` 不能只按裸 sessionID，必须带 workspace identity、clientMode；Electron preload 例外必须限定 partition；mobile `/remote` 只能 attach 现有 host/runtime，不能独立启动。
+   - 需要改进：去掉全局 `registerBrowserRuntime` 风格，改为 lumos DI；`BrowserRuntime` 提升为通用 `AutomationSurfaceRuntime`；`active/visible` 不能只按裸 sessionID，必须带 workspace identity、clientMode；Electron preload 例外必须限定 partition；mobile `/remote` 只能 attach 现有 host/runtime，不能独立启动。
 
 ## 关键边界
 
@@ -43,7 +43,7 @@
 
 ## 当前事实
 
-- z-code 已有 human Browser side pane：`packages/ui/src/EmbeddedBrowserPane.tsx` + `packages/ui/src/EmbeddedBrowserPaneParts.tsx`。
+- lumos 已有 human Browser side pane：`packages/ui/src/EmbeddedBrowserPane.tsx` + `packages/ui/src/EmbeddedBrowserPaneParts.tsx`。
 - 当前 Browser side pane memory 是 workspace 级共享，不适合直接承载 task/session-scoped automation instance。
 - `packages/desktop/src/main/desktopWindowChrome.ts` 当前会删除所有 webview preload 并强制 sandbox；automation webview 必须做 partition-scoped 例外。
 - Lumos app/server create/resume schema 尚未完整贯通 UI/host 注入的 MCP servers。
@@ -931,7 +931,7 @@ git commit -m "feat: add desktop automation surface runtime"
 - Test: `packages/desktop/test/browserAutomationProvider.test.ts`
 - Test: `packages/desktop/test/browserAutomationPreload.test.ts`
 
-- [ ] **Step 1: Port z-ai-pc BrowserSession with z-code constraints**
+- [ ] **Step 1: Port z-ai-pc BrowserSession with lumos constraints**
 
 Implement browser provider with these differences from z-ai-pc:
 
@@ -1449,12 +1449,12 @@ sequenceDiagram
 - Replace globals with DI and typed host/main bridge.
 - Replace bare `sessionID` with `AutomationSurfaceSessionRef`.
 - Replace browser-only side pane state with `AutomationSurfaceSidePaneTab`.
-- Preserve z-code remote-control boundaries and workspace identity rules.
+- Preserve lumos remote-control boundaries and workspace identity rules.
 
 ## Self-Review
 
 - Confirmed item 1: Plan uses built-in session-injected MCP and defines both enable and auto-open switches.
 - Confirmed item 2: Plan introduces generic `AutomationSurfaceSession` / `AutomationSurfaceInstance` / provider structure for browser, iOS simulator, and Android emulator.
-- Confirmed item 3: Plan reuses z-ai-pc's per-session/runtime shape but explicitly fixes z-code-specific gaps: DI, workspace identity, clientMode, host/main bridge, preload scope, remote-control boundaries, logging, settings, and i18n.
+- Confirmed item 3: Plan reuses z-ai-pc's per-session/runtime shape but explicitly fixes lumos-specific gaps: DI, workspace identity, clientMode, host/main bridge, preload scope, remote-control boundaries, logging, settings, and i18n.
 - 完整性扫描: 所有任务都写明具体文件、验证命令和预期结果。
 - Residual risk: Electron sandbox-compatible guest preload must be verified in Task 5. If current Electron cannot load the preload with `sandbox=true`, keep `sandbox=false` only for automation partition and document the reason in code and docs.

@@ -80,7 +80,7 @@ const subagentCommonNotes = `Notes:
 
 const subagentEnvironmentContext = `Here is useful information about the environment you are running in:
 <env>
-Working directory: /Users/dev/Desktop/Z/z-code/apps/lumos-cli
+Working directory: /Users/dev/Desktop/Z/lumos/apps/lumos-cli
 Is directory a git repo: Yes
 Platform: darwin
 Shell: Git Bash
@@ -365,7 +365,7 @@ describe("Explore subagent", () => {
           path: "C:\\Program Files\\Git\\bin\\bash.exe",
           source: "user-config",
         },
-        workingDirectory: "/Users/dev/Desktop/Z/z-code/apps/lumos-cli",
+        workingDirectory: "/Users/dev/Desktop/Z/lumos/apps/lumos-cli",
         currentDate: "2026-06-04",
         projectContext: {
           type: "node",
@@ -375,7 +375,7 @@ describe("Explore subagent", () => {
           },
         },
         envInfo: {
-          cwd: "/Users/dev/Desktop/Z/z-code/apps/lumos-cli",
+          cwd: "/Users/dev/Desktop/Z/lumos/apps/lumos-cli",
           platform: "darwin",
           shell: "zsh",
           osVersion: "Darwin 24.3.0",

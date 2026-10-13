@@ -2,7 +2,7 @@
 
 > 本笔记记录 dev Helper 构建相关的关键事实。dev Helper 的构建脚本
 > （`scripts/build-cua-helper-app.mjs`）与稳定签名身份工具
-> （`scripts/ensure-cua-helper-dev-identity.mjs`）都在本仓（z-code）；
+> （`scripts/ensure-cua-helper-dev-identity.mjs`）都在本仓（lumos）；
 > producer（lumos-cua）仓的 `docs/cua-permission-broker/` 另有评测侧笔记。
 
 ## 稳定 TCC 授权（一次性设置，消除每次 rebuild 重新授权）
@@ -10,7 +10,7 @@
 **问题**：dev Helper 每次 rebuild 后 CDHash 变化，macOS 把它当新 app，要求重新授予
 Accessibility + Screen Recording——开发迭代时每轮都要手动授权，严重拖慢速度。
 
-**解决**（z-code 仓 `scripts/ensure-cua-helper-dev-identity.mjs`）：一次性创建自签
+**解决**（lumos 仓 `scripts/ensure-cua-helper-dev-identity.mjs`）：一次性创建自签
 证书 `lumos-cua-helper-dev` 存入 login keychain，此后所有 dev Helper 用它签名 →
 designated requirement 锚定证书公钥（稳定）而非 CDHash → **TCC 授权跨 rebuild 持久**。
 
@@ -19,7 +19,7 @@ designated requirement 锚定证书公钥（稳定）而非 CDHash → **TCC 授
 ```bash
 # ⚠️ 必须在本地 GUI 终端（Terminal/ghostty）跑，SSH 会话会被 macOS 拒绝
 #    （"User interaction is not allowed"——keychain 写操作要求 GUI audit session）
-cd <z-code 仓> && node scripts/ensure-cua-helper-dev-identity.mjs
+cd <lumos 仓> && node scripts/ensure-cua-helper-dev-identity.mjs
 # 弹出信任对话框时点「始终信任」。之后 rebuild 永远不再弹 TCC 授权。
 ```
 
@@ -49,7 +49,7 @@ dev Helper 现在会把 `sharp` 的原生 prebuild 暂存进
 `Lumos Computer Use Dev.app/Contents/Resources/node_modules/`（镜像产品侧 D-018 的做法）。
 `require('sharp')` 返回一个 function;RGBA→resize→JPEG 的功能管线已真机验证通过。
 
-- 修复脚本:`scripts/build-cua-helper-app.mjs`(z-code-toolset 仓)。
+- 修复脚本:`scripts/build-cua-helper-app.mjs`(lumos-toolset 仓)。
 - 此前症状:dev Helper 内 `require('sharp')` 失败,截图后端跑不了 resize / 编码。
 - 验证口径:wave-10 真机测试,functional RGBA→resize→JPEG pipeline 通过。
 

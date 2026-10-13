@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Align v4 conversation layout with z-code-2 so the message list and composer share one scroll viewport and one `max-w-3xl` content column.
+**Goal:** Align v4 conversation layout with lumos-2 so the message list and composer share one scroll viewport and one `max-w-3xl` content column.
 
 **Architecture:** Keep `ConversationTimeline` as the owner of virtual scrolling and bottom-following state, but add a `bottomDock` render slot inside its scroll viewport. `SessionPane` passes the existing composer node through that slot for bound sessions and keeps draft layout unchanged.
 

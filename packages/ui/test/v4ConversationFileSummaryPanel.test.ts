@@ -398,7 +398,7 @@ describe("ConversationFileSummaryPanel", () => {
     await act(async () => root.unmount());
   });
 
-  it("matches z-code-2 summary card visual shell", () => {
+  it("matches lumos-2 summary card visual shell", () => {
     const html = renderPanel();
 
     expect(html).toContain("rounded-xl border border-border bg-card shadow-none");

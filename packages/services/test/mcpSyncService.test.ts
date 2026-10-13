@@ -453,7 +453,7 @@ describe("mcp sync service", () => {
 
   it("rewrites filesystem MCP home and workspace paths for the remote host", async () => {
     const localHome = makeHome();
-    const localWorkspacePath = join(localHome, "workspace", "z-code");
+    const localWorkspacePath = join(localHome, "workspace", "lumos");
     process.env.HOME = localHome;
     await writeLumosUserMcp(localHome, {
       filesystem: {
@@ -480,7 +480,7 @@ describe("mcp sync service", () => {
       servers: exported.servers,
       localHomeDir: exported.localHomeDir,
       localWorkspacePath,
-      remoteWorkspacePath: "/srv/z-code",
+      remoteWorkspacePath: "/srv/lumos",
       overwrite: false,
     });
 
@@ -488,7 +488,7 @@ describe("mcp sync service", () => {
     expect(remoteServers.filesystem?.args).toEqual([
       "-y",
       "@modelcontextprotocol/server-filesystem",
-      "/srv/z-code/src",
+      "/srv/lumos/src",
       join(remoteHome, "Documents"),
     ]);
   });

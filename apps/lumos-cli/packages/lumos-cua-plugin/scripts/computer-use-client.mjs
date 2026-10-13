@@ -404,7 +404,7 @@ function alternateAppRef(target, windowId) {
  * 与 #29 同类：字符串在两个仓库各写一遍，一侧改了另一侧不知道。
  *
  * 前缀是这条错误的语义核心（"目标 app 没在运行"），后半句是随可执行建议演化的部分。
- * z-code 侧的 sdk 测试钉住了 producer 的现行文案必须仍被这里命中。
+ * lumos 侧的 sdk 测试钉住了 producer 的现行文案必须仍被这里命中。
  */
 function isAppNotFound(result) {
   if (!result?.isError) return false;

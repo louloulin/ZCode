@@ -34,7 +34,7 @@
 对照样本：
 
 - 最近定向成功：`desktop-e2e-20260710-053440-746`
-- 历史 Windows CI：`C:/gitlab-runner/builds/yH1yP9nW3/1/codegeex/z-code/packages/desktop/.e2e-artifacts/ci-conversation-windows-232902-632167/ci-desktop-e2e.log`
+- 历史 Windows CI：`C:/gitlab-runner/builds/yH1yP9nW3/1/codegeex/lumos/packages/desktop/.e2e-artifacts/ci-conversation-windows-232902-632167/ci-desktop-e2e.log`
 
 ### 2. 口径与限制
 

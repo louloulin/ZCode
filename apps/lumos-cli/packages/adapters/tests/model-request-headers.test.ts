@@ -6,7 +6,7 @@ import { createRegistryProviderConfig, parseProviderConfig } from "@lumos/provid
 
 describe("模型 Header 合并与绑定边界", () => {
   it("默认值、用户值、鉴权值依次覆盖，保留其他字段且不改变输入", () => {
-    const defaults = { "X-Title": "Z Code@cli", "X-Lumos-App-Version": "3.12.0" };
+    const defaults = { "X-Title": "Lumos@cli", "X-Lumos-App-Version": "3.12.0" };
     const personal = { "x-title": "User", authorization: "old" };
     const auth = { Authorization: "Bearer fresh", "X-Once": "once" };
     expect(mergeModelRequestHeaders(defaults, personal, auth)).toEqual({
@@ -15,12 +15,12 @@ describe("模型 Header 合并与绑定边界", () => {
       Authorization: "Bearer fresh",
       "X-Once": "once",
     });
-    expect(defaults["X-Title"]).toBe("Z Code@cli");
+    expect(defaults["X-Title"]).toBe("Lumos@cli");
     expect(personal.authorization).toBe("old");
   });
 
   it("绑定后默认值/Provider 修改不影响旧 Model，鉴权只覆盖本次请求", async () => {
-    const defaults = { "X-Title": "Z Code@electron", "X-Lumos-App-Version": "3.12.0" };
+    const defaults = { "X-Title": "Lumos@electron", "X-Lumos-App-Version": "3.12.0" };
     const requests: Request[] = [];
     const execution = new AiSdkModelExecution(
       { defaultHeaders: defaults, env: {} },

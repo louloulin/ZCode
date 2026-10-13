@@ -28,7 +28,7 @@ Lumos Agent MCP 用户配置位于 `~/.lumos/cli/config.json` 的 `mcp.servers`�
       "lumos_image_payload_test": {
         "type": "stdio",
         "command": "node",
-        "args": ["/Users/dev/workspace/z-code/scripts/mcp-image-payload-test-server.mjs"]
+        "args": ["/Users/dev/workspace/lumos/scripts/mcp-image-payload-test-server.mjs"]
       }
     }
   }

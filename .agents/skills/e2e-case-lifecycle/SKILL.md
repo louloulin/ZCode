@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # E2E Case Lifecycle
 
-Use this skill for the z-code E2E lifecycle: manual-review automation, capture/replay evidence, formal fixture promotion, Docker admission, and CI. It is intentionally domain-neutral: use it for conversation flows, SSH, provider settings, UI workflows, filesystem behavior, remote runtimes, auth/config, and similar product surfaces. Work from the z-code repo root.
+Use this skill for the lumos E2E lifecycle: manual-review automation, capture/replay evidence, formal fixture promotion, Docker admission, and CI. It is intentionally domain-neutral: use it for conversation flows, SSH, provider settings, UI workflows, filesystem behavior, remote runtimes, auth/config, and similar product surfaces. Work from the lumos repo root.
 
 ## Required Reading
 

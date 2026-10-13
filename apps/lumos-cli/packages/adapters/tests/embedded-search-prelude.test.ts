@@ -165,7 +165,7 @@ describe("embedded search bash prelude", () => {
         backend: {
           kind: "internal-cli",
           command: "C:\\Program Files\\Lumos\\lumos.exe",
-          args: ["C:\\Users\\me\\z-code\\apps\\lumos-cli\\src\\run.ts", "__internal-search"],
+          args: ["C:\\Users\\me\\lumos\\apps\\lumos-cli\\src\\run.ts", "__internal-search"],
         },
       },
       { shellDialect: "git-bash" },
@@ -175,7 +175,7 @@ describe("embedded search bash prelude", () => {
       "command -v '/c/Program Files/Lumos/lumos.exe' >/dev/null 2>&1 || { command grep \"$@\"; return; }",
     );
     expect(command).toContain(
-      "command '/c/Program Files/Lumos/lumos.exe' /c/Users/me/z-code/apps/lumos-cli/src/run.ts __internal-search grep \"$@\"",
+      "command '/c/Program Files/Lumos/lumos.exe' /c/Users/me/lumos/apps/lumos-cli/src/run.ts __internal-search grep \"$@\"",
     );
   });
 

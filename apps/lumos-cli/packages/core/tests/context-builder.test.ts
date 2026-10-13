@@ -1267,7 +1267,7 @@ describe("ContextBuilder meta user context", () => {
         "?? docs/plan/tool-prompt-plan.md",
       ],
       recentCommits: [
-        "ed2cac59d Merge branch 'feat/trajectory' of https://git.example.invalid/codegeex/z-code into feat/trajectory",
+        "ed2cac59d Merge branch 'feat/trajectory' of https://git.example.invalid/codegeex/lumos into feat/trajectory",
         "07957b58c chore: update doc",
       ],
     });
@@ -1284,7 +1284,7 @@ describe("ContextBuilder meta user context", () => {
         "",
         "Status:\nM docs/notes/prompt-assembly-notes.md\n M docs/notes/tool-descriptions-notes.md\n M packages/contracts/src/tools/ask-user-question.ts\n?? docs/plan/tool-prompt-plan.md",
         "",
-        "Recent commits:\ned2cac59d Merge branch 'feat/trajectory' of https://git.example.invalid/codegeex/z-code into feat/trajectory\n07957b58c chore: update doc",
+        "Recent commits:\ned2cac59d Merge branch 'feat/trajectory' of https://git.example.invalid/codegeex/lumos into feat/trajectory\n07957b58c chore: update doc",
       ].join("\n"),
     );
     expect(

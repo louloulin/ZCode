@@ -9,7 +9,7 @@ import {
 } from "@lumos/shared";
 import { probeWorkspaceAppState } from "./e2e/helpers/desktop-app.js";
 
-const PROJECT_PATH = "/Users/dev/Code/z-code/.e2e-home/LumosProject";
+const PROJECT_PATH = "/Users/dev/Code/lumos/.e2e-home/LumosProject";
 
 function probe(expectedPath = PROJECT_PATH) {
   return probeWorkspaceAppState({

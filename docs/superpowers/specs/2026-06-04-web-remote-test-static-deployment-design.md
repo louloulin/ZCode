@@ -39,7 +39,7 @@ v3:
 ## 非目标
 
 1. 不把 `/remote/__test__` 合并到 v2 或 v3 容器中做子路由复用。
-2. 不在 z-code 发布脚本里创建 k8s deployment、service 或 ingress。
+2. 不在 lumos 发布脚本里创建 k8s deployment、service 或 ingress。
 3. 不修改 `packages/desktop/src/main/index.ts` 的默认 `mobileRemoteControlUrl`。
 4. 不改变 `/web-remote` OAuth 兼容入口。
 5. 不新增独立 Agent runtime、local host、SSH/WSL/Docker session 或 relay 业务状态。
@@ -134,7 +134,7 @@ replace first image field in lumos/frontend/deployment-remote-test.yaml
 commit and push MR branch
 ```
 
-如果 `deployment-remote-test.yaml` 不存在，脚本直接失败并提示，避免 z-code 仓库越权生成 k8s 资源。
+如果 `deployment-remote-test.yaml` 不存在，脚本直接失败并提示，避免 lumos 仓库越权生成 k8s 资源。
 
 ## Desktop 入口
 
@@ -150,7 +150,7 @@ LUMOS_WEB_REMOTE_CONTROL_URL=https://lumos.z.ai/remote/__test__ pnpm dev:desktop
 
 ## k8s 配套要求
 
-z-code 发布脚本只更新 deployment image。k8s 仓库需要提前准备：
+lumos 发布脚本只更新 deployment image。k8s 仓库需要提前准备：
 
 1. `lumos/frontend/deployment-remote-test.yaml`
 2. 指向 test deployment 的 service

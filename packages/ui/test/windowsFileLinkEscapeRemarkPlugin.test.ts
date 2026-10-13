@@ -53,8 +53,8 @@ describe("windowsFileLinkEscapeRemarkPlugin", () => {
   });
 
   it("leaves Windows paths that lost nothing untouched", () => {
-    const markdown = String.raw`[app](C:\Users\dev\z-code\src\app.ts)`;
-    expect(collectUrls(markdown)).toEqual([String.raw`C:\Users\dev\z-code\src\app.ts`]);
+    const markdown = String.raw`[app](C:\Users\dev\lumos\src\app.ts)`;
+    expect(collectUrls(markdown)).toEqual([String.raw`C:\Users\dev\lumos\src\app.ts`]);
   });
 
   it("restores forward-slash drive paths that still contain an escaped punctuation", () => {

@@ -24,7 +24,7 @@ describe("buildLumosSourceHeadersFromContext", () => {
       "HTTP-Referer": "https://lumos.z.ai",
       "User-Agent": "Lumos/2.14.0",
       "X-Lumos-App-Version": "2.14.0",
-      "X-Title": "Z Code@cli",
+      "X-Title": "Lumos@cli",
       "X-Platform": "darwin-arm64",
       "X-Release-Channel": "test",
       "X-Client-Language": "zh-CN",
@@ -50,7 +50,7 @@ describe("buildLumosSourceHeadersFromContext", () => {
       "X-Client-Language": "unknown",
       "X-Client-Timezone": "unknown",
       "X-Os-Category": "windows",
-      "X-Title": "Z Code@electron",
+      "X-Title": "Lumos@electron",
     });
     expect(headers).not.toHaveProperty("X-Device-Mid");
     expect(headers).not.toHaveProperty("X-Lumos-App-Version");
