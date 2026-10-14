@@ -13,7 +13,7 @@ function decodeCommand(args: string[]): string {
 
 describe("powershell-command", () => {
   it("把动态值编码进脚本且不再依赖普通 -Command 的尾随参数", () => {
-    const values = ["C:\\Program Files\\Z'Code;测试\\helper.exe", "value with spaces & symbols"];
+    const values = ["C:\\Program Files\\Lumos'Code;测试\\helper.exe", "value with spaces & symbols"];
     const args = createEncodedPowerShellArgs(
       "[Console]::Out.Write($lumosArg0 + '|' + $lumosArg1)",
       values,
@@ -45,7 +45,7 @@ describe("powershell-command", () => {
   it.runIf(process.platform === "win32")(
     "Windows PowerShell 能还原带空格和脚本元字符的动态值",
     () => {
-      const values = ["C:\\Program Files\\Z'Code;测试\\helper.exe", "value with spaces & symbols"];
+      const values = ["C:\\Program Files\\Lumos'Code;测试\\helper.exe", "value with spaces & symbols"];
       const output = execFileSync(
         "powershell.exe",
         createEncodedPowerShellArgs(

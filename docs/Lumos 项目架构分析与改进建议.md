@@ -4,7 +4,7 @@
 > 多窗口与旧协议判断不再代表当前事实。当前架构请读
 > `docs/architecture/lumos-code-architecture-overview.md`。
 
-> 调研范围：z\-code monorepo（v2\.15\.1，pnpm workspace），含嵌套独立 monorepo `apps/lumos-cli`（Lumos Agent，v0\.14\.1）。数据来源于仓库实际文件统计与文档核对，日期 2026\-06\-10。
+> 调研范围：lumos monorepo（v2\.15\.1，pnpm workspace），含嵌套独立 monorepo `apps/lumos-cli`（Lumos Agent，v0\.14\.1）。数据来源于仓库实际文件统计与文档核对，日期 2026\-06\-10。
 > 
 > 
 
