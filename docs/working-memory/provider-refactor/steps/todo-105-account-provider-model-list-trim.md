@@ -5,7 +5,7 @@
 ## 已确认要求
 
 - 个人和团队 Account Provider 的预设模型名单移除 `GLM-5-Turbo`、`GLM-5.2`。
-- 范围覆盖 BigModel 与 Z.ai 的个人／团队 Account Provider。
+- 范围覆盖 BigModel 与 Lumos 的个人／团队 Account Provider。
 
 ## 范围边界
 

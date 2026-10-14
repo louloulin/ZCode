@@ -25,7 +25,7 @@
 ```text
 mobile browser /remote
   -> WebSocket terminal
-  -> external relay wss://lumos.z.ai/ws
+  -> external relay wss://lumosai.cc/ws
   -> WebSocket device
   -> desktop main
   -> shared-host attachment

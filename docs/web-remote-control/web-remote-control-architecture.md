@@ -65,19 +65,19 @@ Desktop 和 mobile web 只在标准 test endpoint 上切换到测试 relay，pro
 endpoint 继续使用生产 relay：
 
 ```bash
-production/default: wss://lumos.z.ai/ws
-test endpoint:       wss://lumos.z.ai/ws
+production/default: wss://lumosai.cc/ws
+test endpoint:       wss://lumosai.cc/ws
 ```
 
 `LUMOS_WEB_REMOTE_CONTROL_RELAY_WS_URL` 仍是最高优先级的显式调试覆盖。没有覆盖时，仅当规范化后的
-endpoint origin 为 `https://lumos.z.ai` 才使用测试 relay；production 与 localhost/custom
+endpoint origin 为 `https://lumosai.cc` 才使用测试 relay；production 与 localhost/custom
 endpoint 保持生产 relay，避免扩大自定义 endpoint 的既有语义。二维码页面 URL 仍由 App 版本在
 `/remote/v3` 与 `/remote/v4` 之间派生；`LUMOS_WEB_REMOTE_CONTROL_URL` 只用于显式调试覆盖。
 
 开发时可以把手机页指向本地 web：
 
 ```bash
-LUMOS_WEB_REMOTE_CONTROL_RELAY_WS_URL=wss://lumos.z.ai/ws \
+LUMOS_WEB_REMOTE_CONTROL_RELAY_WS_URL=wss://lumosai.cc/ws \
 LUMOS_WEB_REMOTE_CONTROL_URL=http://localhost:5173/remote \
 pnpm dev:desktop
 ```
@@ -130,8 +130,8 @@ Job、镜像和 Deployment 隔离。两个 Job 必须分别显式传入 `LUMOS_E
 浏览器运行时改写已经编译进 JS 的产品环境：
 
 ```text
-test:       lumos.z.ai/remote/v4 -> wss://lumos.z.ai/ws
-production: lumos.z.ai/remote/v4         -> wss://lumos.z.ai/ws
+test:       lumosai.cc/remote/v4 -> wss://lumosai.cc/ws
+production: lumosai.cc/remote/v4         -> wss://lumosai.cc/ws
 ```
 
 `/remote/__test__` 仍是独立的静态资源验证入口，不代替标准 test 产品环境的 `/remote/v4`。
@@ -182,13 +182,13 @@ bash scripts/docker-build-and-push-web-remote-control-test.sh --tag 202604291800
 Desktop 默认二维码 URL 不指向 `/remote/__test__`。需要验证测试资源时，通过环境变量覆盖：
 
 ```bash
-LUMOS_WEB_REMOTE_CONTROL_URL=https://lumos.z.ai/remote/__test__ pnpm dev:desktop
+LUMOS_WEB_REMOTE_CONTROL_URL=https://lumosai.cc/remote/__test__ pnpm dev:desktop
 ```
 
 nginx 只负责静态资源和 SPA fallback，不代理 relay。浏览器端根据构建时 endpoint 直接连接对应 relay：
-production 使用 `wss://lumos.z.ai/ws`，test 使用 `wss://lumos.z.ai/ws`。Desktop App 正式版本大于等于 `3.4.0` 时，二维码 URL 使用
-`https://lumos.z.ai/remote/v4?...`；低于 `3.4.0`、`3.4.0` 自身的预发布版本或无法解析的版本继续使用
-`https://lumos.z.ai/remote/v3?...`。高于该门槛的预发布版本（例如 `3.5.0-beta.1`）使用 v4；显式
+production 使用 `wss://lumosai.cc/ws`，test 使用 `wss://lumosai.cc/ws`。Desktop App 正式版本大于等于 `3.4.0` 时，二维码 URL 使用
+`https://lumosai.cc/remote/v4?...`；低于 `3.4.0`、`3.4.0` 自身的预发布版本或无法解析的版本继续使用
+`https://lumosai.cc/remote/v3?...`。高于该门槛的预发布版本（例如 `3.5.0-beta.1`）使用 v4；显式
 `LUMOS_WEB_REMOTE_CONTROL_URL` 覆盖值不会被版本逻辑改写。
 
 四份 `Dockerfile.web-remote-control*` 都使用 Node builder 在容器内执行过滤安装和 Vite 构建：

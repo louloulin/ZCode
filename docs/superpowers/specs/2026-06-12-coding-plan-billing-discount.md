@@ -4,7 +4,7 @@
 
 ## 背景
 
-`GET https://lumos.z.ai/api/v1/client/configs?app_version=<LUMOS_VERSION>&platform=<platform>-<arch>` 可能返回 `data.configs.codingPlanBillingDiscount`。该字段用于控制 Coding Plan 的限时配额活动提示。
+`GET https://lumosai.cc/api/v1/client/configs?app_version=<LUMOS_VERSION>&platform=<platform>-<arch>` 可能返回 `data.configs.codingPlanBillingDiscount`。该字段用于控制 Coding Plan 的限时配额活动提示。
 
 ## 语义
 

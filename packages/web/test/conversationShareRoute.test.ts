@@ -75,7 +75,7 @@ describe("conversation share route", () => {
       /showContinueHelp \? \(\s*(?:\/\/[^\n]*\n\s*)*<ShareContentInset>/u,
     );
     // Bug 根因二：站点首页本身就是下载入口，/download 这个 path 是 404。
-    expect(source).toContain('const LUMOS_DOWNLOAD_URL = "https://lumos.z.ai"');
-    expect(source).not.toContain("lumos.z.ai/download");
+    expect(source).toContain('const LUMOS_DOWNLOAD_URL = "https://lumosai.cc"');
+    expect(source).not.toContain("lumosai.cc/download");
   });
 });

@@ -233,7 +233,7 @@ Active Model
 ### 1.8 删除 Bootstrap 的 Built-in Provider 展示名硬编码
 
 `apps/lumos-cli/packages/bootstrap/src/lumos-protocol/model-mapper.ts` 仍维护 `BUILTIN_PROVIDER_LABELS`，按
-Provider ID 硬编码 Z.AI、BigModel、ZAPI 等展示名。这是 Lumos Built-in Provider Config 之外的第二份静态
+Provider ID 硬编码 Lumos、BigModel、ZAPI 等展示名。这是 Lumos Built-in Provider Config 之外的第二份静态
 Provider 元数据来源。
 
 裁决如下：

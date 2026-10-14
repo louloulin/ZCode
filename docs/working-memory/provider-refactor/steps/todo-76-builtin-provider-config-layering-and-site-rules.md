@@ -37,7 +37,7 @@ Model ID
 
 按具体站点 URL 匹配真实服务行为。它可以覆盖前面的协议基线，例如某个 URL 的 reasoning map、搜索能力、PDF、JSON Schema、工具调用或额外请求字段。它不是模型成员或模板启停配置。
 
-当前 `lumos-builtin.json` 中以 `modelMatch: ".*"` + `apiMatch` + `baseURLMatch` 写入 Z.ai/BigModel Anthropic 能力的规则，应按 Provider Site 语义重新归类和整理。
+当前 `lumos-builtin.json` 中以 `modelMatch: ".*"` + `apiMatch` + `baseURLMatch` 写入 Lumos/BigModel Anthropic 能力的规则，应按 Provider Site 语义重新归类和整理。
 
 ### templateId + modelId
 

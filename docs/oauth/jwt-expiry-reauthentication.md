@@ -9,7 +9,7 @@
 
 旧实现使用缓存的 `user_info` 恢复登录展示态，只检查 `lumosjwttoken` 是否存在，不检查 JWT `exp`。因此 JWT 过期后，UI 仍显示已登录，但余额、模型和其他业务请求会继续携带过期凭据并失败。
 
-旧的 `useTokenRefresh` 只暴露回调，没有实际监听 401；同时 Z.AI / BigModel 当前没有可用于续期 `lumosjwttoken` 的客户端 refresh 实现，所以已确认过期时必须重新登录。
+旧的 `useTokenRefresh` 只暴露回调，没有实际监听 401；同时 Lumos / BigModel 当前没有可用于续期 `lumosjwttoken` 的客户端 refresh 实现，所以已确认过期时必须重新登录。
 
 ## 产品语义
 

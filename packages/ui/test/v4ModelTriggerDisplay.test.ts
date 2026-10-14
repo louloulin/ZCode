@@ -51,8 +51,8 @@ describe("resolveV4ModelTriggerLabel", () => {
   });
 
   it.each([
-    [BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, "Z.ai - Coding Plan"],
-    [BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan, "Z.ai - Start Plan"],
+    [BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, "Lumos - Coding Plan"],
+    [BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan, "Lumos - Start Plan"],
     [BUILTIN_MODEL_PROVIDER_IDS.bigmodelIndividualCodingPlan, "BigModel - Coding Plan"],
     [BUILTIN_MODEL_PROVIDER_IDS.bigmodelStartPlan, "BigModel - Start Plan"],
   ])("%s 内置供应商只显示模型名", (providerId, providerName) => {
@@ -189,7 +189,7 @@ describe("resolveV4ModelTriggerDisplay", () => {
   it("内置供应商没有可隐藏的 provider 前缀", () => {
     const group = createGroup({
       key: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-      label: "Z.ai - Coding Plan",
+      label: "Lumos - Coding Plan",
       modelName: "GLM-5.2",
     });
 
@@ -199,7 +199,7 @@ describe("resolveV4ModelTriggerDisplay", () => {
         normalizedValue: `custom:${BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan}:GLM-5.2`,
         fallbackLabel: "选择模型",
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-        providerName: "Z.ai - Coding Plan",
+        providerName: "Lumos - Coding Plan",
       }),
     ).toEqual({
       fullLabel: "GLM-5.2",
@@ -210,8 +210,8 @@ describe("resolveV4ModelTriggerDisplay", () => {
 
 describe("formatProviderModelLabel", () => {
   it.each([
-    [BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, "Z.ai - Coding Plan"],
-    [BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan, "Z.ai - Start Plan"],
+    [BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, "Lumos - Coding Plan"],
+    [BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan, "Lumos - Start Plan"],
     [BUILTIN_MODEL_PROVIDER_IDS.bigmodelIndividualCodingPlan, "BigModel - Coding Plan"],
     [BUILTIN_MODEL_PROVIDER_IDS.bigmodelStartPlan, "BigModel - Start Plan"],
   ])("%s 内置供应商在通用模型文案中只显示模型名", (providerId, providerName) => {

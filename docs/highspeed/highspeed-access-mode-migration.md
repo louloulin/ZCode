@@ -41,7 +41,7 @@ Highspeed 原来依赖的 endpoint 路径白名单豁免已随重构一并删除
 ## 2. 迁移决策
 
 Highspeed 与 Off-Peak 是**同一类问题**：单轮、非持久、动态凭据、隐藏 Provider、
-共享 `lumos.z.ai` 网关且免于官方版本的请求安全校验。Off-Peak 已在重构中完成迁移，因此
+共享 `lumosai.cc` 网关且免于官方版本的请求安全校验。Off-Peak 已在重构中完成迁移，因此
 Highspeed 直接复用同一套机制，不新建平行管道。
 
 | 关注点                   | 旧 Highspeed                           | 迁移后（对齐 Off-Peak）                       |
@@ -85,7 +85,7 @@ Coding Plan 权益的抽取，因此**必须按账号 Family 拆分**，不跨 F
 
 | providerId                        | accountType | baseUrl                                         |
 | --------------------------------- | ----------- | ----------------------------------------------- |
-| `account:zai-highspeed-card`      | `zai`       | `https://lumos.z.ai/api/v1/highspeed/anthropic` |
+| `account:zai-highspeed-card`      | `zai`       | `https://lumosai.cc/api/v1/highspeed/anthropic` |
 | `account:bigmodel-highspeed-card` | `bigmodel`  | 同上                                            |
 
 两者均为 `visibility: "hidden"`、`api.type: "anthropic-messages"`，`builtinModelIds`
@@ -94,11 +94,11 @@ Coding Plan 权益的抽取，因此**必须按账号 Family 拆分**，不跨 F
 
 **站点能力规则必须同步新增。** `modelConfigRules.providerSiteRules` 按 `baseUrl` 匹配，
 新端点没有规则就会静默落回 `modelRules` 的保守默认值。加速端点必须与 Coding Plan
-站点（`api.z.ai` / `open.bigmodel.cn` / `lumos-plan`）逐项对齐，因此新增两条规则：
+站点（`api.lumosai.cc` / `open.bigmodel.cn` / `lumos-plan`）逐项对齐，因此新增两条规则：
 
 | 匹配                                                | 属性                                                                     | 与哪个站点对齐                                                   |
 | --------------------------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| `https://lumos\.z\.ai/api/v1/highspeed/anthropic/?` | `inputFormat.supportsImage/supportsVideo = true`                         | 同 `lumos-plan`                                                  |
+| `https://lumosai\.cc/api/v1/highspeed/anthropic/?` | `inputFormat.supportsImage/supportsVideo = true`                         | 同 `lumos-plan`                                                  |
 | 同上 + `apiTypeMatch: anthropic-messages`           | `supportsMidConversationSystem = true`、`supportsNativeWebSearch = true` | 同 `lumos-plan`，**不同于 `off-peak`**（Todo140 只关闭闲时搜索） |
 
 理由是能力事实必须在同一会话内稳定，而不是随本轮是否加速抖动：
@@ -125,7 +125,7 @@ web search，只需把这一条属性改 `false`，不影响其余迁移面。
 
 | 位置                                                                            | 内容                                                                                                                                               |
 | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/sync-test-builtin-provider-config.mjs` 的 `accountEndpoints`           | `https://lumos.z.ai/api/v1/highspeed/anthropic` → `https://lumos.z.ai/api/v1/highspeed/anthropic`                                          |
+| `scripts/sync-test-builtin-provider-config.mjs` 的 `accountEndpoints`           | `https://lumosai.cc/api/v1/highspeed/anthropic` → `https://lumosai.cc/api/v1/highspeed/anthropic`                                          |
 | `scripts/test/sync-test-builtin-provider-config.test.mjs` 的 `pairs` 与数量断言 | 该测试独立维护一份端点表，用于校验脚本的白名单没被改错；新增内置账号 Provider 后 `providerRules` 数量与派生站点规则副本数（当前 10 / 9）要一起更新 |
 
 ### 3.3 单轮执行材料

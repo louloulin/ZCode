@@ -8,7 +8,7 @@
 
 ## 规则
 
-- 当前选中模型 provider 是 `builtin:zai-coding-plan` 时，context usage 浮层可以展示 Z.ai Coding Plan 剩余额度。
+- 当前选中模型 provider 是 `builtin:zai-coding-plan` 时，context usage 浮层可以展示 Lumos Coding Plan 剩余额度。
 - 当前选中模型 provider 是 `builtin:bigmodel-coding-plan` 时，context usage 浮层可以展示 BigModel Coding Plan 剩余额度。
 - 当前 BigModel family 连接方式选中 `team-plan:builtin:bigmodel-coding-plan:*` 时，context usage 浮层必须展示该 Team Plan 团队项目的剩余额度；个人 Coding Plan 无权益不能导致 Team Plan 浮层入口消失。
 - 当前选中模型 provider 是 Start Plan、普通 API Key、自定义 provider 或其他非 Coding Plan provider 时，不展示 paid Coding Plan 剩余额度。

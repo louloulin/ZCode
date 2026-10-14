@@ -20,13 +20,13 @@ describe("conversation share context reference", () => {
   it("把历史消息里的 share URL 尾块从可见正文剥掉", () => {
     const encoded = withShareContextBlock("继续分析", {
       contextId: "context-1",
-      shareUrl: "https://lumos.z.ai/cn/share/share-1",
+      shareUrl: "https://lumosai.cc/cn/share/share-1",
     });
     expect(parseConversationShareContext(encoded)).toEqual({
       visibleContent: "继续分析",
       reference: {
         contextId: "context-1",
-        shareUrl: "https://lumos.z.ai/cn/share/share-1",
+        shareUrl: "https://lumosai.cc/cn/share/share-1",
       },
     });
   });
@@ -63,7 +63,7 @@ describe("resolveAttachableShareContext", () => {
   const pending = {
     contextId: "context-1",
     title: "来自分享：X",
-    shareUrl: "https://lumos.z.ai/cn/share/share-1",
+    shareUrl: "https://lumosai.cc/cn/share/share-1",
     status: "pending",
   };
 

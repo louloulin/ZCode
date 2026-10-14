@@ -190,7 +190,7 @@ async function clickModelSettingsFromMissingBanner() {
 
 async function selectActiveFamilyApiKeyProvider() {
   // ProviderFamilyPlanModeSwitch 只展示当前 family 的连接方式；从缺模型横幅进入时
-  // 默认会落在 BigModel Coding Plan，并按当前 OAuth family 隐藏 Z.ai。I23/I24 的
+  // 默认会落在 BigModel Coding Plan，并按当前 OAuth family 隐藏 Lumos。I23/I24 的
   // 业务目标是配置一个可用 API Key provider，不是跨 family 切换，因此在当前 family
   // 的连接方式下拉框选择 BigModel API Key，触发产品规定的 apiKey mode 持久化。
   const modelProviderSectionTestId = testId(TID_SETTINGS_SECTION_NAV, "modelProvider");

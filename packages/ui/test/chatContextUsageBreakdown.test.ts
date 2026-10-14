@@ -173,7 +173,7 @@ function renderFiveHourResetPanel() {
                 authenticated: true,
                 provider: {
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                  name: "Z.ai Coding Plan",
+                  name: "Lumos Coding Plan",
                 },
                 remaining: null,
                 subscription: activeSubscription,
@@ -295,7 +295,7 @@ describe("ChatCodingPlanUsageRemainingPanel MCP 额度", () => {
                 authenticated: true,
                 provider: {
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                  name: "Z.ai Coding Plan",
+                  name: "Lumos Coding Plan",
                 },
                 remaining: null,
                 subscription: activeSubscription,
@@ -379,7 +379,7 @@ describe("ChatCodingPlanUsageRemainingPanel MCP 额度", () => {
                 authenticated: true,
                 provider: {
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                  name: "Z.ai Coding Plan",
+                  name: "Lumos Coding Plan",
                 },
                 remaining: null,
                 subscription: activeSubscription,
@@ -495,7 +495,7 @@ describe("ChatCodingPlanUsageRemainingPanel refresh action", () => {
         authenticated: true,
         provider: {
           id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-          name: "Z.ai Coding Plan",
+          name: "Lumos Coding Plan",
         },
         remaining: null,
         subscription: activeSubscription,
@@ -565,7 +565,7 @@ describe("ChatCodingPlanUsageRemainingPanel refresh action", () => {
         authenticated: true,
         provider: {
           id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-          name: "Z.ai Coding Plan",
+          name: "Lumos Coding Plan",
         },
         remaining: null,
         subscription: activeSubscription,
@@ -626,7 +626,7 @@ describe("ChatCodingPlanUsageRemainingPanel refresh action", () => {
                 authenticated: true,
                 provider: {
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                  name: "Z.ai Coding Plan",
+                  name: "Lumos Coding Plan",
                 },
                 remaining: null,
                 subscription: activeSubscription,
@@ -683,7 +683,7 @@ describe("ChatCodingPlanUsageRemainingPanel refresh action", () => {
                 authenticated: true,
                 provider: {
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                  name: "Z.ai Coding Plan",
+                  name: "Lumos Coding Plan",
                 },
                 remaining: null,
                 subscription: activeSubscription,
@@ -984,7 +984,7 @@ describe("ChatContextUsage", () => {
                 authenticated: true,
                 provider: {
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                  name: "Z.ai Coding Plan",
+                  name: "Lumos Coding Plan",
                 },
                 remaining: null,
                 subscription: activeSubscription,
@@ -1064,7 +1064,7 @@ describe("Coding Plan usage remaining panel state", () => {
               authenticated: true,
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai Coding Plan",
+                name: "Lumos Coding Plan",
               },
               remaining: null,
               subscription: activeSubscription,
@@ -1100,7 +1100,7 @@ describe("Coding Plan usage remaining panel state", () => {
               authenticated: true,
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai Coding Plan",
+                name: "Lumos Coding Plan",
               },
               remaining: null,
               subscription: activeSubscription,
@@ -1214,7 +1214,7 @@ describe("Coding Plan usage remaining panel state", () => {
                 authenticated: true,
                 provider: {
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                  name: "Z.ai Coding Plan",
+                  name: "Lumos Coding Plan",
                 },
                 remaining: null,
                 subscription: activeSubscription,
@@ -1298,7 +1298,7 @@ describe("Coding Plan usage remaining panel state", () => {
                   authenticated: true,
                   provider: {
                     id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                    name: "Z.ai Coding Plan",
+                    name: "Lumos Coding Plan",
                   },
                   remaining: null,
                   subscription: activeSubscription,
@@ -1352,7 +1352,7 @@ describe("Coding Plan usage remaining panel state", () => {
                 authenticated: true,
                 provider: {
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                  name: "Z.ai Coding Plan",
+                  name: "Lumos Coding Plan",
                 },
                 remaining: null,
                 subscription: activeSubscription,
@@ -1407,7 +1407,7 @@ describe("Coding Plan usage remaining panel state", () => {
           authenticated: true,
           provider: {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai Coding Plan",
+            name: "Lumos Coding Plan",
           },
           remaining: null,
           subscription: activeSubscription,
@@ -1509,7 +1509,7 @@ describe("Coding Plan usage remaining panel state", () => {
           unavailableReason: "no_plan" as const,
           provider: {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai Coding Plan",
+            name: "Lumos Coding Plan",
           },
           remaining: null,
           subscription: null,
@@ -1553,7 +1553,7 @@ describe("Coding Plan usage remaining panel state", () => {
           authenticated: true,
           provider: {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai Coding Plan",
+            name: "Lumos Coding Plan",
           },
           remaining: null,
           subscription: {
@@ -1592,7 +1592,7 @@ describe("Coding Plan usage remaining panel state", () => {
           authenticated: true,
           provider: {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai Coding Plan",
+            name: "Lumos Coding Plan",
           },
           remaining: null,
           subscription: {
@@ -1632,7 +1632,7 @@ describe("Start Plan context balance panel", () => {
             authenticated: true,
             provider: {
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-              name: "Z.ai Start Plan",
+              name: "Lumos Start Plan",
             },
             remaining: null,
             subscription: {
@@ -1720,7 +1720,7 @@ describe("Start Plan context balance panel", () => {
               authenticated: true,
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-                name: "Z.ai Start Plan",
+                name: "Lumos Start Plan",
               },
               remaining: null,
               subscription: {
@@ -1786,7 +1786,7 @@ describe("Start Plan context balance panel", () => {
               authenticated: true,
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-                name: "Z.ai Start Plan",
+                name: "Lumos Start Plan",
               },
               remaining: {
                 count: 1_750_000,
@@ -1874,7 +1874,7 @@ describe("Start Plan context balance panel", () => {
             authenticated: true,
             provider: {
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-              name: "Z.ai Start Plan",
+              name: "Lumos Start Plan",
             },
             remaining: null,
             subscription: activeSubscription,
@@ -1935,7 +1935,7 @@ describe("Start Plan context balance panel", () => {
           authenticated: true,
           provider: {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            name: "Z.ai Start Plan",
+            name: "Lumos Start Plan",
           },
           remaining: null,
           subscription: activeSubscription,

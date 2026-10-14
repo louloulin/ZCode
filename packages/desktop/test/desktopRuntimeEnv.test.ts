@@ -54,14 +54,14 @@ vi.mock("@lumos/shared", () => ({
   },
   LUMOS_COMMIT: "commit-test",
   LUMOS_VERSION: "0.0.0-test",
-  DEFAULT_LUMOS_ENDPOINT_ORIGIN: "https://lumos.z.ai",
-  TEST_LUMOS_ENDPOINT_ORIGIN: "https://lumos.z.ai",
+  DEFAULT_LUMOS_ENDPOINT_ORIGIN: "https://lumosai.cc",
+  TEST_LUMOS_ENDPOINT_ORIGIN: "https://lumosai.cc",
   resolveRuntimeLumosEndpointOrigin: (env: Record<string, string | undefined>) =>
-    env.LUMOS_BASE_URL ?? env.LUMOS_TEST_BASE_URL ?? "https://lumos.z.ai",
+    env.LUMOS_BASE_URL ?? env.LUMOS_TEST_BASE_URL ?? "https://lumosai.cc",
   resolveZaiOAuthOrigin: (env: Record<string, string | undefined>) =>
-    env.ZAI_OAUTH_ORIGIN ?? env.ZAI_TEST_OAUTH_ORIGIN ?? "https://chat.z.ai",
+    env.ZAI_OAUTH_ORIGIN ?? env.ZAI_TEST_OAUTH_ORIGIN ?? "https://chat.lumosai.cc",
   resolveZaiBusinessBaseUrl: (env: Record<string, string | undefined>) =>
-    env.ZAI_BUSINESS_BASE_URL ?? env.ZAI_TEST_BUSINESS_BASE_URL ?? "https://api.z.ai",
+    env.ZAI_BUSINESS_BASE_URL ?? env.ZAI_TEST_BUSINESS_BASE_URL ?? "https://api.lumosai.cc",
   resolveZaiOAuthClientId: (env: Record<string, string | undefined>) =>
     env.ZAI_OAUTH_CLIENT_ID ?? env.ZAI_TEST_OAUTH_CLIENT_ID ?? "client_P8X5CMWmlaRO9gyO-KSqtg",
   sanitizeLumosRuntimeEnv: (env: Record<string, string | undefined>) => {
@@ -752,9 +752,9 @@ describe("desktopRuntimeEnv buildHostProcessEnv", () => {
 
     const env = loadHostProcessEnvFromLocalFiles();
 
-    expect(env.LUMOS_BASE_URL).toBe("https://lumos.z.ai");
-    expect(env.ZAI_OAUTH_ORIGIN).toBe("https://chat.z.ai");
-    expect(env.ZAI_BUSINESS_BASE_URL).toBe("https://api.z.ai");
+    expect(env.LUMOS_BASE_URL).toBe("https://lumosai.cc");
+    expect(env.ZAI_OAUTH_ORIGIN).toBe("https://chat.lumosai.cc");
+    expect(env.ZAI_BUSINESS_BASE_URL).toBe("https://api.lumosai.cc");
     expect(env.ZAI_OAUTH_CLIENT_ID).toBe("client_P8X5CMWmlaRO9gyO-KSqtg");
   });
 
@@ -764,7 +764,7 @@ describe("desktopRuntimeEnv buildHostProcessEnv", () => {
 
     expect(
       resolveLumosEndpointEnvBaseOrigin({
-        LUMOS_BASE_URL: "https://lumos.z.ai",
+        LUMOS_BASE_URL: "https://lumosai.cc",
       }),
     ).toBe("http://127.0.0.1:18765");
   });
@@ -787,9 +787,9 @@ describe("desktopRuntimeEnv buildHostProcessEnv", () => {
     const env = buildHostProcessEnv(loadHostProcessEnvFromLocalFiles());
 
     expect(env.LUMOS_ENV).toBe("test");
-    expect(env.LUMOS_BASE_URL).toBe("https://lumos.z.ai");
-    expect(env.ZAI_OAUTH_ORIGIN).toBe("https://chat.z.ai");
-    expect(env.ZAI_BUSINESS_BASE_URL).toBe("https://api.z.ai");
+    expect(env.LUMOS_BASE_URL).toBe("https://lumosai.cc");
+    expect(env.ZAI_OAUTH_ORIGIN).toBe("https://chat.lumosai.cc");
+    expect(env.ZAI_BUSINESS_BASE_URL).toBe("https://api.lumosai.cc");
     expect(env.ZAI_OAUTH_CLIENT_ID).toBe("client_P8X5CMWmlaRO9gyO-KSqtg");
     expect(env.LUMOS_CUA_HELPER_INSTALL_VARIANT).toBe("preview");
   });

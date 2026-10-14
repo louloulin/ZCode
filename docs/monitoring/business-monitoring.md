@@ -34,7 +34,7 @@ prompt telemetry；后续同一轮 `message_completion` 必须复用同一份字
 
 套餐身份判定优先级固定为 `Coding Plan > Start Plan > No Plan > Unknown`。请求失败、仍在加载、鉴权异常、
 provider 未配置或快照超过 entitlement cache TTL 时必须上报 `unknown`，不能误归为 `no_plan`。
-Z.AI 与 BigModel 互斥登录身份域由 `providerFamilyDomain` 决定；该字段只用于选择当前身份域下的
+Lumos 与 BigModel 互斥登录身份域由 `providerFamilyDomain` 决定；该字段只用于选择当前身份域下的
 Coding Plan / Start Plan 快照，不作为业务埋点字段上报，也不跟随 `message_completion.model_provider`
 切换。
 
@@ -159,7 +159,7 @@ Agent 单步执行事件。它的颗粒度比 `message_completion` 更细：一�
 
 需求定稿前仅作定位参考，以代码为准：
 
-- 业务埋点上报：`packages/services/src/telemetry/telemetryCore.ts`（`https://lumos.z.ai/api/v1/event/report`）
+- 业务埋点上报：`packages/services/src/telemetry/telemetryCore.ts`（`https://lumosai.cc/api/v1/event/report`）
 - UI 侧封装：`packages/ui/src/lib/appTelemetry.ts`、`packages/ui/src/lib/messageTelemetry.ts`
 - Agent 用量落盘：`apps/lumos-cli/docs/design/v2/usage-observability.md`（CLI 设计 spec，非本目录文档）
 - App Usage 聚合：`docs/superpowers/specs/2026-06-02-app-usage-db-migration-design.md`（功能 spec，非本目录文档）

@@ -14,7 +14,7 @@ import {
 } from "../src/official-mcp-auth.js";
 
 const OFFICIAL_PLUGIN = "lumos-tools@lumos-plugins-official";
-const LUMOS_ORIGIN = "https://lumos.z.ai";
+const LUMOS_ORIGIN = "https://lumosai.cc";
 
 function check(input: {
   devTrustedOriginsRaw?: string;
@@ -64,8 +64,8 @@ describe("isOfficialMcpOriginTrusted", () => {
   it("rejects any origin other than the resolved Lumos API origin", () => {
     for (const origin of [
       "https://attacker.example",
-      "https://lumos.z.ai.attacker.example",
-      "https://evil-lumos.z.ai",
+      "https://lumosai.cc.attacker.example",
+      "https://evil-lumosai.cc",
       `${LUMOS_ORIGIN}:8443`,
     ]) {
       expect(check({ origin })).toEqual({ detail: "origin_mismatch", trusted: false });
@@ -74,13 +74,13 @@ describe("isOfficialMcpOriginTrusted", () => {
 
   it("rejects http even when the host matches", () => {
     // origin 相等是承重项，但仍必须是 https——明文会让凭证在链路上暴露
-    expect(check({ origin: "http://lumos.z.ai" })).toMatchObject({ trusted: false });
+    expect(check({ origin: "http://lumosai.cc" })).toMatchObject({ trusted: false });
   });
 
   it("rejects credential-bearing URLs on either side", () => {
-    expect(check({ origin: `https://user:pass@lumos.z.ai` })).toMatchObject({ trusted: false });
+    expect(check({ origin: `https://user:pass@lumosai.cc` })).toMatchObject({ trusted: false });
     expect(
-      check({ origin: LUMOS_ORIGIN, lumosApiOrigin: "https://user:pass@lumos.z.ai" }),
+      check({ origin: LUMOS_ORIGIN, lumosApiOrigin: "https://user:pass@lumosai.cc" }),
     ).toMatchObject({ trusted: false });
   });
 
@@ -167,7 +167,7 @@ describe("createOfficialMcpTrustedOriginRegistry", () => {
     ).resolves.toMatchObject({ trusted: true });
 
     // 切到 test 环境域名后，旧 origin 立即不再可信
-    origin = "https://lumos-test.z.ai";
+    origin = "https://lumos-test.lumosai.cc";
     await expect(
       registry.isTrusted({
         mcpKey: "image-search",
@@ -178,7 +178,7 @@ describe("createOfficialMcpTrustedOriginRegistry", () => {
     await expect(
       registry.isTrusted({
         mcpKey: "image-search",
-        origin: "https://lumos-test.z.ai",
+        origin: "https://lumos-test.lumosai.cc",
         pluginId: OFFICIAL_PLUGIN,
       }),
     ).resolves.toMatchObject({ trusted: true });

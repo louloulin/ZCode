@@ -171,7 +171,7 @@ describe("ConversationShareMockApiClient", () => {
     const apiClient = new ConversationShareMockApiClient({
       now: () => 10_000,
       authenticatedToken: "owner-token",
-      shareBaseUrl: "https://lumos.z.ai/cn/share",
+      shareBaseUrl: "https://lumosai.cc/cn/share",
     });
     const { client, share } = await publish(apiClient, "public_importable");
 
@@ -181,7 +181,7 @@ describe("ConversationShareMockApiClient", () => {
       client_request_id: "import-request-1",
     });
 
-    expect(share.share_url).toBe(`https://lumos.z.ai/cn/share/${share.share_code}`);
+    expect(share.share_url).toBe(`https://lumosai.cc/cn/share/${share.share_code}`);
     expect(preview.rows).toHaveLength(2);
     expect(preview.artifacts).toEqual([]);
     expect(continuation.rows).toEqual(preview.rows);

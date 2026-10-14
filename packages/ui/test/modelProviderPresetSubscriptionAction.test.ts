@@ -316,7 +316,7 @@ describe("ModelProviderSection preset subscription action", () => {
     expect(refreshMock).not.toHaveBeenCalled();
   });
 
-  it("Z.ai Coding Plan Connect 会打开 App 登录入口", async () => {
+  it("Lumos Coding Plan Connect 会打开 App 登录入口", async () => {
     const { ModelProviderSection } = await import("@/settings/ModelProviderSection.js");
 
     renderToStaticMarkup(createElement(ModelProviderSection));
@@ -327,14 +327,14 @@ describe("ModelProviderSection preset subscription action", () => {
       capturedDetailProps?.onCodingPlanLogin as
         | ((presetId: string, providerId: string, providerName: string) => Promise<void>)
         | undefined
-    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Z.ai");
+    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Lumos");
 
     expect(refreshMock).not.toHaveBeenCalled();
     expect(requestLoginEntryMock).toHaveBeenCalledWith(ZAI_PROVIDER_ID);
     expect(startOAuthMock).not.toHaveBeenCalled();
   });
 
-  it("Z.ai Coding Plan 不再根据旧 provider key 做静默刷新", async () => {
+  it("Lumos Coding Plan 不再根据旧 provider key 做静默刷新", async () => {
     const { ModelProviderSection } = await import("@/settings/ModelProviderSection.js");
     renderToStaticMarkup(createElement(ModelProviderSection));
 
@@ -344,14 +344,14 @@ describe("ModelProviderSection preset subscription action", () => {
       capturedDetailProps?.onCodingPlanLogin as
         | ((presetId: string, providerId: string, providerName: string) => Promise<void>)
         | undefined
-    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Z.ai");
+    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Lumos");
 
     expect(requestLoginEntryMock).toHaveBeenCalledWith(ZAI_PROVIDER_ID);
     expect(refreshMock).not.toHaveBeenCalled();
     expect(startOAuthMock).not.toHaveBeenCalled();
   });
 
-  it("Z.ai Coding Plan 在 App 未登录 ZAI 时继续打开登录入口", async () => {
+  it("Lumos Coding Plan 在 App 未登录 ZAI 时继续打开登录入口", async () => {
     const { ModelProviderSection } = await import("@/settings/ModelProviderSection.js");
 
     renderToStaticMarkup(createElement(ModelProviderSection));
@@ -362,13 +362,13 @@ describe("ModelProviderSection preset subscription action", () => {
       capturedDetailProps?.onCodingPlanLogin as
         | ((presetId: string, providerId: string, providerName: string) => Promise<void>)
         | undefined
-    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Z.ai");
+    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Lumos");
 
     expect(requestLoginEntryMock).toHaveBeenCalledWith(ZAI_PROVIDER_ID);
     expect(refreshMock).not.toHaveBeenCalled();
   });
 
-  it("Z.ai Coding Plan 同步失败时点击登录会重新打开登录入口", async () => {
+  it("Lumos Coding Plan 同步失败时点击登录会重新打开登录入口", async () => {
     const { ModelProviderSection } = await import("@/settings/ModelProviderSection.js");
 
     renderToStaticMarkup(createElement(ModelProviderSection));
@@ -384,13 +384,13 @@ describe("ModelProviderSection preset subscription action", () => {
             status: string,
           ) => Promise<void>)
         | undefined
-    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Z.ai", "unavailable");
+    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Lumos", "unavailable");
 
     expect(requestLoginEntryMock).toHaveBeenCalledWith(ZAI_PROVIDER_ID);
     expect(refreshMock).not.toHaveBeenCalled();
   });
 
-  it("Z.ai Coding Plan token 恢复强制走应用内登录入口", async () => {
+  it("Lumos Coding Plan token 恢复强制走应用内登录入口", async () => {
     const { ModelProviderSection } = await import("@/settings/ModelProviderSection.js");
 
     renderToStaticMarkup(createElement(ModelProviderSection));
@@ -410,7 +410,7 @@ describe("ModelProviderSection preset subscription action", () => {
     )?.(
       BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       ZAI_PROVIDER_ID,
-      "Z.ai",
+      "Lumos",
       "notPurchased",
       { forceOAuth: true },
     );
@@ -426,11 +426,11 @@ describe("ModelProviderSection preset subscription action", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: null,
       status: "notPurchased",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     };
     const { ModelProviderSection } = await import("@/settings/ModelProviderSection.js");
@@ -466,7 +466,7 @@ describe("ModelProviderSection preset subscription action", () => {
     expect(refreshCodingPlanEntitlementsMock).not.toHaveBeenCalled();
   });
 
-  it("Z.ai provider 解绑交给 OAuth logout 清理 Coding Plan 和 Start Plan", async () => {
+  it("Lumos provider 解绑交给 OAuth logout 清理 Coding Plan 和 Start Plan", async () => {
     const { ModelProviderSection } = await import("@/settings/ModelProviderSection.js");
 
     renderToStaticMarkup(createElement(ModelProviderSection));
@@ -477,7 +477,7 @@ describe("ModelProviderSection preset subscription action", () => {
       capturedDetailProps?.onCodingPlanDisconnect as
         | ((presetId: string, providerId: string, providerName: string) => Promise<void>)
         | undefined
-    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Z.ai");
+    )?.(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan, ZAI_PROVIDER_ID, "Lumos");
 
     expect(logoutMock).toHaveBeenCalledWith(ZAI_PROVIDER_ID);
     expect(setUserMock).toHaveBeenCalledWith(null);

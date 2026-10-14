@@ -14,7 +14,7 @@ Provider 重构破坏的 37 条 Desktop E2E 并不是 37 个独立产品问题�
 行为和少量待裁决边界，不再按单个 Case 分散修补。
 
 本轮曾以未来展平 Provider 的假设为依据，提前删除了一部分仍属于当前产品的 Family 行为覆盖。后续裁决明确
-Z.ai / BigModel Family、结构化 Connection Selection 和 Family 内连接切换继续保留，因此本 Todo 的最终边界修正为：
+Lumos / BigModel Family、结构化 Connection Selection 和 Family 内连接切换继续保留，因此本 Todo 的最终边界修正为：
 
 ```text
 当前 Family / Connection Selection 行为
@@ -203,7 +203,7 @@ CPUW-01/CPUW-03 保留，购买完成后的用户可见行为收口为：
 关闭 WebView + 刷新 Account 数据
     |
     +--> 刷新当前账号 Provider
-    +--> Z.ai 场景同时刷新 Team Plan products
+    +--> Lumos 场景同时刷新 Team Plan products
     `--> 不再读取或断言 Account Provider 的 Personal API Key / enabled 旧状态
 ```
 

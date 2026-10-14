@@ -54,14 +54,14 @@ describe("terminalLinks", () => {
   });
 
   it("maps a plain http link to xterm buffer coordinates", () => {
-    const buffer = createBuffer([{ text: "see https://z.ai" }], 18);
+    const buffer = createBuffer([{ text: "see https://lumosai.cc" }], 22);
 
-    expect(getHttpLinksForTerminalBufferLine(buffer, 1, 18)).toEqual([
+    expect(getHttpLinksForTerminalBufferLine(buffer, 1, 22)).toEqual([
       {
-        text: "https://z.ai",
+        text: "https://lumosai.cc",
         range: {
           start: { x: 5, y: 1 },
-          end: { x: 16, y: 1 },
+          end: { x: 22, y: 1 },
         },
         decorations: {
           underline: true,

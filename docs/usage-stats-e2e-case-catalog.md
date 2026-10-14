@@ -14,7 +14,7 @@ App Usage、个人/团队 Coding Plan、访问刷新、Context/Footer/Provider S
 | 维度                  | 值                                                          | 建议决定                                               | 原因                                               |
 | --------------------- | ----------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------- |
 | 数据域                | App Usage / Coding Plan quota / activity / credit / health  | 全部纳入                                               | 分支同时修改 UI、service 和 CLI 聚合               |
-| 套餐来源              | Z.AI 个人 / BigModel 个人 / BigModel Team                   | BigModel 个人和 Team 完整覆盖，Z.AI 做来源隔离代表样本 | 避免对共享 mapper 做品牌笛卡尔积                   |
+| 套餐来源              | Lumos 个人 / BigModel 个人 / BigModel Team                   | BigModel 个人和 Team 完整覆盖，Lumos 做来源隔离代表样本 | 避免对共享 mapper 做品牌笛卡尔积                   |
 | 入口                  | Usage / Context / Footer / Provider Settings                | 全部纳入                                               | 共享 access freshness 和 snapshot 是本分支核心合同 |
 | 结果                  | success / empty / business error / network error / recovery | 全部纳入高价值路径                                     | 命中错误分类、缓存清理、force refresh              |
 | range                 | today / 7d / 30d / all                                      | 每种语义至少一条；不与每个来源相乘                     | range 会改变请求和展示，但与品牌正交               |

@@ -346,7 +346,7 @@ describe("desktopWindowChrome", () => {
 
     const officialPreferences: Record<string, unknown> = {};
     willAttach({ preventDefault: vi.fn() }, officialPreferences, {
-      src: "https://lumos.z.ai/coding-plan?provider=zai&embedded=app",
+      src: "https://lumosai.cc/coding-plan?provider=zai&embedded=app",
     });
     // Bugfix：同上，preload 路径由宿主 path.join 拼出，Windows 上分隔符是 `\`，
     // 写死 POSIX 片段的断言在 Windows 上必然失败。
@@ -536,7 +536,7 @@ describe("desktopWindowChrome", () => {
     getWebContentsHandler("will-attach-webview")(
       { preventDefault: vi.fn() },
       {},
-      { src: "https://lumos.z.ai/en/rewards?embedded=app" },
+      { src: "https://lumosai.cc/en/rewards?embedded=app" },
     );
     const guest = {
       on: vi.fn(),
@@ -546,7 +546,7 @@ describe("desktopWindowChrome", () => {
     getWebContentsHandler("did-attach-webview")({}, guest);
     const navigate = guest.on.mock.calls.find(([event]) => event === "will-navigate")?.[1];
     const event = { preventDefault: vi.fn() };
-    navigate(event, "https://lumos.z.ai/cn/rewards?embedded=app");
+    navigate(event, "https://lumosai.cc/cn/rewards?embedded=app");
     expect(event.preventDefault).not.toHaveBeenCalled();
     navigate(event, "https://example.com/");
     expect(event.preventDefault).toHaveBeenCalledOnce();
@@ -641,7 +641,7 @@ describe("desktopWindowChrome", () => {
     willAttach(
       { preventDefault: vi.fn() },
       {},
-      { src: "https://lumos.z.ai/coding-plan?provider=zai&embedded=app" },
+      { src: "https://lumosai.cc/coding-plan?provider=zai&embedded=app" },
     );
 
     const guestWebContents = {
@@ -781,7 +781,7 @@ describe("desktopWindowChrome", () => {
     });
 
     const guestWebContents = {
-      getURL: vi.fn(() => "https://lumos.z.ai/coding-plan?provider=zai&embedded=app"),
+      getURL: vi.fn(() => "https://lumosai.cc/coding-plan?provider=zai&embedded=app"),
       on: vi.fn(),
       setWindowOpenHandler: vi.fn(),
     };
@@ -809,7 +809,7 @@ describe("desktopWindowChrome", () => {
     });
 
     const guestWebContents = {
-      getURL: vi.fn(() => "https://lumos.z.ai/coding-plan?provider=zai&embedded=app"),
+      getURL: vi.fn(() => "https://lumosai.cc/coding-plan?provider=zai&embedded=app"),
       on: vi.fn(),
       setWindowOpenHandler: vi.fn(),
     };
@@ -840,7 +840,7 @@ describe("desktopWindowChrome", () => {
     });
 
     const guestWebContents = {
-      getURL: vi.fn(() => "https://lumos.z.ai/coding-plan?provider=zai&embedded=app"),
+      getURL: vi.fn(() => "https://lumosai.cc/coding-plan?provider=zai&embedded=app"),
       on: vi.fn(),
       setWindowOpenHandler: vi.fn(),
     };
@@ -860,7 +860,7 @@ describe("desktopWindowChrome", () => {
     );
   });
 
-  it("keeps Coding Plan Z.AI PayPal relay navigations inside the current webview", async () => {
+  it("keeps Coding Plan Lumos PayPal relay navigations inside the current webview", async () => {
     const { createBrowserWindow } = await import("../src/main/desktopWindowChrome.js");
 
     createBrowserWindow({
@@ -870,7 +870,7 @@ describe("desktopWindowChrome", () => {
     });
 
     const guestWebContents = {
-      getURL: vi.fn(() => "https://lumos.z.ai/coding-plan?provider=zai&embedded=app"),
+      getURL: vi.fn(() => "https://lumosai.cc/coding-plan?provider=zai&embedded=app"),
       on: vi.fn(),
       setWindowOpenHandler: vi.fn(),
     };
@@ -882,7 +882,7 @@ describe("desktopWindowChrome", () => {
     expect(willNavigateHandler).toBeTypeOf("function");
 
     const event = { preventDefault: vi.fn() };
-    willNavigateHandler(event, "https://api.z.ai/api/pay/paypal/approve?token=setup-1");
+    willNavigateHandler(event, "https://api.lumosai.cc/api/pay/paypal/approve?token=setup-1");
 
     expect(event.preventDefault).not.toHaveBeenCalled();
     expect(electronMocks.shellOpenExternal).not.toHaveBeenCalled();
@@ -946,7 +946,7 @@ describe("desktopWindowChrome", () => {
     const returnTo = encodeURIComponent(
       "https://other-origin.example/coding-plan?provider=zai&embedded=app",
     );
-    const callbackUrl = `https://lumos.z.ai/coding-plan/payment/callback?channel=paypal&status=return&returnTo=${returnTo}`;
+    const callbackUrl = `https://lumosai.cc/coding-plan/payment/callback?channel=paypal&status=return&returnTo=${returnTo}`;
     const event = { preventDefault: vi.fn() };
     willNavigateHandler(event, callbackUrl);
 
@@ -964,7 +964,7 @@ describe("desktopWindowChrome", () => {
     });
 
     const guestWebContents = {
-      getURL: vi.fn(() => "https://lumos.z.ai/coding-plan?provider=zai&embedded=app"),
+      getURL: vi.fn(() => "https://lumosai.cc/coding-plan?provider=zai&embedded=app"),
       loadURL: vi.fn(() => Promise.resolve()),
       on: vi.fn(),
       setWindowOpenHandler: vi.fn(),
@@ -1026,7 +1026,7 @@ describe("desktopWindowChrome", () => {
     );
   });
 
-  it("loads Coding Plan Z.AI PayPal relay popup requests in the current webview", async () => {
+  it("loads Coding Plan Lumos PayPal relay popup requests in the current webview", async () => {
     const { createBrowserWindow } = await import("../src/main/desktopWindowChrome.js");
 
     createBrowserWindow({
@@ -1036,7 +1036,7 @@ describe("desktopWindowChrome", () => {
     });
 
     const guestWebContents = {
-      getURL: vi.fn(() => "https://lumos.z.ai/coding-plan?provider=zai&embedded=app"),
+      getURL: vi.fn(() => "https://lumosai.cc/coding-plan?provider=zai&embedded=app"),
       loadURL: vi.fn(() => Promise.resolve()),
       on: vi.fn(),
       setWindowOpenHandler: vi.fn(),
@@ -1048,12 +1048,12 @@ describe("desktopWindowChrome", () => {
 
     const result = windowOpenHandler({
       disposition: "new-window",
-      url: "https://api.z.ai/api/pay/paypal/approve?token=setup-1",
+      url: "https://api.lumosai.cc/api/pay/paypal/approve?token=setup-1",
     });
 
     expect(result).toEqual({ action: "deny" });
     expect(guestWebContents.loadURL).toHaveBeenCalledWith(
-      "https://api.z.ai/api/pay/paypal/approve?token=setup-1",
+      "https://api.lumosai.cc/api/pay/paypal/approve?token=setup-1",
     );
     expect(electronMocks.shellOpenExternal).not.toHaveBeenCalled();
     expect(electronMocks.browserWindowInstance.webContents.send).not.toHaveBeenCalledWith(

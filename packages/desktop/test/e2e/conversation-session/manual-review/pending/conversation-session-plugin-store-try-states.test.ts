@@ -226,7 +226,7 @@ async function seedLifecycleMarketplaceCache(
             pluginCount: 1,
             source: {
               source: "url",
-              url: "https://cdn-lumos.z.ai/lumos/official-plugin/marketplace.json",
+              url: "https://cdn.lumosai.cc/lumos/official-plugin/marketplace.json",
             },
           },
           {

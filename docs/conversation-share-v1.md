@@ -26,7 +26,7 @@ Desktop UI
   -> prepare -> upload -> confirm -> share URL
 
 Web preview
-  -> https://lumos.z.ai/cn/share/<share_code>
+  -> https://lumosai.cc/cn/share/<share_code>
   -> lumos://share/import?code=<share_code>
   -> Desktop continuation
   -> 当前本地 workspace 新 task/session + shared_context + 全部产物
@@ -57,11 +57,11 @@ Desktop continuation 携带可选登录态，客户端不得因本地缺少 JWT 
 
 已登录且 Preview 返回 `not_found` 时，沿用居中状态卡片，显示「找不到分享内容」及
 「链接可能无效、分享已被移除，或当前登录账号无法访问。」；独立一段提示
-「Z.ai 与 BigModel 的账号数据不互通。请检查是否选错了登录平台或使用了其他账号。」
+「Lumos 与 BigModel 的账号数据不互通。请检查是否选错了登录平台或使用了其他账号。」
 账号提示是排查建议，不推断分享是否存在、所属平台或 owner。中英文提供同义文案。
 
 操作区从左到右为描边「重试」和主按钮「回到首页」。首页复用既有官网地址
-`https://lumos.z.ai`，同标签页导航，不清理登录态。按钮优先并排，窄屏或长文案允许换行；
+`https://lumosai.cc`，同标签页导航，不清理登录态。按钮优先并排，窄屏或长文案允许换行；
 使用现有主题与 UI 字号 token，兼容桌面、手机 Web 和深浅主题。
 
 ```text

@@ -188,7 +188,7 @@ Builtin Model ID 只读且不能删除。
 
 ### UI / E2E
 
-- Welcome 输入 Z.ai/BigModel Key 后进入对应 Built-in API Provider；
+- Welcome 输入 Lumos/BigModel Key 后进入对应 Built-in API Provider；
 - Family“按量 API”显示手填 Key，保存后模型可选并能发送请求；
 - Key 为空时 Provider 仍可见且保持 enabled，但不进入 Registry；清空 Key 不自动停用 Provider；
 - Individual/Team/Start 不显示手填 Key；

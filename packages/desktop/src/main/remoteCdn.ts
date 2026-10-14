@@ -5,7 +5,7 @@ declare const __LUMOS_REMOTE_CDN_RELEASE_ROOTS__: readonly string[] | undefined;
 const REMOTE_CDN_RELEASE_ROOTS = {
   domestic: "https://cdn.codegeex.cn/lumos/electron/releases",
   // 开发构建未注入 CDN_DOMAIN 时也须使用当前发布域名，避免仍请求旧域名。
-  overseas: "https://cdn-lumos.z.ai/lumos/electron/releases",
+  overseas: "https://cdn.lumosai.cc/lumos/electron/releases",
 } as const;
 const TEST_REMOTE_CDN_RELEASE_ROOT = "http://intranet.example.invalid:12345/ssh-remote-assets";
 

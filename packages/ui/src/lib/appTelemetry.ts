@@ -12,7 +12,7 @@ import { logger } from "@/logger.js";
 
 export function resolveProviderTelemetryLabel(providerId: string): string {
   if (providerId === ZAI_PROVIDER_ID || isZaiCodingPlanProviderId(providerId)) {
-    return "z.ai";
+    return "lumosai.cc";
   }
 
   if (

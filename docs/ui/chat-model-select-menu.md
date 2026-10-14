@@ -11,7 +11,7 @@
 - `packages/ui/src/ModelConfigSelect.tsx`
   - 使用现有 `DropdownMenu` 组件渲染模型菜单，保持 `bg-menu`、紧凑行高和键盘菜单语义。
   - 多个 provider 时，一级菜单展示 provider；悬停或键盘展开二级菜单后展示该 provider 下的 model。
-  - Z.ai / BigModel family 在分组标题展示当前连接方式短徽标，例如 `Start`、`Individual`、`Team`、
+  - Lumos / BigModel family 在分组标题展示当前连接方式短徽标，例如 `Start`、`Individual`、`Team`、
     `API`；连接方式徽标使用无边框的弱表面圆形 pill，模型项本身不重复徽标。连接方式只在设置页切换，输入框菜单只消费当前 selection。
   - 只有一个 provider 时，一级菜单直接展示 model 列表，不额外包一层 provider。
   - 选中 model 使用 `DropdownMenuRadioItem` 保留单选状态；受当前运行任务限制的 model 使用禁用语义和锁定提示，不触发切换。

@@ -12,7 +12,7 @@
 | 定时任务编辑 / AutomationEditView | 同一 Service/hook | 表单原选择；已有跟随 Workspace 模式保留 | 主动保存才改长期配置；后台首次派发前解析并固定 run | 表单与 run 不互写 |
 | Bot / Wiki | 同一 Service | 各域自己的选择 | 准备新执行时解析；已固定执行除外 | 不改普通聊天意图 |
 | 显式 Subagent | 保留现有 Agent 校验 | Profile 显式选择 | 本轮不接账号对应；用户已裁决后续单独设计协议接入 | 未指定模型继续继承 Parent |
-| 闲时列表/执行 | 原身份只读校验 | 任务原选择 + 已领取 Ticket | 非终态执行检查保留；读取不清库 | 不跨 Z.AI/BigModel 换 Provider/Ticket |
+| 闲时列表/执行 | 原身份只读校验 | 任务原选择 + 已领取 Ticket | 非终态执行检查保留；读取不清库 | 不跨 Lumos/BigModel 换 Provider/Ticket |
 
 ## Shared And Divergent Behavior
 

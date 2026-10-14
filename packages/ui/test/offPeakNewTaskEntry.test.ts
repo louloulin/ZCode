@@ -535,7 +535,7 @@ describe("OffPeakNewTaskEntry", () => {
             enabled: true,
             executable: true,
             effectiveConfig: {
-              label: "Z.ai Coding Plan",
+              label: "Lumos Coding Plan",
               access: {
                 type: "zhipu-account",
                 family: "zai",

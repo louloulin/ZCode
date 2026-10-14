@@ -19,7 +19,7 @@ function entitlement(params: {
     authenticated: true,
     provider: {
       id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-      name: "Z.AI Start Plan",
+      name: "Lumos Start Plan",
     },
     remaining: {
       count: params.dailyRemaining,

@@ -112,7 +112,7 @@ describe("OpenRouter Messages 推理请求契约", () => {
 
   it("不改变官方站点、相似域名、其他协议及 Personal Map", () => {
     for (const url of [
-      "https://api.z.ai/api/anthropic",
+      "https://api.lumosai.cc/api/anthropic",
       "https://open.bigmodel.cn/api/anthropic",
       "https://example.test/api",
       "https://openrouter.ai.evil.test/api",

@@ -1,7 +1,7 @@
 ---
 name: xlsx
 metadata:
-  author: Z.AI
+  author: Lumos
   version: "1.1"
 description: "Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file; create a new spreadsheet from scratch or from other data sources; analyze data and output results as an Excel file with charts; convert between tabular file formats (CSV/TSV/JSON/PDF-table → XLSX, or XLSX → CSV/JSON); clean, merge, pivot, or transform tabular data. Trigger especially when the user references a spreadsheet file by name or path, says 'make a table/report/model', mentions Excel/CSV/数据分析/报表/汇总, asks to convert or export a spreadsheet (e.g. 'csv转excel', 'json转表格', 'export as CSV'), or wants data visualization inside a spreadsheet."
 license: Proprietary. LICENSE.txt has complete terms
@@ -213,7 +213,7 @@ for sub in [XLSX_SKILL_DIR, os.path.join(XLSX_SKILL_DIR, "templates")]:
 | **templates/base.py** | Design tokens, font resolution, style factories, utilities (single source of truth) |
 | **xlsx.py** | QA commands (see `quality/pipeline.md`) |
 
-Workbook metadata: `wb.properties.creator = "Z.ai"`
+Workbook metadata: `wb.properties.creator = "Lumos"`
 
 > **All code MUST import from `templates/base.py`** for colors, fonts, and style helpers. Never hardcode hex values or font names.
 

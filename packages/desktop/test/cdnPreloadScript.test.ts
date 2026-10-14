@@ -40,9 +40,9 @@ describe.skipIf(isWindows)("cdn-preload.sh", () => {
     writeFileSync(
       cdnUrlsIn,
       [
-        "https://cdn-lumos.z.ai/lumos/electron/releases/1.3.0/Lumos-1.3.0-mac-arm64.dmg\t3145728",
-        "https://cdn-lumos.z.ai/lumos/electron/releases/update/mac/arm64/latest-mac.yml\t128",
-        "https://cdn-lumos.z.ai/lumos/electron/releases/1.3.0/Lumos-1.3.0-mac-arm64.zip",
+        "https://cdn.lumosai.cc/lumos/electron/releases/1.3.0/Lumos-1.3.0-mac-arm64.dmg\t3145728",
+        "https://cdn.lumosai.cc/lumos/electron/releases/update/mac/arm64/latest-mac.yml\t128",
+        "https://cdn.lumosai.cc/lumos/electron/releases/1.3.0/Lumos-1.3.0-mac-arm64.zip",
         "",
       ].join("\n"),
       "utf-8",
@@ -115,7 +115,7 @@ process.stdout.write("\\n");
     expect(output).toContain("no minimum file size threshold is applied");
     expect(output).toContain("Filtered URLs: 2, Skipped URLs: 1");
     expect(output).toContain(
-      "skip preload (missing/invalid recorded size): https://cdn-lumos.z.ai/lumos/electron/releases/1.3.0/Lumos-1.3.0-mac-arm64.zip",
+      "skip preload (missing/invalid recorded size): https://cdn.lumosai.cc/lumos/electron/releases/1.3.0/Lumos-1.3.0-mac-arm64.zip",
     );
 
     const aliyunCalls = readFileSync(aliyunLogPath, "utf-8")
@@ -144,7 +144,7 @@ process.stdout.write("\\n");
     writeFileSync(
       cdnUrlsIn,
       [
-        "https://cdn-lumos.z.ai/lumos/electron/releases/1.3.0/Lumos-1.3.0-linux-arm64.AppImage\t3145728",
+        "https://cdn.lumosai.cc/lumos/electron/releases/1.3.0/Lumos-1.3.0-linux-arm64.AppImage\t3145728",
         "https://cdn.lumos-ai.com/lumos/electron/releases/1.3.0/Lumos-1.3.0-linux-arm64.AppImage\t3145728",
       ].join("\n"),
       "utf-8",
@@ -207,7 +207,7 @@ else process.stdout.write("\\n");
         ...process.env,
         PATH: `${binDir}:${process.env.PATH ?? ""}`,
         CDN_URLS_IN: cdnUrlsIn,
-        CDN_DOMAIN: "cdn-lumos.z.ai,cdn.lumos-ai.com",
+        CDN_DOMAIN: "cdn.lumosai.cc,cdn.lumos-ai.com",
         CDN_PRELOAD_PROFILE: "z-ai-account,lumos-ai-account",
         POLL_INTERVAL: "0",
       },
@@ -229,7 +229,7 @@ else process.stdout.write("\\n");
     expect(describeCalls).toHaveLength(2);
     expect(
       pushCalls.some(
-        (line) => line.includes("cdn-lumos.z.ai") && line.includes("--profile z-ai-account"),
+        (line) => line.includes("cdn.lumosai.cc") && line.includes("--profile z-ai-account"),
       ),
     ).toBe(true);
     expect(

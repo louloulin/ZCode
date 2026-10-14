@@ -42,13 +42,13 @@ describe("marketplace store listing", () => {
             displayName: "Example Plugin",
             displayName_i18n: { "zh-CN": "示例插件" },
             version: "0.1.1",
-            author: { name: "Z.ai", url: "https://z.ai" },
+            author: { name: "Lumos", url: "https://lumosai.cc" },
             category: "template",
-            icon: "https://cdn-lumos.z.ai/icons/example.png",
-            homepage: "https://z.ai/plugins/example",
-            privacyPolicy: "https://z.ai/privacy",
-            termsOfService: "https://z.ai/terms",
-            heroImage: "https://cdn-lumos.z.ai/hero/example.png",
+            icon: "https://cdn.lumosai.cc/icons/example.png",
+            homepage: "https://lumosai.cc/plugins/example",
+            privacyPolicy: "https://lumosai.cc/privacy",
+            termsOfService: "https://lumosai.cc/terms",
+            heroImage: "https://cdn.lumosai.cc/hero/example.png",
             examplePrompts: ["Try the example"],
             examplePrompts_i18n: { "zh-CN": ["试试这个示例"] },
             requiresPaidPlan: true,
@@ -84,14 +84,14 @@ describe("marketplace store listing", () => {
       displayName: "Example Plugin",
       displayNameI18n: { "zh-CN": "示例插件" },
       descriptionI18n: { "zh-CN": "一个最小模板插件" },
-      icon: "https://cdn-lumos.z.ai/icons/example.png",
+      icon: "https://cdn.lumosai.cc/icons/example.png",
       category: "template",
-      author: "Z.ai",
-      authorUrl: "https://z.ai",
-      homepage: "https://z.ai/plugins/example",
-      privacyPolicy: "https://z.ai/privacy",
-      termsOfService: "https://z.ai/terms",
-      heroImage: "https://cdn-lumos.z.ai/hero/example.png",
+      author: "Lumos",
+      authorUrl: "https://lumosai.cc",
+      homepage: "https://lumosai.cc/plugins/example",
+      privacyPolicy: "https://lumosai.cc/privacy",
+      termsOfService: "https://lumosai.cc/terms",
+      heroImage: "https://cdn.lumosai.cc/hero/example.png",
       examplePrompts: ["Try the example"],
       examplePromptsI18n: { "zh-CN": ["试试这个示例"] },
       requiresPaidPlan: true,
@@ -106,9 +106,9 @@ describe("marketplace store listing", () => {
 
   it("normalizes author from string and object forms", () => {
     expect(normalizeAuthorValue("Acme")).toEqual({ name: "Acme" });
-    expect(normalizeAuthorValue({ name: "Z.ai", url: "https://z.ai" })).toEqual({
-      name: "Z.ai",
-      url: "https://z.ai",
+    expect(normalizeAuthorValue({ name: "Lumos", url: "https://lumosai.cc" })).toEqual({
+      name: "Lumos",
+      url: "https://lumosai.cc",
     });
     expect(normalizeAuthorValue("   ")).toBeUndefined();
     expect(normalizeAuthorValue(42)).toBeUndefined();

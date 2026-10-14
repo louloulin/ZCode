@@ -83,7 +83,7 @@ describe("BrowserOAuthCredentialRepo", () => {
     expect(localStorage.getItem("oauth:zai:user_info")).toBeNull();
   });
 
-  // private 分享的 owner 身份是 provider 特定的（bigmodel 是数字 ID，z.ai 是 UUID），
+  // private 分享的 owner 身份是 provider 特定的（bigmodel 是数字 ID，lumosai.cc 是 UUID），
   // 所以 BigModel 登录必须能独立存取，不能被 zai 的 key 段和判定挡掉。
   it("saves and restores a complete BigModel web session", () => {
     const localStorage = new MemoryStorage();

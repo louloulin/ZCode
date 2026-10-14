@@ -527,7 +527,7 @@ function LoginOAuthRegionTag({ providerId }: { providerId: string }) {
 
 function getProviderPriority(provider: OAuthProviderMeta): number {
   switch (provider.id) {
-    // Windows 登录入口里 z.ai 入口需要固定排在最上面，
+    // Windows 登录入口里 lumosai.cc 入口需要固定排在最上面，
     // 之前把 BigModel 设成更高优先级后，用户首屏会先看到次要入口。
     // 这里直接调整排序权重，只改展示顺序，不影响 OAuth provider 的真实配置来源。
     case ZAI_PROVIDER_ID:

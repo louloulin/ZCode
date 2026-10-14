@@ -41,7 +41,7 @@ export function buildPersonalCodingPlanUsageSource({
     label:
       normalizedLabel ||
       (providerId === BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan
-        ? "Z.ai - Coding Plan"
+        ? "Lumos - Coding Plan"
         : "BigModel - Coding Plan"),
   };
 }

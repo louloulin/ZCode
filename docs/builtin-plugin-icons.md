@@ -5,7 +5,7 @@
 `listing.icon` 使用官方插件资源 CDN：
 
 ```
-https://cdn-lumos.z.ai/lumos/official-plugin/assets/<plugin-name>/icon.png
+https://cdn.lumosai.cc/lumos/official-plugin/assets/<plugin-name>/icon.png
 ```
 
 `computer-use` 复用已发布的 `assets/lumos-cua/icon.png`。插件标识从 `lumos-cua`

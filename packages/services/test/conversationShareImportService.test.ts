@@ -807,8 +807,8 @@ describe("ConversationShareService import", () => {
   });
 
   it("回链跟随环境，不再写死生产站", async () => {
-    // Bug 根因：兜底写死 https://lumos.z.ai/cn/share，测试环境（API base 走
-    // lumos.z.ai）导入后点分割线会打开另一个环境的分享页。
+    // Bug 根因：兜底写死 https://lumosai.cc/cn/share，测试环境（API base 走
+    // lumosai.cc）导入后点分割线会打开另一个环境的分享页。
     const root = await mkdtemp(join(tmpdir(), "lumos-share-import-endpoint-"));
     roots.push(root);
     const apiClient = new ConversationShareMockApiClient({ now: () => 10_000 });
@@ -884,7 +884,7 @@ describe("ConversationShareService import", () => {
     // 未显式指定时按环境推导：origin 必须与 API base 用的同一个解析器一致，
     // 路径仍是规范 /cn/share/<code>（sharedContextImport schema 要求）。
     // 必须真的切一个非生产 endpoint，否则推导值与旧的写死值恰好相同，测不出回归。
-    vi.stubEnv("LUMOS_BASE_URL", "https://lumos.z.ai");
+    vi.stubEnv("LUMOS_BASE_URL", "https://lumosai.cc");
     const derived = build();
     const secondShare = await derived.publish(
       {
@@ -903,7 +903,7 @@ describe("ConversationShareService import", () => {
       "operation-endpoint-2",
     );
     const derivedUrl = new URL(derivedImport.shareUrl);
-    expect(derivedUrl.origin).toBe("https://lumos.z.ai");
+    expect(derivedUrl.origin).toBe("https://lumosai.cc");
     expect(derivedUrl.origin).toBe(resolveRuntimeLumosEndpointOrigin(process.env));
     expect(derivedUrl.pathname).toBe(`/cn/share/${encodeURIComponent(secondShare.share_code)}`);
     vi.unstubAllEnvs();

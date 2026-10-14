@@ -11,21 +11,21 @@ Historical `remoteControlToken` / `relayOrigin` notes below only describe old
 ## Runtime Flow
 
 - `/web-remote/callback` renders the OAuth callback page and delegates callback handling to `WebAuthService`.
-- Unauthenticated Web remote visits render the lightweight login page and start Z.AI OAuth with `state = base64url(JSON.stringify({ nonce, app_return_to, return_to? }))`.
+- Unauthenticated Web remote visits render the lightweight login page and start Lumos OAuth with `state = base64url(JSON.stringify({ nonce, app_return_to, return_to? }))`.
 - Authenticated visits with `remoteControlToken` continue the existing relay bootstrap path.
 - Authenticated visits without `remoteControlToken` render the logged-in waiting page until the device-list backend is available.
 - Non-remote Web + Server routes keep the existing `/ws` and `/ws/remote/:id` bootstrap behavior.
 
 ## Storage
 
-The web runtime stores the same core keys as desktop Z.AI login:
+The web runtime stores the same core keys as desktop Lumos login:
 
 - `lumosjwttoken`
 - `oauth:zai:access_token`
 - `oauth:zai:user_info`
 - `oauth:active_provider`
 
-`BrowserOAuthCredentialRepo` is the only browser storage boundary for this flow. It restores a cached session only when all required keys are present and valid; partial Z.AI state is cleared and treated as logged out.
+`BrowserOAuthCredentialRepo` is the only browser storage boundary for this flow. It restores a cached session only when all required keys are present and valid; partial Lumos state is cleared and treated as logged out.
 
 ## Development Callback Relay
 
@@ -41,4 +41,4 @@ This only writes `return_to` into OAuth state. A deployed callback page will for
 VITE_WEB_REMOTE_ALLOW_DEV_RETURN_TO=true
 ```
 
-The Vite dev server proxies `/api/v1/oauth/token` to `https://lumos.z.ai` before the generic `/api` proxy so local token exchange does not accidentally hit the local server.
+The Vite dev server proxies `/api/v1/oauth/token` to `https://lumosai.cc` before the generic `/api` proxy so local token exchange does not accidentally hit the local server.

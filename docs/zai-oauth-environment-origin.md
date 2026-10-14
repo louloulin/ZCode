@@ -2,7 +2,7 @@
 
 ## 背景
 
-ZAI OAuth 登录入口当前使用 `/api/oauth` 前缀，生产默认入口为 `https://chat.z.ai/api/oauth/authorize`。为了支持测试环境登录入口，需要避免在多端代码里散落完整授权 URL。
+ZAI OAuth 登录入口当前使用 `/api/oauth` 前缀，生产默认入口为 `https://chat.lumosai.cc/api/oauth/authorize`。为了支持测试环境登录入口，需要避免在多端代码里散落完整授权 URL。
 
 ## 方案
 
@@ -16,10 +16,10 @@ ZAI OAuth 登录入口当前使用 `/api/oauth` 前缀，生产默认入口为 `
 ## 测试环境配置
 
 ```env
-LUMOS_TEST_BASE_URL=https://lumos.z.ai
+LUMOS_TEST_BASE_URL=https://lumosai.cc
 ZAI_TEST_OAUTH_CLIENT_ID=client_P8X5CMWmlaRO9gyO-KSqtg
-ZAI_TEST_OAUTH_ORIGIN=https://chat.z.ai
-ZAI_TEST_BUSINESS_BASE_URL=https://api.z.ai
+ZAI_TEST_OAUTH_ORIGIN=https://chat.lumosai.cc
+ZAI_TEST_BUSINESS_BASE_URL=https://api.lumosai.cc
 ```
 
 本地开发默认 `LUMOS_ENV=test`，让 `pnpm dev:web`、`pnpm dev:desktop:test` 都走测试环境登录入口。不要在 `.env*` 里写 `LUMOS_ENV`，当前环境由启动脚本或 CI 注入。
@@ -27,8 +27,8 @@ ZAI_TEST_BUSINESS_BASE_URL=https://api.z.ai
 正式环境在 `.env.production` 显式配置生产 client id：
 
 ```env
-LUMOS_PRODUCTION_BASE_URL=https://lumos.z.ai
-ZAI_PRODUCTION_OAUTH_ORIGIN=https://chat.z.ai
-ZAI_PRODUCTION_BUSINESS_BASE_URL=https://api.z.ai
+LUMOS_PRODUCTION_BASE_URL=https://lumosai.cc
+ZAI_PRODUCTION_OAUTH_ORIGIN=https://chat.lumosai.cc
+ZAI_PRODUCTION_BUSINESS_BASE_URL=https://api.lumosai.cc
 ZAI_PRODUCTION_OAUTH_CLIENT_ID=client_P8X5CMWmlaRO9gyO-KSqtg
 ```

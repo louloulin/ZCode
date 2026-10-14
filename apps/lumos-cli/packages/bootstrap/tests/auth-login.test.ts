@@ -52,7 +52,7 @@ describe("Lumos CLI login", () => {
         data: {
           flow_id: "flow-failed",
           poll_token: "poll-token",
-          authorize_url: "https://chat.z.ai/oauth/authorize?state=failed",
+          authorize_url: "https://chat.lumosai.cc/oauth/authorize?state=failed",
           expires_at: 9999999999,
           poll_interval_sec: 2,
         },
@@ -79,7 +79,7 @@ describe("Lumos CLI login", () => {
       code: "auth_failed",
     });
 
-    expect(httpClient.requests[0]?.url).toBe("https://lumos.z.ai/api/v1/oauth/cli/init");
+    expect(httpClient.requests[0]?.url).toBe("https://lumosai.cc/api/v1/oauth/cli/init");
   });
 
   it("polls OAuth, stores account credentials, and updates the configured default", async () => {
@@ -97,7 +97,7 @@ describe("Lumos CLI login", () => {
         data: {
           flow_id: "flow-1",
           poll_token: "poll-token",
-          authorize_url: "https://chat.z.ai/oauth/authorize?state=state",
+          authorize_url: "https://chat.lumosai.cc/oauth/authorize?state=state",
           expires_at: 9999999999,
           poll_interval_sec: 2,
         },
@@ -195,7 +195,7 @@ describe("Lumos CLI login", () => {
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
         accountIdentity: "u_1",
       });
-      expect(authorizeUrl).toBe("https://chat.z.ai/oauth/authorize?state=state");
+      expect(authorizeUrl).toBe("https://chat.lumosai.cc/oauth/authorize?state=state");
       expect(statuses).toEqual(["pending", "ready"]);
       expect(result).toMatchObject({
         configPath: personalProviderConfigPath,
@@ -397,7 +397,7 @@ describe("Lumos CLI login", () => {
         data: {
           flow_id: "flow-failed",
           poll_token: "poll-token",
-          authorize_url: "https://chat.z.ai/oauth/authorize?state=failed",
+          authorize_url: "https://chat.lumosai.cc/oauth/authorize?state=failed",
           expires_at: 9999999999,
           poll_interval_sec: 2,
         },
@@ -431,7 +431,7 @@ describe("Lumos CLI login", () => {
         data: {
           flow_id: "flow-expired",
           poll_token: "poll-token",
-          authorize_url: "https://chat.z.ai/oauth/authorize?state=expired",
+          authorize_url: "https://chat.lumosai.cc/oauth/authorize?state=expired",
           expires_at: 1,
           poll_interval_sec: 2,
         },
@@ -465,7 +465,7 @@ describe("Lumos CLI login", () => {
         data: {
           flow_id: "flow-abort",
           poll_token: "poll-token",
-          authorize_url: "https://chat.z.ai/oauth/authorize?state=abort",
+          authorize_url: "https://chat.lumosai.cc/oauth/authorize?state=abort",
           expires_at: 9999999999,
           poll_interval_sec: 2,
         },

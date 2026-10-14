@@ -12,7 +12,7 @@ describe("oauthStateCodec", () => {
     const state = buildOAuthState({
       nonce: "nonce-1",
       app_return_to:
-        "https://lumos.z.ai/web-remote?remoteControlToken=token&relayOrigin=https%3A%2F%2Frelay.example&ignored=1",
+        "https://lumosai.cc/web-remote?remoteControlToken=token&relayOrigin=https%3A%2F%2Frelay.example&ignored=1",
       return_to: "http://192.168.1.8:5173/web-remote/callback",
     });
 
@@ -22,7 +22,7 @@ describe("oauthStateCodec", () => {
     expect(parseOAuthState(state)).toEqual({
       nonce: "nonce-1",
       app_return_to:
-        "https://lumos.z.ai/web-remote?remoteControlToken=token&relayOrigin=https%3A%2F%2Frelay.example&ignored=1",
+        "https://lumosai.cc/web-remote?remoteControlToken=token&relayOrigin=https%3A%2F%2Frelay.example&ignored=1",
       return_to: "http://192.168.1.8:5173/web-remote/callback",
     });
   });
@@ -45,14 +45,14 @@ describe("oauthStateCodec", () => {
   it("sanitizes app_return_to to same-origin web-remote paths and allowed query keys", () => {
     expect(
       resolveSafeAppReturnTo(
-        "https://lumos.z.ai/web-remote?remoteControlToken=token&relayOrigin=https%3A%2F%2Frelay.example&ignored=1",
-        { currentOrigin: "https://lumos.z.ai" },
+        "https://lumosai.cc/web-remote?remoteControlToken=token&relayOrigin=https%3A%2F%2Frelay.example&ignored=1",
+        { currentOrigin: "https://lumosai.cc" },
       ),
     ).toBe("/web-remote?remoteControlToken=token&relayOrigin=https%3A%2F%2Frelay.example");
 
     expect(
       resolveSafeAppReturnTo("https://evil.example/web-remote?remoteControlToken=token", {
-        currentOrigin: "https://lumos.z.ai",
+        currentOrigin: "https://lumosai.cc",
       }),
     ).toBeNull();
 
@@ -65,18 +65,18 @@ describe("oauthStateCodec", () => {
 
   it("accepts a same-origin share route as a safe OAuth return target", () => {
     expect(
-      resolveSafeAppReturnTo("https://lumos.z.ai/cn/share/share-1", {
-        currentOrigin: "https://lumos.z.ai",
+      resolveSafeAppReturnTo("https://lumosai.cc/cn/share/share-1", {
+        currentOrigin: "https://lumosai.cc",
       }),
     ).toBe("/cn/share/share-1");
     expect(
-      resolveSafeAppReturnTo("https://lumos.z.ai/share/share-1", {
-        currentOrigin: "https://lumos.z.ai",
+      resolveSafeAppReturnTo("https://lumosai.cc/share/share-1", {
+        currentOrigin: "https://lumosai.cc",
       }),
     ).toBe("/share/share-1");
     expect(
       resolveSafeAppReturnTo("https://evil.example/cn/share/share-1", {
-        currentOrigin: "https://lumos.z.ai",
+        currentOrigin: "https://lumosai.cc",
       }),
     ).toBeNull();
   });

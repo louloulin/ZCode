@@ -213,7 +213,7 @@ describe("WindowsCaptionMenuButton", () => {
       }),
     );
     expect(capturedWindowsCaptionMenu.openFeatureRequest).toHaveBeenCalledTimes(1);
-    expect(capturedWindowsCaptionMenu.openExternal).toHaveBeenCalledWith("https://lumos.z.ai/docs");
+    expect(capturedWindowsCaptionMenu.openExternal).toHaveBeenCalledWith("https://lumosai.cc/docs");
     expect(capturedWindowsCaptionMenu.exportLogs).toHaveBeenCalledTimes(1);
   });
 

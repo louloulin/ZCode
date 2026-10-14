@@ -79,7 +79,7 @@ ModelFactory 创建 Model 时复制 `accessId`。每次模型请求由 Request A
 
 ## 当前 Family 行为
 
-`filterResolvedProviderFamiliesForRegistry()` 当前会在 Z.ai 和 BigModel 两个 Family 中各挑选一个生效 Provider：
+`filterResolvedProviderFamiliesForRegistry()` 当前会在 Lumos 和 BigModel 两个 Family 中各挑选一个生效 Provider：
 
 ```text
 API Key mode
@@ -109,7 +109,7 @@ Start Plan 当前是最清楚的例子：`billing/balance` 返回套餐允许的
 
 ## Endpoint 与产品环境
 
-Account Provider Endpoint 目前存在生产、测试等环境分支。例如 Z.ai Coding Plan 使用 `resolveZaiBusinessBaseUrl(process.env)`，Start Plan 使用当前 Lumos Endpoint 派生出的 lumos-plan 网关。
+Account Provider Endpoint 目前存在生产、测试等环境分支。例如 Lumos Coding Plan 使用 `resolveZaiBusinessBaseUrl(process.env)`，Start Plan 使用当前 Lumos Endpoint 派生出的 lumos-plan 网关。
 
 Official Config 成为唯一事实源后，Registry 和 Provider Factory 不能再次用 `process.env` 改写这些字段。每个产品环境应取得一份已经完整解析的 Official Config：
 

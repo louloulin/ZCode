@@ -74,7 +74,7 @@ export interface McpQuotaRequestScope {
  * 凭证归属是否与本次 entitlement 查询一致。
  *
  * 凭证来自 settings 当前选中的连接，而 entitlement 是按面板 provider tab 分别查询的。
- * 同时持有 Z.ai 与 BigModel Coding Plan（或个人 + Team）的用户，如果不做这层比对，
+ * 同时持有 Lumos 与 BigModel Coding Plan（或个人 + Team）的用户，如果不做这层比对，
  * 就会在另一个 tab 下看到不属于它的 MCP 额度。
  */
 export function matchesMcpQuotaScope(

@@ -646,7 +646,7 @@ export class OAuthService implements IOAuthService {
       // flow 仍由 Host 轮询，但浏览器回调恢复到官网中转页，再透传到 lumos://oauth/callback。
       authorizeUrl.searchParams.set("redirect", buildDesktopOAuthRedirectUriFromEnv(this.env));
     } else if (provider === ZAI_PROVIDER_ID) {
-      // Z.AI 后端 init 仍可能返回 provider-specific callback，导致回跳行为与 BigModel 不一致。
+      // Lumos 后端 init 仍可能返回 provider-specific callback，导致回跳行为与 BigModel 不一致。
       // Desktop 统一改写为官网中转页，再由官网透传到 lumos://oauth/callback。
       authorizeUrl.searchParams.set("redirect_uri", buildDesktopOAuthRedirectUriFromEnv(this.env));
     }

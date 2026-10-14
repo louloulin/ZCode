@@ -1253,7 +1253,7 @@ describe("session persistence", () => {
               kind: "openai-compatible",
               options: {
                 apiKey: "zai-secret",
-                baseURL: "https://api.z.ai/api/coding/v1",
+                baseURL: "https://api.lumosai.cc/api/coding/v1",
               },
               models: {
                 "glm-main": {},

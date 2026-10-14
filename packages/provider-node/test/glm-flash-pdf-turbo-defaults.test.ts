@@ -85,7 +85,7 @@ describe("Todo126 发布配置的 Flash PDF 和模板 Turbo 默认", () => {
         "openai-responses",
       ] as const) {
         for (const baseUrl of [
-          "https://api.z.ai/api/anthropic",
+          "https://api.lumosai.cc/api/anthropic",
           "https://open.bigmodel.cn/api/anthropic",
           "https://proxy.example/v1",
         ]) {

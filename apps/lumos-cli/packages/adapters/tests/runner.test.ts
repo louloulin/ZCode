@@ -7250,7 +7250,7 @@ function startPlanRegistryConfig(runtimeHeader: string) {
       "account:bigmodel-start-plan": {
         kind: "anthropic" as const,
         apiKey: "client-id.client-secret",
-        baseURL: "https://lumos.z.ai/api/v1/lumos-plan/anthropic",
+        baseURL: "https://lumosai.cc/api/v1/lumos-plan/anthropic",
         headers: {
           "X-Runtime-Token": runtimeHeader,
         },
@@ -7258,7 +7258,7 @@ function startPlanRegistryConfig(runtimeHeader: string) {
       "account:zai-start-plan": {
         kind: "anthropic" as const,
         apiKey: "client-id.client-secret",
-        baseURL: "https://lumos.z.ai/api/v1/lumos-plan/anthropic",
+        baseURL: "https://lumosai.cc/api/v1/lumos-plan/anthropic",
         headers: {
           "X-Runtime-Token": runtimeHeader,
         },

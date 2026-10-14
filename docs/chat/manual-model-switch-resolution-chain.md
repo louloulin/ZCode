@@ -13,7 +13,7 @@
 ## 权威边界
 
 - 已绑定 session 的工具条展示值来自 `ConversationSnapshot.config`，模型目录来自 workspace
-  `configOptions`。桌面工具条、模型切换 toast 和聊天区 marker 的模型文案规则为：Z.ai /
+  `configOptions`。桌面工具条、模型切换 toast 和聊天区 marker 的模型文案规则为：Lumos /
   BigModel 内置供应商只显示模型名，避免重复展示产品内置连接名称；其他供应商（包括自定义
   供应商）在宽 composer 中显示 `provider.name/modelId`，保留供应商身份。工具条触发器
   统一按 composer 容器宽度裁剪：超窄宽度只显示图标，中宽只显示 `modelId`，宽屏显示完整身份；
@@ -73,7 +73,7 @@ V4ComposerToolbar
    `sendText` 不会越过未收口配置。
 7. 只有已绑定 session 中显式切换 `provider + model` 身份时才显示性能提示；草稿态不显示
    模型切换 toast。已绑定 session 仅在 provider/model 元组完全相同时不提示；toast 的身份比较
-   始终使用完整 provider/model 元组，展示时 Z.ai / BigModel 内置供应商只显示 modelId，其他
+   始终使用完整 provider/model 元组，展示时 Lumos / BigModel 内置供应商只显示 modelId，其他
    供应商显示 `provider.name/modelId`。Agent 自动 fallback 使用相同的 changed + warning 文案，
    但只在已绑定 session 的当前聚焦 pane 通过实时 `online` 帧首次观察到带 fallback 来源的
    A→B 权威跃迁时显示；草稿 prewarm、initial/recovery、历史 snapshot、重复 delta 和后台
@@ -174,13 +174,13 @@ Turn N 实际使用 provider-A/glm-5.2
   -> CLI marker { fromProvider: A, fromModel: glm-5.2,
                   toProvider: B,   toModel: glm-5.2 }
   -> renderer 订阅 provider snapshot
-  -> 内置 Z.ai/BigModel：「模型已切换 glm-5.2 → ...」
+  -> 内置 Lumos/BigModel：「模型已切换 glm-5.2 → ...」
      其他供应商：「模型已切换 B名称/glm-5.2 → ...」
 ```
 
 Bug 原因：协议和 CLI 投影已保留完整 provider/model 元组，但聊天区 renderer 只消费
 `fromModel/toModel`，曾导致自定义供应商的同名模型无法区分。renderer 仍订阅现有 provider
-snapshot，并对其他供应商保留供应商名称；Z.ai / BigModel 内置供应商按产品文案规则主动省略
+snapshot，并对其他供应商保留供应商名称；Lumos / BigModel 内置供应商按产品文案规则主动省略
 固定入口名称。初次缺少目录时，其他供应商先回落 provider ID，目录水合或改名后原地重渲染。
 普通 A→B marker 的完整起止身份与投影时机不变，也不改变 desktop continuous 或 mobile
 replayable 的交付语义；下节只增加显式 `∅→X` 模型边界的 source 共同缺失分支。
@@ -215,7 +215,7 @@ cold hydration
   model are jointly present for A→B switches or jointly absent for Subagent
   initial usage; half-present source tuples are invalid.
 - Source-less markers use the same provider/model display formatter as the
-  destination side of normal switches. Z.ai / BigModel omit the fixed provider
+  destination side of normal switches. Lumos / BigModel omit the fixed provider
   name; other providers retain `provider.name/modelId` and fall back to the
   provider ID until catalog hydration. They omit the switch icon and the redundant
   trailing “model”; normal A→B markers keep the existing switch icon and wording.

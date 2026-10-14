@@ -1,6 +1,6 @@
 # Model Provider Family Entitlement 优先选择
 
-Z.ai / BigModel provider family 的右侧详情以 `entitlement snapshot` 作为连接方式主判断来源。family 数据还没有准备好时，UI 不再猜测 API Key、Start Plan、Coding Plan 或 Team Plan，而是先显示 loading。
+Lumos / BigModel provider family 的右侧详情以 `entitlement snapshot` 作为连接方式主判断来源。family 数据还没有准备好时，UI 不再猜测 API Key、Start Plan、Coding Plan 或 Team Plan，而是先显示 loading。
 
 ## 规则
 
@@ -15,7 +15,7 @@ Z.ai / BigModel provider family 的右侧详情以 `entitlement snapshot` 作为
 
 ## Loading 边界
 
-打开 Z.ai 或 BigModel family 节点时，右侧详情保持现有 loading card，直到：
+打开 Lumos 或 BigModel family 节点时，右侧详情保持现有 loading card，直到：
 
 - app settings 完成首次读取；
 - model providers 完成首次读取；

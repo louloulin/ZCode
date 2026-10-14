@@ -60,12 +60,12 @@ function lumosBuiltinSnapshot(): ProviderConfigLayerSnapshot {
       [
         "zai-api",
         new ProviderConfig({
-          label: "Z.ai",
+          label: "Lumos",
           enabled: false,
           access: new ApiKeyAccessConfig(),
           api: new ProviderApiConfig({
             type: "anthropic-messages",
-            baseUrl: "https://api.z.ai/api/anthropic",
+            baseUrl: "https://api.lumosai.cc/api/anthropic",
           }),
           builtinModelIds: ["glm-5.3", "glm-5.2", "glm-5-turbo"],
         }),
@@ -378,8 +378,8 @@ describe("Legacy Personal Provider Config Importer", () => {
       legacyProviders: [
         legacyProvider("zai-api", {
           source: "builtin",
-          name: "Z.ai - API Key",
-          endpoints: { baseURL: "https://legacy.z.ai/api/anthropic" },
+          name: "Lumos - API Key",
+          endpoints: { baseURL: "https://legacy.lumosai.cc/api/anthropic" },
           models: [
             legacyModel("GLM-5.2"),
             legacyModel("GLM-5-Turbo"),

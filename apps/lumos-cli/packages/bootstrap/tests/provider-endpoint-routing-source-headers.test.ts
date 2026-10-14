@@ -67,7 +67,7 @@ describe("createProviderEndpointRoutingSourceHeaders", () => {
     });
 
     expect(headers).toMatchObject({
-      "HTTP-Referer": "https://lumos.z.ai",
+      "HTTP-Referer": "https://lumosai.cc",
       "User-Agent": "Lumos/2.0.0",
       "X-Release-Channel": "production",
       "X-Title": "Lumos@cli",

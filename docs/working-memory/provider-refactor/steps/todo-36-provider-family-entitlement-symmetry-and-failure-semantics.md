@@ -6,23 +6,23 @@
 >
 > 来源：Provider Refactor 合并后代码 Review、Start Plan/Team Plan 实机问题复盘
 >
-> 关联文档：[`Z.AI / BigModel Start Plan Provider`](../../../zai-start-plan-provider.md)、
+> 关联文档：[`Lumos / BigModel Start Plan Provider`](../../../zai-start-plan-provider.md)、
 > [`Todo 32`](./todo-32-team-plan-settings-effective-provider-boundary.md)、
 > [`Provider Family Merge`](../../../model-provider-family-merge.md)
 
 ## 1. 背景与结论
 
-当前实现已经确立了正确的产品语义：Z.AI 与 BigModel 是结构对称的 Provider Family；每个 Family 都包含 API
+当前实现已经确立了正确的产品语义：Lumos 与 BigModel 是结构对称的 Provider Family；每个 Family 都包含 API
 Key、Start Plan、Individual Coding Plan 和 Team Coding Plan Provider。Start Plan 是可与付费 Coding Plan
 并存并由用户显式选择的独立连接，不是 Coding Plan 查询失败后的 fallback。
 
 但实现仍带有多轮历史修复的形状：同一组 Family Provider ID 在 UI、OAuth 恢复和权益查询中反复通过
-`family === "zai" ? ... : ...` 映射；Z.AI/BigModel 查询被复制成四条 Hook 链路；旧注释仍宣称 Coding Plan
+`family === "zai" ? ... : ...` 映射；Lumos/BigModel 查询被复制成四条 Hook 链路；旧注释仍宣称 Coding Plan
 会禁用 Start fallback；部分页面甚至通过展示名称反推 Family。失败状态在设置页与启动恢复链路中的解释也不一致。
 
 本 Todo 不改变既有套餐产品设计，而是完成以下收口：
 
-1. Z.AI 与 BigModel 的编排完全由 `ModelProviderFamilySpec` 驱动；
+1. Lumos 与 BigModel 的编排完全由 `ModelProviderFamilySpec` 驱动；
 2. Start、Individual、Team 使用同一套确定/未知/失效状态语义；
 3. 真实 API、鉴权材料和 Team scope 差异继续留在 Service/Adapter 边界；
 4. 只有权威结果明确证明无权益时才破坏已有选择；
@@ -46,7 +46,7 @@ ModelProviderFamilySpec
 └─ teamCodingPlanProviderId
 ```
 
-UI、OAuth 恢复、套餐导航、权益查询和 Team item 构造不得另建 Z.AI/BigModel Provider ID 对照表，也不得使用
+UI、OAuth 恢复、套餐导航、权益查询和 Team item 构造不得另建 Lumos/BigModel Provider ID 对照表，也不得使用
 二选一三元表达式重复这份映射。
 
 Family 特定的购买、管理、注册等页面地址同样属于 Family 展示/产品元数据。它们应进入单一 Family 元数据来源，
@@ -100,7 +100,7 @@ Family 特定的购买、管理、注册等页面地址同样属于 Family 展�
 - Start Plan 使用 balance/权益接口，并可能返回当前账号专属模型成员；
 - Individual 使用个人账号访问上下文；
 - Team 需要完整的产品、组织和项目上下文；
-- Z.AI 与 BigModel 可以具有不同 Endpoint、OAuth、注册页、购买页和管理页；
+- Lumos 与 BigModel 可以具有不同 Endpoint、OAuth、注册页、购买页和管理页；
 - 具体请求 Header、凭据获取和服务端错误协议由 Service/Adapter 负责。
 
 正确边界是“上层编排和状态机对称，差异通过 Spec/Access Context 输入，底层协议实现各自处理”，而不是让 UI 到处
@@ -161,7 +161,7 @@ family === "zai"
 
 ### 3.4 权益 Hook 复制为四条链路
 
-`useCodingPlanEntitlements()` 手工维护 Z.AI Coding、Z.AI Start、BigModel Coding、BigModel Start 四套 Access、
+`useCodingPlanEntitlements()` 手工维护 Lumos Coding、Lumos Start、BigModel Coding、BigModel Start 四套 Access、
 Fingerprint、Query、Refresh、Result 和依赖数组。代码虽然当前行为基本对称，但任何后续修复都容易只落到其中一侧。
 
 目标结构：
@@ -175,7 +175,7 @@ useProviderFamilyEntitlements(familySpec, selection, settingsView)
 └─ 返回同构 family result
 
 useCodingPlanEntitlements
-├─ 显式调用 Z.AI family hook
+├─ 显式调用 Lumos family hook
 ├─ 显式调用 BigModel family hook
 └─ 合并结果与 refresh
 ```
@@ -195,15 +195,15 @@ Provider DTO 或状态权威。
 
 ### 3.6 Team 管理地址错误依赖 BigModel 常量
 
-通用 Team item 构造当前对 Z.AI 和 BigModel 都写入 `BIGMODEL_CODING_PLAN_TEAM_MANAGE_URL`。这意味着 Z.AI Team
+通用 Team item 构造当前对 Lumos 和 BigModel 都写入 `BIGMODEL_CODING_PLAN_TEAM_MANAGE_URL`。这意味着 Lumos Team
 的“管理/升级”操作也可能打开 BigModel 页面。
 
 目标修复：
 
 - BigModel Team 使用 BigModel Team 管理地址；
-- Z.AI Team 使用 Z.AI 对应的管理地址；
+- Lumos Team 使用 Lumos 对应的管理地址；
 - 地址从 Family 产品元数据取得；
-- 若当前只有 Z.AI 通用订阅管理地址，则显式配置该地址，不允许用 BigModel 常量作为 fallback；
+- 若当前只有 Lumos 通用订阅管理地址，则显式配置该地址，不允许用 BigModel 常量作为 fallback；
 - 增加两 Family 的点击目标测试。
 
 ### 3.7 UI 从 `providerName` 反推 Family
@@ -214,7 +214,7 @@ Provider DTO 或状态权威。
 providerName.toLowerCase() === "bigmodel" ? "bigmodel" : "zai"
 ```
 
-这会把任何不是精确 `BigModel` 的展示名称都解释为 Z.AI，并让本地化或文案调整改变业务行为。由该结果控制的图标、
+这会把任何不是精确 `BigModel` 的展示名称都解释为 Lumos，并让本地化或文案调整改变业务行为。由该结果控制的图标、
 账号提示和注册提示都可能错误。
 
 目标修复：状态卡接收明确 `providerId` 或 `family`，通过 Family Spec 解析身份；`providerName` 只用于展示，不参与任何
@@ -257,7 +257,7 @@ MODEL_PROVIDER_FAMILY_SPECS
           +-------------------------------+
           |                               |
           v                               v
-Z.AI Family Context               BigModel Family Context
+Lumos Family Context               BigModel Family Context
 ├─ static provider ids            ├─ static provider ids
 ├─ product/manage URLs            ├─ product/manage URLs
 └─ selected connection            └─ selected connection
@@ -303,9 +303,9 @@ Account 连接和主动退出位于图外：Account Source 决定 Provider 是�
 3. 已选 Start 明确返回 `no_plan` 时允许自动选择其他连接；
 4. `not_authenticated/not_configured/unavailable` 均不投影为 `notPurchased`；前两者的连接语义由
    `accountConnected`/Account Source 决定；
-5. Z.AI 与 BigModel 使用参数化测试共享同一状态矩阵；
-6. Z.AI/BigModel Start、Individual、Team 均从 Family Spec 取得 Provider ID；
-7. Z.AI Team 管理按钮打开 Z.AI 地址，BigModel Team 打开 BigModel 地址；
+5. Lumos 与 BigModel 使用参数化测试共享同一状态矩阵；
+6. Lumos/BigModel Start、Individual、Team 均从 Family Spec 取得 Provider ID；
+7. Lumos Team 管理按钮打开 Lumos 地址，BigModel Team 打开 BigModel 地址；
 8. 修改 Provider 展示名称或本地化文案不会改变 Family、图标和交互；
 9. 当前用户选择优先于自动选择；只有明确失效才执行自动选择；
 10. entitlement refresh 继续按 Provider/Team scope 使用独立 cache key，并保持 in-flight 合并。
@@ -346,7 +346,7 @@ Account 连接和主动退出位于图外：Account Source 决定 Provider 是�
 
 ### 6.1 Family 对称性
 
-以下矩阵对 Z.AI 与 BigModel 使用同一组参数化断言：
+以下矩阵对 Lumos 与 BigModel 使用同一组参数化断言：
 
 | 连接 | Access 条件 | 查询目标 | 额外上下文 |
 | --- | --- | --- | --- |
@@ -395,9 +395,9 @@ preservation，以及 `not_authenticated` 不得投影为 `notPurchased` 的证�
 
 ## 8. 完成标准
 
-- Z.AI/BigModel 的 Provider ID、Team 管理地址和 OAuth 身份均来自单一 Family Spec/元数据；
+- Lumos/BigModel 的 Provider ID、Team 管理地址和 OAuth 身份均来自单一 Family Spec/元数据；
 - UI 业务代码不再通过展示名推断 Family；
-- Family 编排不存在重复的 Z.AI/BigModel 查询实现；
+- Family 编排不存在重复的 Lumos/BigModel 查询实现；
 - Start/Individual/Team 对 active、inactive、unknown 的处理一致；
 - `notPurchased` 只由明确无权益产生；
 - 临时请求失败不会破坏已保存连接；
@@ -412,8 +412,8 @@ preservation，以及 `not_authenticated` 不得投影为 `notPurchased` 的证�
 - 登录与启动恢复只在 Start 明确 inactive 时破坏已有选择；`unavailable`、请求异常和不完整快照均保留。
 - OAuth、Team 导航、Sidebar、Composer 与企业套餐查询改为读取具名 `ModelProviderFamilySpec`，删除位置数组、
   Family Provider ID 三元映射和无生产调用的第二套选择 Resolver。
-- Z.AI/BigModel Team 管理地址进入 Family Spec；状态卡按 `providerId` 解析 Family，不再读取展示名称。
-- 四条手写 entitlement Hook 链收口为一个 Family Hook，并显式调用 Z.AI、BigModel 两次；Start 与 Coding
+- Lumos/BigModel Team 管理地址进入 Family Spec；状态卡按 `providerId` 解析 Family，不再读取展示名称。
+- 四条手写 entitlement Hook 链收口为一个 Family Hook，并显式调用 Lumos、BigModel 两次；Start 与 Coding
   继续使用独立 Provider ID、Account Access 和 cache key。
 - 历史商品缺失 Family 的 BigModel 解释集中到单一规范化函数，导航和使用量投影不再各自写 fallback。
 - 删除“Coding 激活后禁用 Start fallback”的失真注释；Start 现在明确是独立查询目标。

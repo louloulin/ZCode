@@ -926,7 +926,7 @@ caseSeeds:
 
   - id: MSR-AUTH-001
     status: accepted
-    state: Z.ai or BigModel is in API Key mode
+    state: Lumos or BigModel is in API Key mode
     event: login then first-input
     target: login-welcome -> chat-draft
     guard: API Key provider selected and key valid

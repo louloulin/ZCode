@@ -11,9 +11,9 @@ describe("Manual Coding Plan access", () => {
       group: "standard-personal",
       access: {
         type: "zhipu-coding-plan-api-key",
-        apiKeyManagementUrl: "https://z.ai/manage-apikey/apikey-list",
+        apiKeyManagementUrl: "https://lumosai.cc/manage-apikey/apikey-list",
       },
-      api: { type: "anthropic-messages", baseUrl: "https://api.z.ai/api/anthropic" },
+      api: { type: "anthropic-messages", baseUrl: "https://api.lumosai.cc/api/anthropic" },
     });
     expect(createRegistryProviderConfig(base).ok).toBe(false);
     const configured = base.overlay(

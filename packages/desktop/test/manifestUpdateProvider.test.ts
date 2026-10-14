@@ -41,13 +41,13 @@ describe("ManifestUpdateProvider helpers", () => {
     const url = buildElectronManifestUrl({
       endpointOrigin: "https://lumos.example.test",
       manifestUrl:
-        "https://lumos.z.ai/api/v1/releases/electron/manifest?platform=old&device_mid=old&channel=old",
+        "https://lumosai.cc/api/v1/releases/electron/manifest?platform=old&device_mid=old&channel=old",
       platform: "darwin-aarch64",
       deviceMid: "mid-1",
       channel: "stable",
     });
 
-    expect(url.origin).toBe("https://lumos.z.ai");
+    expect(url.origin).toBe("https://lumosai.cc");
     expect(url.pathname).toBe("/api/v1/releases/electron/manifest");
     expect(url.searchParams.get("platform")).toBe("darwin-aarch64");
     expect(url.searchParams.get("device_mid")).toBe("mid-1");

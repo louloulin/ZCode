@@ -36,7 +36,7 @@ describe("Lumos JWT 过期后重新认证", () => {
     await clickExpiredLoginAlertAction();
     await waitForTestIdByDom(testId(TID_OAUTH_LOGIN_BUTTON, ZAI_PROVIDER_ID), {
       timeout: 20000,
-      timeoutMsg: "确认登录过期提示后没有展示 Z.ai 登录入口",
+      timeoutMsg: "确认登录过期提示后没有展示 Lumos 登录入口",
     });
     await waitForTestIdByDom(TID_OAUTH_LOGIN_BUTTON, {
       timeout: 20000,

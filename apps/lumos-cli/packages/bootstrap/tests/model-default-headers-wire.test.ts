@@ -188,7 +188,7 @@ describe("模型请求默认 Header：Bootstrap → Adapter → 真实 SDK", () 
         expect(headers.get("user-agent")).toContain(`Lumos/${CLIENT_VERSION}`);
         expect(headers.get("x-lumos-app-version")).toBe(CLIENT_VERSION);
         expect(headers.get("x-title")).toBe("Lumos@electron");
-        expect(headers.get("http-referer")).toBe("https://lumos.z.ai");
+        expect(headers.get("http-referer")).toBe("https://lumosai.cc");
         expect(headers.get("x-lumos-agent")).toBe("glm");
         expect(headers.get("x-release-channel")).toBe("production");
         for (const key of [

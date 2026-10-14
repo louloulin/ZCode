@@ -120,8 +120,8 @@ describe("buildAgentEndpointOriginEnv", () => {
   });
 
   it("pins the resolved origin onto LUMOS_BASE_URL", () => {
-    expect(buildAgentEndpointOriginEnv("https://lumos.z.ai")).toEqual({
-      LUMOS_BASE_URL: "https://lumos.z.ai",
+    expect(buildAgentEndpointOriginEnv("https://lumosai.cc")).toEqual({
+      LUMOS_BASE_URL: "https://lumosai.cc",
     });
   });
 
@@ -216,20 +216,20 @@ describe("official MCP trust: host and agent must agree on the Lumos API origin"
 
   it("agrees in production, where the settings override is ignored on both sides", async () => {
     // production 下 override 被忽略，注入值等于 env 派生值，行为不得改变。
-    const hostEnv = { LUMOS_ENV: "production", LUMOS_BASE_URL: "https://lumos.z.ai" };
+    const hostEnv = { LUMOS_ENV: "production", LUMOS_BASE_URL: "https://lumosai.cc" };
     const injected = resolveRuntimeLumosEndpointOrigin(hostEnv, {
       overrideOrigin: SETTINGS_ORIGIN,
     });
-    expect(injected).toBe("https://lumos.z.ai");
+    expect(injected).toBe("https://lumosai.cc");
 
     const agentEnv = { ...hostEnv, ...buildAgentEndpointOriginEnv(injected) };
     const host = hostRegistry(hostEnv, SETTINGS_ORIGIN);
     const agent = agentRegistry(agentEnv);
 
-    for (const origin of ["https://lumos.z.ai", SETTINGS_ORIGIN]) {
+    for (const origin of ["https://lumosai.cc", SETTINGS_ORIGIN]) {
       expect(await verdict(agent, origin)).toBe(await verdict(host, origin));
     }
-    expect(await verdict(host, "https://lumos.z.ai")).toBe(true);
+    expect(await verdict(host, "https://lumosai.cc")).toBe(true);
     expect(await verdict(host, SETTINGS_ORIGIN)).toBe(false);
   });
 });

@@ -755,7 +755,7 @@ describe("autoUpdater ready state sync", () => {
 
     initAutoUpdater({
       updateFeedSource: {
-        url: "https://lumos.z.ai/api/v1/releases/electron/manifest?platform=old&channel=1",
+        url: "https://lumosai.cc/api/v1/releases/electron/manifest?platform=old&channel=1",
       },
     });
 
@@ -763,7 +763,7 @@ describe("autoUpdater ready state sync", () => {
       expect.objectContaining({
         provider: "custom",
         manifestUrl:
-          "https://lumos.z.ai/api/v1/releases/electron/manifest?platform=old&channel=1",
+          "https://lumosai.cc/api/v1/releases/electron/manifest?platform=old&channel=1",
         releasePlatform: "darwin-aarch64",
       }),
     );

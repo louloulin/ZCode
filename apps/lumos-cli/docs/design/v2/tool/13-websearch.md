@@ -91,7 +91,7 @@ provider-native contract 转成 SDK provider tool 的地方。
 支持条件：
 
 - provider kind 是 `anthropic`。
-- resolved baseURL host 是 `bigmodel.cn`、`z.ai`、`deepseek.com` 或其子域。
+- resolved baseURL host 是 `bigmodel.cn`、`lumosai.cc`、`deepseek.com` 或其子域。
 - 未命中 allowlist 的 Anthropic-compatible provider 不投影 provider-native search。
 
 ### OpenAI
@@ -115,7 +115,7 @@ DuckDuckGo HTML fallback。
 - provider capability gate 优先在 runtime projection 过滤 `WebSearch`；handler 的
   `assertProviderSupportsWebSearch` 是第二道防线。
 - capability gate 由 provider kind 和 resolved baseURL 共同决定；只有 `anthropic`
-  且 baseURL host 是 `bigmodel.cn`、`z.ai`、`deepseek.com` 或其子域时才暴露。
+  且 baseURL host 是 `bigmodel.cn`、`lumosai.cc`、`deepseek.com` 或其子域时才暴露。
 - `WebSearch` 进入本地 `ToolExecutor` 并触发普通 tool lifecycle：
   `ToolCallScheduled`、`ToolCallStarted`、`ToolCallResult`、permission、hook、
   scheduler、resultBudget 和 session history。
@@ -159,7 +159,7 @@ Adapters：
 
 - 只有内部 provider-native `web_search` contract 会被映射为
   `anthropic.web_search_20260209`。
-- 只有 Anthropic provider kind 且 baseURL host 命中 `bigmodel.cn`、`z.ai`、
+- 只有 Anthropic provider kind 且 baseURL host 命中 `bigmodel.cn`、`lumosai.cc`、
   `deepseek.com` allowlist 时投影；官方 OpenAI、MiniMax、任意自定义/网关 provider
   不暴露 WebSearch。
 - public client-side `WebSearch` 保持普通 function tool。

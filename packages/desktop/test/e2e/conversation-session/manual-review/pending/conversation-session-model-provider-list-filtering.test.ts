@@ -43,7 +43,7 @@ const VISIBLE_PROVIDER_WITH_HIDDEN_MODEL = "e2e-visible-provider-hidden-model";
 const VISIBLE_COMPANION_MODEL = "visible-companion-model";
 const HIDDEN_MODEL = "hidden-model";
 const BUILTIN_CONFLICT_PROVIDER_ID = "e2e-zai-template-provider";
-const BUILTIN_CONFLICT_PROVIDER_NAME = "Z.ai Template Provider E2E";
+const BUILTIN_CONFLICT_PROVIDER_NAME = "Lumos Template Provider E2E";
 const BUILTIN_CONFLICT_MODEL_ID = "glm-5.3";
 
 describe("会话区模型供应商列表过滤 E2E", () => {

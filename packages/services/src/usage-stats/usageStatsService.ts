@@ -96,7 +96,7 @@ export function createUsageStatsService(
       request: CodingPlanUsageRequest,
     ): Promise<CodingPlanUsageSnapshot> {
       if (!isCodingPlanProviderId(request.preferredProviderId)) {
-        // Coding Plan 页面只允许预置的 Z.AI/BigModel Coding Plan 账号。
+        // Coding Plan 页面只允许预置的 Lumos/BigModel Coding Plan 账号。
         // 普通 provider id 不能进入 monitor 链路，避免误读 API Key 或环境变量。
         throw new Error("no_bigmodel_api_key");
       }

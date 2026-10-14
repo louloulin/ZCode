@@ -252,7 +252,7 @@ Windows App-Bound 授权与导入顺序：
 | Case           | Unit/contract                                  | Component                            | Desktop integration/E2E               | 初始状态                                    |
 | -------------- | ---------------------------------------------- | ------------------------------------ | ------------------------------------- | ------------------------------------------- |
 | BS-001/002     | plugin store 既有覆盖                          | BrowserSettingsSection Switch 已覆盖 | plugin runtime 既有覆盖               | automated                                   |
-| BS-003/004/005 | Chrome Cookie/LocalStorage source 与结果已覆盖 | 一键导入状态与 toast 已覆盖          | 真实 Chrome 当前 Profile + z.ai smoke | macOS passed；Windows/Linux 实机待补        |
+| BS-003/004/005 | Chrome Cookie/LocalStorage source 与结果已覆盖 | 一键导入状态与 toast 已覆盖          | 真实 Chrome 当前 Profile + lumosai.cc smoke | macOS passed；Windows/Linux 实机待补        |
 | BS-006/007/008 | session clear mode 已覆盖                      | 确认 Dialog 与按钮 pending 已验证    | Electron persistent partition         | automated + runtime smoke                   |
 | BS-009         | Web unsupported result 已覆盖                  | disabled controls 已覆盖             | mobile layout smoke                   | automated                                   |
 | BS-010         | workspace identity 参数沿用 plugin store       | section props 已覆盖                 | remote workspace regression           | partial：远程实机待补                       |

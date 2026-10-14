@@ -46,7 +46,7 @@ import { pollUntilReady } from "./auth-login-polling.js";
 const DEFAULT_LOGIN_TIMEOUT_MS = 5 * 60 * 1_000;
 
 /**
- * Z.ai 与 BigModel 共用服务端轮询登录：init 拿授权地址，浏览器授权后轮询到 ready，
+ * Lumos 与 BigModel 共用服务端轮询登录：init 拿授权地址，浏览器授权后轮询到 ready，
  * 再解析项目访问材料并写入凭据与默认模型。OAuth 登录不落盘派生 API Key，
  * 运行时按 `authSource: "oauth"` 用访问令牌换取请求凭据。
  */
@@ -111,7 +111,7 @@ export async function loginLumosCli(
     );
     // 已取消或已超时的登录不能把迟到的 ready 响应写入凭据。
     throwIfAborted(signal);
-    // Z.ai 以账号用户 ID 作为连接身份；BigModel 的项目令牌按组织与项目签发，
+    // Lumos 以账号用户 ID 作为连接身份；BigModel 的项目令牌按组织与项目签发，
     // 连接身份沿用组织与项目的稳定摘要，与运行时的令牌缓存范围一致。
     const accountIdentity =
       providerId === "zai"

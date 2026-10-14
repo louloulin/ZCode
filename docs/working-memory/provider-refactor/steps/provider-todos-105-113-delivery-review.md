@@ -11,7 +11,7 @@
 | 107  | Provider 外层 enabled、三色灯、删除三态反馈与重试、连接测试成功关闭按钮、纵向拖拽、全部 17 模板 Key URL                        | Resolver 唯一准入源；不逐模型禁用、不解绑、不清选择、不收回已绑定 Model；Team 菜单按具体 ID 查 Settings View，不使用其继承的个人 Provider        |
 | 108  | Verifier 继承绑定模型推理档位、输出使用模型上限；5 条真实 Runtime/Adapter 请求测试                                             | 不改变其他低成本辅助调用，不在通用 Factory 加特判                                                                                                |
 | 110  | Guide 仍重新解析；比较旧 Loop Model 与新完整 Selection 决定重建 System；9 条真实 Runtime 请求测试                              | 同选择改配置后实际输出上限更新，System 不被切模逻辑重建；Session 与 Loop 不混用；真实切模时输出风格冻结的既有问题不扩修                          |
-| 111  | 普通/套餐 × BigModel/Z.ai 四模板；新增 zhipu-coding-plan-api-key；双域手动套餐进入安全校验、普通 API 不进入；SDK/开关/缓存测试 | 不迁移现有实例；普通 API 搜索不开；Key 保存保留新类型；仍复用现有安全校验、配置分发和账号校验路径                                                |
+| 111  | 普通/套餐 × BigModel/Lumos 四模板；新增 zhipu-coding-plan-api-key；双域手动套餐进入安全校验、普通 API 不进入；SDK/开关/缓存测试 | 不迁移现有实例；普通 API 搜索不开；Key 保存保留新类型；仍复用现有安全校验、配置分发和账号校验路径                                                |
 | 112  | 官方 GLM 名单、精确规则及 Start 名单规范；Subagent/Bot/Wiki 导入补确定性改名；SQLite 0021、App 0003 增量迁移                   | 不修改旧 migration/checksum；旧字段、时间、正文、历史来源、闲时 Ticket 不动；坏 JSON/缺失字段不崩，回滚重升不复活旧选择；自定义/未知型号不猜     |
 | 113  | GPT-6 Astra、Fable 5.1、DeepSeek Flash；聚合模板仅加入核实 ID；SDK 16 个协议/档位用例                                          | 新型号专用规则不扩大旧 Pro/代理别名视觉；Fable adaptive + auto tools + JSON Schema，沿用跨模型 thinking 清理；不启用强制工具调用或新增 beta 特判 |
 

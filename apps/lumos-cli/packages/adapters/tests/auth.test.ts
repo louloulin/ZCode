@@ -303,7 +303,7 @@ describe("CLI OAuth client", () => {
         data: {
           flow_id: "flow-1",
           poll_token: "poll-token",
-          authorize_url: "https://chat.z.ai/oauth/authorize?state=state",
+          authorize_url: "https://chat.lumosai.cc/oauth/authorize?state=state",
           expires_at: 1735000000,
           poll_interval_sec: 2,
         },
@@ -505,7 +505,7 @@ describe("Coding Plan API key resolver", () => {
         family: "zai",
       }),
     ).resolves.toBe("project-token");
-    expect(httpClient.requests[0]?.url).toBe("https://api.z.ai/api/auth/z/login");
+    expect(httpClient.requests[0]?.url).toBe("https://api.lumosai.cc/api/auth/z/login");
     expect(httpClient.requests[1]?.headers).toMatchObject({
       authorization: "Bearer zai-biz-token",
     });

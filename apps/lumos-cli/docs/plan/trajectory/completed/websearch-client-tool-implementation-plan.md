@@ -46,7 +46,7 @@
 | WS-D5 | 只保留当前 Anthropic provider-native `web_search` 实际消费的 `maxUses` public 可选调参字段，并透传到内部 provider-native args；`searchContextSize` 不再暴露，避免形成 no-op contract。 |
 | WS-D6 | `web_search` 可以作为 legacy allowlist alias 映射到 `WebSearch`，但不得出现在外层 provider-visible `tools[].name`。 |
 | WS-D7 | Provider capability gate 优先在 runtime tool projection 做；handler assertion 继续作为第二道 fail-closed 防线。 |
-| WS-D8 | runtime 只有在能解析 model connection，且 `providerKind === "anthropic"`、baseURL host 为 `bigmodel.cn` / `z.ai` / `deepseek.com` 或其子域时才暴露 `WebSearch`；无法解析时 fail-closed。 |
+| WS-D8 | runtime 只有在能解析 model connection，且 `providerKind === "anthropic"`、baseURL host 为 `bigmodel.cn` / `lumosai.cc` / `deepseek.com` 或其子域时才暴露 `WebSearch`；无法解析时 fail-closed。 |
 | WS-D9 | 先不实现内部 request 的 streaming progress；内部 request 保持 `generateText`，只保证 request shape 与 tool result 格式。 |
 | WS-D10 | 不恢复 BigModel Web Search REST API、DuckDuckGo HTML fallback、`numResults`、`safeSearch`。 |
 

@@ -25,7 +25,7 @@ Air 的 `~/.lumos/v2/logs/2026-09-03.log` 在 15:51:36.836 记录的账号同步
 `WorkspaceSidebarFooterUsageSummary.tsx` 用 Individual Provider 调用
 `resolveEntitledAccountProviderAccessFingerprint()`，却把这个 fingerprint 当作
 `useEnterpriseCodingPlanProducts()` 的 enabled 前提。没有个人权益时返回空字符串，团队查询被关闭。
-随后 `subscribedTeamProducts` 为空，头像徽标返回 null。Z.ai 存在对称问题。
+随后 `subscribedTeamProducts` 为空，头像徽标返回 null。Lumos 存在对称问题。
 
 ```text
 没有个人套餐权益
@@ -103,7 +103,7 @@ Graph drift / proposed delta：`capability.plan-entitlements` 应补充 Footer �
 | Case | 设置与动作 | 预期与证据 |
 | --- | --- | --- |
 | 73-01 | BigModel 个人 false、团队 true；冷启动侧栏 | 显示 Team；组件／hook 回归 + E2E + Air |
-| 73-02 | Z.ai 同样只有团队权益 | 显示 Team；组件／hook 回归 |
+| 73-02 | Lumos 同样只有团队权益 | 显示 Team；组件／hook 回归 |
 | 73-03 | 有个人等级，分别搭配有／无团队权益 | 均优先显示个人等级；已有规则回归 |
 | 73-04 | 两者均无权益，或只有 Start Plan | 不伪造个人等级／Team；单测 |
 | 73-05 | 从有 Team 的 Family 切到另一无权益 Family，或退出登录 | 不残留旧 Team 标签；组件测试 |

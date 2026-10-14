@@ -202,25 +202,25 @@ describe("Todo104 规则集合读写与应用", () => {
         baseUrl,
       }).properties;
     for (const baseUrl of [
-      "https://api.z.ai/api/anthropic",
+      "https://api.lumosai.cc/api/anthropic",
       "https://open.bigmodel.cn/api/anthropic",
-      "https://lumos.z.ai/api/v1/lumos-plan/anthropic",
+      "https://lumosai.cc/api/v1/lumos-plan/anthropic",
     ]) {
       expect(resolve(baseUrl)?.inputFormat).toMatchObject({
         supportsImage: true,
         supportsVideo: true,
       });
     }
-    expect(resolve("https://lumos.z.ai/api/v1/lumos-plan/anthropic")?.supportsNativeWebSearch).toBe(
+    expect(resolve("https://lumosai.cc/api/v1/lumos-plan/anthropic")?.supportsNativeWebSearch).toBe(
       true,
     );
-    expect(resolve("https://api.z.ai/api/anthropic")?.supportsNativeWebSearch).toBe(true);
+    expect(resolve("https://api.lumosai.cc/api/anthropic")?.supportsNativeWebSearch).toBe(true);
     expect(resolve("https://open.bigmodel.cn/api/anthropic")?.supportsMidConversationSystem).toBe(
       true,
     );
     for (const baseUrl of [
       "https://open.bigmodel.cn/api/off-peak/anthropic",
-      "https://api.z.ai/api/anthropic-extra",
+      "https://api.lumosai.cc/api/anthropic-extra",
       "https://attacker.test/api/anthropic",
     ]) {
       expect(resolve(baseUrl)?.inputFormat?.supportsVideo).toBe(false);

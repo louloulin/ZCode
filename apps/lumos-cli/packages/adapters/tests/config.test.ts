@@ -2018,7 +2018,7 @@ describe("config adapters", () => {
       expect(updated.provider.zai.options).toEqual({
         apiKey: "zai-coding-key",
         apiKeyRequired: true,
-        baseURL: "https://api.z.ai/api/anthropic",
+        baseURL: "https://api.lumosai.cc/api/anthropic",
         timeout: 30000,
       });
       expect(updated.provider.zai.models["glm-5.1"]).toEqual({
@@ -2077,9 +2077,9 @@ describe("config adapters", () => {
           provider: {
             "provider-auth-zai": {
               kind: "openai-compatible",
-              name: "Z.AI",
+              name: "Lumos",
               options: {
-                baseURL: "https://api.z.ai/api/coding/v1",
+                baseURL: "https://api.lumosai.cc/api/coding/v1",
                 apiKey: "secret",
                 includeUsage: false,
               },
@@ -2135,8 +2135,8 @@ describe("config adapters", () => {
         provider: "provider-auth-zai",
         model: "glm-5",
         kind: "openai-compatible",
-        providerName: "Z.AI",
-        baseURL: "https://api.z.ai/api/coding/v1",
+        providerName: "Lumos",
+        baseURL: "https://api.lumosai.cc/api/coding/v1",
         apiKey: "secret",
         includeUsage: false,
         providerOptions: {
@@ -2146,7 +2146,7 @@ describe("config adapters", () => {
         },
       });
       expect(result.config.model?.lite?.model).toBe("glm-4.7");
-      expect(result.config.model?.lite?.baseURL).toBe("https://api.z.ai/api/coding/v1");
+      expect(result.config.model?.lite?.baseURL).toBe("https://api.lumosai.cc/api/coding/v1");
       expect(
         result.config.model?.available?.map((target) => `${target.provider}/${target.model}`),
       ).toEqual(["provider-auth-zai/glm-5", "provider-auth-zai/glm-4.7"]);
@@ -2285,7 +2285,7 @@ describe("config adapters", () => {
             zai: {
               kind: "anthropic",
               options: {
-                baseURL: "https://api.z.ai/api/anthropic/v1",
+                baseURL: "https://api.lumosai.cc/api/anthropic/v1",
                 apiKey: "secret",
               },
               models: {
@@ -2601,9 +2601,9 @@ describe("config adapters", () => {
           provider: {
             zai: {
               kind: "openai-compatible",
-              name: "Z.AI",
+              name: "Lumos",
               options: {
-                baseURL: "https://api.z.ai/api/coding/v1",
+                baseURL: "https://api.lumosai.cc/api/coding/v1",
                 apiKey: "zai-secret",
               },
               models: {

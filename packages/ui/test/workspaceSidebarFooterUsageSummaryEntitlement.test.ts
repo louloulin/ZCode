@@ -59,7 +59,7 @@ beforeEach(() => {
             type: "anthropic-messages",
             baseUrl: "https://example.com",
           },
-          label: "Z.ai - Coding Plan",
+          label: "Lumos - Coding Plan",
           builtinModelIds: [],
         },
         issues: [],

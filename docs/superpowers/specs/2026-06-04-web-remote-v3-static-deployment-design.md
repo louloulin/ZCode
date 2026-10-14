@@ -16,7 +16,7 @@ deployment 和服务行为不变。
 1. 新版本手机远控静态资源部署到 `/remote/v3`。
 2. 原 `/remote` 资源构建、镜像构建、发布脚本和 k8s deployment 更新路径保持不变。
 3. v3 发布脚本最后只更新 `lumos/frontend/deployment-remote-v3.yaml`。
-4. 新版本桌面端默认二维码 URL 指向 `https://lumos.z.ai/remote/v3`。
+4. 新版本桌面端默认二维码 URL 指向 `https://lumosai.cc/remote/v3`。
 5. v3 静态资源继续由 nginx 托管，不引入 Node server、relay、agent runtime 或 desktop runtime 资源。
 6. `/remote` 与 `/remote/v3` 的浏览器资源路径互不依赖，避免任一版本发布影响另一版本。
 
@@ -161,13 +161,13 @@ commit and push MR branch
 `packages/desktop/src/main/index.ts` 中 `mobileRemoteControlUrl` 的默认值改为：
 
 ```text
-https://lumos.z.ai/remote/v3
+https://lumosai.cc/remote/v3
 ```
 
 `LUMOS_WEB_REMOTE_CONTROL_URL` 环境变量继续保留最高优先级，用于本地调试或临时回退：
 
 ```bash
-LUMOS_WEB_REMOTE_CONTROL_URL=https://lumos.z.ai/remote pnpm dev:desktop
+LUMOS_WEB_REMOTE_CONTROL_URL=https://lumosai.cc/remote pnpm dev:desktop
 ```
 
 这样新桌面版本默认扫码进入 v3，老桌面版本仍然使用自己构建时的旧默认 `/remote`。

@@ -12,7 +12,7 @@ import {
 
 describe("ProviderLogo", () => {
   it.each(["light", "dark"] as const)(
-    "Z.AI 在 %s 主题复用系统图标，BigModel 保持原素材",
+    "Lumos 在 %s 主题复用系统图标，BigModel 保持原素材",
     (theme) => {
       expect(resolveBuiltinProviderLogoAsset({ type: "builtin", key: "zai" }, theme)).toMatch(
         /model-provider-zai-app\.png(?:\?|$)/,
@@ -23,7 +23,7 @@ describe("ProviderLogo", () => {
     },
   );
 
-  it("Z.AI 渲染 Dock 应用 PNG 并保留原尺寸和装饰图片语义", () => {
+  it("Lumos 渲染 Dock 应用 PNG 并保留原尺寸和装饰图片语义", () => {
     const { container } = render(
       createElement(ProviderLogo, {
         logo: { type: "builtin", key: "zai" },

@@ -7,7 +7,7 @@
 
 ## 1. 新裁决与范围
 
-- 旧 BigModel / Z.ai Coding Plan 固定迁为**同域 Individual Provider**，不再依据迁移时当前个人/Team 连接决定身份。Individual 只是旧意图的确定性迁移落点，不表示历史请求使用过个人套餐，不开通或切换账号连接。
+- 旧 BigModel / Lumos Coding Plan 固定迁为**同域 Individual Provider**，不再依据迁移时当前个人/Team 连接决定身份。Individual 只是旧意图的确定性迁移落点，不表示历史请求使用过个人套餐，不开通或切换账号连接。
 - 后续由已有有效选择解析对应到当前 Account Provider 的同模型、同档位；不另造 Provider 替代机制，不让 Registry 校验偷偷替换 Provider。
 - 当前不可选的模型、档位不妨碍旧意图迁入；临时有效结果仍可以为空或缺档位。
 - 闲时任务的迁移、Provider/Ticket 绑定本轮排除，不机械迁成个人套餐。

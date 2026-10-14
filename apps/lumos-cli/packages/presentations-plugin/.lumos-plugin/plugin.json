@@ -7,7 +7,7 @@
     "zh-CN": "面向 PPTX 的演示文稿制作技能，并提供视觉验收评审 Agent。"
   },
   "author": {
-    "name": "Z.ai"
+    "name": "Lumos"
   },
   "license": "Apache-2.0",
   "skills": "skills",

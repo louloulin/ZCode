@@ -4,8 +4,8 @@
 
 `conversation-session-model-provider-selected-key-migration.test.ts` 的 I32～I34
 只验证本地 `modelProviderFamilySelectedKeys` 启动迁移，但 WDIO 默认 fixture 会写入
-`oauth:active_provider=zai`、Z.AI access token 与 `lumosjwttoken`。应用重载后因此进入
-OAuth 恢复刷新，并使用假的 `e2e-oauth-token` 请求真实 Z.AI provider、API Key 与权益接口。
+`oauth:active_provider=zai`、Lumos access token 与 `lumosjwttoken`。应用重载后因此进入
+OAuth 恢复刷新，并使用假的 `e2e-oauth-token` 请求真实 Lumos provider、API Key 与权益接口。
 
 本次修复的目标是让 I32～I34 完全不依赖外部网络，同时保持真实 App 重载和本地设置迁移
 链路不变。OAuth 恢复后的远端刷新语义由已有 UI 单测独立覆盖，不在这三个迁移 case 中重复。
@@ -29,7 +29,7 @@ selectedKey migration spec 的结果不包含任何可触发恢复刷新或 Plan
 ```text
 fake active OAuth session
   -> restoreCachedSession
-  -> refreshCodingPlanApiKey(Z.AI Coding + Start)
+  -> refreshCodingPlanApiKey(Lumos Coding + Start)
   -> 真实 provider/API Key/权益请求
   -> 再次按 selectedKey 刷新
   -> 本地 selectedKey migration
@@ -50,8 +50,8 @@ fake local settings/providers + legacy auth_token
 | 组合 | 处理 | 原因 |
 | --- | --- | --- |
 | 本地 mode/selectedKey 冲突 + 无 active OAuth | 保留 | I32～I34 的最小产品语义 |
-| 本地迁移 + Z.AI OAuth 恢复成功 | 剪枝 | OAuth 恢复刷新已有 `rootOAuthCallbackHandling.test.ts` 覆盖 |
-| 本地迁移 + 真实 Z.AI 网络成功/失败/超时 | 剪枝 | 与 selectedKey 迁移算法无关，且会引入外部不确定性 |
+| 本地迁移 + Lumos OAuth 恢复成功 | 剪枝 | OAuth 恢复刷新已有 `rootOAuthCallbackHandling.test.ts` 覆盖 |
+| 本地迁移 + 真实 Lumos 网络成功/失败/超时 | 剪枝 | 与 selectedKey 迁移算法无关，且会引入外部不确定性 |
 | BigModel Team 完整/畸形 identity | 保留 | 分别对应 I33/I34 的核心边界 |
 
 ## 代码与测试范围

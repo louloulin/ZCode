@@ -98,7 +98,7 @@ default，不再通过 `taskConfigOptionsByTaskId`、task meta 或 last-selected
 
 ## Coding Plan 与 Start Plan
 
-- Z.ai Coding Plan 在 authenticated 或 snapshot 尚未水合时可保留；BigModel Coding Plan 必须有有效
+- Lumos Coding Plan 在 authenticated 或 snapshot 尚未水合时可保留；BigModel Coding Plan 必须有有效
   entitlement，Team selected key 走团队上下文专用判断。
 - paid Coding Plan 有有效 entitlement 时隐藏同 family Start Plan；只有明确 `no_plan` 才允许 Start
   Plan fallback。查询中、网络失败、token 失效不能伪装成 `no_plan`。

@@ -85,7 +85,7 @@ export class BigModelProviderAdapter implements OAuthProviderAdapter {
   }
 
   async normalizePolledTokenSet(tokenSet: OAuthTokenSet): Promise<OAuthTokenSet> {
-    // polling ready 已返回 BigModel 业务 token；不走 Z.AI 的二次业务 token 兑换。
+    // polling ready 已返回 BigModel 业务 token；不走 Lumos 的二次业务 token 兑换。
     return tokenSet;
   }
 
@@ -152,7 +152,7 @@ export class BigModelProviderAdapter implements OAuthProviderAdapter {
           headers: { "Content-Type": "application/json" },
           // lumos JWT 的后端 token 路由按 OAuth callback 授权码语义解析。
           // BigModel Start Plan 不能在后续 balance 查询阶段用 access_token 二次兑换，
-          // 否则 body 与 Z.ai 登录链路不一致并触发 HTTP 400。provider 用 shared
+          // 否则 body 与 Lumos 登录链路不一致并触发 HTTP 400。provider 用 shared
           // 中的 OAuth provider 枚举值，避免前后端新增多 provider 后只靠 redirect_uri 猜身份。
           body: JSON.stringify({
             provider: BIGMODEL_PROVIDER_ID,

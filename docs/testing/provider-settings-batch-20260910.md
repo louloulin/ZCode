@@ -2,11 +2,11 @@
 
 ## Todo148 Dock 应用图标纠正（2026-09-15）
 
-Todo150 名称补充：现有 `zai app icon` 双尺寸／语言用例同时断言两张模板卡片及 tooltip 分别为 `Z.ai Coding Plan`、`Z.ai API`，图标与协议不变。
+Todo150 名称补充：现有 `zai app icon` 双尺寸／语言用例同时断言两张模板卡片及 tooltip 分别为 `Lumos Coding Plan`、`Lumos API`，图标与协议不变。
 
 OpenRouter 名称回归：390 中文浅色／1200 英文深色的添加模板卡片显示 `OpenRouter`，不含 Anthropic 后缀；悬停提示沿用相同名称。配置单测同时验证生产／测试名称及协议、URL 未改变。
 
-新增 `zai app icon` 两例：390 中文浅色／1200 英文深色。真实模板选择器中两家 Z.AI 模板、选中后的导航和详情使用同一 128px 应用 PNG，图片实际解码成功、保持正方形、不反色；纯展示不写入，点击模板仅触发原有创建动作，无额外保存或页面异常。截图供视觉复审，仍属浏览器 pending，不代替手机 shared-host 或完整 Electron 验收。
+新增 `zai app icon` 两例：390 中文浅色／1200 英文深色。真实模板选择器中两家 Lumos 模板、选中后的导航和详情使用同一 128px 应用 PNG，图片实际解码成功、保持正方形、不反色；纯展示不写入，点击模板仅触发原有创建动作，无额外保存或页面异常。截图供视觉复审，仍属浏览器 pending，不代替手机 shared-host 或完整 Electron 验收。
 
 ## 整页旧用例对齐（2026-09-12）
 
@@ -74,7 +74,7 @@ Todo126 新增两个 coding plan vision badge 用例：相同双尺寸/主题下
 既有 Electron `settings-ui-polish` 已按最终 DeepSeek 两成员、菜单与帮助标题更新并在 Pro 实跑通过，`provider-settings-write-recovery` 也已在 Pro 合批通过。前者 SSH 分支仍跳过；二者不等于手机 shared-host 联合验证。原生控制台打开由 K116-N01 单独证明，不借此宣称官方登录态通过。
 
 
-2026-09-12 Todo137 已确认新增覆盖：现有 vision badge 浏览器用例增加 Z.ai／BigModel Start Plan。两个尺寸/语言/主题下，设置列表和模型菜单均隐藏 GLM-5.3 视觉标，Flash 仍显示；只验证共用展示组件，实际图片能力由单测验证不变。先红后绿，2项浏览器用例通过；保持 pending 分类。
+2026-09-12 Todo137 已确认新增覆盖：现有 vision badge 浏览器用例增加 Lumos／BigModel Start Plan。两个尺寸/语言/主题下，设置列表和模型菜单均隐藏 GLM-5.3 视觉标，Flash 仍显示；只验证共用展示组件，实际图片能力由单测验证不变。先红后绿，2项浏览器用例通过；保持 pending 分类。
 
 2026-09-12 Todo138 已验证：新增模型空 ID 档位为空；输入 ID 接收推荐档位、清空恢复空列表；显式编辑档位在解析回包后保留。复用真实 ProviderCard 新增入口，覆盖 390/中文/浅色和 1200/英文/深色，服务路由隔离。
 

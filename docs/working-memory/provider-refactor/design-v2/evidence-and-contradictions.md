@@ -133,7 +133,7 @@ Start Plan 解析只接受上游明确模型事实，不应让展示文案成为
 ### C09. `family member`、`plan kind`、`group`、`mode`
 
 **历史冲突**：讨论中曾尝试同时保留 family member 与 plan kind，或用 Provider group 推导访问方式。
-**当前事实**：`group` 负责静态产品分组；`zhipu-account.family` 负责 Z.ai/BigModel；`mode` 负责 API Key、Start、
+**当前事实**：`group` 负责静态产品分组；`zhipu-account.family` 负责 Lumos/BigModel；`mode` 负责 API Key、Start、
 Individual、Team、Off-Peak。
 **裁定**：三者正交，不能互相推导；账号运行协议可继续使用自己的 `planKind` 命名。
 

@@ -44,7 +44,7 @@ Remote Provisioning 不同步 Built-in Release，不注入 Registry Snapshot，�
 远端分支包含有效的 Provisioning Source、Target、事务、RPC 和 Host 接入实现，但它基于较旧文档与 E2E 状态。合并时必须：
 
 - 保留当前 `todo-55-provider-template-inheritance-cutover.md`；
-- 保留当前已经恢复的 Z.ai / BigModel Family 与结构化 Connection Selection E2E；
+- 保留当前已经恢复的 Lumos / BigModel Family 与结构化 Connection Selection E2E；
 - 保留当前 Model Option Map、辅助模型最低 reasoning 等较新裁决；
 - 接收 Remote Provisioning 的 Source、Target、Envelope、Target 事务与远端能力接入；
 - 不机械接受“Family Case 已失去产品对象”或删除当前正式 Family Case 的旧结论；

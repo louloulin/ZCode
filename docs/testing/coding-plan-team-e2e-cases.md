@@ -1,6 +1,6 @@
 # Team Plan E2E Cases
 
-本文记录 Team Plan 接入后，桌面端设置页和用量入口需要覆盖的 E2E case。范围限定在 desktop local workspace，接口使用 WDIO case-local mock server，不访问真实 BigModel / Z.ai 套餐接口。
+本文记录 Team Plan 接入后，桌面端设置页和用量入口需要覆盖的 E2E case。范围限定在 desktop local workspace，接口使用 WDIO case-local mock server，不访问真实 BigModel / Lumos 套餐接口。
 
 ## 覆盖原则
 

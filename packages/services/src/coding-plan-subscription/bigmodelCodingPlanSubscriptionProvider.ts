@@ -4,7 +4,7 @@ import {
   isRequestVerificationMessage,
   type RequestVerificationClientConfig,
 } from "@lumos/shared";
-/* eslint-disable max-lines -- Coding Plan provider 需要集中维护 BigModel 支付宝与 Z.ai Stripe/PayPal 接口映射，拆分会让共享鉴权和响应解包更难追踪。 */
+/* eslint-disable max-lines -- Coding Plan provider 需要集中维护 BigModel 支付宝与 Lumos Stripe/PayPal 接口映射，拆分会让共享鉴权和响应解包更难追踪。 */
 import type {
   ApiClient,
   ApiRequestInit,
@@ -1248,7 +1248,7 @@ export function createBigModelLoginAuthHeaders(token: string): Record<string, st
 
 export function createZaiLoginAuthHeaders(token: string): Record<string, string> {
   return {
-    // Z.ai provider connection 已把 access_token 持久化为业务 JWT。
+    // Lumos provider connection 已把 access_token 持久化为业务 JWT。
     // 这里不能使用模型 API key，也不能给业务 JWT 添加 Bearer 前缀。
     Authorization: token,
     "Content-Type": "application/json",
@@ -1262,8 +1262,8 @@ function resolveCodingPlanHost(providerId: CodingPlanSubscriptionProviderId | un
 }
 
 function resolveZaiCodingPlanHost(): string {
-  // Z.ai Coding Plan 的 /api/biz 与 /api/pay 业务接口必须跟随产品环境。
-  // 业务 token 必须发送到 .env 配置的 ZAI Business origin；未覆盖时默认 api.z.ai。
+  // Lumos Coding Plan 的 /api/biz 与 /api/pay 业务接口必须跟随产品环境。
+  // 业务 token 必须发送到 .env 配置的 ZAI Business origin；未覆盖时默认 api.lumosai.cc。
   return resolveZaiBusinessBaseUrl(process.env);
 }
 
@@ -1531,7 +1531,7 @@ function isUnrenderableRemoteErrorMessage(message: string): boolean {
 }
 
 function resolveCodingPlanProviderName(providerId: CodingPlanSubscriptionProviderId): string {
-  return isZaiCodingPlanProviderId(providerId) ? "Z.ai" : "BigModel";
+  return isZaiCodingPlanProviderId(providerId) ? "Lumos" : "BigModel";
 }
 
 function dropUndefined(value: Record<string, unknown>): Record<string, unknown> {

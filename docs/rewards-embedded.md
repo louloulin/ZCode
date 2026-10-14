@@ -30,7 +30,7 @@ Windows/Linux 的奖励页及其登录入口必须保留顶部窗口按钮，关
 
 布局约束：App WebView 撑满窗口可用宽度，页面滚动条位于窗口右侧；网站内部负责内容限宽居中。顶部导航位于滚动视口外固定显示，不增加 App 外层滚动容器。此修复不改变 Coding Plan 或 Web/mobile 外部打开路径。
 
-- 本地显式开发联调：http://localhost:3000；测试：https://lumos.z.ai；正式：https://lumos.z.ai。
+- 本地显式开发联调：http://localhost:3000；测试：https://lumosai.cc；正式：https://lumosai.cc。
 - `pnpm dev:desktop:test` 默认使用测试域名；`pnpm dev:desktop` 默认使用正式域名，开发模式不自动切换到 localhost。
 - 本地 Website 联调显式启动：`VITE_REWARDS_WEBVIEW_ORIGIN=http://localhost:3000 pnpm dev:desktop:test`。仅覆盖奖励网页地址，App 接口仍使用测试环境；不改变语言、主题或鉴权协议。
 - URL：/{cn|en}/rewards?embedded=app&theme={zai-light|zai-dark}；zh-CN 映射 cn，en-US 映射 en。
@@ -134,7 +134,7 @@ codegraph 不可用，以上是源码静态核对而非完整调用图扫描；�
 - 营销 rewards 导航增量：8 个单测文件 113 项通过；3 条 macOS Electron E2E 通过，包含 Banner/独立弹窗各一次 confirm、匿名引导登录/取消且上报不带 Authorization，以及原嵌入流程。登录成功续接、用户就绪时序、取消/失败/替换和 Web 单次打开由 Provider 单测覆盖，未执行真实 OAuth 授权。E2E 退出清理有一次超时警告，检查时对应进程已退出。
 
 - macOS Electron 实际嵌入 localhost:3000：入口位于升级下方、OAuth/JWT 注入且另一渠道清空、明暗切换不重载、中英文往返、刷新和关闭重开通过；截图在本地 E2E artifacts。
-- Coding Plan 现有 BigModel 与 Z.ai 购买完成通知、关闭及 Provider 刷新两条 E2E 通过，未执行真实支付。
+- Coding Plan 现有 BigModel 与 Lumos 购买完成通知、关闭及 Provider 刷新两条 E2E 通过，未执行真实支付。
 - URL/bridge/窗口导航/启动鉴权及 Coding Plan 相关 85 条单测、桌面命令与分区清理 18 条单测通过；website 3 条协议单测及生产构建通过。
 - App typecheck、lint 与 architecture check 通过；lint 有仓库既存警告。图谱既存 4 条悬空边，本次未新增，新增源码种子已校验；codegraph 运行时索引不可用。
 - 未验证：Windows/Linux 实机、手机浏览器实机、真实邀请 API、真实令牌失效响应、生产/测试环境网站部署。网站目前只订阅鉴权就绪状态，不声称服务端已验证登录或发放奖励。

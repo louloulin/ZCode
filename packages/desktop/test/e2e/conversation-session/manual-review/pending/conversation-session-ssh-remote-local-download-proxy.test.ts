@@ -24,9 +24,9 @@ const PROXY_NO_PROXY = [
   "::1",
   ".aminer.cn",
   ".bigmodel.cn",
-  ".z.ai",
+  ".lumosai.cc",
   ".codegeex.cn",
-  ".z.ai",
+  ".lumosai.cc",
   ".lumos-ai.com",
   "js.stripe.com",
 ].join(",");

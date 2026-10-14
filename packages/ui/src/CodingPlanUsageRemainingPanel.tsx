@@ -111,7 +111,7 @@ function resolveCodingPlanTabProviderIcon(providerId: string): OAuthProviderId {
 
 function formatCodingPlanProviderTabAriaLabel(providerId: string): string {
   return providerId === BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan
-    ? "Z.ai Coding Plan"
+    ? "Lumos Coding Plan"
     : "BigModel Coding Plan";
 }
 

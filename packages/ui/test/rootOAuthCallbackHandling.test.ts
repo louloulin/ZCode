@@ -9,7 +9,7 @@ import {
 
 const reportAppTelemetryEventMock = vi.fn(async () => {});
 const resolveProviderTelemetryLabelMock = vi.fn((providerId: string) =>
-  providerId === ZAI_PROVIDER_ID ? "z.ai" : "bigmodel",
+  providerId === ZAI_PROVIDER_ID ? "lumosai.cc" : "bigmodel",
 );
 
 vi.mock("@/lib/appTelemetry.js", () => ({
@@ -191,7 +191,7 @@ describe("handleOAuthCallbackSuccess", () => {
         userInfo: {
           id: "user-1",
           username: "zai-user",
-          displayName: "Z.ai User",
+          displayName: "Lumos User",
         },
       },
       platform,
@@ -233,7 +233,7 @@ describe("handleOAuthCallbackSuccess", () => {
         userInfo: {
           id: "user-1",
           username: "zai-user",
-          displayName: "Z.ai User",
+          displayName: "Lumos User",
         },
       },
       platform,

@@ -1,6 +1,6 @@
 # Coding Plan Webview Upgrade E2E Cases
 
-本文记录 Coding Plan 升级入口迁到官网 embedded webview 后，桌面端需要覆盖的 E2E case。范围限定在 desktop local workspace，接口使用 WDIO case-local mock server，不访问真实 BigModel / Z.AI 套餐接口。
+本文记录 Coding Plan 升级入口迁到官网 embedded webview 后，桌面端需要覆盖的 E2E case。范围限定在 desktop local workspace，接口使用 WDIO case-local mock server，不访问真实 BigModel / Lumos 套餐接口。
 
 ## 覆盖原则
 
@@ -19,13 +19,13 @@ Todo103 重接说明：下表历史 `builtin:*` 落盘 apiKey/enabled 断言已�
 | ------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | CPUW-01 | 官网 webview 通知 App 关闭升级弹窗并刷新当前 provider                            | 已登录 BigModel，当前连接方式为 BigModel Coding Plan；初始 provider apiKey 为 `bigmodel-personal-api-key`；mock 官网页可触发 `window.lumosBridge.notifyPurchaseComplete({ provider: "bigmodel" })`      | 头像菜单打开升级 webview，在 guest webContents 中触发购买完成       | App 中 `coding-plan-embedded-webview` 消失；mock server 收到 `getCustomerInfo`、`api_keys`、`copy`、`subscription/list`；落盘 `builtin:bigmodel-coding-plan.apiKey` 更新为 mock 返回的新 key；provider 仍 enabled |
 | CPUW-02 | 官网 webview 外链/加载异常不回退旧内置购买面板                                   | mock 官网页加载失败或接口返回系统繁忙                                                                                                                                                                   | 打开升级入口                                                        | App 展示 webview shell 或 load-failure fallback；不渲染旧 `CodingPlanPurchasePanel` 个人套餐按钮                                                                                                                  |
-| CPUW-03 | Z.ai 官网 webview 通知 App 关闭升级弹窗并刷新当前 provider 与 Team Plan products | 已登录 Z.ai，当前连接方式为 Z.ai Coding Plan；webview localStorage 注入 `oauth:zai:access_token` 与 `lumosjwttoken`；mock 官网页可触发 `window.lumosBridge.notifyPurchaseComplete({ provider: "zai" })` | 头像菜单打开升级 webview，在 guest webContents 中触发 Z.ai 购买完成 | App 中 `coding-plan-embedded-webview` 消失；mock server 收到 Z.ai provider 刷新所需 `getCustomerInfo`，并收到 `/subscription/enterprise/v2/pricing`；落盘 `builtin:zai-coding-plan` 保持 enabled                  |
+| CPUW-03 | Lumos 官网 webview 通知 App 关闭升级弹窗并刷新当前 provider 与 Team Plan products | 已登录 Lumos，当前连接方式为 Lumos Coding Plan；webview localStorage 注入 `oauth:zai:access_token` 与 `lumosjwttoken`；mock 官网页可触发 `window.lumosBridge.notifyPurchaseComplete({ provider: "zai" })` | 头像菜单打开升级 webview，在 guest webContents 中触发 Lumos 购买完成 | App 中 `coding-plan-embedded-webview` 消失；mock server 收到 Lumos provider 刷新所需 `getCustomerInfo`，并收到 `/subscription/enterprise/v2/pricing`；落盘 `builtin:zai-coding-plan` 保持 enabled                  |
 
 ## Pruned Cases
 
 | Decision | Pruned combinations                 | Reason                                                                                                        | Representative coverage                                                                                                                   |
 | -------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| CPUW-P01 | Z.AI PayPal / Stripe 真支付完成     | 需要真实第三方支付授权，不能在桌面 CI 中稳定执行；App 侧完成语义由 Z.ai mock webview completion 覆盖          | CPUW-03 覆盖 Z.ai bridge + App close/refresh；支付方式内部保留单元/组件测试                                                               |
+| CPUW-P01 | Lumos PayPal / Stripe 真支付完成     | 需要真实第三方支付授权，不能在桌面 CI 中稳定执行；App 侧完成语义由 Lumos mock webview completion 覆盖          | CPUW-03 覆盖 Lumos bridge + App close/refresh；支付方式内部保留单元/组件测试                                                               |
 | CPUW-P02 | Mobile `/remote` webview completion | 手机远控不创建独立官网购买 webview；当前升级 webview 是桌面 renderer 本地弹层                                 | CPUW-01 保持 desktop local scope；远端 Environment 的 Provider Runtime 独立拥有配置与 Registry，不由本用例验证跨 Environment Provisioning |
 | CPUW-P03 | 企业 Team Plan webview 完整购买     | 当前官网完成信号到 App 的关闭/刷新语义与个人套餐相同；企业产品刷新只需断言 `refreshTeamPlanProducts` 单元覆盖 | `modelProviderCodingPlan.test.ts` 覆盖 Team products refresh；CPUW-01 覆盖真实 webview IPC                                                |
 

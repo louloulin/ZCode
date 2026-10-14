@@ -40,13 +40,13 @@ describe("lumosEndpoint", () => {
     expect(
       resolveLumosEndpointOrigin({
         env: "test",
-        envBaseOrigin: "https://lumos.z.ai/api/v1",
+        envBaseOrigin: "https://lumosai.cc/api/v1",
       }),
     ).toBe(TEST_LUMOS_ENDPOINT_ORIGIN);
     expect(
       resolveLumosEndpointOrigin({
         env: "production",
-        envBaseOrigin: "https://lumos.z.ai/api/v1",
+        envBaseOrigin: "https://lumosai.cc/api/v1",
       }),
     ).toBe(DEFAULT_LUMOS_ENDPOINT_ORIGIN);
   });
@@ -55,7 +55,7 @@ describe("lumosEndpoint", () => {
     expect(
       resolveLumosEndpointOrigin({
         env: "test",
-        envBaseOrigin: "https://lumos.z.ai",
+        envBaseOrigin: "https://lumosai.cc",
         overrideOrigin: "http://localhost:3030/api/v1",
       }),
     ).toBe("http://localhost:3030");
@@ -65,7 +65,7 @@ describe("lumosEndpoint", () => {
     expect(
       resolveLumosEndpointOrigin({
         env: "test",
-        overrideOrigin: "https://lumos.z.ai/api/v1/ignored?x=1",
+        overrideOrigin: "https://lumosai.cc/api/v1/ignored?x=1",
       }),
     ).toBe(TEST_LUMOS_ENDPOINT_ORIGIN);
   });
@@ -74,8 +74,8 @@ describe("lumosEndpoint", () => {
     expect(
       resolveLumosEndpointOrigin({
         env: "production",
-        envBaseOrigin: "https://lumos.z.ai",
-        overrideOrigin: "https://lumos.z.ai",
+        envBaseOrigin: "https://lumosai.cc",
+        overrideOrigin: "https://lumosai.cc",
       }),
     ).toBe(DEFAULT_LUMOS_ENDPOINT_ORIGIN);
   });
@@ -96,57 +96,57 @@ describe("lumosEndpoint", () => {
   });
 
   it("uses remote v3 for app versions below 3.4.0", () => {
-    expect(buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "3.3.9" }).remoteUrl).toBe(
-      "https://lumos.z.ai/remote/v3",
+    expect(buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "3.3.9" }).remoteUrl).toBe(
+      "https://lumosai.cc/remote/v3",
     );
   });
 
   it("uses remote v4 for app versions at or above 3.4.0", () => {
-    expect(buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "3.4.0" }).remoteUrl).toBe(
-      "https://lumos.z.ai/remote/v4",
+    expect(buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "3.4.0" }).remoteUrl).toBe(
+      "https://lumosai.cc/remote/v4",
     );
-    expect(buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "3.4.1" }).remoteUrl).toBe(
-      "https://lumos.z.ai/remote/v4",
+    expect(buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "3.4.1" }).remoteUrl).toBe(
+      "https://lumosai.cc/remote/v4",
     );
     expect(
-      buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "3.5.0-beta.1" }).remoteUrl,
-    ).toBe("https://lumos.z.ai/remote/v4");
+      buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "3.5.0-beta.1" }).remoteUrl,
+    ).toBe("https://lumosai.cc/remote/v4");
   });
 
   it("keeps prerelease and invalid app versions on remote v3", () => {
     expect(
-      buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "3.4.0-beta.1" }).remoteUrl,
-    ).toBe("https://lumos.z.ai/remote/v3");
-    expect(buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "dev" }).remoteUrl).toBe(
-      "https://lumos.z.ai/remote/v3",
+      buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "3.4.0-beta.1" }).remoteUrl,
+    ).toBe("https://lumosai.cc/remote/v3");
+    expect(buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "dev" }).remoteUrl).toBe(
+      "https://lumosai.cc/remote/v3",
     );
-    expect(buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "03.4.0" }).remoteUrl).toBe(
-      "https://lumos.z.ai/remote/v3",
+    expect(buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "03.4.0" }).remoteUrl).toBe(
+      "https://lumosai.cc/remote/v3",
     );
     expect(
-      buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "3.4.1-alpha..1" }).remoteUrl,
-    ).toBe("https://lumos.z.ai/remote/v3");
-    expect(buildLumosEndpointUrls("https://lumos.z.ai", { appVersion: "3.4.1-01" }).remoteUrl).toBe(
-      "https://lumos.z.ai/remote/v3",
+      buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "3.4.1-alpha..1" }).remoteUrl,
+    ).toBe("https://lumosai.cc/remote/v3");
+    expect(buildLumosEndpointUrls("https://lumosai.cc", { appVersion: "3.4.1-01" }).remoteUrl).toBe(
+      "https://lumosai.cc/remote/v3",
     );
   });
 
   it("derives runtime lumos-plan urls from LUMOS_ENV", () => {
     expect(buildRuntimeLumosEndpointUrls({ LUMOS_ENV: "test" }).lumosPlanOpenAiBaseUrl).toBe(
-      "https://lumos.z.ai/api/v1/lumos-plan",
+      "https://lumosai.cc/api/v1/lumos-plan",
     );
     expect(buildRuntimeLumosEndpointUrls({ LUMOS_ENV: "production" }).lumosPlanOpenAiBaseUrl).toBe(
-      "https://lumos.z.ai/api/v1/lumos-plan",
+      "https://lumosai.cc/api/v1/lumos-plan",
     );
     expect(buildRuntimeLumosEndpointUrls({}).lumosPlanOpenAiBaseUrl).toBe(
-      "https://lumos.z.ai/api/v1/lumos-plan",
+      "https://lumosai.cc/api/v1/lumos-plan",
     );
     expect(
       buildRuntimeLumosEndpointUrls({
         LUMOS_ENV: "test",
-        LUMOS_BASE_URL: "https://lumos.z.ai/ignored/path",
+        LUMOS_BASE_URL: "https://lumosai.cc/ignored/path",
       }).lumosPlanAnthropicBaseUrl,
-    ).toBe("https://lumos.z.ai/api/v1/lumos-plan/anthropic");
+    ).toBe("https://lumosai.cc/api/v1/lumos-plan/anthropic");
   });
 
   it("uses the test relay only for the standard test endpoint", () => {
@@ -154,7 +154,7 @@ describe("lumosEndpoint", () => {
       resolveWebRemoteControlRelayWsUrl({
         endpointOrigin: TEST_LUMOS_ENDPOINT_ORIGIN,
       }),
-    ).toBe("wss://lumos.z.ai/ws");
+    ).toBe("wss://lumosai.cc/ws");
     expect(
       resolveWebRemoteControlRelayWsUrl({
         endpointOrigin: DEFAULT_LUMOS_ENDPOINT_ORIGIN,
@@ -223,13 +223,13 @@ describe("lumosEndpoint", () => {
 
   it("builds product endpoint URLs from the selected environment", () => {
     expect(buildRuntimeLumosApiUrl({ LUMOS_ENV: "test" }, "/api/v1/oauth/token")).toBe(
-      "https://lumos.z.ai/api/v1/oauth/token",
+      "https://lumosai.cc/api/v1/oauth/token",
     );
     expect(buildRuntimeZaiOAuthUrl({ LUMOS_ENV: "test" }, "/api/oauth/authorize")).toBe(
-      "https://chat.z.ai/api/oauth/authorize",
+      "https://chat.lumosai.cc/api/oauth/authorize",
     );
     expect(buildRuntimeZaiBusinessUrl({ LUMOS_ENV: "test" }, "/api/auth/z/login")).toBe(
-      "https://api.z.ai/api/auth/z/login",
+      "https://api.lumosai.cc/api/auth/z/login",
     );
     expect(buildBigModelApiUrl({ LUMOS_ENV: "test" }, "/login")).toBe(
       "https://bigmodel.cn/login",
@@ -304,7 +304,7 @@ describe("lumosEndpoint", () => {
 
   it("persists optional endpoint override in app settings", () => {
     expect(
-      appSettingsSchema.parse({ lumosEndpointOrigin: "https://lumos.z.ai/path" })
+      appSettingsSchema.parse({ lumosEndpointOrigin: "https://lumosai.cc/path" })
         .lumosEndpointOrigin,
     ).toBe(TEST_LUMOS_ENDPOINT_ORIGIN);
     expect(

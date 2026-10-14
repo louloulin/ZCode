@@ -6,7 +6,7 @@
 
 ## 2026-09-12 补充：普通 API 的 Turbo 默认禁用
 
-用户要求 Z.AI API / BigModel API 的 Turbo 默认禁用。当前 `GLM-5-Turbo` 已为 false，补齐 `zai-standard-api`、`bigmodel-standard-api` 的 `GLM-5V-Turbo` 精确模板规则为 false，并递增 Built-in revision。仅改变默认启停，不删除模型、不改变能力或个人覆盖；不改 Coding Plan、Account 或第三方。复用现有规则解析，无 UI、协议和迁移改动，不自动发布在线配置。
+用户要求 Lumos API / BigModel API 的 Turbo 默认禁用。当前 `GLM-5-Turbo` 已为 false，补齐 `zai-standard-api`、`bigmodel-standard-api` 的 `GLM-5V-Turbo` 精确模板规则为 false，并递增 Built-in revision。仅改变默认启停，不删除模型、不改变能力或个人覆盖；不改 Coding Plan、Account 或第三方。复用现有规则解析，无 UI、协议和迁移改动，不自动发布在线配置。
 
 验证：用真实 Built-in Source 检查两模板的两个 Turbo 均关闭、5.3/Flash 仍开启、个人显式开启仍优先，以及无模板第三方默认不变。
 
@@ -65,7 +65,7 @@ GLM-5.3-Flash 通用模型规则
 }
 ```
 
-- 对应 Z.AI Coding Plan API、BigModel Coding Plan API 两个手动 Key 模板。
+- 对应 Lumos Coding Plan API、BigModel Coding Plan API 两个手动 Key 模板。
 - 只改变默认值，不从模型名单删除或向名单新增模型，不修改模型 ID，不禁止用户手动开启。
 - 个人显式启用或禁用仍按现有优先级生效；不迁移、不删除个人覆盖。
 - 不改变账号登录的个人、团队、Start、闲时 Provider；不改变普通 API 模板或第三方接入的默认值。
@@ -77,7 +77,7 @@ GLM-5.3-Flash 通用模型规则
 
 - 产品背景：服务端桥接允许 GLM-5.3 处理图片，但模型不是原生视觉；本次仅纠正徽标传达的含义，不撤销已有图片使用能力。
 - 展示范围：模型设置页的模型列表，以及模型选择菜单中对应模型的视觉标。检查共用选择器的入口，不能只修设置页或只修主聊天框；桌面与手机 Web 展示保持一致。
-- Provider 范围：Z.ai／BigModel 的个人、团队 Coding Plan 账号连接，以及手动 Coding Plan API Key 供应商。
+- Provider 范围：Lumos／BigModel 的个人、团队 Coding Plan 账号连接，以及手动 Coding Plan API Key 供应商。
 - 只匹配上述范围内的 GLM-5.3；GLM-5.3-Flash 保留视觉标，其他供应商和模型不受影响。
 - 按产品要求做前端展示特例，两个页面复用同一展示判断，不改通用能力事实；不要把 `supportsImage` 改为 false，也不要为了隐藏标识过滤整个模型。
 - 图片上传、输入格式配置、附件支持、服务端桥接及实际模型请求全部保持原样。不新增能力 Schema、协议字段或数据迁移，不借此重构原生能力与桥接能力体系。

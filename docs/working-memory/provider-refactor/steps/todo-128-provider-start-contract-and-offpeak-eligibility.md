@@ -151,7 +151,7 @@ Account 刷新完成 → Registry 更新完成并通知
 | 多闲时入口同时挂载 | 检查去重，后续变化仍能触发必要重查，不因重复请求造成额度接口相互干扰 |
 | 执行与其他消费者 | 闲时资格、取号、派发继续共用当前连接鉴权；模型选择、Provider 设置、配置分发和 Agent 启动正常 |
 
-APP 交互修复须有对应 E2E。至少覆盖 BigModel Team Plan，并通过分层用例覆盖 Z.ai/个人套餐现有规则；在 Air 做真实账号运行时复核，真实创建/执行的动作与证据按实施时用户授权和 E2E 规则处理，不把纯 mock 结果写成真实服务成功。
+APP 交互修复须有对应 E2E。至少覆盖 BigModel Team Plan，并通过分层用例覆盖 Lumos/个人套餐现有规则；在 Air 做真实账号运行时复核，真实创建/执行的动作与证据按实施时用户授权和 E2E 规则处理，不把纯 mock 结果写成真实服务成功。
 
 跨端保持：Host/Worker 各自 Registry、远程 workspace 身份隔离与账号分发不变；手机复用 shared-host，不改变 desktop continuous / mobile replayable 消息流，不扩大闲时任务原有远程支持范围。
 

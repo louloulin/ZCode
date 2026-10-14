@@ -167,9 +167,9 @@ AI SDK 文档入口：
   "provider": {
     "provider-auth-zai": {
       "kind": "openai-compatible",
-      "name": "Z.AI",
+      "name": "Lumos",
       "options": {
-        "baseURL": "https://api.z.ai/api/coding/v1",
+        "baseURL": "https://api.lumosai.cc/api/coding/v1",
         "apiKey": "sk-..."
       },
       "models": {

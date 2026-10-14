@@ -373,7 +373,7 @@ describe("CodingPlanProductCards", () => {
   });
 });
 
-describe("Z.ai Start products", () => {
+describe("Lumos Start products", () => {
   it("ignores malformed remote card copy items", () => {
     expect(
       normalizeCodingPlanCardCopyItems([
@@ -387,7 +387,7 @@ describe("Z.ai Start products", () => {
     ).toEqual([{ text: "valid" }, { text: "remote", tooltip: "detail" }]);
   });
 
-  it("uses the Z.ai Coding Plan product source when Start Plan upgrades", () => {
+  it("uses the Lumos Coding Plan product source when Start Plan upgrades", () => {
     expect(
       resolveCodingPlanUpgradeProductsProviderId(BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan),
     ).toBe(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan);
@@ -422,7 +422,7 @@ describe("Z.ai Start products", () => {
     }));
     const getStartPlanPreview = vi.fn(async () => ({
       planId: "zai-start-free",
-      name: "Z.ai Start",
+      name: "Lumos Start",
       entitlements: [
         {
           grantUnits: 1000,
@@ -474,12 +474,12 @@ describe("Z.ai Start products", () => {
     expect(products.map((product) => product.productId)).toEqual(["remote-zai-lite-quarter"]);
   });
 
-  it("removes Start SKUs from the Z.ai Coding Plan purchase list", async () => {
+  it("removes Start SKUs from the Lumos Coding Plan purchase list", async () => {
     const batchPreview = vi.fn(async () => ({
       productList: [
         {
           productId: "zai-start-free-monthly",
-          productName: "Z.ai Start",
+          productName: "Lumos Start",
           payAmount: 0,
           priceCurrency: "USD",
         },

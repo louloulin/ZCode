@@ -23,7 +23,7 @@ function createZaiBatchPreviewResponse(): Response {
       productList: [
         {
           productId: "zai-product-pro",
-          productName: "Z.ai Coding Pro",
+          productName: "Lumos Coding Pro",
           payAmount: 72,
         },
       ],
@@ -457,7 +457,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     ).rejects.toThrow(CODING_PLAN_SYSTEM_BUSY);
   });
 
-  it("Z.ai batchPreview 直接使用持久化的业务 token", async () => {
+  it("Lumos batchPreview 直接使用持久化的业务 token", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async () => createZaiBatchPreviewResponse()),
     };
@@ -475,7 +475,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     expect(result.productList).toHaveLength(1);
     expect(apiClient.request).toHaveBeenCalledTimes(1);
     expect(apiClient.request).toHaveBeenCalledWith(
-      "https://api.z.ai/api/biz/pay/batch-preview",
+      "https://api.lumosai.cc/api/biz/pay/batch-preview",
       expect.objectContaining({
         method: "POST",
         headers: {
@@ -486,9 +486,9 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     );
   });
 
-  it("LUMOS_ENV=test 时 Z.ai Coding Plan 业务接口使用 api.z.ai", async () => {
+  it("LUMOS_ENV=test 时 Lumos Coding Plan 业务接口使用 api.lumosai.cc", async () => {
     vi.stubEnv("LUMOS_ENV", "test");
-    // 修复原因：开发机若设了 ZAI_BUSINESS_BASE_URL=https://api.z.ai，
+    // 修复原因：开发机若设了 ZAI_BUSINESS_BASE_URL=https://api.lumosai.cc，
     // resolveZaiBusinessBaseUrl 会优先读它，覆盖 LUMOS_ENV fallback，导致断言不稳定。
     vi.stubEnv("ZAI_BUSINESS_BASE_URL", "");
     const apiClient: ApiClient = {
@@ -554,29 +554,29 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
       providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       productId: "zai-product-pro",
       paymentMethodId: "pm_1",
-      returnUrl: "https://chat.z.ai",
+      returnUrl: "https://chat.lumosai.cc",
       estimatePayAmount: { thirdPartyPayAmount: 18 },
       bizId: "zai-biz-1",
     });
     await provider.createPaypalSetupToken({
       providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-      returnUrl: "https://chat.z.ai/return",
-      cancelUrl: "https://chat.z.ai/cancel",
+      returnUrl: "https://chat.lumosai.cc/return",
+      cancelUrl: "https://chat.lumosai.cc/cancel",
     });
 
     expect(vi.mocked(apiClient.request).mock.calls.map((call) => String(call[0]))).toEqual([
-      "https://api.z.ai/api/biz/pay/batch-preview",
-      "https://api.z.ai/api/biz/product/info?productId=zai-product-pro",
-      "https://api.z.ai/api/biz/pay/zai-preview",
-      "https://api.z.ai/api/biz/pay/check?bizId=zai-biz-1",
-      "https://api.z.ai/api/biz/pay/check-pending-orders",
-      "https://api.z.ai/api/pay/stripe/query",
-      "https://api.z.ai/api/pay/stripe/pay",
-      "https://api.z.ai/api/pay/paypal/setupToken",
+      "https://api.lumosai.cc/api/biz/pay/batch-preview",
+      "https://api.lumosai.cc/api/biz/product/info?productId=zai-product-pro",
+      "https://api.lumosai.cc/api/biz/pay/zai-preview",
+      "https://api.lumosai.cc/api/biz/pay/check?bizId=zai-biz-1",
+      "https://api.lumosai.cc/api/biz/pay/check-pending-orders",
+      "https://api.lumosai.cc/api/pay/stripe/query",
+      "https://api.lumosai.cc/api/pay/stripe/pay",
+      "https://api.lumosai.cc/api/pay/paypal/setupToken",
     ]);
   });
 
-  it("Z.ai 缺少登录态 token 时返回未登录错误", async () => {
+  it("Lumos 缺少登录态 token 时返回未登录错误", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(),
     };
@@ -701,7 +701,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
       "Small repo iteration",
     ]);
     const requestUrl = String(vi.mocked(apiClient.request).mock.calls[0]?.[0]);
-    expect(requestUrl).toContain("https://lumos.z.ai/api/v1/client/configs?");
+    expect(requestUrl).toContain("https://lumosai.cc/api/v1/client/configs?");
     expect(requestUrl).toContain("app_version=");
     expect(requestUrl).toContain(`platform=${process.platform}-${process.arch}`);
     expect(apiClient.request).toHaveBeenCalledWith(expect.any(URL), expect.anything());
@@ -855,7 +855,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
       resolveCodingPlanClientConfigUrl({
         LUMOS_ENV: "test",
       }).toString(),
-    ).toBe("https://lumos.z.ai/api/v1/client/configs");
+    ).toBe("https://lumosai.cc/api/v1/client/configs");
     expect(
       resolveCodingPlanClientConfigUrl({
         LUMOS_ENV: "production",
@@ -2095,7 +2095,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     });
   });
 
-  it("Z.ai preview 使用海外试算接口", async () => {
+  it("Lumos preview 使用海外试算接口", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async () => {
         return createJsonResponse({
@@ -2125,7 +2125,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
 
     expect(apiClient.request).toHaveBeenNthCalledWith(
       1,
-      "https://api.z.ai/api/biz/pay/zai-preview",
+      "https://api.lumosai.cc/api/biz/pay/zai-preview",
       expect.objectContaining({
         method: "POST",
         headers: {
@@ -2143,7 +2143,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     });
   });
 
-  it("Z.ai 不走 BigModel 支付宝签约接口", async () => {
+  it("Lumos 不走 BigModel 支付宝签约接口", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(),
     };
@@ -2163,7 +2163,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     expect(apiClient.request).not.toHaveBeenCalled();
   });
 
-  it("Z.ai Stripe 支付使用 pay 服务接口", async () => {
+  it("Lumos Stripe 支付使用 pay 服务接口", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async () => {
         return createJsonResponse({
@@ -2187,7 +2187,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
       providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       productId: "zai-product-pro",
       paymentMethodId: "pm_1",
-      returnUrl: "https://chat.z.ai",
+      returnUrl: "https://chat.lumosai.cc",
       estimatePayAmount: {
         cashPayAmount: 0,
         givePayAmount: 0,
@@ -2199,7 +2199,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
 
     expect(apiClient.request).toHaveBeenNthCalledWith(
       1,
-      "https://api.z.ai/api/pay/stripe/pay",
+      "https://api.lumosai.cc/api/pay/stripe/pay",
       expect.objectContaining({
         method: "POST",
       }),
@@ -2208,7 +2208,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     expect(JSON.parse(String(init.body))).toMatchObject({
       productId: "zai-product-pro",
       paymentMethodId: "pm_1",
-      returnUrl: "https://chat.z.ai",
+      returnUrl: "https://chat.lumosai.cc",
       estimatePayAmount: {
         thirdPartyPayAmount: 18,
       },
@@ -2217,7 +2217,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     });
   });
 
-  it("Z.ai Stripe 绑卡和解绑使用 pay 服务接口", async () => {
+  it("Lumos Stripe 绑卡和解绑使用 pay 服务接口", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async (input) => {
         if (String(input).includes("/stripe/bind")) {
@@ -2247,7 +2247,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     await provider.bindStripeCard({
       providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       paymentMethodId: "pm_1",
-      returnUrl: "https://chat.z.ai",
+      returnUrl: "https://chat.lumosai.cc",
     });
     await provider.unbindStripeCard({
       providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
@@ -2256,17 +2256,17 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
 
     expect(apiClient.request).toHaveBeenNthCalledWith(
       1,
-      "https://api.z.ai/api/pay/stripe/bind",
+      "https://api.lumosai.cc/api/pay/stripe/bind",
       expect.objectContaining({ method: "POST" }),
     );
     expect(apiClient.request).toHaveBeenNthCalledWith(
       2,
-      "https://api.z.ai/api/pay/stripe/unbind",
+      "https://api.lumosai.cc/api/pay/stripe/unbind",
       expect.objectContaining({ method: "POST" }),
     );
   });
 
-  it("Z.ai PayPal setupToken 和 subscribe 使用 pay 服务接口", async () => {
+  it("Lumos PayPal setupToken 和 subscribe 使用 pay 服务接口", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async (input) => {
         if (String(input).includes("/paypal/setupToken")) {
@@ -2298,8 +2298,8 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
 
     await provider.createPaypalSetupToken({
       providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-      returnUrl: "https://chat.z.ai/return",
-      cancelUrl: "https://chat.z.ai/cancel",
+      returnUrl: "https://chat.lumosai.cc/return",
+      cancelUrl: "https://chat.lumosai.cc/cancel",
     });
     await provider.subscribePaypal({
       providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
@@ -2314,12 +2314,12 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
 
     expect(apiClient.request).toHaveBeenNthCalledWith(
       1,
-      "https://api.z.ai/api/pay/paypal/setupToken",
+      "https://api.lumosai.cc/api/pay/paypal/setupToken",
       expect.objectContaining({ method: "POST" }),
     );
     expect(apiClient.request).toHaveBeenNthCalledWith(
       2,
-      "https://api.z.ai/api/pay/paypal/subscribe",
+      "https://api.lumosai.cc/api/pay/paypal/subscribe",
       expect.objectContaining({ method: "POST" }),
     );
   });
@@ -2365,7 +2365,7 @@ describe("BigModelCodingPlanSubscriptionProvider", () => {
     });
   });
 
-  it("Z.ai 鉴权 header helper 只返回裸登录 token", () => {
+  it("Lumos 鉴权 header helper 只返回裸登录 token", () => {
     expect(createZaiLoginAuthHeaders("zai-token")).toEqual({
       Authorization: "zai-token",
       "Content-Type": "application/json",
@@ -2378,7 +2378,7 @@ describe("ZaiCodingPlanSubscriptionProvider (family-aware Team Plan)", () => {
     vi.unstubAllEnvs();
   });
 
-  // 修复原因：开发机可能设了 ZAI_BUSINESS_BASE_URL=https://api.z.ai 环境变量，
+  // 修复原因：开发机可能设了 ZAI_BUSINESS_BASE_URL=https://api.lumosai.cc 环境变量，
   // resolveZaiBusinessBaseUrl 会优先读它，覆盖 LUMOS_ENV 逻辑导致测试域名断言不稳定。
   // 测试里统一 stub 成空，强制走 LUMOS_ENV fallback 链。
   function createZaiCredentialService(token = "zai-business-jwt") {
@@ -2422,7 +2422,7 @@ describe("ZaiCodingPlanSubscriptionProvider (family-aware Team Plan)", () => {
     expect(result.productList[0]?.productId).toBe("zai-team-pro");
     // 关键：zai 域名，不能误用 bigmodel.cn
     expect(String(vi.mocked(apiClient.request).mock.calls[0]?.[0])).toBe(
-      "https://api.z.ai/api/biz/campaign/partner/enterprise/pricing",
+      "https://api.lumosai.cc/api/biz/campaign/partner/enterprise/pricing",
     );
   });
 
@@ -2441,7 +2441,7 @@ describe("ZaiCodingPlanSubscriptionProvider (family-aware Team Plan)", () => {
     expect(apiClient.request).toHaveBeenCalledTimes(1);
     // 关键：host 是 zai 域名，不是 bigmodel.cn
     expect(String(vi.mocked(apiClient.request).mock.calls[0]?.[0])).toBe(
-      "https://api.z.ai/api/biz/subscription/enterprise/v2/pricing",
+      "https://api.lumosai.cc/api/biz/subscription/enterprise/v2/pricing",
     );
     // 关键：token 是 zai 的，不带 Bearer
     expect(vi.mocked(apiClient.request).mock.calls[0]?.[1]).toMatchObject({
@@ -2453,7 +2453,7 @@ describe("ZaiCodingPlanSubscriptionProvider (family-aware Team Plan)", () => {
     });
   });
 
-  it("LUMOS_ENV=test 时 zai Team Plan 企业接口使用 api.z.ai", async () => {
+  it("LUMOS_ENV=test 时 zai Team Plan 企业接口使用 api.lumosai.cc", async () => {
     vi.stubEnv("LUMOS_ENV", "test");
     // 开发机 ZAI_BUSINESS_BASE_URL 会覆盖 LUMOS_ENV fallback，这里 stub 成空强制走 fallback
     vi.stubEnv("ZAI_BUSINESS_BASE_URL", "");
@@ -2467,9 +2467,9 @@ describe("ZaiCodingPlanSubscriptionProvider (family-aware Team Plan)", () => {
 
     await provider.getEnterprisePricing({ authenticated: true });
 
-    // 关键：测试环境走 z.ai，不能把测试 token 发到生产 api.z.ai
+    // 关键：测试环境走 lumosai.cc，不能把测试 token 发到生产 api.lumosai.cc
     expect(String(vi.mocked(apiClient.request).mock.calls[0]?.[0])).toBe(
-      "https://api.z.ai/api/biz/subscription/enterprise/v2/pricing",
+      "https://api.lumosai.cc/api/biz/subscription/enterprise/v2/pricing",
     );
   });
 
@@ -2549,9 +2549,9 @@ describe("ZaiCodingPlanSubscriptionProvider (family-aware Team Plan)", () => {
     // 关键：pricing + customerInfo + team-api-key 预热都走 zai 域名，
     // 不能串到 bigmodel.cn。预热也必须用 zai host（符合"除购买外路径可复用"契约）。
     expect(requestUrls).toEqual([
-      "https://api.z.ai/api/biz/subscription/enterprise/v2/pricing",
-      "https://api.z.ai/api/biz/customer/getCustomerInfo",
-      "https://api.z.ai/api/biz/v1/organization/zai-org/projects/zai-proj/api_keys",
+      "https://api.lumosai.cc/api/biz/subscription/enterprise/v2/pricing",
+      "https://api.lumosai.cc/api/biz/customer/getCustomerInfo",
+      "https://api.lumosai.cc/api/biz/v1/organization/zai-org/projects/zai-proj/api_keys",
     ]);
     expect(result.productList[0]).toMatchObject({
       organizationId: "zai-org",
@@ -2630,7 +2630,7 @@ describe("createCodingPlanSubscriptionService (family routing)", () => {
 
     // 关键：service 层按 family 路由，zai 不能误用 bigmodel.cn
     expect(String(vi.mocked(apiClient.request).mock.calls[0]?.[0])).toBe(
-      "https://api.z.ai/api/biz/subscription/enterprise/v2/pricing",
+      "https://api.lumosai.cc/api/biz/subscription/enterprise/v2/pricing",
     );
     expect(vi.mocked(apiClient.request).mock.calls[0]?.[1]).toMatchObject({
       headers: { Authorization: "zai-token" },

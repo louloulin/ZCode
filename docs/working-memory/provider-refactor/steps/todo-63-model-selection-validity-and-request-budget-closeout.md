@@ -120,7 +120,7 @@ Persisted Task Selection
 
 ### 6.1 旧闲时任务
 
-旧记录只有 `model` / `thought_level`，没有 Provider 身份。旧实现本来就在执行时根据当前账号连接选择 Z.ai 或 BigModel，因此可靠迁移应在当前 Off-Peak Selection View 就绪后完成，而不是在 SQLite Row Mapper 中猜 Provider：
+旧记录只有 `model` / `thought_level`，没有 Provider 身份。旧实现本来就在执行时根据当前账号连接选择 Lumos 或 BigModel，因此可靠迁移应在当前 Off-Peak Selection View 就绪后完成，而不是在 SQLite Row Mapper 中猜 Provider：
 
 ```text
 legacy model / thought_level

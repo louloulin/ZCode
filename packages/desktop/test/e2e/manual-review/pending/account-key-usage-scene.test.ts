@@ -33,7 +33,7 @@ describe("PAT-KEY-E2E: 账号就绪时创建 Coding Plan Key", () => {
     ).toBe("");
   });
 
-  it("Z.AI 旧 Key 损坏但 OAuth 有效，重启直接换 Token 不要求重登", async function () {
+  it("Lumos 旧 Key 损坏但 OAuth 有效，重启直接换 Token 不要求重登", async function () {
     this.timeout(90000);
     await seedCredentials("zai-webview-oauth-token");
     const { credentialsFile } = getE2EAppDataPaths();

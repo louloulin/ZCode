@@ -46,7 +46,7 @@
 
 - 五个 Source Schema、Provider group、结构化 `provider-model` Rule、Model `enabled`、Builtin-wins 与显式 Provider/Model
   顺序已经进入正式 Config/Resolver/Facade/Repository 链路；Personal 持久化字段已收口为 `modelConfigRules`。
-- Built-in Release 已原子切换 `account:` 账号 Provider，Z.ai/BigModel Family 与普通 API Provider 已分离，Off-Peak
+- Built-in Release 已原子切换 `account:` 账号 Provider，Lumos/BigModel Family 与普通 API Provider 已分离，Off-Peak
   已拆成两个隐藏 Family Provider；Account Overlay 决定连接约束、可用成员与对应 Provider enabled。
 - Settings 已直接消费 Host 的 group、添加候选、完整顺序、成员来源与 executable/selectable 结果；Provider ID 只读，
   Model 完整编辑保存为稀疏 Personal 专属 Rule，继承值、覆盖值与恢复继承有明确交互。
@@ -308,7 +308,7 @@ modelOrder 中仍有效的全部成员
 disabled 模型仍参与 Settings 顺序；Selection 过滤后保留其余模型相对顺序。
 
 Provider 使用 Personal 顶层 `providerOrder`，不再依赖 Map 插入顺序的 trick。它采用同样的“未排序 Built-in在前、
-显式顺序居中、未排序 Personal 在后”原则；每次新增或调序都物化当前完整普通 Provider 顺序。Z.ai/BigModel Family
+显式顺序居中、未排序 Personal 在后”原则；每次新增或调序都物化当前完整普通 Provider 顺序。Lumos/BigModel Family
 保持固定产品组织，不参与普通 Provider 拖动。
 
 Personal 持久化外壳目标为：
@@ -328,7 +328,7 @@ interface PersonalProviderConfigFile {
 
 ## 8. Settings：Provider 添加、启停与删除
 
-Provider 导航中的固定顺序为：Z.ai/BigModel Account Family 位于最前；“添加供应商”和“创建自定义供应商”两个固定操作
+Provider 导航中的固定顺序为：Lumos/BigModel Account Family 位于最前；“添加供应商”和“创建自定义供应商”两个固定操作
 紧随其后；普通 `standard-builtin` 与 `standard-personal` Provider 列表位于操作之后。两个操作不参与 `providerOrder`
 或拖动。
 
@@ -539,7 +539,7 @@ Provider 按产品来源连续排列：智谱直接 API 与账号/订阅/Off-Pea
 Provider 默认 `group=standard-builtin`、`enabled=false`、`visibility=visible`，提供协议、Endpoint、Access 模板和推荐成员；
 Personal Config 填写实际访问材料。
 
-Z.ai/BigModel 各自保留两个不同的 API Key 产品身份：
+Lumos/BigModel 各自保留两个不同的 API Key 产品身份：
 
 ```text
 Family API Key Provider
@@ -628,7 +628,7 @@ access.executionProtocol = "off-peak"
 - 官方版本请求安全校验与 Off-Peak failure/execution protocol 从 Model Config 移入 Access；本轮不重构 Off-Peak 字符串错误；
 - `requiresMfjsToolSchema` 留在 Model Config；启用时投影 Tool JSON Schema，投影失败直接报错；
 - DeepSeek Anthropic 统一执行 canonical replay，不补造 synthetic empty thinking；
-- 未进入当前基线的 Z.ai text/tool signature patch 不合入；如需支持必须先取得真实响应证据，并遵守“收到什么就回放什么”。
+- 未进入当前基线的 Lumos text/tool signature patch 不合入；如需支持必须先取得真实响应证据，并遵守“收到什么就回放什么”。
 
 ## 12. Client Config 边界
 
@@ -645,7 +645,7 @@ Lumos Built-in Provider Config 与 Built-in Model Config Rules 作为一个原�
 3. 实现 `provider-model` 专属 Rule 生命周期和普通 `match` Rule 隔离；
 4. 实现模型 enabled、三段 Model/Provider order、Builtin-wins 与保存规范化；
 5. 整理 `lumos-builtin.json` 的 Provider 和 Rules 顺序，一次性切换 `account:` ID，拆分 Family/普通
-   Z.ai/BigModel API Provider 和双 Off-Peak Provider，补齐模型默认 enabled 与官方停用项；
+   Lumos/BigModel API Provider 和双 Off-Peak Provider，补齐模型默认 enabled 与官方停用项；
 6. 迁移官方版本请求安全校验与 Off-Peak execution protocol 到 Access，清理已经裁决删除的 Adapter Compatibility；
 7. 重构 Settings Facade、Mutation 与 UI，统一 Local/Remote Host 权威来源；
 8. 删除 Preset/Catalog 来源推断、旧排序 trick、死字段、死 helper 和过时测试；
@@ -658,7 +658,7 @@ Lumos Built-in Provider Config 与 Built-in Model Config Rules 作为一个原�
 
 - 五个 Source Schema 的允许/拒绝矩阵；
 - Lumos Built-in `group` 必填且不能为 `standard-personal`；Personal-only 固定 `standard-personal`，Overlay 不能改组；
-- 普通 Built-in、Personal-only、Z.ai Family、BigModel Family 四组完整且互斥；
+- 普通 Built-in、Personal-only、Lumos Family、BigModel Family 四组完整且互斥；
 - 两个 Off-Peak Provider 由 Account Overlay 按当前 Family 互斥启用；
 - Personal 禁止写 `builtinModelIds`，禁止正常保存 Built-in 重复 `modelIds`；
 - Built-in/Personal 同 ID 时 Built-in-wins，单数组重复保留第一次；
@@ -683,7 +683,7 @@ Lumos Built-in Provider Config 与 Built-in Model Config Rules 作为一个原�
 - 普通候选只来自 `group=standard-builtin`；两个 Family 不依赖 ID 白名单过滤；
 - 两个 Family 不参与普通排序，且 UI 不提供 Provider enabled 开关；删除 Personal Overlay 后仍留在固定 Family 区域；
 - 自定义 Provider 创建时不猜 API Schema、Endpoint 或模型；身份确认后立即创建不完整 Provider；
-- Family API Key 与普通 Z.ai/BigModel API Provider 的 Personal Config、凭据、enabled 和顺序互相隔离；
+- Family API Key 与普通 Lumos/BigModel API Provider 的 Personal Config、凭据、enabled 和顺序互相隔离；
 - `account:` Provider ID 全链原子切换且无旧 alias；
 - 切换 Family 后，旧 Family Off-Peak 任务保留但不可调度，切回后恢复；不得静默迁移 ModelSelection；
 - Built-in Model 无删除按钮，Provider ID 全部只读，label 唯一；

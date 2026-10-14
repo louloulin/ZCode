@@ -175,7 +175,7 @@ function readProviderCode(record: Record<string, unknown>): string | undefined {
     normalizeProviderCode(record.code) ??
     normalizeProviderCode(errorRecord?.code) ??
     normalizeProviderCode(contextRecord?.code) ??
-    // BigModel/Z.AI 的 SSE error chunk 有时只有 `[1302][...][request_id]` message，
+    // BigModel/Lumos 的 SSE error chunk 有时只有 `[1302][...][request_id]` message，
     // 没有结构化 code；只解析这个强格式前缀，避免把普通 rate limit 文案误判成业务码。
     readBigModelBracketedBusinessCode(record.message) ??
     readBigModelBracketedBusinessCode(record.providerMessage) ??

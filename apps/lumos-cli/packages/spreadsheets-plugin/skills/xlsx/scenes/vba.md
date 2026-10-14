@@ -52,7 +52,7 @@ Option Explicit
 ' ============================================================
 ' Module: [ModuleName]
 ' Purpose: [One-line description]
-' Author: Z.ai
+' Author: Lumos
 ' Date: [YYYY-MM-DD]
 ' ============================================================
 

@@ -131,7 +131,7 @@ async function createServiceWithClients(options: {
                 kind: "account" as const,
                 api: {
                   type: "anthropic-messages" as const,
-                  baseUrl: "https://lumos.z.ai/api/v1/lumos-plan",
+                  baseUrl: "https://lumosai.cc/api/v1/lumos-plan",
                 },
                 models: ["GLM-5.2"],
               },

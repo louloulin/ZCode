@@ -238,7 +238,7 @@ describe("WorkspaceSidebarFooter web remote control tooltip", () => {
     });
   });
 
-  it("keeps stale BigModel Team Plan state out of the profile badge under Z.ai domain", () => {
+  it("keeps stale BigModel Team Plan state out of the profile badge under Lumos domain", () => {
     mockFooterSettings.current = {
       providerFamilyDomain: "zai",
       modelProviderFamilySelectedKeys: {

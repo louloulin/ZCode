@@ -1,7 +1,7 @@
 # Lumos Endpoint Switching
 
 Lumos runtime endpoints are derived from a single origin. Production uses
-`https://lumos.z.ai`; local development uses `https://lumos.z.ai`
+`https://lumosai.cc`; local development uses `https://lumosai.cc`
 through `.env.development`.
 
 The shared resolver exposes these derived URLs:
@@ -14,13 +14,13 @@ The shared resolver exposes these derived URLs:
 
 `LUMOS_BASE_URL` is the canonical env variable for the origin. Production builds still ignore
 settings overrides; the resolver uses `LUMOS_BASE_URL` when present, otherwise falls back to
-`https://lumos.z.ai`. This prevents a stale local setting from moving release builds to a test or
+`https://lumosai.cc`. This prevents a stale local setting from moving release builds to a test or
 custom endpoint, while keeping release/test deploy targets explicit in env files.
 
 In non-production desktop builds, the Help menu contains `Lumos Endpoint` with these actions:
 
 - `Production (default)` stores the production origin explicitly.
-- `Test` stores `https://lumos.z.ai`.
+- `Test` stores `https://lumosai.cc`.
 - `Custom...` accepts an `http` or `https` origin and normalizes it to `URL.origin`.
 - `Reset to Default` clears the override and returns to the env/default origin.
 
@@ -37,12 +37,12 @@ For Web dev server, desktop host services, scripts, and CLI testing, set `LUMOS_
 example:
 
 ```bash
-LUMOS_BASE_URL=https://lumos.z.ai pnpm --filter @lumos/web dev
+LUMOS_BASE_URL=https://lumosai.cc pnpm --filter @lumos/web dev
 LUMOS_BASE_URL=http://localhost:3030 lumos auth login
 ```
 
 `LUMOS_ENDPOINT_ORIGIN` is still read as a compatibility fallback, but new configs should use
 `LUMOS_BASE_URL`.
 
-Android release builds only allow `https://lumos.z.ai/remote`. Debug builds additionally allow
-`https://lumos.z.ai/remote` and the existing local/LAN development hosts.
+Android release builds only allow `https://lumosai.cc/remote`. Debug builds additionally allow
+`https://lumosai.cc/remote` and the existing local/LAN development hosts.

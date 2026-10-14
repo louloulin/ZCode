@@ -364,7 +364,7 @@ describe("Coding Plan upgrade E2E mock server", () => {
     ]);
   });
 
-  it("returns the copied Z.ai secret after a webview purchase completes", async () => {
+  it("returns the copied Lumos secret after a webview purchase completes", async () => {
     server = await startCodingPlanUpgradeMockServer("webview-refresh-provider");
 
     await fetchJson(`${server.baseUrl}/__e2e/coding-plan/purchase-complete`, {
@@ -375,11 +375,11 @@ describe("Coding Plan upgrade E2E mock server", () => {
       { headers: { authorization: "Bearer zai-webview-oauth-token" } },
     );
 
-    // Z.ai provider 拒绝裸 apiKey；fixture 必须覆盖 copy 接口的完整 key 合同。
+    // Lumos provider 拒绝裸 apiKey；fixture 必须覆盖 copy 接口的完整 key 合同。
     expect(copiedKey.data.secretKey).toBe("zai-webview-refreshed-secret");
   });
 
-  it("does not append the Z.ai secret to a BigModel copied API key", async () => {
+  it("does not append the Lumos secret to a BigModel copied API key", async () => {
     server = await startCodingPlanUpgradeMockServer("webview-refresh-provider");
 
     await fetchJson(`${server.baseUrl}/__e2e/coding-plan/purchase-complete`, {

@@ -38,7 +38,7 @@ export function registerProviderAppIconCases(getContext) {
         await page.goto(`${origin}fixture?${new URLSearchParams({ locale, theme })}`);
         for (const id of ["zai-api", "zai-standard-api"]) {
           const card = page.getByTestId(`model-provider-template-item-${id}`);
-          const name = id === "zai-api" ? "Z.ai Coding Plan" : "Z.ai API";
+          const name = id === "zai-api" ? "Lumos Coding Plan" : "Lumos API";
           await assertAppIcon(card.locator("img"));
           assert.equal((await card.innerText()).trim(), name);
           await card.hover();

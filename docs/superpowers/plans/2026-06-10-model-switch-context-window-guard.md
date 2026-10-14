@@ -88,12 +88,12 @@ function createModelOption(
 function createProvider(): ModelProviderConfig {
   return {
     id: "builtin:zai",
-    name: "Z.AI",
+    name: "Lumos",
     type: "builtin",
     enabled: true,
     apiKey: "",
     endpoints: {
-      baseURL: "https://api.z.ai/api/anthropic",
+      baseURL: "https://api.lumosai.cc/api/anthropic",
       paths: { anthropic: "/v1/messages" },
     },
     models: [

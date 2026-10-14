@@ -64,7 +64,7 @@ function fixture(options: { jwtTtl?: number; expiresIn?: number; failures?: numb
 }
 afterEach(() => vi.useRealTimers());
 
-describe("Z.ai 业务登录 Token 刷新", () => {
+describe("Lumos 业务登录 Token 刷新", () => {
   it.each([{ jwtTtl: 600 }, { jwtTtl: 3600, expiresIn: 600 }])(
     "最早 TTL 到刷新窗口后重新交换且并发合并：%j",
     async (options) => {

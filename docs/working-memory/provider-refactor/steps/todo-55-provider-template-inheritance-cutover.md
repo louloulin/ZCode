@@ -5,16 +5,16 @@
 > 日期：2026-09-01
 >
 > 取代范围：Todo 49/50/51 中关于普通 Built-in Provider placement、Family 固定“按量 API”槽位、Welcome
-> 固定 API Provider Overlay 与 Provider 顶层 `enabled` 的阶段性设计。Z.ai/BigModel Account Family、
+> 固定 API Provider Overlay 与 Provider 顶层 `enabled` 的阶段性设计。Lumos/BigModel Account Family、
 > Account Access、`entitled`、请求期凭据和 Off-Peak 鉴权边界继续有效。
 
 ## 0. 当前裁决速览
 
 - Provider Template 不是 Provider，只是创建 Personal Provider 时引用的 Built-in 配置基线；同一 Template
   可以创建多个独立实例。
-- 全部非 Account Built-in Concrete Provider 退役；Z.ai API、BigModel API 与其他第三方供应商一起改为
+- 全部非 Account Built-in Concrete Provider 退役；Lumos API、BigModel API 与其他第三方供应商一起改为
   Provider Template。
-- Z.ai/BigModel Family 继续保留，但只组织 Start、Individual、Team、Off-Peak Account Provider；不再包含
+- Lumos/BigModel Family 继续保留，但只组织 Start、Individual、Team、Off-Peak Account Provider；不再包含
   “按量 API”连接项。
 - Account Provider 的定义由 Built-in Release 提供，并固定进入对应 Family 的 Settings 结构；用户不负责创建或
   删除它们。Account Overlay 的 `access.entitled` 只决定当前账号是否拥有访问资格。
@@ -22,7 +22,7 @@
   `enabled` 各自表达单一事实。
 - Account Access 的身份字段本轮确定由 `access.family` 改名为
   `access.accountType = "zai" | "bigmodel"`；现有 Provider Family 产品结构继续保留。
-- Welcome 中每次选择 Z.ai/BigModel API Key 并提交，均从相应 Template 创建一个新的 Personal Provider
+- Welcome 中每次选择 Lumos/BigModel API Key 并提交，均从相应 Template 创建一个新的 Personal Provider
   实例并写入 Key；不查找、复用或维护所谓 canonical API 实例。
 - Template 实例创建统一复用通用 `createPersonalProvider`，Provider、初始 Personal Overlay、唯一 label 与
   `providerOrder` 在一次 Repository 更新中原子写入；Welcome 不拥有专用 Provider 创建接口。
@@ -42,7 +42,7 @@
 | Personal Provider         | 用户创建的真实 Provider 实例；具有唯一 `providerId`           |
 | Personal Provider Overlay | 用户对真实 Provider 实例保存的稀疏配置                        |
 | Effective Provider Config | Resolver 组合全部适用来源后供 Registry 使用的最终配置         |
-| Account Family            | Z.ai/BigModel 账号产品的 Settings 导航与连接选择边界          |
+| Account Family            | Lumos/BigModel 账号产品的 Settings 导航与连接选择边界          |
 | `access.entitled`         | 当前账号是否拥有对应 Account Provider 的访问资格              |
 | executable                | Provider/Model 当前是否配置完整且满足执行条件的 Resolver 结果 |
 
@@ -77,17 +77,17 @@ Provider Registry
 Template 不是 Provider：它不进入 Registry、模型选择或已创建 Provider 列表，没有运行时 `providerId`，
 也不能直接执行。Template 只是 Provider Config 的 Built-in 继承基线。
 
-本轮保留 Z.ai/BigModel Family，但将其职责收窄为只组织 Account Provider；按量 API 与 Family 解耦：
+本轮保留 Lumos/BigModel Family，但将其职责收窄为只组织 Account Provider；按量 API 与 Family 解耦：
 
 ```text
-Z.ai Account Family                      BigModel Account Family
+Lumos Account Family                      BigModel Account Family
 ├─ Start Plan                            ├─ Start Plan
 ├─ Individual Coding Plan                ├─ Individual Coding Plan
 ├─ Team Coding Plan                      ├─ Team Coding Plan
 └─ Off-Peak                              └─ Off-Peak
 
 普通 Provider Templates
-├─ Z.ai API
+├─ Lumos API
 ├─ BigModel API
 ├─ DeepSeek
 ├─ Moonshot Kimi
@@ -180,7 +180,7 @@ providers
 └─ Off-Peak Account Provider
 
 providerTemplates
-├─ Z.ai API / BigModel API
+├─ Lumos API / BigModel API
 ├─ DeepSeek
 ├─ Moonshot Kimi
 ├─ MiniMax
@@ -420,7 +420,7 @@ createPersonalProvider(input?: {
 - 本轮不改变 Welcome 已有的“创建成功后设置可用默认模型”产品行为，该动作继续走现有模型选择 API，不并入
   Provider Config Repository。
 
-Z.ai/BigModel 按量 API 与其他 Template 使用同一创建操作：
+Lumos/BigModel 按量 API 与其他 Template 使用同一创建操作：
 
 - Welcome/API Key 表单每次提交时，都选择对应 Template，并把 API Key 作为 `initialConfig` 交给同一个
   `createPersonalProvider` 原子创建操作；
@@ -452,7 +452,7 @@ Personal providerOrder 成员
 不删除通用 `match`、Built-in `template-model`、Template 本身或其他 Provider 的 Rule。现有
 `deletePersonalProvider -> deleteExactForProvider` 原子边界必须保留。
 
-Template 创建的 Z.ai/BigModel API Provider 与其他 Personal Provider 使用同一删除语义；删除时原子清理其
+Template 创建的 Lumos/BigModel API Provider 与其他 Personal Provider 使用同一删除语义；删除时原子清理其
 Provider、排序成员与精确 Personal Model Rules。Account Family Provider 不进入普通删除入口。
 
 ## 5. Settings、Family 与 Welcome
@@ -524,9 +524,9 @@ ProviderFamilyConnectionSelection
 - Family Header、Account 连接方式菜单和当前选择持久化；
 - Start、Individual、Team 的切换与恢复；
 - `providerFamilyDomain` 与登录账号体系同步；
-- 套餐、额度、升级、账号凭据和 Off-Peak 对 Z.ai/BigModel 身份的消费；
+- 套餐、额度、升级、账号凭据和 Off-Peak 对 Lumos/BigModel 身份的消费；
 - `ProviderFamilyConnectionSelection` 的 `api-key` variant、固定 Provider ID 与对应 App Settings 数据退出；
-- Z.ai/BigModel API Templates 进入普通“添加供应商”候选，但不出现在 Account Family 连接方式菜单；
+- Lumos/BigModel API Templates 进入普通“添加供应商”候选，但不出现在 Account Family 连接方式菜单；
 - 不重新建立已经删除的第二份 `oauth | apiKey` mode 状态。
 
 Off-Peak 仍属于对应 Account Family 的账号与套餐产品链，但它是隐藏执行 Provider：不作为
@@ -544,10 +544,10 @@ Account Access 内部在本轮将原 `access.family` 确定改名为
 
 ```text
 现有设置页
-├─ Z.ai / BigModel Account Family 入口（现有 preset/family 路径）
+├─ Lumos / BigModel Account Family 入口（现有 preset/family 路径）
 └─ Personal Provider 列表
    ├─ 空白创建
-   └─ Template 创建（包含 Z.ai API / BigModel API）
+   └─ Template 创建（包含 Lumos API / BigModel API）
 ```
 
 Template 只改变普通第三方 Provider 的创建来源，不顺便重做左侧导航信息架构。
@@ -564,10 +564,10 @@ providerSetupCompleted = false
 AND 当前没有可执行 Provider
 ```
 
-Welcome 每次提交 Z.ai/BigModel API Key：
+Welcome 每次提交 Lumos/BigModel API Key：
 
 ```text
-选择 Z.ai / BigModel
+选择 Lumos / BigModel
         |
         v
 定位对应 Provider Template
@@ -617,7 +617,7 @@ createPersonalProvider({
    白名单；
 3. Built-in Release 版本提升并原子贯穿 Bundled/Remote/Active/LKG；
 4. `providers` 只保留全部 Account/Off-Peak Concrete Provider；
-5. Z.ai API、BigModel API 与其他普通第三方 Provider 全部移入 `providerTemplates`；
+5. Lumos API、BigModel API 与其他普通第三方 Provider 全部移入 `providerTemplates`；
 6. 不新增 `family = zhipu | others`，保留现有 Family 与设置分组；
 7. 删除 Provider 顶层 `enabled`，保留 `access.entitled` 和 Model `enabled`；
 8. 将 Account Access 的 `family` 改名为 `accountType`，但不删除 Provider Family 产品结构。
@@ -638,7 +638,7 @@ createPersonalProvider({
    创建，并在一次 Repository 更新中写 Provider、label、order 与初始 Overlay；
 2. 删除普通第三方 `addBuiltinProvider` 和 disabled Built-in 复活逻辑；
 3. Settings View 用 `providerTemplates` 取代普通第三方 `addableProviders`；
-4. Account Provider 继续走现有 Family/Account Facade；Z.ai/BigModel API 实例走普通 Personal Facade；
+4. Account Provider 继续走现有 Family/Account Facade；Lumos/BigModel API 实例走普通 Personal Facade；
 5. Template 实例删除沿用 Provider + order + exact Rules 原子删除；
 6. Facade 分别投影 `templateConfig`、`effectiveBuiltinConfig`、`personalConfig` 与 `effectiveConfig`；Reset、模型
    编辑与连接测试复用同一 Resolver，不新增统一 `inheritedConfig`；
@@ -648,7 +648,7 @@ createPersonalProvider({
 
 1. 保留 Account Family Select、Family Header 与 Account Connection Selection；
 2. 删除 Family“按量 API”选项及 `ProviderFamilyConnectionSelection.kind = "api-key"`；
-3. 普通“添加供应商”菜单从 Templates 创建实例，包含 Z.ai API / BigModel API 并支持多实例；
+3. 普通“添加供应商”菜单从 Templates 创建实例，包含 Lumos API / BigModel API 并支持多实例；
 4. Welcome 每次提交 API Key 都通过同一 Template 创建入口建立新的 Personal Provider，并用通用 Personal
    Overlay 作为 `initialConfig` 原子保存 Key；
 5. 引入 `providerSetupCompleted`；Welcome API Key 路径不改变 Account Family 选择事实；
@@ -685,7 +685,7 @@ createPersonalProvider({
 - Template 不直接进入 Provider 集合或 Registry；
 - missing Template 实例保留 Settings issue 且不进入 Registry；
 - Template 不递归继承；
-- Release 的 Concrete `providers` 只包含 Account Provider；Z.ai API / BigModel API 存在于 Templates。
+- Release 的 Concrete `providers` 只包含 Account Provider；Lumos API / BigModel API 存在于 Templates。
 
 ### Provider / Model Resolver
 
@@ -707,7 +707,7 @@ createPersonalProvider({
 - 配置不完整时实例可见但不可执行；
 - Template baseline 正确驱动默认值、恢复默认、修改标识和成员来源；
 - Template Personal 实例没有伪造的 `effectiveBuiltinConfig`；四类 Settings Config 投影语义准确；
-- Template 菜单包含 Z.ai API / BigModel API，且可分别创建多个实例；
+- Template 菜单包含 Lumos API / BigModel API，且可分别创建多个实例；
 - Family 页面只包含 Start、Individual 与 Team，不再包含按量 API；
 - Off-Peak 不进入 Family Connection Selection 或普通 Settings 列表，但内部精确执行不回归；
 - Welcome 每次保存 Key 都创建新的正确 Template 实例，且不复用旧实例、不修改 Account Connection
@@ -718,7 +718,7 @@ createPersonalProvider({
 
 - `providerFamilyDomain` 切换与登录恢复正确；
 - Start、Individual、Team Connection Selection round-trip 正确；旧 `api-key` variant 零残留；
-- Z.ai API / BigModel API Template 实例不被 Family 导航或 Account Resolver 消费；
+- Lumos API / BigModel API Template 实例不被 Family 导航或 Account Resolver 消费；
 - Start 模型成员、Individual/Team entitlement 与状态不回归；
 - 套餐、额度、升级、账号凭据和 Off-Peak 读取正确 Account Type；
 - 不存在第二份 `oauth | apiKey` mode 状态。
@@ -769,8 +769,8 @@ Template 继承关系不等于 `effectiveBuiltinConfig`。唯一 Resolver 必须
 ```text
 Template 改造路径                         Account Family 保留路径
 ================                         =====================
-普通 Provider Template                   Z.ai / BigModel Account Family
-（含 Z.ai/BigModel API）                          |
+普通 Provider Template                   Lumos / BigModel Account Family
+（含 Lumos/BigModel API）                          |
         |                                 Account Connection Selection
 Personal Provider Instance                       |
         |                                 Account Provider
@@ -782,9 +782,9 @@ Personal Provider Instance                       |
 
 本轮把按量 API 从 Family 移到 Template，但不能顺手删除或重建 Account Family。
 
-### 9.5 Z.ai/BigModel API Template 不与 Family 绑定
+### 9.5 Lumos/BigModel API Template 不与 Family 绑定
 
-Z.ai/BigModel API 进入 Template 后就是普通 Personal Provider 来源。不能保留固定 Provider ID、canonical
+Lumos/BigModel API 进入 Template 后就是普通 Personal Provider 来源。不能保留固定 Provider ID、canonical
 实例、Family 槽位或“当前 Family API 实例”等桥接概念。Family 只消费 Account Provider；Template 实例只通过
 标准 Settings/Registry 路径执行。
 
@@ -824,8 +824,8 @@ Template 分支。
 - Built-in/Account Concrete Provider 可以选择继承 Template；
 - Built-in Config 原子包含固定 Providers、Provider Templates 与分层 Model Rules；
 - 普通第三方 Built-in Concrete Provider、placement enabled 和 addable 生命周期全面退出；
-- Z.ai/BigModel API 以 Template 形式进入普通 Personal Provider 创建链，固定 Concrete Provider 身份清零；
-- Z.ai/BigModel Account Family、收窄后的 Account Connection Selection 与 Account 产品链完整保留；
+- Lumos/BigModel API 以 Template 形式进入普通 Personal Provider 创建链，固定 Concrete Provider 身份清零；
+- Lumos/BigModel Account Family、收窄后的 Account Connection Selection 与 Account 产品链完整保留；
 - Family `api-key` 连接项、固定 API Provider ID 特例和 Welcome 固定 Overlay 链清零；
 - 不新增 `family = zhipu | others` 或另一套设置页分组字段；
 - Settings、Registry、ModelFactory 与 Runtime 不存在第二套 Provider/Model 事实；
@@ -841,11 +841,11 @@ Template 分支。
 - Built-in Release 升级为 `providers + providerTemplates + modelConfigRules` 的原子版本；
 - 普通第三方 Provider 全部迁为 Template，只有 Account/Off-Peak 保留 Built-in Concrete Provider；
 - Settings 与 Welcome 统一通过 `createPersonalProvider(templateId, ...)` 创建独立 Personal Provider；
-- Z.ai/BigModel 按量 API 退出 Family Connection Selection，Template ID 不再充当运行时 Provider ID；
+- Lumos/BigModel 按量 API 退出 Family Connection Selection，Template ID 不再充当运行时 Provider ID；
 - Account Registry Access 使用 `accountType`，请求期账号访问事实继续使用 `family`；
 - Provider 顶层 `enabled`、固定 API Provider 特例和相关 UI/测试残留已删除；
 - Personal Rule 与 Provisioning Envelope 统一使用分层 Rule 结构；
-- Z.ai/BigModel 的 Endpoint 专属能力按 `baseURL + api.type` 匹配，不依赖固定 Provider ID。
+- Lumos/BigModel 的 Endpoint 专属能力按 `baseURL + api.type` 匹配，不依赖固定 Provider ID。
 
 验证证据：Provider/Provider Node 定向测试、受影响 Services/UI 测试、根 `typecheck`、`lint` 与全量
 `test:unit`；CLI Bootstrap 的 Provider 定向测试与独立 `typecheck` 通过。CLI Bootstrap 全量共 106 个测试文件，

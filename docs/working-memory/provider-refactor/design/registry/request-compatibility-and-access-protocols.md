@@ -47,7 +47,7 @@ Provider 返回的真实 content / reasoning / metadata
 | OpenAI-compatible reasoning 回放              | 无额外配置                                  | 保留真实 reasoning，由当前 OpenAI-compatible SDK 编码 `reasoning_content`                      |
 | Anthropic-compatible 无 thinking 的 tool-call | Canonical replay                            | 不为空 tool-call 补造 synthetic thinking；只回放服务端真实返回内容                             |
 | Anthropic thinking signature                  | Canonical reasoning metadata + Adapter 投影 | 保存真实 signature/redacted data 并原样回放；不得制造真实签名                                  |
-| Z.ai text/tool block signature 候选 patch     | 不采用                                      | 不在当前 HEAD/staging，不把外部分支候选带入本次重构；可独立实测服务 wire，但测试不等于自动合入 |
+| Lumos text/tool block signature 候选 patch     | 不采用                                      | 不在当前 HEAD/staging，不把外部分支候选带入本次重构；可独立实测服务 wire，但测试不等于自动合入 |
 | `omitMaxOutputTokens`                         | 删除                                        | 旧 GitHub Copilot 特判不为当前未正式支持的接入保留                                             |
 | `maxOutputTokensRequestField`                 | 删除                                        | 当前先不支持 Snowflake Cortex，不为它保留字段、Rule 或请求体改写                               |
 | 官方版本访问安全校验字段                      | `zhipu-account/start-plan`                  | 从 Model Config 移除；动态材料仍由官方版本产品链路提供                                         |
@@ -107,14 +107,14 @@ Anthropic 的真实 thinking block、空 thinking、signature 和 redacted think
 回放；服务端没有返回时不补造 block 或 signature。该行为不接受 Model ID、Provider ID 或配置开关分流。
 
 2026-09-10 补充：历史签名兼容判断与上述 block 编码规则分开。旧 Coding Plan ID 与同服务的 Individual/Team ID
-可以通过 Adapter 内集中、精确枚举的纯函数判为回放兼容；模型 ID 仍须一致。Z.ai、BigModel 分组隔离，其他
+可以通过 Adapter 内集中、精确枚举的纯函数判为回放兼容；模型 ID 仍须一致。Lumos、BigModel 分组隔离，其他
 Provider 保留精确 ID 判断，不新增配置或持久化字段、不重写历史身份，也不把该函数用于选型和鉴权。
 完整边界与验证见 [Reasoning History Replay](../../../../../apps/lumos-cli/docs/design/v2/model/anthropic-reasoning-history-replay.md#coding-plan-provider-identity-compatibility)。
 
-### 3.4 Z.ai text/tool block signature：候选实现不采用
+### 3.4 Lumos text/tool block signature：候选实现不采用
 
 当前 HEAD 与 `origin/staging` 没有 text/tool block signature replay；相关实现只存在于未合入候选分支。本次重构不采用、
-不移植这份候选实现。可以单独对真实 Z.ai 服务做 wire 测试，以确认是否存在非标准 signature；但测试结果只形成新证据，
+不移植这份候选实现。可以单独对真实 Lumos 服务做 wire 测试，以确认是否存在非标准 signature；但测试结果只形成新证据，
 不让候选分支自动进入设计。
 
 如果未来基于真实证据重新立项，原则仍只能是“收到什么就传回什么”：
@@ -222,7 +222,7 @@ Off-Peak 的排队、Ticket 和失效重试属于访问该产品服务的执行�
 3. 官方版本安全校验按 `zhipu-account.mode` 与显式 Access 分派，并保持动态材料与运行状态不进入 Config；
 4. Off-Peak 启用事实是 `mode=off-peak`，字符串 marker 与现有运行状态机保持等价；
 5. DeepSeek 统一执行 canonical replay，不保留 synthetic empty-thinking 或 Compatibility Config；
-6. Z.ai text/tool signature 候选实现不采用；真实 wire 测试作为独立证据任务；
+6. Lumos text/tool signature 候选实现不采用；真实 wire 测试作为独立证据任务；
 7. 删除 Snowflake 字段和专属请求改写，当前不支持 Snowflake；
 8. Adapter 不恢复通用 Compatibility Config、Registry 查询或 ID hardcode。
 

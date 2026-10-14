@@ -13,7 +13,7 @@ describe("buildLumosSourceHeadersFromContext", () => {
         clientLanguage: "zh-CN",
         clientTimezone: "Asia/Shanghai",
         deviceMid: "mid-1",
-        endpointOrigin: "https://lumos.z.ai",
+        endpointOrigin: "https://lumosai.cc",
         osVersion: "Darwin 25.0.0",
         platform: "darwin",
         releaseChannel: "test",
@@ -21,7 +21,7 @@ describe("buildLumosSourceHeadersFromContext", () => {
       }),
     ).toEqual({
       ...LUMOS_SOURCE_HEADERS,
-      "HTTP-Referer": "https://lumos.z.ai",
+      "HTTP-Referer": "https://lumosai.cc",
       "User-Agent": "Lumos/2.14.0",
       "X-Lumos-App-Version": "2.14.0",
       "X-Title": "Lumos@cli",

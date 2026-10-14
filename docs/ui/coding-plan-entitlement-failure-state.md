@@ -2,7 +2,7 @@
 
 ## 背景
 
-Model Provider 设置页的 Z.ai / BigModel Start Plan 与 Coding Plan 内容区通过 `useUsageEntitlement` 查询权益状态。此前查询 promise 若在 Windows 网络、代理或系统证书链路下悬挂，Plan Card 会一直停留在 `Checking`，用户无法判断是仍在加载还是已经失败。
+Model Provider 设置页的 Lumos / BigModel Start Plan 与 Coding Plan 内容区通过 `useUsageEntitlement` 查询权益状态。此前查询 promise 若在 Windows 网络、代理或系统证书链路下悬挂，Plan Card 会一直停留在 `Checking`，用户无法判断是仍在加载还是已经失败。
 
 ## 设计
 
@@ -10,7 +10,7 @@ Model Provider 设置页的 Z.ai / BigModel Start Plan 与 Coding Plan 内容区
 - 权益查询必须有前端超时边界，超时后复用现有 `unavailable` 状态，展示“获取失败 / Fetch failed”。
 - 已有缓存且静默刷新超时时，继续保留缓存快照，只退出 loading 并记录错误，避免网络抖动把可用套餐短暂打成空态。
 - 无缓存的首次查询超时时，清空快照并进入失败态，避免无限 `Checking`。
-- 失败态继续保留现有连接、重试或重新登录入口，不改变 Z.ai / BigModel family mode、provider id 和 entitlement 判断规则。
+- 失败态继续保留现有连接、重试或重新登录入口，不改变 Lumos / BigModel family mode、provider id 和 entitlement 判断规则。
 
 ## 影响面
 
@@ -19,7 +19,7 @@ Model Provider 设置页的 Z.ai / BigModel Start Plan 与 Coding Plan 内容区
 
 ## 个人套餐凭据失败后的主动重新登录
 
-Z.ai / BigModel 个人 Coding Plan 的 `credential-failed` 状态，右侧操作为“重新登录”，说明为“获取套餐失败，请重新登录后重试。”。不将该状态解释为 OAuth 已过期，不自动退出账号。其他失败、未登录、未购买、Start/Team 状态保留原行为。已登录的 Start 套餐获取失败继续提供“重试”，沿用 Host 手动刷新；未登录的 Start 套餐仍走登录入口。
+Lumos / BigModel 个人 Coding Plan 的 `credential-failed` 状态，右侧操作为“重新登录”，说明为“获取套餐失败，请重新登录后重试。”。不将该状态解释为 OAuth 已过期，不自动退出账号。其他失败、未登录、未购买、Start/Team 状态保留原行为。已登录的 Start 套餐获取失败继续提供“重试”，沿用 Host 手动刷新；未登录的 Start 套餐仍走登录入口。
 
 ```text
 Host Account State: credential-failed → 设置页展示失败提示

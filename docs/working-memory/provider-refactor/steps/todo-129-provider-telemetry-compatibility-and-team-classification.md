@@ -35,14 +35,14 @@
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | 核心事件维度         | `send_btn` 用 `custom:<编码后的 providerId>:<model>`；completion/step 正常请求路径用 `<providerId>/<model>`；`model_provider` 都用实际新 ID | 固定旧 ID 过滤会漏新版数据，直接分组会拆成新旧组；不等于事件未发送                                              |
 | Team 入口套餐状态    | `resolveCodingPlanEntryPlanStateFromProviderSettings()` 只找 Individual，再找 Start，漏两家 Team                                            | Team-only 返回 `no_plan`；若另有 Start 可能返回 `start_plan`。旧 Registry helper 已识别两家 Team connection key |
-| BigModel Team family | `resolveCodingPlanProviderFamily()` 缺 Team 分支                                                                                            | `unknown` 和空 channel，正确应为 `bigmodel` / `MaaS`；Z.ai Team 正常                                            |
+| BigModel Team family | `resolveCodingPlanProviderFamily()` 缺 Team 分支                                                                                            | `unknown` 和空 channel，正确应为 `bigmodel` / `MaaS`；Lumos Team 正常                                            |
 | 成功事件标签         | `resolveProviderTelemetryLabel()` 缺 BigModel Team / Start                                                                                  | `add_model_success` 直接带原始 ID；Start 旧版已有遗漏，Team 是新增暴露面                                        |
 | 首页闲时模板         | `OffPeakNewTaskEntry` 用同一套餐状态 helper 作点击准入                                                                                      | `codingPlanActive` 未明确给定且 view 已加载时，Team-only 被错误阻止导航                                         |
 
 ### 1.2 实际验证与限制
 
 - 调用了仓库真实 helper：两家 Team-only 均得到 `no_plan`；BigModel Team family/channel 为 `unknown` / 空字符串；BigModel Team/Start label 为原始 ID。
-- BigModel Start + GLM-5.2，同一个 baseURL：旧 `send_btn.model_name` 为 `custom:builtin%3Abigmodel-start-plan:GLM-5.2`，新为 `custom:account%3Abigmodel-start-plan:GLM-5.2`；`provider_name` 都为 `lumos.z.ai`。
+- BigModel Start + GLM-5.2，同一个 baseURL：旧 `send_btn.model_name` 为 `custom:builtin%3Abigmodel-start-plan:GLM-5.2`，新为 `custom:account%3Abigmodel-start-plan:GLM-5.2`；`provider_name` 都为 `lumosai.cc`。
 - 6 个现有测试文件合计 **82 个用例通过**：codingPlanFunnelTelemetry、messageTelemetry、automationTelemetry、offPeakTelemetry、codingPlanEmbeddedWebview、shared/lumosNetworkDebugStatus。现有通过结果没有覆盖本次遗漏，不是修复验收。
 - WebView bootstrap 确实携带错误漏斗上下文；官网协议约定四个 purchase 事件使用该上下文。本轮没有抓取官网真实购买上报，不能写成四个线上事件都已实测错误。
 - `entry_plan_status` 与核心事件的 `plan_status / plan_product_id` 是两条来源；后者 `usePlanIdentitySnapshot` 已选择 Team Provider 查询，不顺手重构。
@@ -110,7 +110,7 @@
 | `context_compaction`                                 | 同上                    | 保持既有 Provider 前缀规则                             | 不新增 provider_name                                             |
 | `automation_create_result` / `automation_run_now_ck` | 同上                    | 保持纯模型 ID                                          | 保持 standard-personal、无模板、API-key 才取 hostname 的现有规则 |
 | `off_peak_task_create_result`                        | 按闲时行已裁决映射      | 保持纯模型 ID                                          | 保持结果对象提供的 provider_name                                 |
-| `app_login_success`                                  | 不适用                  | 不适用                                                 | 不改 OAuth `login_provider`，继续 `z.ai` / `bigmodel`            |
+| `app_login_success`                                  | 不适用                  | 不适用                                                 | 不改 OAuth `login_provider`，继续 `lumosai.cc` / `bigmodel`            |
 
 ID 适配不得改变事件关联和计数：send 仍是提交选择快照，step/completion 仍按实际请求事实更新；多个请求或步骤中换模型不能被首个/当前 UI 选择覆盖。多个 Workspace、后台/前台和重连的既有采集规则不变。
 
@@ -141,9 +141,9 @@ ProviderSettingsView 尚未就绪 → unknown（沿用原逻辑）
 
 ### 4.2 family/channel 与成功标签
 
-- `resolveCodingPlanProviderFamily()`：BigModel Team 返回 `bigmodel`，对应 channel `MaaS`；Z.ai Team 保持 `zai` / `Z_AI`。
-- `resolveProviderTelemetryLabel()`：BigModel Individual / Team / Start 都返回 `bigmodel`；Z.ai 对应值仍为 `z.ai`。未知 ID 保持原值。
-- 不为了统一函数而混淆 `provider_family=zai`、成功标签 `z.ai` 与 hostname `api.z.ai`。
+- `resolveCodingPlanProviderFamily()`：BigModel Team 返回 `bigmodel`，对应 channel `MaaS`；Lumos Team 保持 `zai` / `Z_AI`。
+- `resolveProviderTelemetryLabel()`：BigModel Individual / Team / Start 都返回 `bigmodel`；Lumos 对应值仍为 `lumosai.cc`。未知 ID 保持原值。
+- 不为了统一函数而混淆 `provider_family=zai`、成功标签 `lumosai.cc` 与 hostname `api.lumosai.cc`。
 - 沿实际调用检查设置套餐卡、团队入口、Composer/侧栏升级、闲时资格提示；它们的 entry state 来源与 purchase audience 不完全一样，只改错误归因，不重设为统一入口。
 - `coding_plan_upgrade_ck` 与 WebView bootstrap 应来自同一个 funnelContext，确保 family/channel/status 一致；不重生成 funnel ID，不改购买产品、周期、金额等网站字段。
 - 四个官网 purchase 事件仅验证 App 注入契约和可获得的运行证据，不默认扩大到官网仓库改动。
@@ -197,7 +197,7 @@ ProviderSettingsView 尚未就绪 → unknown（沿用原逻辑）
 
 ### 6.2 维度与裁剪
 
-主维度仅取：family（Z.ai/BigModel）、套餐（Individual/Team/Start/无权益）、入口（首页/设置/其他漏斗/事件构造）、身份（旧/新/自定义/未知）、事实来源（发送 seed/真实请求）、端（桌面本地/远程工作区/手机）。
+主维度仅取：family（Lumos/BigModel）、套餐（Individual/Team/Start/无权益）、入口（首页/设置/其他漏斗/事件构造）、身份（旧/新/自定义/未知）、事实来源（发送 seed/真实请求）、端（桌面本地/远程工作区/手机）。
 
 - accepted：两家 Team 识别、归因、现有权限边界，以及在埋点侧最大努力恢复旧口径的成对事件验证。
 - evidence-pending：第 3.2 节逐事件精确旧值；从旧版输出确定测试预期，不能按新实现倒填。恢复方向已确认，普通事实核实不再作为待用户裁决。
@@ -211,7 +211,7 @@ ProviderSettingsView 尚未就绪 → unknown（沿用原逻辑）
 | T119-01 | 两家分别仅有 Team，entitled=true → 读取入口套餐状态                                    | `coding_plan`，不需要伪造 Individual 权益                                      | 参数化单测，待补                        |
 | T119-02 | Individual/Team + Start 混合 → 分类；只有 Start/无权益/null view → 分类                | Coding Plan 优先；其余分别 start_plan/no_plan/unknown；关闭模型不否定 entitled | 单测，待补                              |
 | T119-03 | 两家 Individual/Team/Start 与未知 ID → 创建漏斗上下文                                  | family/channel 正确，Start 仍独立；未知保持未知，不按名字猜                    | 单测，待补                              |
-| T119-04 | BigModel Team/Start 成功 → 真实 add_model_success builder                              | label=bigmodel；Z.ai=z.ai；登录事件值/次数不变                                 | 事件构造/调用测试，待补                 |
+| T119-04 | BigModel Team/Start 成功 → 真实 add_model_success builder                              | label=bigmodel；Lumos=lumosai.cc；登录事件值/次数不变                                 | 事件构造/调用测试，待补                 |
 | T119-05 | Team 入口创建同一 funnelContext → App upgrade 与 WebView bootstrap                     | 相同 funnel ID、status/family/channel；audience、level/list 原值保留           | builder + WebView 注入测试，待补        |
 | T119-06 | 两家 Team-only，页面 view 已就绪且灰度允许、codingPlanActive 未给定 → 点击首页闲时模板 | 进入创建页，不弹“没有 Coding Plan”；捕获当前 settings/路由事实                 | APP E2E，待补，不能只调用 helper        |
 | T119-07 | 无权益或 codingPlanActive=false → 同入口点击；后续提交资格失败                         | 保持禁止/提示；有 Team 不绕过后续当前连接、凭据、额度检查                      | 单测 + 代表性 APP E2E，待补             |

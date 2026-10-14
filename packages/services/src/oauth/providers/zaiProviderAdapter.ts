@@ -130,7 +130,7 @@ function normalizeBackendAvatarUrl(avatar: string | undefined): string | undefin
     return dataUrl;
   }
 
-  // ZAI 后端现在稳定返回可展示 URL 或 base64，客户端继续拼 chat.z.ai 前缀会改坏服务端语义。
+  // ZAI 后端现在稳定返回可展示 URL 或 base64，客户端继续拼 chat.lumosai.cc 前缀会改坏服务端语义。
   // 这里只保留原值，避免把后端返回的 avatar 二次加工成错误地址。
   return trimmed;
 }
@@ -264,8 +264,8 @@ export class ZaiProviderAdapter implements OAuthProviderAdapter {
     this.businessTokenResolver = new ZaiBusinessTokenResolver({
       apiClient,
       // 测试 OAuth app 返回的 ZAI access_token 需要打到测试业务域换业务 token；
-      // 如果继续硬编码生产 api.z.ai，本地测试登录会在 OAuth token 成功后失败。
-      loginUrl: config.businessLoginUrl ?? "https://api.z.ai/api/auth/z/login",
+      // 如果继续硬编码生产 api.lumosai.cc，本地测试登录会在 OAuth token 成功后失败。
+      loginUrl: config.businessLoginUrl ?? "https://api.lumosai.cc/api/auth/z/login",
       timeoutMs: ZAI_BUSINESS_TOKEN_TIMEOUT_MS,
     });
   }
@@ -296,7 +296,7 @@ export class ZaiProviderAdapter implements OAuthProviderAdapter {
   }
 
   async normalizePolledTokenSet(tokenSet: OAuthTokenSet): Promise<OAuthTokenSet> {
-    // CLI flow 的 ready.access_token 仍是 Z.AI OAuth token，而 Desktop
+    // CLI flow 的 ready.access_token 仍是 Lumos OAuth token，而 Desktop
     // oauth:zai:access_token 的既有契约是 /api/auth/z/login 返回的业务 token。
     // polling 与 deep link 必须在同一 adapter 边界完成转换，避免两种登录方式落盘语义分裂。
     return {
@@ -332,7 +332,7 @@ export class ZaiProviderAdapter implements OAuthProviderAdapter {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          // lumos OAuth token 后端现在同时服务 Z.ai 和 BigModel。
+          // lumos OAuth token 后端现在同时服务 Lumos 和 BigModel。
           // 显式传 provider 枚举值，避免只依赖 redirect_uri 推断登录域导致兑换错路由。
           body: JSON.stringify({
             provider: ZAI_PROVIDER_ID,
@@ -365,7 +365,7 @@ export class ZaiProviderAdapter implements OAuthProviderAdapter {
     if (!accessToken) {
       throw new Error("Token 交换失败：响应缺少 data.zai.access_token");
     }
-    // Z.AI 业务接口只认 /api/auth/z/login 返回的平台 JWT。
+    // Lumos 业务接口只认 /api/auth/z/login 返回的平台 JWT。
     // 这里在登录阶段完成转换，让 oauth:zai:access_token 持久化的就是业务 token，后续不再做兜底二次交换。
     const businessAccessToken = await this.businessTokenResolver.resolve(accessToken);
 

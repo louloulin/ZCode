@@ -24,7 +24,7 @@ describe("shouldIncludeStreamResponseBody", () => {
       shouldIncludeStreamResponseBody(
         resolved({
           providerKind: "openai-compatible",
-          baseURL: "https://lumos.z.ai/api/v1/lumos-plan",
+          baseURL: "https://lumosai.cc/api/v1/lumos-plan",
         }),
       ),
     ).toBe(true);
@@ -925,7 +925,7 @@ describe("createStreamTextOptions", () => {
         model: {} as ResolvedAiSdkModel["model"],
         ref: { providerId: "builtin:zai-coding-plan", modelId: "glm-5.1" },
         providerKind: "openai-compatible",
-        baseURL: "https://lumos.z.ai/api/v1/lumos-plan",
+        baseURL: "https://lumosai.cc/api/v1/lumos-plan",
       }),
       statusContext: {
         model: { providerId: "builtin:zai-coding-plan", modelId: "glm-5.1" },

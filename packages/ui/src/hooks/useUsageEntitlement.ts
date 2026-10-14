@@ -358,7 +358,7 @@ export function useUsageEntitlementWithService(
             };
           }
           return {
-            // 切换 BigModel/Z.AI 后如果新 provider 查询失败，继续保留旧 snapshot 会让 banner/浮窗显示上一家供应商。
+            // 切换 BigModel/Lumos 后如果新 provider 查询失败，继续保留旧 snapshot 会让 banner/浮窗显示上一家供应商。
             // 出错时清空快照，避免用过期品牌和额度误导用户。
             snapshot: null,
             loading: false,

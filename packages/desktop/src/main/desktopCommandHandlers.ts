@@ -326,8 +326,8 @@ function buildLumosEndpointPromptHtml(currentValue: string): string {
   <body>
     <form id="form">
       <label for="endpoint">Lumos endpoint origin</label>
-      <input id="endpoint" value="${value}" placeholder="https://lumos.z.ai" spellcheck="false" />
-      <div class="hint">Use an http or https origin, for example https://lumos.z.ai.</div>
+      <input id="endpoint" value="${value}" placeholder="https://lumosai.cc" spellcheck="false" />
+      <div class="hint">Use an http or https origin, for example https://lumosai.cc.</div>
       <div class="actions">
         <button id="cancel" type="button">Cancel</button>
         <button type="submit">Save</button>

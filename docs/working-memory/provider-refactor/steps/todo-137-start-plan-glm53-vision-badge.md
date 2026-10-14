@@ -10,7 +10,7 @@
 
 - `supportsImage !== true` 时不显示。
 - 当模型 ID 忽略大小写后精确等于 `glm-5.3`，且 Access 是手动 Coding Plan Key，或账号个人／团队／体验套餐时隐藏。
-- Z.ai、BigModel 体验套餐都适用。Flash、其他型号、普通 API Key 与闲时套餐沿用现状。
+- Lumos、BigModel 体验套餐都适用。Flash、其他型号、普通 API Key 与闲时套餐沿用现状。
 - 只改 `shouldShowModelVisionBadge` 的展示条件。设置页和模型选择菜单共用判断，桌面和手机 Web 一致；图片上传、实际图片能力、模型请求、配置文件、Schema 和 builtin revision 均不变。
 
 ## 实施与验收

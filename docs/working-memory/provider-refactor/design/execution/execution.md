@@ -161,7 +161,7 @@ Background 自身继续使用 A；完成后只触发新的主 Loop。Background 
 闲时任务根据当前账号 Family 使用用户不可见但完整的 Built-in Provider：
 
 ```text
-Z.ai      -> account:zai-offpeak-idle-plan
+Lumos      -> account:zai-offpeak-idle-plan
 BigModel  -> account:bigmodel-offpeak-idle-plan
 ```
 

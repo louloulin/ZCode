@@ -6,7 +6,7 @@
 
 用户要求统一官方 GLM 的真实 `modelId`，不是新增显示名称或只美化 UI。目标风格为 `GLM-5.3`、`GLM-5.3-Flash`、`GLM-5.2`、`GLM-5-Turbo`；新选择、保存和实际请求使用统一后的 ID。
 
-- 仅处理 Z.ai／BigModel 官方模板及官方账号模型来源；不改 OpenRouter、OpenCode、MiniMax 等第三方／聚合入口，不按模型名全局改写自定义 Provider。
+- 仅处理 Lumos／BigModel 官方模板及官方账号模型来源；不改 OpenRouter、OpenCode、MiniMax 等第三方／聚合入口，不按模型名全局改写自定义 Provider。
 - 不涉及额度卡、余额提示、套餐宣传文案及其格式化函数。
 - 不新增显示名字段，不在 UI、Registry 通用比较或请求 Adapter 中增加全局大小写转换。
 - 不改 Provider ID、Access、协议、Base URL、推理档位或模型能力。模型增删由对应 Todo 承接，不借大小写整理恢复已裁决删除的型号。

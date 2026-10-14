@@ -28,7 +28,7 @@ function readSvgSize(source: string): { width: number; height: number } {
 }
 
 describe("Provider built-in logo assets", () => {
-  it("Z.AI PNG 原样复用无额外留白的应用图标，不再误用同名旧 SVG", () => {
+  it("Lumos PNG 原样复用无额外留白的应用图标，不再误用同名旧 SVG", () => {
     const source = readFileSync(new URL("../../desktop/build/icons/128x128.png", import.meta.url));
     const packaged = readFileSync(new URL("model-provider-zai-app.png", assetDirectory));
     expect(packaged.equals(source)).toBe(true);

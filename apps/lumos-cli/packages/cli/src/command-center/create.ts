@@ -96,7 +96,7 @@ export function createCommandCenter(deps: CommandCenterDeps): TuiSubmitPrompt {
           if (!deps.login) {
             return {
               mode: deps.getMode?.(),
-              response: "Z.AI Coding Plan login is not available in this client.",
+              response: "Lumos Coding Plan login is not available in this client.",
             };
           }
 
@@ -110,7 +110,7 @@ export function createCommandCenter(deps: CommandCenterDeps): TuiSubmitPrompt {
                   await emitLoginAuthorizeMessage(
                     options,
                     data.authorize_url,
-                    "Z.AI",
+                    "Lumos",
                     await deps.getApp(),
                   );
                 },

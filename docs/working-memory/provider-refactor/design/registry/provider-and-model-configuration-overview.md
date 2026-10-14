@@ -210,7 +210,7 @@ modelOrder 中仍有效的成员
 Personal 专属 Rule，明确写入 `enabled=true`。因此“未排序 Personal”只处理用户手写、不完整或绕过正常设置页写入
 的配置；正常新增模型不会掉进第三段。用户拖动时也保存当前全部有效成员的完整顺序，并清理 stale/duplicate ID。
 
-Provider 顺序使用 Personal 顶层 `providerOrder`，不再借 Provider Map 的插入顺序表达用户排序。Z.ai/BigModel
+Provider 顺序使用 Personal 顶层 `providerOrder`，不再借 Provider Map 的插入顺序表达用户排序。Lumos/BigModel
 Account Family 继续作为固定产品区域，不参与普通 Provider 拖动；所有 Personal Provider 统一参与普通排序。创建
 Template 实例或完全自定义 Provider 时，应把当前完整普通 Provider 顺序一并写入 `providerOrder`；未排序尾段只承担
 外部手写或异常输入的确定性归一化。
@@ -363,7 +363,7 @@ zhipu-account/off-peak
 - 官方版本请求安全校验与 Off-Peak execution protocol 由 `zhipu-account.mode` 分派；
 - `requiresMfjsToolSchema` 留在 Model Config，显式开启才转换，失败报错；
 - DeepSeek Anthropic synthetic empty thinking 已删除；只保留真实 canonical reasoning 回放；
-- 未进入当前基线的 Z.ai text/tool signature 候选不采用。
+- 未进入当前基线的 Lumos text/tool signature 候选不采用。
 
 默认历史回放原则是：服务端真实返回什么，同一模型续轮就完整传回什么。Adapter 可以无损投影真实字段，但不能制造
 不存在的 reasoning、thinking 或 signature。
@@ -385,8 +385,8 @@ Remote Host。Renderer 不自行 Overlay、排序、判断来源、制造 fallba
 ```
 
 创建是立即生效的，不建立仅存在于 Renderer 的临时 Provider Draft，也不再要求用户在相似页面里点击第二次“创建”。
-Provider ID 永远不可编辑；Provider Name 是独立、可编辑且大小写不敏感唯一的 label。Z.ai/BigModel Family 保持现有
-账号产品组织，不因普通 Provider Template 生命周期而拆散。Z.AI API 与 BigModel API 也只是普通 Template，不占用
+Provider ID 永远不可编辑；Provider Name 是独立、可编辑且大小写不敏感唯一的 label。Lumos/BigModel Family 保持现有
+账号产品组织，不因普通 Provider Template 生命周期而拆散。Lumos API 与 BigModel API 也只是普通 Template，不占用
 Family 连接方式。
 
 Template 选择通过顶部入口在右侧详情区完成，直接使用 Settings View 发布的 Template 顺序和多语言名称，不新增

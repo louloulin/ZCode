@@ -772,7 +772,7 @@ Todo103 已替换该执行顺序；此前提交和证据全部保留，当前 G1
 
 ### 验证与归因
 
-- 17:54 Host 工具桥/配置门禁/内部错误/安全校验鉴权/取消 workspace 隔离 **5 文件26条通过**；安全校验新增用例先4条实际失败，再修复转绿，追加重复 UI 应答断言通过。工具用例证明 Z.ai/BigModel 各自选 Provider、完整选择与绑定一起提交、异域模型拒绝、未选账号不取号；并非只有 helper 测试。
+- 17:54 Host 工具桥/配置门禁/内部错误/安全校验鉴权/取消 workspace 隔离 **5 文件26条通过**；安全校验新增用例先4条实际失败，再修复转绿，追加重复 UI 应答断言通过。工具用例证明 Lumos/BigModel 各自选 Provider、完整选择与绑定一起提交、异域模型拒绝、未选账号不取号；并非只有 helper 测试。
 - 17:57 Repo + Service + Legacy Task Adapter **3文件130条通过**，包含真实隔离 SQLite、绑定唯一约束/预检、Session 选择不被闲时覆盖及 idle turn denylist。未触碰真实数据。
 - 17:55 skillsService + commandsService **2文件46条通过**，证明移除自动合并重复导入后的发现行为；不代表所有插件/UI E2E。
 - 本批 Host/Adapter/新 fixture/测试定向 oxlint 0 warnings/0 errors；格式化限定本批。完整 typecheck/lint/build 在余下冲突解决后统一执行，不以定向 lint 替代。

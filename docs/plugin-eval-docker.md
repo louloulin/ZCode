@@ -39,7 +39,7 @@ flowchart LR
 
 | 项 | 要求 |
 |---|---|
-| Docker | 20.10+，启用 BuildKit（默认）；能拉 `node:24-bookworm-slim` 并访问 GitLab、npm registry、`cdn-lumos.z.ai` |
+| Docker | 20.10+，启用 BuildKit（默认）；能拉 `node:24-bookworm-slim` 并访问 GitLab、npm registry、`cdn.lumosai.cc` |
 | 主机工具 | bash、jq、node ≥ 20（运行 `prepare-auth.mjs`）、python3（汇总报告） |
 | GitLab 访问 | 私有仓库需要一个只读 PAT（`read_repository`）；未给 `--token-file` 时脚本依次尝试 `GITLAB_TOKEN` 环境变量 → `glab` 已登录的 PAT → `git credential fill` 取本机已保存的凭据 |
 | Lumos 登录态 | 本机 Lumos 已登录且选好可用 provider/模型；评测容器复用这份凭据 |
@@ -63,7 +63,7 @@ docker/plugin-eval/bin/build-image.sh --ref feat-cli-plugins-parity \
 2. `builder` 阶段 `pnpm install --frozen-lockfile --filter "@lumos/cli..." --filter lumos`，然后按仓库脚本
    `scripts/build-desktop-agent-cli.mjs` 的顺序构建 shared-types → contracts → core → adapters → i18n → telemetry → bootstrap → cli。
 3. `runtime` 阶段只带 `node + lumos.cjs + jq/python3/git/ripgrep`，以 uid 10001 的 `lumos` 用户运行；
-   `HOME=/data`、`LUMOS_DATA_BASE_DIR=/data`、`LUMOS_STORAGE_DIR=/data/.lumos`、`LUMOS_BASE_URL=https://lumos.z.ai`。
+   `HOME=/data`、`LUMOS_DATA_BASE_DIR=/data`、`LUMOS_STORAGE_DIR=/data/.lumos`、`LUMOS_BASE_URL=https://lumosai.cc`。
    内置插件不在 `lumos.cjs` 里，CLI 在入口文件同级的 `packages/<name>-plugin` 找根目录，所以 builder 阶段把
    document-skills、lumos-guide、skill-creator、restore-legacy-sessions 四个纯内容型内置插件 stage 到 `/opt/lumos/packages/`；
    同理 CLI 启动必读的内置 provider 目录 `config/provider/lumos-builtin.json` 放到 `/opt/lumos/provider/`。

@@ -132,7 +132,7 @@ describe("ConversationRowView timeline marker contract", () => {
     replaceProviders([
       {
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-        label: "Z.ai - Coding Plan",
+        label: "Lumos - Coding Plan",
       },
       {
         providerId: "custom:provider-b",

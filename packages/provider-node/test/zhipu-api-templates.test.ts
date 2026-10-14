@@ -25,10 +25,10 @@ describe("Zhipu four manual API templates", () => {
             (item: { templateId: string }) => item.templateId === templateId,
           );
           expect(template, templateId).toBeDefined();
-          const label = `${family === "zai" ? "Z.ai" : "BigModel"} ${standard ? "API" : "Coding Plan"}`;
+          const label = `${family === "zai" ? "Lumos" : "BigModel"} ${standard ? "API" : "Coding Plan"}`;
           expect(template.templateNameMap).toEqual({ "zh-CN": label, "en-US": label });
           const config = template.config;
-          const host = family === "zai" ? "api.z.ai" : "open.bigmodel.cn";
+          const host = family === "zai" ? "api.lumosai.cc" : "open.bigmodel.cn";
           expect(config.api).toEqual({
             type: standard ? "openai-chat-completions" : "anthropic-messages",
             baseUrl: `https://${host}/api/${standard ? "paas/v4" : "anthropic"}`,
@@ -36,7 +36,7 @@ describe("Zhipu four manual API templates", () => {
           expect(config.access.type).toBe(standard ? "api-key" : "zhipu-coding-plan-api-key");
           expect(config.access.apiKeyManagementUrl).toBe(
             family === "zai"
-              ? "https://z.ai/manage-apikey/apikey-list"
+              ? "https://lumosai.cc/manage-apikey/apikey-list"
               : standard
                 ? "https://bigmodel.cn/usercenter/proj-mgmt/apikeys"
                 : "https://bigmodel.cn/coding-plan/personal/overview",

@@ -16,7 +16,7 @@ export const BIGMODEL_OAUTH_PROVIDER_CONFIG: Omit<OAuthProviderRuntimeConfig, "a
   enabled: true,
   order: 0,
   authorizeUrl: "https://bigmodel.cn/login",
-  tokenUrl: "https://lumos.z.ai/api/v1/oauth/token",
+  tokenUrl: "https://lumosai.cc/api/v1/oauth/token",
   userinfoUrl: buildBigModelApiUrl({ LUMOS_ENV: "production" }, BIGMODEL_USERINFO_PATH),
   appId: "lumos",
   redirectUri: "lumos://oauth/callback",

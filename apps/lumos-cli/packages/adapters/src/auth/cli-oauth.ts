@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import type { HttpClientPort, HttpClientRunOptions, TraceContext } from "@lumos/contracts";
 
-const DEFAULT_LUMOS_OAUTH_BASE_URL = "https://lumos.z.ai/api/v1";
+const DEFAULT_LUMOS_OAUTH_BASE_URL = "https://lumosai.cc/api/v1";
 export type CliOAuthProviderId = "zai" | "bigmodel";
 const POLL_TOKEN_BYTES = 32;
 const JSON_CONTENT_TYPE = "application/json";

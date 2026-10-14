@@ -299,7 +299,7 @@ it("defaults configured Anthropic GLM-5.2 to reasoning depth with native thinkin
         provider: {
           "provider-auth-zai": {
             kind: "anthropic",
-            name: "Z.AI",
+            name: "Lumos",
             options: {
               baseURL: "https://open.bigmodel.cn/api/anthropic",
               apiKey: "secret",

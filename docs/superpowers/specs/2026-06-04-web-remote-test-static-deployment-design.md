@@ -33,7 +33,7 @@ v3:
 2. `/remote/__test__` 使用独立构建脚本、Dockerfile、nginx 配置、镜像名和 k8s deployment 文件。
 3. 发布脚本最后只修改 `lumos/frontend/deployment-remote-test.yaml`。
 4. 保持 `/remote` 和 `/remote/v3` 现有链路不变。
-5. 不修改 desktop 默认二维码 URL；测试入口通过 `LUMOS_WEB_REMOTE_CONTROL_URL=https://lumos.z.ai/remote/__test__` 指定。
+5. 不修改 desktop 默认二维码 URL；测试入口通过 `LUMOS_WEB_REMOTE_CONTROL_URL=https://lumosai.cc/remote/__test__` 指定。
 6. 不修改 relay 协议、shared-host attachment、task stream、snapshot、queue 或 replayable 恢复语义。
 
 ## 非目标
@@ -143,7 +143,7 @@ commit and push MR branch
 测试 `/remote/__test__` 时通过环境变量覆盖：
 
 ```bash
-LUMOS_WEB_REMOTE_CONTROL_URL=https://lumos.z.ai/remote/__test__ pnpm dev:desktop
+LUMOS_WEB_REMOTE_CONTROL_URL=https://lumosai.cc/remote/__test__ pnpm dev:desktop
 ```
 
 该方式保留线上默认行为，同时允许 test 部署独立回归。

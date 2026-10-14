@@ -208,7 +208,7 @@ describe("Todo104 最终规则数据合同", () => {
     };
     const builtin = {
       providerId: "account:zai",
-      providerName: "Z.ai",
+      providerName: "Lumos",
       config: { group: "zai-family" },
     };
     expect(

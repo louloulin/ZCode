@@ -80,24 +80,24 @@ describe("conversation share API revision 23 contract", () => {
   });
 
   it("把分享链接改写到目标语言站点，且不改动 code 段", () => {
-    expect(localizeConversationShareUrl("https://lumos.z.ai/cn/share/abc", "en-US")).toBe(
-      "https://lumos.z.ai/share/abc",
+    expect(localizeConversationShareUrl("https://lumosai.cc/cn/share/abc", "en-US")).toBe(
+      "https://lumosai.cc/share/abc",
     );
-    expect(localizeConversationShareUrl("https://lumos.z.ai/share/abc", "zh-CN")).toBe(
-      "https://lumos.z.ai/cn/share/abc",
+    expect(localizeConversationShareUrl("https://lumosai.cc/share/abc", "zh-CN")).toBe(
+      "https://lumosai.cc/cn/share/abc",
     );
     // 已经是目标语言时保持原样，端口与 query 不受影响。
     expect(
-      localizeConversationShareUrl("https://lumos.z.ai:8443/cn/share/a.b~c?x=1", "zh-CN"),
-    ).toBe("https://lumos.z.ai:8443/cn/share/a.b~c?x=1");
+      localizeConversationShareUrl("https://lumosai.cc:8443/cn/share/a.b~c?x=1", "zh-CN"),
+    ).toBe("https://lumosai.cc:8443/cn/share/a.b~c?x=1");
   });
 
   it("形状不认识的链接原样返回，绝不猜着改", () => {
     // 服务端将来若换 URL 形状或独立域名，这里必须安静地不作为而不是改错。
     for (const url of [
-      "https://lumos.z.ai/s/abc",
-      "https://lumos.z.ai/cn/share/abc/extra",
-      "https://lumos.z.ai/cn/share",
+      "https://lumosai.cc/s/abc",
+      "https://lumosai.cc/cn/share/abc/extra",
+      "https://lumosai.cc/cn/share",
       "not-a-url",
       "",
     ]) {
@@ -116,12 +116,12 @@ describe("conversation share API revision 23 contract", () => {
     expect(
       sharedContextImportStateSchema.safeParse({
         ...base,
-        shareUrl: "https://lumos.z.ai/cn/share/abc",
+        shareUrl: "https://lumosai.cc/cn/share/abc",
       }).success,
     ).toBe(true);
     const localized = sharedContextImportStateSchema.safeParse({
       ...base,
-      shareUrl: "https://lumos.z.ai/share/abc",
+      shareUrl: "https://lumosai.cc/share/abc",
     });
     // 英文站路径只能作为 legacy { title } 形状通过，v2 形状（带 contextId/status）会被拒。
     expect(localized.success && "contextId" in localized.data).toBe(false);

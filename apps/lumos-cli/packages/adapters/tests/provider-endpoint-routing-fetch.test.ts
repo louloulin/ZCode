@@ -3,8 +3,8 @@ import type { ProviderEndpointRoutingPort } from "@lumos/contracts";
 import { createProviderEndpointRoutingFetch } from "../src/model/provider-endpoint-routing-fetch.js";
 import { createProviderBusinessErrorFetch } from "../src/model/model-execution.js";
 
-const SOURCE_ZAI = "https://api.z.ai/api/anthropic/v1/messages";
-const TARGET = "https://lumos.z.ai/api/v1/proxy/anthropic/v1/messages";
+const SOURCE_ZAI = "https://api.lumosai.cc/api/anthropic/v1/messages";
+const TARGET = "https://lumosai.cc/api/v1/proxy/anthropic/v1/messages";
 
 describe("provider endpoint routing fetch", () => {
   it("preserves request semantics and the streaming response while recalculating Host", async () => {
@@ -31,7 +31,7 @@ describe("provider endpoint routing fetch", () => {
       body: JSON.stringify({ stream: true }),
       headers: {
         Authorization: "Bearer secret",
-        Host: "api.z.ai",
+        Host: "api.lumosai.cc",
         "x-api-key": "provider-key",
         "X-Lumos-Trace-Id": "trace-1",
       },

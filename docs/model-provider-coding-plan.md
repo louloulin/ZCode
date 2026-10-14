@@ -4,15 +4,15 @@ Model Providers now separate manual API Key access from account-based Coding Pla
 
 ## Entries
 
-- `Z.AI - API Key` and `BigModel - API Key` keep the existing provider form, including API Key, endpoints, models, and model mappings.
-- `Z.AI - Coding Plan` and `BigModel - Coding Plan` are independent entries. They use their own `*-coding-plan` provider credential to query the usage quota entitlement API, then derive whether the account has Coding Plan access.
+- `Lumos - API Key` and `BigModel - API Key` keep the existing provider form, including API Key, endpoints, models, and model mappings.
+- `Lumos - Coding Plan` and `BigModel - Coding Plan` are independent entries. They use their own `*-coding-plan` provider credential to query the usage quota entitlement API, then derive whether the account has Coding Plan access.
 - Provider ids are intentionally separate:
-  - `builtin:zai` => `Z.AI - API Key`
-  - `builtin:zai-coding-plan` => `Z.AI - Coding Plan`
+  - `builtin:zai` => `Lumos - API Key`
+  - `builtin:zai-coding-plan` => `Lumos - Coding Plan`
   - `builtin:bigmodel` => `BigModel - API Key`
   - `builtin:bigmodel-coding-plan` => `BigModel - Coding Plan`
 - The provider sidebar groups preset entries into provider cards:
-  - `Z.AI`: `Coding Plan`, `API Key`
+  - `Lumos`: `Coding Plan`, `API Key`
   - `BigModel`: `Coding Plan`, `API Key`
 
 ## Coding Plan States
@@ -39,9 +39,9 @@ Plan entitlement visible in Model Provider settings.
 
 ## Pricing Cards
 
-- Pricing cards are provider-specific. Z.AI uses the Z.AI USD Coding Plan catalog; BigModel uses the BigModel CNY GLM Coding catalog.
+- Pricing cards are provider-specific. Lumos uses the Lumos USD Coding Plan catalog; BigModel uses the BigModel CNY GLM Coding catalog.
 - The visible periods are `Monthly`, `Quarterly`, and `Yearly`. Non-monthly periods show the billed period amount plus the monthly equivalent.
-- Plan descriptions are also provider-specific, so BigModel wording is not reused from the Z.AI catalog.
+- Plan descriptions are also provider-specific, so BigModel wording is not reused from the Lumos catalog.
 
 ## Signed-out Purchase Choice
 
@@ -74,13 +74,13 @@ and For Teams entries both show the compact 150% quota badge next to the title.
 Logged-in not-subscribed entries and logged-in enterprise team group entries do
 not show this badge.
 
-When Z.ai account-based access is disconnected and no Start/Coding entitlement
+When Lumos account-based access is disconnected and no Start/Coding entitlement
 is available yet, the same signed-out surface is still shown, but only the Start
 entry (when `startPlanPreview` exists) and For Individuals entry are visible.
-For Teams is hidden for Z.ai.
+For Teams is hidden for Lumos.
 
 The purchase panel follows the same product boundary. When the selected provider
-does not support For Teams, such as Z.ai, the panel renders the Individuals plan
+does not support For Teams, such as Lumos, the panel renders the Individuals plan
 content directly and does not show Individuals/Teams audience tabs.
 This no-tabs branch must still fill the available panel body height so the plan
 cards keep the same stretched layout as the tabbed BigModel view.

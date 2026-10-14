@@ -63,7 +63,7 @@ App 原生面板时期主链路复用 UI 侧
 `ReportService.report(...)` 直连同一事件网关。现有主出口当前为：
 
 ```text
-https://lumos.z.ai/api/v1/event/report
+https://lumosai.cc/api/v1/event/report
 ```
 
 历史需求文案里出现过 `/evnet/report` 拼写。上线前需要和服务端确认最终网关路径；在服务端明确切换前，客户端继续复用现有 `event/report` 能力，避免为单个业务埋点绕开统一 telemetry 出口。
@@ -83,7 +83,7 @@ Web fallback 当前是 no-op，Desktop 会自动补齐 `device_mid`、`app_versi
 | `purchase_attempt_id` | 同一次点击与结果共用的 UUID |
 | `purchase_audience` | `personal` / `team` |
 | `provider_family` | `bigmodel` / `zai` / `unknown` |
-| `channel` | BigModel 默认 `MaaS`，Z.ai 默认 `Z_AI` |
+| `channel` | BigModel 默认 `MaaS`，Lumos 默认 `Z_AI` |
 | `product_id` | 当前商品 ID |
 | `product_name` | 商品展示名或后端名 |
 | `plan_tier` | `lite` / `pro` / `max` / `team_standard` / `team_advanced` / 原始值 |
@@ -141,9 +141,9 @@ Web fallback 当前是 no-op，Desktop 会自动补齐 `device_mid`、`app_versi
 | 空字符串 | 空字符串 | `SUCCESS` | 个人 / 团队 | 支付成功 |
 | `create_sign_failed` | `create_sign` | `FAIL` | 个人 BigModel | 首购签约失败 |
 | `update_sign_failed` | `update_sign` | `FAIL` | 个人 BigModel | 变更套餐签约失败 |
-| `paypal_setup_failed` | `paypal_setup` | `FAIL` | 个人 Z.ai | PayPal setup 失败 |
-| `paypal_subscribe_failed` | `paypal_subscribe` | `FAIL` | 个人 Z.ai | PayPal subscribe 失败 |
-| `stripe_pay_failed` | `stripe_pay` | `FAIL` | 个人 Z.ai | Stripe 支付失败 |
+| `paypal_setup_failed` | `paypal_setup` | `FAIL` | 个人 Lumos | PayPal setup 失败 |
+| `paypal_subscribe_failed` | `paypal_subscribe` | `FAIL` | 个人 Lumos | PayPal subscribe 失败 |
+| `stripe_pay_failed` | `stripe_pay` | `FAIL` | 个人 Lumos | Stripe 支付失败 |
 | `create_order_failed` | `create_order` | `FAIL` | 团队 | 创建订单失败 |
 | `continue_order_payment_failed` | `continue_order_payment` | `FAIL` | 团队 | 继续支付待支付订单失败 |
 | `payment_status_failed` | `terminal_status` | `FAIL` | 个人 / 团队 | 后端失败终态 |
@@ -171,7 +171,7 @@ Web fallback 当前是 no-op，Desktop 会自动补齐 `device_mid`、`app_versi
 ## 2026-09-09 验证记录
 
 - 32 个相关单测通过，覆盖入口字段、重渲染不重复、再次点击、上报异常不阻塞。
-- `coding-plan-upgrade-webview-refresh-provider.test.ts` 的 BigModel / Z.ai 两例通过。
+- `coding-plan-upgrade-webview-refresh-provider.test.ts` 的 BigModel / Lumos 两例通过。
   在 App `net.fetch` 边界捕获请求，校验入口一次、同漏斗上下文、刷新不新增；网关响应为 mock，
   不等同于生产网关收包成功。报告运行 ID：`desktop-e2e-20260909-083415-672`。
 - CUA 在开发版点击 Start Plan 升级，官网购买页正常打开。
@@ -181,7 +181,7 @@ Web fallback 当前是 no-op，Desktop 会自动补齐 `device_mid`、`app_versi
 ## 全连接套餐快照修复
 
 `entry_plan_list` 表示当前用户已拥有的所有套餐连接，不表示点击卡片。统一购买入口
-汇总 BigModel/Z.ai 的 Start Plan、个人套餐权益及 authenticated pricing 中 subscribed=true
+汇总 BigModel/Lumos 的 Start Plan、个人套餐权益及 authenticated pricing 中 subscribed=true
 的团队产品。未激活但仍有效的连接也纳入；未购买、已失效、普通 API Key、自定义供应商不
 伪造成套餐。按每份快照所属 provider/团队身份分类，不用入口的 entry_plan_status 给全列表分类。
 去重并稳定排序。入口 source/status/level 仍描述点击位置，不覆盖为其他套餐。
@@ -228,7 +228,7 @@ Provider 是入口唯一执行点，不新增等待点击队列，也不自动�
 验证结果：231 个相关单测通过；CPUW-01/CPUW-03 两个桌面 E2E 通过。
 CPUW-01 在 authenticated pricing 边界挂起请求，确认菜单禁用；返回 503 后显示重试，
 重试成功前后均没有入口事件，只有后续显式购买点击才在 App net.fetch 产生一次完整列表。
-同时验证 WebView 注入相同列表、刷新不重报以及 BigModel/Z.ai 购买完成刷新。
+同时验证 WebView 注入相同列表、刷新不重报以及 BigModel/Lumos 购买完成刷新。
 开发日志使用 UI logger.debug 输出 `[purchaseTelemetry] 套餐入口查询状态`，不输出凭据。
 未执行 Windows/Linux 或手机实机回归；共享按钮与菜单使用相同状态及中英文文案。
 

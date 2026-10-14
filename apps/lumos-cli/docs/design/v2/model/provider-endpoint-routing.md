@@ -34,7 +34,7 @@ bootstrap process registry（endpoint origin + network policy）
 | 精确匹配的 HTTPS 端点 | 当前 runtime Lumos origin 下的目标路径 |
 | --- | --- |
 | `open.bigmodel.cn/api/anthropic/v1/messages` | `/api/v1/ultra/anthropic/v1/messages` |
-| `api.z.ai/api/anthropic/v1/messages` | `/api/v1/ultra-zai/anthropic/v1/messages` |
+| `api.lumosai.cc/api/anthropic/v1/messages` | `/api/v1/ultra-zai/anthropic/v1/messages` |
 
 默认端口、主机大小写、末尾 `/` 与 query 的处理遵循下文匹配规则；其它协议、端口、路径、子域和
 第三方 Provider 不改写。origin 复用 `resolveRuntimeLumosEndpointOrigin`，不增加用户配置或环境变量。
@@ -49,7 +49,7 @@ bootstrap process registry（endpoint origin + network policy）
 Lumos CLI 在模型请求发生时按需读取：
 
 ```text
-GET https://lumos.z.ai/api/v1/agent/configs
+GET https://lumosai.cc/api/v1/agent/configs
 ```
 
 测试与非生产环境必须复用 `buildRuntimeLumosApiUrl` 的现有 endpoint 选择规则，禁止另加平行环境变量。
@@ -67,11 +67,11 @@ GET https://lumos.z.ai/api/v1/agent/configs
       "mapping": [
         {
           "from": "https://open.bigmodel.cn/api/anthropic/v1/messages",
-          "to": "https://lumos.z.ai/api/v1/proxy/anthropic/v1/messages"
+          "to": "https://lumosai.cc/api/v1/proxy/anthropic/v1/messages"
         },
         {
-          "from": "https://api.z.ai/api/anthropic/v1/messages",
-          "to": "https://lumos.z.ai/api/v1/proxy/anthropic/v1/messages"
+          "from": "https://api.lumosai.cc/api/anthropic/v1/messages",
+          "to": "https://lumosai.cc/api/v1/proxy/anthropic/v1/messages"
         }
       ]
     }

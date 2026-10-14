@@ -253,7 +253,7 @@ describe("useOAuth", () => {
     mocks.oauthService.getProviders.mockResolvedValue([]);
     mocks.oauthService.getActiveProvider.mockResolvedValue(null);
     mocks.oauthService.startOAuthWithPolling.mockResolvedValue({
-      authorizeUrl: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+      authorizeUrl: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
       provider: "zai",
       state: "flow-state",
     });
@@ -272,12 +272,12 @@ describe("useOAuth", () => {
       state: "flow-state",
     });
     expect(mocks.platform.openExternal).toHaveBeenCalledWith(
-      "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+      "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
     );
     expect(mocks.setOAuthPollingActive).toHaveBeenCalledWith(true);
     expect(mocks.reportAppTelemetryEvent).toHaveBeenCalledWith(
       mocks.platform,
-      expect.objectContaining({ eventExtraDetail: { login_url: "chat.z.ai" } }),
+      expect.objectContaining({ eventExtraDetail: { login_url: "chat.lumosai.cc" } }),
       "useOAuth",
     );
 

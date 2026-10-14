@@ -7,7 +7,7 @@
 - App Usage：只读取本地 session 历史，展示产品内使用活跃度。
 - Coding Plan：只读取当前选中的 Coding Plan provider，展示套餐额度与 monitor 用量。
 
-Coding Plan 不回退到 App Usage、本地 session、普通 Z.AI/BigModel API Key 或环境变量 key。
+Coding Plan 不回退到 App Usage、本地 session、普通 Lumos/BigModel API Key 或环境变量 key。
 
 ## 顶部布局
 
@@ -54,7 +54,7 @@ Coding Plan:                         [ today / 7d / 30d ]
 ## Coding Plan
 
 ```text
-[ Z.AI | BigModel ]   // 仅两个 Coding Plan 账号都可用时显示
+[ Lumos | BigModel ]   // 仅两个 Coding Plan 账号都可用时显示
 
 [ 5 小时剩余额度 ]      [ 每周剩余额度 ]        [ 工具调用 ]
   remaining percent      remaining percent     remaining percent

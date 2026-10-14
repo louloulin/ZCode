@@ -8,7 +8,7 @@
 | Spec | 已证明 | 未证明 |
 | --- | --- | --- |
 | `packages/desktop/test/e2e/coding-plan-team-usage.test.ts` | Team pricing 冷启动、连接方式、个人/Team credit、range、错误隔离与恢复、access freshness、入口可见性、viewport/theme | App Usage；手机 `/remote` UI（按 D1 剪枝） |
-| UI/services/CLI focused tests | mapper、日期、统计聚合、hooks 状态、in-flight/backoff、Coding/Start 互斥、Z.AI 来源隔离和错误分支 | 不重复证明真实 Electron 导航 |
+| UI/services/CLI focused tests | mapper、日期、统计聚合、hooks 状态、in-flight/backoff、Coding/Start 互斥、Lumos 来源隔离和错误分支 | 不重复证明真实 Electron 导航 |
 
 ## 候选 spec 分组
 
@@ -16,7 +16,7 @@
 | --- | --- | --- | --- | --- |
 | `UA` | `test/e2e/usage-stats/usage-stats-app-usage.test.ts` | US-AU-01..05 | fast-text | formal-green |
 | `UP` | existing `coding-plan-team-usage.test.ts` plus focused extension | US-CP-01..07,09; US-RF-01; US-SY-01..03; US-CM-01..02 | fast-text/fault HTTP | formal-green |
-| `UI-focused` | existing UI hook/component tests | US-RF-02..05, US-SY-04, US-SP-01..04, Z.AI isolation | deterministic state tests | green |
+| `UI-focused` | existing UI hook/component tests | US-RF-02..05, US-SY-04, US-SP-01..04, Lumos isolation | deterministic state tests | green |
 | `remote-invariant` | existing desktop shared-host/attachment tests | US-CM-03 | deterministic architecture tests | green |
 
 ## 行为覆盖状态
@@ -67,7 +67,7 @@
 | Decision | Proposed answer | Status |
 | --- | --- | --- |
 | D1 Desktop 是否完整覆盖，手机 `/remote` 只验证 shared-host 不变量 | yes | answered 2026-08-17 |
-| D2 BigModel 个人/Team 完整，Z.AI 只做来源隔离代表样本 | yes | answered 2026-08-17 |
+| D2 BigModel 个人/Team 完整，Lumos 只做来源隔离代表样本 | yes | answered 2026-08-17 |
 | D3 日期/mapper 极端组合以 focused tests 为主，不复制成 GUI E2E | yes | answered 2026-08-17 |
 | D4 viewport/theme/locale 各一条代表样本，不做全组合 | yes | answered 2026-08-17 |
 

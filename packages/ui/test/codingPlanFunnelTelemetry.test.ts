@@ -69,7 +69,7 @@ describe("codingPlanFunnelTelemetry", () => {
       expect(reportTelemetryEvent).toHaveBeenCalledTimes(1);
       expect(reportTelemetryEvent.mock.calls[0][0]).toMatchObject({
         elementName: "add_model_success",
-        eventExtraDetail: { model_provider: family === "zai" ? "z.ai" : "bigmodel" },
+        eventExtraDetail: { model_provider: family === "zai" ? "lumosai.cc" : "bigmodel" },
       });
       reportTelemetryEvent.mockClear();
       const context = createCodingPlanFunnelContext({

@@ -112,7 +112,7 @@ function createUsageStatsServiceForTest(params: {
         authorization: apiKey,
         quotaUrl:
           provider.id === TEST_ZAI_PROVIDER_ID
-            ? "https://api.z.ai/api/monitor/usage/quota/limit"
+            ? "https://api.lumosai.cc/api/monitor/usage/quota/limit"
             : "https://bigmodel.cn/api/monitor/usage/quota/limit",
         provider: { id: provider.id, name: provider.name },
       };
@@ -1172,7 +1172,7 @@ describe("createUsageStatsService", () => {
     expect(requestUrls[0]).toBe("https://bigmodel.cn/api/monitor/usage/quota/limit?type=2");
   });
 
-  it("Z.ai Team Plan 用量使用 Account Auth 返回的团队项目 API Key（对齐 BigModel）", async () => {
+  it("Lumos Team Plan 用量使用 Account Auth 返回的团队项目 API Key（对齐 BigModel）", async () => {
     vi.useFakeTimers({ now: new Date("2026-05-19T10:00:00.000Z") });
     const requestUrls: string[] = [];
     const requestHeaders: Array<HeadersInit | undefined> = [];
@@ -1242,7 +1242,7 @@ describe("createUsageStatsService", () => {
       providers: [
         createProvider({
           id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-          name: "Z.ai - Coding Plan",
+          name: "Lumos - Coding Plan",
           apiKey: "",
         }),
       ],
@@ -1282,7 +1282,7 @@ describe("createUsageStatsService", () => {
     expect(snapshot.sourceProvider.id).toBe(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan);
   });
 
-  it("Z.ai Team Plan 用量允许已登录但被禁用的 Coding Plan provider（对齐 BigModel）", async () => {
+  it("Lumos Team Plan 用量允许已登录但被禁用的 Coding Plan provider（对齐 BigModel）", async () => {
     vi.useFakeTimers({ now: new Date("2026-05-19T10:00:00.000Z") });
     const requestUrls: string[] = [];
     const apiClient: ApiClient = {
@@ -1327,7 +1327,7 @@ describe("createUsageStatsService", () => {
       providers: [
         createProvider({
           id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-          name: "Z.ai - Coding Plan",
+          name: "Lumos - Coding Plan",
           apiKey: "",
           enabled: false,
         }),
@@ -1345,7 +1345,7 @@ describe("createUsageStatsService", () => {
       timeZone: "UTC",
     });
 
-    expect(requestUrls[0]).toBe("https://api.z.ai/api/monitor/usage/quota/limit?type=2");
+    expect(requestUrls[0]).toBe("https://api.lumosai.cc/api/monitor/usage/quota/limit?type=2");
   });
 
   it("Team Plan monitor 缺少明确成功信号时不能把错误响应降级为空统计", async () => {

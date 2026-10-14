@@ -14,7 +14,7 @@ describe("static provider endpoint routing", () => {
   it.each([
     [SOURCE, TARGET_PATH],
     ["https://OPEN.BIGMODEL.CN:443/api/anthropic/v1/messages/", TARGET_PATH],
-    ["https://api.z.ai/api/anthropic/v1/messages", "/api/v1/ultra-zai/anthropic/v1/messages"],
+    ["https://api.lumosai.cc/api/anthropic/v1/messages", "/api/v1/ultra-zai/anthropic/v1/messages"],
   ])("routes %s with query preserved and no configuration IO", async (source, target) => {
     const network = vi.fn(() => {
       throw new Error("unexpected configuration request");

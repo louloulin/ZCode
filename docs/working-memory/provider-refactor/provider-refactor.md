@@ -129,7 +129,7 @@ M4 已按既定设计完成实现：hidden Provider 仍是 Registry 中的完整
 
 [Todo125：模型设置页问号说明与定稿文案](./steps/todo-125-model-settings-help-copy.md)：已完成产品裁决并落盘，待实施。固定中文定稿、标题问号与跨端交互；不得擅自润色、扩充提示或改变配置行为。
 
-[Todo114](./steps/todo-114-account-status-sync-and-key-retry.md)（上游原 Todo105）：已合并并补齐 Account 原因同步、统一 Z.ai/BigModel 缺 Key 分类、将个人套餐获取失败操作改为重试。上游 280 条定向测试与四组组件浏览器通过；完整 App / 手机链路剩余验证归 Todo102，具体证据见 Todo114。
+[Todo114](./steps/todo-114-account-status-sync-and-key-retry.md)（上游原 Todo105）：已合并并补齐 Account 原因同步、统一 Lumos/BigModel 缺 Key 分类、将个人套餐获取失败操作改为重试。上游 280 条定向测试与四组组件浏览器通过；完整 App / 手机链路剩余验证归 Todo102，具体证据见 Todo114。
 
 上线前 Schema 专项裁决见 [Todo104](./steps/todo-104-pre-release-schema-review.md)（m2 原 Todo99）：核心方案及默认选择合并保持；Session 新增 modelSelection 并保留旧值，Off-Peak / Wiki 保存局部修复待实施。6.19 已收紧为本 Todo 要改的 13 项配套内容并获认可。Subagent Markdown 的原字段迁移是 Todo97 已裁决的可读性取舍，不在本 Todo 重开。2026-09-10 用户已授权实施，完成状态以实施账本为准。
 

@@ -1,4 +1,4 @@
-# Z.ai / BigModel Provider Family Merge
+# Lumos / BigModel Provider Family Merge
 
 > 历史方案及 staging 行为来源，不是当前 Provider 数据结构契约。2026-09-06 恢复审计：
 > 当前使用 `providerFamilyDomain` / `providerFamilyConnectionSelections`；账号 Provider 已拆成
@@ -9,7 +9,7 @@
 
 ## Goal
 
-Z.ai and BigModel currently expose six built-in model provider ids:
+Lumos and BigModel currently expose six built-in model provider ids:
 
 ```txt
 builtin:zai
@@ -23,7 +23,7 @@ builtin:bigmodel-coding-plan
 The product experience should merge them into two user-facing provider families:
 
 ```txt
-Z.ai
+Lumos
 BigModel
 ```
 
@@ -36,7 +36,7 @@ selection model.
 ## Provider Family Mapping
 
 ```txt
-Z.ai
+Lumos
 ├─ API Key     -> builtin:zai
 ├─ Start Plan  -> builtin:zai-start-plan
 └─ Coding Plan -> builtin:zai-coding-plan
@@ -54,7 +54,7 @@ mode, OAuth login state, and entitlement state.
 ## Settings Navigation And Connection Menu
 
 The Model Providers side navigation is a provider-family selector only. Built-in
-families are shown as one entry per family, for example `Z.ai` and `BigModel`.
+families are shown as one entry per family, for example `Lumos` and `BigModel`.
 The side navigation must not render `Start Plan`, personal `Individual Plan`,
 team `Team Plan`, or `API Key` as separate sibling entries.
 
@@ -163,7 +163,7 @@ action immediately to the left of the connection selector. Clicking it must reus
 the same user-owned connection transition as selecting Start Plan from the selector.
 The action stays hidden when the count is zero or unknown, the entitlement read has
 failed, the family has no Start Plan navigation item, or Start Plan is already
-selected. Z.ai and BigModel resolve their own Start Plan provider independently.
+selected. Lumos and BigModel resolve their own Start Plan provider independently.
 The shortcut stays in the connection-mode control. It and the visible
 `Connection mode` label are mutually exclusive: when the shortcut is available,
 it replaces that label immediately before the always-visible selector; otherwise
@@ -190,7 +190,7 @@ as `checking`, `disconnected`, or `purchased` must not start or identify another
 transition. When settings opens with an already active OAuth account but a provider
 key that has not hydrated yet, background reconciliation uses the stable tuple
 `providerId + activeOAuthProvider` and runs at most once per mounted settings page.
-This rule applies equally to Z.ai and BigModel.
+This rule applies equally to Lumos and BigModel.
 
 ### Connectivity Check Credential Boundary
 
@@ -204,32 +204,32 @@ If the selected Team Plan cannot produce a runtime provider credential, the
 connectivity check fails closed and must not fall back to a personal Coding Plan
 key belonging to a different entitlement subject. The selected model, endpoint,
 API format, request body, and existing connectivity error mapping remain
-unchanged. This rule applies equally to Z.ai and BigModel.
+unchanged. This rule applies equally to Lumos and BigModel.
 
 ## Provider Family Domain Boundary
 
-Z.ai and BigModel are mutually exclusive provider family runtime domains. The
+Lumos and BigModel are mutually exclusive provider family runtime domains. The
 active runtime domain is stored in `AppSettings.providerFamilyDomain`, not
 derived directly from `oauth:active_provider`.
 
 ```txt
 No providerFamilyDomain
-├─ WelcomeScreen shows Z.ai and BigModel
+├─ WelcomeScreen shows Lumos and BigModel
 └─ The user can connect either provider with OAuth or API Key
 
 providerFamilyDomain = zai
-├─ Settings shows Z.ai
+├─ Settings shows Lumos
 ├─ Settings hides BigModel
 └─ The model menu hides BigModel built-in models
 
 providerFamilyDomain = bigmodel
 ├─ Settings shows BigModel
-├─ Settings hides Z.ai
-└─ The model menu hides Z.ai built-in models
+├─ Settings hides Lumos
+└─ The model menu hides Lumos built-in models
 ```
 
 This boundary applies to the full built-in family, not only the OAuth
-sub-provider. When Z.ai is the selected provider family domain, BigModel API
+sub-provider. When Lumos is the selected provider family domain, BigModel API
 Key, Start Plan, and Coding Plan entries are not shown as built-in choices.
 Custom providers are not affected.
 
@@ -244,7 +244,7 @@ selected by the current family connection facts. `apiKey` selects the family's b
 `oauth` selects the provider encoded by the family's selected plan key. The model
 name is preserved when the target provider exposes it, otherwise the target
 provider's first available model is used. This reconciliation applies to both
-Z.ai and BigModel and is required in both transition directions; a task must not
+Lumos and BigModel and is required in both transition directions; a task must not
 reuse an expired plan runtime after switching to API Key, or an invalid API Key
 runtime after switching to an available plan. Renderer-local queued prompts
 resolve these connection facts again when the queue drains, because the user may
@@ -335,26 +335,26 @@ The preset provider navigation shows provider families only:
 
 ```txt
 Preset Providers
-├─ Z.ai
+├─ Lumos
 └─ BigModel
 ```
 
 It must not show these as separate nav items:
 
 ```txt
-Z.ai - API Key
-Z.ai - Coding Plan
-Z.ai - Coding Plan
+Lumos - API Key
+Lumos - Coding Plan
+Lumos - Coding Plan
 BigModel - API Key
 BigModel- Coding Plan
 BigModel - Coding Plan
 ```
 
-Selecting `Z.ai` or `BigModel` opens one family detail page. The detail content
+Selecting `Lumos` or `BigModel` opens one family detail page. The detail content
 uses a fixed structure:
 
 ```txt
-<provider icon> Z.ai / BigModel        <status>        <enabled switch>
+<provider icon> Lumos / BigModel        <status>        <enabled switch>
 
 <Plan Card>
 
@@ -442,14 +442,14 @@ The detailed provider form may reuse the existing provider card components, but
 the visible product identity should be family-first:
 
 ```txt
-Provider: Z.ai
+Provider: Lumos
 Mode: Coding Plan
 ```
 
 instead of:
 
 ```txt
-Z.ai - Coding Plan
+Lumos - Coding Plan
 ```
 
 Provider ids may remain visible only in advanced/debug affordances.
@@ -505,7 +505,7 @@ identity boundary:
 
 ```txt
 Active OAuth provider = zai
-├─ Show Z.ai family models according to its selected family mode
+├─ Show Lumos family models according to its selected family mode
 ├─ Hide builtin:bigmodel
 ├─ Hide builtin:bigmodel-start-plan
 └─ Hide builtin:bigmodel-coding-plan
@@ -522,7 +522,7 @@ be shown disabled with a no-entitlement reason. They should not silently switch
 to Start Plan.
 
 Custom providers keep their existing grouped or submenu behavior.
-Only Z.ai and BigModel built-in family models are flattened into first-level
+Only Lumos and BigModel built-in family models are flattened into first-level
 menu choices.
 
 ## Runtime Registry
@@ -532,7 +532,7 @@ The registry should include at most one active built-in provider per visible
 family:
 
 ```txt
-Z.ai family
+Lumos family
 └─ one of builtin:zai, builtin:zai-start-plan, builtin:zai-coding-plan
 
 BigModel family
@@ -580,11 +580,11 @@ copy.
 Recommended implementation pieces:
 
 1. Add a family spec and pure resolver for provider family view state.
-2. Change settings preset navigation to emit `providerFamily` items for Z.ai and
+2. Change settings preset navigation to emit `providerFamily` items for Lumos and
    BigModel.
 3. Change settings detail to render a family detail page with OAuth/API Key mode.
 4. Extend Start/Coding availability validation so BigModel uses the same paired
-   decision boundary as Z.ai.
+   decision boundary as Lumos.
 5. Filter runtime registry projection to one resolved built-in provider per
    visible family.
 6. Change chat input model menu so active family models are flat first-level
@@ -618,8 +618,8 @@ Automated validation must include:
 Targeted test coverage:
 
 - No OAuth session shows both provider families in settings.
-- Z.ai OAuth session hides BigModel in settings and model menu.
-- BigModel OAuth session hides Z.ai in settings and model menu.
+- Lumos OAuth session hides BigModel in settings and model menu.
+- BigModel OAuth session hides Lumos in settings and model menu.
 - API Key mode resolves to the existing API Key provider id.
 - OAuth + Coding entitlement resolves to the existing Coding Plan provider id.
 - OAuth + no Coding + Start entitlement resolves to the existing Start Plan

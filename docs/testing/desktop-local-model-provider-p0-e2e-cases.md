@@ -783,7 +783,7 @@ P0-10 已满足当前目标中的“详细描述、实际验证、promotion 转�
 
 用户在桌面端本地默认 workspace 中添加一个 custom OpenAI-compatible provider，模型 ID 为 `GLM-5.2`，Base URL 指向本地 replay server，API Key 使用 E2E dummy key。用户回到聊天框，从模型列表选择该 provider 下的 `GLM-5.2`，先选择 `max` 思考档位并发送普通文本；首轮完成后，用户将思考档位切到 `nothink`，再发送第二条普通文本。
 
-这条 case 验证 GLM-5.2 的思考强度直接映射为顶层 `reasoning_effort`，其中 UI 档位 `nothink` 映射为 provider 值 `none`。它只覆盖“UI 选择 -> session 配置 -> agent providerOptions -> OpenAI-compatible request body”的正向合同，不验证真实 BigModel/Z.AI 线上服务可用性，不与 queue、stop、edit/fork、remote 或 compact 叉乘。
+这条 case 验证 GLM-5.2 的思考强度直接映射为顶层 `reasoning_effort`，其中 UI 档位 `nothink` 映射为 provider 值 `none`。它只覆盖“UI 选择 -> session 配置 -> agent providerOptions -> OpenAI-compatible request body”的正向合同，不验证真实 BigModel/Lumos 线上服务可用性，不与 queue、stop、edit/fork、remote 或 compact 叉乘。
 
 ### 操作步骤
 
@@ -1136,7 +1136,7 @@ P0-15 已满足当前目标中的“详细描述、实际验证、转正后重�
 
 用户在桌面端本地默认 workspace 中分别对 `glm-5.2` 与 `deepseek-v4-flash` 构造 primary/alternate 两个 custom provider，同一模型的两个 provider 使用不同 Base URL。每个模型族先用 primary provider 完成一个会话；随后点击新建任务进入空草稿，在聊天框模型列表选择 alternate provider 下同名模型，并发送一条普通文本。
 
-这条 case 钉住 workspace default 回包边界和真实请求路由：草稿默认模型写入后，toolbar `currentValue`、再次打开的模型菜单选中态和 workspace draft config 必须保留 alternate provider id + 当前模型；发送后的 provider 请求 URL 也必须命中 alternate provider Base URL，不能因为同 workspace 仍有 active session 就回弹到上一个 provider。它不覆盖 queue、stop、edit/fork、remote workspace 或真实 BigModel/Z.AI/DeepSeek 服务可用性。
+这条 case 钉住 workspace default 回包边界和真实请求路由：草稿默认模型写入后，toolbar `currentValue`、再次打开的模型菜单选中态和 workspace draft config 必须保留 alternate provider id + 当前模型；发送后的 provider 请求 URL 也必须命中 alternate provider Base URL，不能因为同 workspace 仍有 active session 就回弹到上一个 provider。它不覆盖 queue、stop、edit/fork、remote workspace 或真实 BigModel/Lumos/DeepSeek 服务可用性。
 
 ### 验证条目
 
@@ -1360,7 +1360,7 @@ MR !2618 CR-01：MP-UI-06 使用真实模型保存成功反馈，分别注入长
 ### 剪枝
 
 - provider 请求、聊天首发与持久化由 P0-02 覆盖，本 case 不重复发请求。
-- Z.ai/BigModel、Start/Coding 的等价 resolver 分支由单元测试做 pairwise 覆盖；Coding Plan 列表由服务端
+- Lumos/BigModel、Start/Coding 的等价 resolver 分支由单元测试做 pairwise 覆盖；Coding Plan 列表由服务端
   同步且只读，不把自定义供应商的删除操作错误套到套餐页。
 - theme、locale 与 mobile 不改变连接判定；语义 token、双语言文案和响应式 class 由单元测试覆盖。
 

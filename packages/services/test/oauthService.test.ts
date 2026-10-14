@@ -33,9 +33,9 @@ function buildDesktopOAuthLoginRedirectUri(origin: string): string {
 }
 
 const PRODUCTION_DESKTOP_OAUTH_LOGIN_REDIRECT_URI =
-  buildDesktopOAuthLoginRedirectUri("https://lumos.z.ai/");
+  buildDesktopOAuthLoginRedirectUri("https://lumosai.cc/");
 const TEST_DESKTOP_OAUTH_LOGIN_REDIRECT_URI = buildDesktopOAuthLoginRedirectUri(
-  "https://lumos.z.ai/",
+  "https://lumosai.cc/",
 );
 
 // Windows 机器上设置了 ZAI_TEST_OAUTH_ORIGIN 等环境变量，会覆盖测试预期的 test 端点值
@@ -191,7 +191,7 @@ afterEach(() => {
 });
 
 describe("oauthService", () => {
-  it.each([false, true])("Z.AI polling 先换业务 JWT 再签发 PAT，team=%s", async (team) => {
+  it.each([false, true])("Lumos polling 先换业务 JWT 再签发 PAT，team=%s", async (team) => {
     let now = 2_000_000_000_000;
     const requests: Array<{ url: string; init?: RequestInit }> = [];
     const mockFetch = vi.fn<typeof fetch>(async (input, init) => {
@@ -204,7 +204,7 @@ describe("oauthService", () => {
             msg: "",
             data: {
               authorize_url:
-                "https://chat.z.ai/api/oauth/authorize?client_id=lumos&redirect_uri=https%3A%2F%2Flumos.z.ai%2Fapi%2Fv1%2Foauth%2Fcli%2Fcallback&state=flow-state&response_type=code",
+                "https://chat.lumosai.cc/api/oauth/authorize?client_id=lumos&redirect_uri=https%3A%2F%2Flumosai.cc%2Fapi%2Fv1%2Foauth%2Fcli%2Fcallback&state=flow-state&response_type=code",
               expires_at: 2_000_000_300,
               flow_id: "flow-1",
               poll_interval_sec: 2,
@@ -285,7 +285,7 @@ describe("oauthService", () => {
     const result = await service.pollPendingOAuth();
 
     expect(authorizeUrl.searchParams.get("state")).toBe(started.state);
-    expect(redirectUrl.origin + redirectUrl.pathname).toBe("https://lumos.z.ai/app/oauth/login");
+    expect(redirectUrl.origin + redirectUrl.pathname).toBe("https://lumosai.cc/app/oauth/login");
     expect(redirectUrl.searchParams.get("redirect")).toBe("lumos://oauth/callback");
     expect(redirectUrl.searchParams.get("app_version")).toBe(LUMOS_VERSION);
     expect(result).toEqual({
@@ -365,7 +365,7 @@ describe("oauthService", () => {
               code: 0,
               data: {
                 authorize_url:
-                  "https://bigmodel.cn/login?appId=lumos&redirect=https%3A%2F%2Flumos.z.ai%2Fapi%2Fv1%2Foauth%2Fcli%2Fcallback%2Fbigmodel&state=bigmodel-flow",
+                  "https://bigmodel.cn/login?appId=lumos&redirect=https%3A%2F%2Flumosai.cc%2Fapi%2Fv1%2Foauth%2Fcli%2Fcallback%2Fbigmodel&state=bigmodel-flow",
                 expires_at: 2_000_000_300,
                 flow_id: "bigmodel-flow-1",
                 poll_interval_sec: 2,
@@ -402,7 +402,7 @@ describe("oauthService", () => {
         provider: BIGMODEL_PROVIDER_ID,
       });
       expect(authorizeUrl.origin + authorizeUrl.pathname).toBe("https://bigmodel.cn/login");
-      expect(redirectUrl.origin + redirectUrl.pathname).toBe("https://lumos.z.ai/app/oauth/login");
+      expect(redirectUrl.origin + redirectUrl.pathname).toBe("https://lumosai.cc/app/oauth/login");
       expect(redirectUrl.searchParams.get("redirect")).toBe("lumos://oauth/callback");
       expect(redirectUrl.searchParams.get("app_version")).toBe(LUMOS_VERSION);
       expect(result).toEqual({
@@ -431,7 +431,7 @@ describe("oauthService", () => {
           JSON.stringify({
             code: 0,
             data: {
-              authorize_url: "https://chat.z.ai/api/oauth/authorize?state=expired-polling-state",
+              authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=expired-polling-state",
               expires_at: (now + 5_000) / 1_000,
               flow_id: "expired-polling-flow",
               poll_interval_sec: 1,
@@ -471,7 +471,7 @@ describe("oauthService", () => {
     expect(credentialStore.get("oauth:zai:access_token")).toBe("existing-token");
   });
 
-  it("keeps a pending Z.AI flow until the server polling interval elapses", async () => {
+  it("keeps a pending Lumos flow until the server polling interval elapses", async () => {
     let now = 2_000_000_000_000;
     const mockFetch = vi.fn<typeof fetch>(async (input) => {
       const url = String(input);
@@ -481,7 +481,7 @@ describe("oauthService", () => {
             ? {
                 code: 0,
                 data: {
-                  authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+                  authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
                   expires_at: 2_000_000_300,
                   flow_id: "flow-1",
                   poll_interval_sec: 2,
@@ -512,7 +512,7 @@ describe("oauthService", () => {
     [
       "an expired flow",
       {
-        authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+        authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
         expires_at: 2_000_000_000,
         flow_id: "flow-1",
         poll_interval_sec: 2,
@@ -530,7 +530,7 @@ describe("oauthService", () => {
     [
       "a polling interval below one second",
       {
-        authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+        authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
         expires_at: 2_000_000_300,
         flow_id: "flow-1",
         poll_interval_sec: 0.5,
@@ -539,7 +539,7 @@ describe("oauthService", () => {
     [
       "a polling interval longer than the remaining flow lifetime",
       {
-        authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+        authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
         expires_at: 2_000_000_300,
         flow_id: "flow-1",
         poll_interval_sec: 301,
@@ -579,7 +579,7 @@ describe("oauthService", () => {
     const mockFetch = vi.fn<typeof fetch>(async (input) => {
       const data = String(input).endsWith("/init")
         ? {
-            authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+            authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
             expires_at: 2_000_000_300,
             flow_id: "flow-1",
             poll_interval_sec: 2,
@@ -650,7 +650,7 @@ describe("oauthService", () => {
         JSON.stringify({
           code: 0,
           data: {
-            authorize_url: "https://chat.z.ai/api/oauth/authorize?state=old-flow-state",
+            authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=old-flow-state",
             expires_at: 2_000_000_300,
             flow_id: "old-flow",
             poll_interval_sec: 2,
@@ -684,7 +684,7 @@ describe("oauthService", () => {
         JSON.stringify({
           code: 0,
           data: {
-            authorize_url: "https://chat.z.ai/api/oauth/authorize?state=cancelled-flow",
+            authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=cancelled-flow",
             expires_at: 2_000_000_300,
             flow_id: "cancelled-flow",
             poll_interval_sec: 2,
@@ -733,14 +733,14 @@ describe("oauthService", () => {
     });
   });
 
-  it("stops polling when the pending Z.AI login is cancelled", async () => {
+  it("stops polling when the pending Lumos login is cancelled", async () => {
     const mockFetch = vi.fn<typeof fetch>(
       async () =>
         new Response(
           JSON.stringify({
             code: 0,
             data: {
-              authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+              authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
               expires_at: 2_000_000_300,
               flow_id: "flow-1",
               poll_interval_sec: 2,
@@ -763,7 +763,7 @@ describe("oauthService", () => {
   });
 
   it.each([503, 429])(
-    "retries a transient Z.AI polling HTTP %i without clearing the flow",
+    "retries a transient Lumos polling HTTP %i without clearing the flow",
     async (transientStatus) => {
       let now = 2_000_000_000_000;
       let pollAttempts = 0;
@@ -774,7 +774,7 @@ describe("oauthService", () => {
             JSON.stringify({
               code: 0,
               data: {
-                authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+                authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
                 expires_at: 2_000_000_300,
                 flow_id: "flow-1",
                 poll_interval_sec: 2,
@@ -830,7 +830,7 @@ describe("oauthService", () => {
           JSON.stringify({
             code: 0,
             data: {
-              authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+              authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
               expires_at: 2_000_000_300,
               flow_id: "flow-1",
               poll_interval_sec: 2,
@@ -871,7 +871,7 @@ describe("oauthService", () => {
     expect(pollAttempts).toBe(1);
   });
 
-  it("clears a failed Z.AI polling flow without persisting credentials", async () => {
+  it("clears a failed Lumos polling flow without persisting credentials", async () => {
     const mockFetch = vi.fn<typeof fetch>(async (input) => {
       const url = String(input);
       return new Response(
@@ -880,7 +880,7 @@ describe("oauthService", () => {
             ? {
                 code: 0,
                 data: {
-                  authorize_url: "https://chat.z.ai/api/oauth/authorize?state=flow-state",
+                  authorize_url: "https://chat.lumosai.cc/api/oauth/authorize?state=flow-state",
                   expires_at: 2_000_000_300,
                   flow_id: "flow-1",
                   poll_interval_sec: 2,
@@ -960,7 +960,7 @@ describe("oauthService", () => {
       },
       {
         id: ZAI_PROVIDER_ID,
-        displayName: "Z.ai",
+        displayName: "Lumos",
         enabled: true,
         order: 1,
       },
@@ -987,7 +987,7 @@ describe("oauthService", () => {
     const parsed = new URL(authorizeUrl);
 
     expect(provider).toBe(ZAI_PROVIDER_ID);
-    expect(parsed.origin + parsed.pathname).toBe("https://chat.z.ai/api/oauth/authorize");
+    expect(parsed.origin + parsed.pathname).toBe("https://chat.lumosai.cc/api/oauth/authorize");
     expect(parsed.searchParams.get("redirect_uri")).toBe(
       PRODUCTION_DESKTOP_OAUTH_LOGIN_REDIRECT_URI,
     );
@@ -1002,7 +1002,7 @@ describe("oauthService", () => {
         BIGMODEL_OAUTH_APP_SECRET: "unit-test-secret",
         LUMOS_ENV: "test",
         ZAI_OAUTH_CLIENT_ID: "client_P8X5CMWmlaRO9gyO-KSqtg",
-        ZAI_OAUTH_ORIGIN: "https://chat.z.ai/",
+        ZAI_OAUTH_ORIGIN: "https://chat.lumosai.cc/",
       },
     });
 
@@ -1010,7 +1010,7 @@ describe("oauthService", () => {
     const parsed = new URL(authorizeUrl);
 
     expect(parsed.origin + parsed.pathname).toBe(
-      "https://chat.z.ai/api/oauth/authorize",
+      "https://chat.lumosai.cc/api/oauth/authorize",
     );
     expect(parsed.searchParams.get("redirect_uri")).toBe(TEST_DESKTOP_OAUTH_LOGIN_REDIRECT_URI);
     expect(parsed.searchParams.get("client_id")).toBe("client_P8X5CMWmlaRO9gyO-KSqtg");
@@ -1151,7 +1151,7 @@ describe("oauthService", () => {
     const parsed = new URL(authorizeUrl);
 
     expect(parsed.origin + parsed.pathname).toBe(
-      "https://chat.z.ai/api/oauth/authorize",
+      "https://chat.lumosai.cc/api/oauth/authorize",
     );
     expect(parsed.searchParams.get("client_id")).toBe("client_P8X5CMWmlaRO9gyO-KSqtg");
   });
@@ -1253,7 +1253,7 @@ describe("oauthService", () => {
       env: {
         ...process.env,
         BIGMODEL_OAUTH_APP_SECRET: "unit-test-secret",
-        LUMOS_BASE_URL: "https://lumos.z.ai",
+        LUMOS_BASE_URL: "https://lumosai.cc",
       },
     });
     const { state } = await service.startOAuth(ZAI_PROVIDER_ID);
@@ -1278,7 +1278,7 @@ describe("oauthService", () => {
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
-      "https://lumos.z.ai/api/v1/oauth/token",
+      "https://lumosai.cc/api/v1/oauth/token",
       expect.objectContaining({ method: "POST" }),
     );
   });
@@ -1290,7 +1290,7 @@ describe("oauthService", () => {
       env: {
         ...process.env,
         BIGMODEL_OAUTH_APP_SECRET: "unit-test-secret",
-        ZAI_BUSINESS_BASE_URL: "https://api.z.ai",
+        ZAI_BUSINESS_BASE_URL: "https://api.lumosai.cc",
       },
     });
     const { state } = await service.startOAuth(ZAI_PROVIDER_ID);
@@ -1315,7 +1315,7 @@ describe("oauthService", () => {
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
-      "https://api.z.ai/api/auth/z/login",
+      "https://api.lumosai.cc/api/auth/z/login",
       expect.objectContaining({ method: "POST" }),
     );
   });
@@ -1820,7 +1820,7 @@ describe("oauthService", () => {
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
-      "https://lumos.z.ai/api/v1/oauth/token",
+      "https://lumosai.cc/api/v1/oauth/token",
       expect.objectContaining({ method: "POST", headers: { "Content-Type": "application/json" } }),
     );
     const lumosTokenCall = fetchMock.mock.calls[0];
@@ -1985,7 +1985,7 @@ describe("oauthService", () => {
       env: {
         ...process.env,
         BIGMODEL_OAUTH_APP_SECRET: "unit-test-secret",
-        LUMOS_BASE_URL: "https://lumos.z.ai",
+        LUMOS_BASE_URL: "https://lumosai.cc",
       },
     });
     const { state } = await service.startOAuth(BIGMODEL_PROVIDER_ID);
@@ -1997,7 +1997,7 @@ describe("oauthService", () => {
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
-      "https://lumos.z.ai/api/v1/oauth/token",
+      "https://lumosai.cc/api/v1/oauth/token",
       expect.objectContaining({ method: "POST" }),
     );
   });
@@ -2022,7 +2022,7 @@ describe("oauthService", () => {
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
-      "https://lumos.z.ai/api/v1/oauth/token",
+      "https://lumosai.cc/api/v1/oauth/token",
       expect.objectContaining({ method: "POST" }),
     );
     expect(fetchMock).toHaveBeenNthCalledWith(
@@ -2056,7 +2056,7 @@ describe("oauthService", () => {
       name: "ApiError",
       method: "POST",
       status: 500,
-      url: "https://lumos.z.ai/api/v1/oauth/token",
+      url: "https://lumosai.cc/api/v1/oauth/token",
       message: "http error",
     });
 
@@ -2273,7 +2273,7 @@ describe("oauthService", () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
-      "https://lumos.z.ai/api/v1/oauth/token",
+      "https://lumosai.cc/api/v1/oauth/token",
       expect.objectContaining({ method: "POST", headers: { "Content-Type": "application/json" } }),
     );
     const tokenCall = fetchMock.mock.calls[0];
@@ -2485,7 +2485,7 @@ describe("oauthService", () => {
           providerId: ZAI_PROVIDER_ID,
           meta: {
             id: ZAI_PROVIDER_ID,
-            displayName: "Z.ai",
+            displayName: "Lumos",
             enabled: true,
             order: 1,
           },
@@ -3500,7 +3500,7 @@ describe("oauthService", () => {
       name: "ApiError",
       method: "POST",
       status: 401,
-      url: "https://lumos.z.ai/api/v1/oauth/token",
+      url: "https://lumosai.cc/api/v1/oauth/token",
       message: "Unauthorized",
     });
   });

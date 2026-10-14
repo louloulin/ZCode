@@ -64,7 +64,7 @@ Account / Personal / Built-in 更新
              精确匹配 modelId -> 检查原 reasoningLevel
 ```
 
-识别用途不能依赖当前可选列表：正式旧账号 Provider 可能已不在候选内。这里只识别现行正式 ID，不做 legacy 别名或运行时迁移。普通账号套餐的当前目标由同快照账号事实确定，支持 Z.AI/BigModel 当前域变化，不能按列表第一项或模型名猜目标；Off-Peak 保留原身份，与普通套餐边界不交叉。
+识别用途不能依赖当前可选列表：正式旧账号 Provider 可能已不在候选内。这里只识别现行正式 ID，不做 legacy 别名或运行时迁移。普通账号套餐的当前目标由同快照账号事实确定，支持 Lumos/BigModel 当前域变化，不能按列表第一项或模型名猜目标；Off-Peak 保留原身份，与普通套餐边界不交叉。
 
 ### 2.3 快照与最终执行边界
 
@@ -166,10 +166,10 @@ Desktop 和 Web 复用解析算法，但不改变 continuous/replayable 投递�
 | SR87-10 | 原选择临时无效，编辑文字，再恢复配置 | 文字保存不清原选择；有效结果恢复，用户明确清空则不恢复 | Draft/文件测试 + Composer E2E |
 | SR87-11 | 首读临时失败，随后恢复且 revision 不变；没有变化事件 | 公共层有限读取重试可恢复；耗尽可 reload；换目标/销毁取消，解析不完整不重试 | Hook/服务测试，受控故障 |
 | SR87-12 | 两个消费者传不同选择；同 revision 下改输入或提交后再编辑 | effectiveSelection 不串用，旧回包/旧提交成功不覆盖新意图；失败不写回 | 公共读取与提交测试 |
-| SR87-13 | Z.AI/BigModel 域切换，已保存 Off-Peak 选择与当前账号不匹配 | 不自动换 Provider；只读结果不完整、原意图不改，执行前检查继续阻断；不因账号切换自动换票 | 公共/服务测试 + Air mock 交互与无派发证据 |
+| SR87-13 | Lumos/BigModel 域切换，已保存 Off-Peak 选择与当前账号不匹配 | 不自动换 Provider；只读结果不完整、原意图不改，执行前检查继续阻断；不因账号切换自动换票 | 公共/服务测试 + Air mock 交互与无派发证据 |
 | SR87-14 | 已有闲时 Ticket/queued/续跑；list/get/sync；切回原账号 | 读取/轮询不清新 Selection 或从旧修复字段重绑另一账号；切回可重算模型有效结果（不保证 Ticket 有效）；历史不变，既有过期/3102 处理保留 | 服务/存储/Ticket 集成测试 |
 
-组合剪枝：不为颜色、每个供应商品牌或每档 reasoning 做全排列；个人/Team 取连接变化代表，Start 取 pending/空模型代表，Off-Peak 取 Z.AI/BigModel 切域不改原意图及执行阻断代表，普通 Provider 取配置变化代表。远端取身份隔离与读取恢复代表；继承型 Subagent 只做不变量。没有同模型挑首模型、按中文/强度位置猜档位、自动批量写盘、闲时跨账号自动替换或票据迁移均明确排除。
+组合剪枝：不为颜色、每个供应商品牌或每档 reasoning 做全排列；个人/Team 取连接变化代表，Start 取 pending/空模型代表，Off-Peak 取 Lumos/BigModel 切域不改原意图及执行阻断代表，普通 Provider 取配置变化代表。远端取身份隔离与读取恢复代表；继承型 Subagent 只做不变量。没有同模型挑首模型、按中文/强度位置猜档位、自动批量写盘、闲时跨账号自动替换或票据迁移均明确排除。
 
 E2E 交接：在 case catalog/coverage matrix 登记 SR87 映射后，按 e2e-case-lifecycle 准备 case-local 账号/Provider fixture；不领取真实额度，不发送真实 Bot 消息，不改 Air 日常配置。按 View revision/运行记录条件等待，不靠固定 sleep 猜同步结束；不要求每个公共函数组合都跑桌面 E2E。
 
@@ -189,7 +189,7 @@ E2E 交接：在 case catalog/coverage matrix 登记 SR87 映射后，按 e2e-ca
 
 - staging 已经在创建任务时取 Ticket，后续请求重新解析当前账号凭据；并未持久保存每个 Ticket 的原账号凭据。`offPeakServerClient.ts` 与该基线无差异。
 - staging 的任务只保存旧 model/thought，派发时构造本轮模型；没有当前新增的“读取任务时比较新 Selection 的 Provider 并清库”行为。不能把这一破坏性读取归为 staging 原行为，也不能为恢复旧行为重新引入旧 runtimeModel。
-- staging 已有过期重取号、模型请求 3102 后换票续跑；票据查询的 not_found 分支没有完整的跨账号恢复流程。现有客户端证据不能证明切 Z.AI/BigModel 后票据必然失效，也不能证明可复用；本轮没有调用真实票据接口验证。
+- staging 已有过期重取号、模型请求 3102 后换票续跑；票据查询的 not_found 分支没有完整的跨账号恢复流程。现有客户端证据不能证明切 Lumos/BigModel 后票据必然失效，也不能证明可复用；本轮没有调用真实票据接口验证。
 - 当前 `offPeakTaskService.repairLegacyModelSelections()` 在 list/get/sync 中处理已有新 Selection，不匹配时调用 `offPeakTaskRepo.invalidateModelSelection()`，写入 `model_selection=NULL, schedulable=0`。已有新字段不得再走这种清空后依赖旧修复字段重绑的路径；真正旧数据迁移仍独立保留。
 
 ```text

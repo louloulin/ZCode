@@ -95,7 +95,7 @@ it("Start 独立后移除套餐数量快捷入口与切换按钮", () => {
     presetId,
     oauthProviderId: ZAI_PROVIDER_ID,
     label: presetId,
-    providerName: "Z.AI",
+    providerName: "Lumos",
     provider: null,
     status: "purchased",
     statusActive: true,
@@ -436,7 +436,7 @@ function createProvider(overrides: LegacyProviderOverrides = {}): ProviderSettin
           enabled: overrides.enabled ?? true,
         }
       : {},
-    providerName: overrides.name ?? overrides.providerName ?? "Z.ai",
+    providerName: overrides.name ?? overrides.providerName ?? "Lumos",
     config: {
       group:
         overrides.config?.group ??
@@ -709,7 +709,7 @@ describe("model provider coding plan", () => {
     },
   );
 
-  it("uses a stable provider/auth identity for Z.ai and BigModel plan transitions", () => {
+  it("uses a stable provider/auth identity for Lumos and BigModel plan transitions", () => {
     expect(
       resolveCodingPlanProviderSyncAttemptKey({
         activeOAuthProvider: ZAI_PROVIDER_ID,
@@ -794,7 +794,7 @@ describe("model provider coding plan", () => {
         presetProviders: [
           {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            displayName: "Z.ai - API Key",
+            displayName: "Lumos - API Key",
             provider: createProvider({
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
             }),
@@ -829,7 +829,7 @@ describe("model provider coding plan", () => {
 
     const labels = capturedGroups[0]?.items.map((item) => item.label) ?? [];
     const presetIds = capturedGroups[0]?.items.map((item) => item.presetId) ?? [];
-    expect(labels).toContain("Z.ai - API Key");
+    expect(labels).toContain("Lumos - API Key");
     expect(labels).toContain("BigModel - API Key");
     expect(presetIds).toContain(BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan);
     expect(presetIds).toContain(BUILTIN_MODEL_PROVIDER_IDS.bigmodelStartPlan);
@@ -923,10 +923,10 @@ describe("model provider coding plan", () => {
           presetProviders: [
             {
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-              displayName: "Z.ai - API Key",
+              displayName: "Lumos - API Key",
               provider: createProvider({
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-                name: "Z.ai",
+                name: "Lumos",
                 apiKey: "",
                 enabled: false,
               }),
@@ -1045,7 +1045,7 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai - Coding Plan",
+            name: "Lumos - Coding Plan",
           }),
           createProvider({
             id: "custom-provider",
@@ -1097,7 +1097,7 @@ describe("model provider coding plan", () => {
     expect(items.map((item) => item.type)).toEqual(["custom"]);
   });
 
-  it("刷新中按缓存后的 provider 状态显示 Z.ai 入口且不显示 loading", () => {
+  it("刷新中按缓存后的 provider 状态显示 Lumos 入口且不显示 loading", () => {
     for (const [selectedNodeKey] of [
       ["coding-plan:account:zai-individual-coding-plan"],
       ["coding-plan:account:zai-start-plan"],
@@ -1113,7 +1113,7 @@ describe("model provider coding plan", () => {
           modelProviders: [
             createProvider({
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-              name: "Z.ai - Coding Plan",
+              name: "Lumos - Coding Plan",
               apiKey: "zai-coding-plan-key",
             }),
           ],
@@ -1235,14 +1235,14 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - Coding Plan",
+        name: "Lumos - Coding Plan",
         defaultKind: "anthropic",
         endpoints: {
-          baseURL: "https://lumos.z.ai/api/v1/lumos-plan/anthropic",
+          baseURL: "https://lumosai.cc/api/v1/lumos-plan/anthropic",
           paths: { anthropic: "/v1/messages" },
         },
         models: [
@@ -1303,7 +1303,7 @@ describe("model provider coding plan", () => {
         name: "BigModel - Start Plan",
         defaultKind: "anthropic",
         endpoints: {
-          baseURL: "https://lumos.z.ai/api/v1/lumos-plan/anthropic",
+          baseURL: "https://lumosai.cc/api/v1/lumos-plan/anthropic",
           paths: { anthropic: "/v1/messages" },
         },
         models: [
@@ -1449,7 +1449,7 @@ describe("model provider coding plan", () => {
         presetProviders: [
           {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            displayName: "Z.ai - API Key",
+            displayName: "Lumos - API Key",
             provider: createProvider({
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
             }),
@@ -1493,11 +1493,11 @@ describe("model provider coding plan", () => {
         type: "codingPlan",
         presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
         oauthProviderId: ZAI_PROVIDER_ID,
-        label: "Z.ai - Coding Plan",
-        providerName: "Z.ai",
+        label: "Lumos - Coding Plan",
+        providerName: "Lumos",
         provider: createProvider({
           id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-          name: "Z.ai - Coding Plan",
+          name: "Lumos - Coding Plan",
         }),
         status: "purchased",
         planLevel: "Coding Pro",
@@ -1506,7 +1506,7 @@ describe("model provider coding plan", () => {
         subscriptionRenewTime: null,
         subscriptionExpireTime: null,
         quotaLimits: [],
-        purchaseUrl: "https://z.ai/manage-apikey/subscription",
+        purchaseUrl: "https://lumosai.cc/manage-apikey/subscription",
         statusActive: true,
       }),
     ).toBe("preset:account:zai-start-plan");
@@ -1514,7 +1514,7 @@ describe("model provider coding plan", () => {
 
   it.each([
     ["preset", BUILTIN_MODEL_PROVIDER_IDS.bigmodelStartPlan, "BigModel", "BigModel"],
-    ["preset", BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan, "Z.ai", "Z.ai"],
+    ["preset", BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan, "Lumos", "Lumos"],
     ["codingPlan", BUILTIN_MODEL_PROVIDER_IDS.bigmodelStartPlan, "Start Plan", "Start Plan"],
     ["codingPlan", BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan, "Start Plan", "Start Plan"],
   ] as const)("导航 %s %s 保持品牌与 Start 名称", (type, presetId, en, zh) => {
@@ -1570,7 +1570,7 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("Team B");
   });
 
-  it("Z.ai family 导航保持品牌图标，不借用 Start 图标", () => {
+  it("Lumos family 导航保持品牌图标，不借用 Start 图标", () => {
     const html = renderWithTooltipProvider(
       createElement(ModelProviderSectionNavigation, {
         navigationGroups: [
@@ -1583,11 +1583,11 @@ describe("model provider coding plan", () => {
                 type: "preset",
                 logo: { type: "builtin", key: "zai" },
                 presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-                label: "Z.ai - API Key",
-                displayName: "Z.ai - API Key",
+                label: "Lumos - API Key",
+                displayName: "Lumos - API Key",
                 provider: createProvider({
                   id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-                  name: "Z.ai - API Key",
+                  name: "Lumos - API Key",
                   config: { logo: { type: "builtin", key: "start-plan" } },
                 }),
                 statusActive: true,
@@ -1602,7 +1602,7 @@ describe("model provider coding plan", () => {
       }),
     );
 
-    expect(html).toContain("Z.ai");
+    expect(html).toContain("Lumos");
     expect(html).toContain("<img ");
     expect(html).toContain("model-provider-zai-app.png");
     expect(html).not.toContain("model-provider-start-plan.png");
@@ -1620,11 +1620,11 @@ describe("model provider coding plan", () => {
       type: "codingPlan" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Start Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Start Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - Start Plan",
+        name: "Lumos - Start Plan",
       }),
       status: "purchased" as const,
       statusActive: true,
@@ -1634,8 +1634,8 @@ describe("model provider coding plan", () => {
       type: "codingPlan" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       }),
@@ -1649,7 +1649,7 @@ describe("model provider coding plan", () => {
       onSelectNavItem: vi.fn(),
     });
 
-    expect(html).toContain(">Z.ai<");
+    expect(html).toContain(">Lumos<");
     expect(html).toContain("settings.modelProvider.planCard.codingPlan");
     expect(html).not.toContain("settings.modelProvider.connectionMode");
     expect(html).not.toContain('role="combobox"');
@@ -1663,11 +1663,11 @@ describe("model provider coding plan", () => {
       type: "codingPlan" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Start Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Start Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - Start Plan",
+        name: "Lumos - Start Plan",
       }),
       status: "purchased" as const,
       statusActive: true,
@@ -1677,11 +1677,11 @@ describe("model provider coding plan", () => {
       type: "codingPlan" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: null,
       status: "disconnected" as const,
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     };
 
@@ -2014,7 +2014,7 @@ describe("model provider coding plan", () => {
         presetProviders: [
           {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            displayName: "Z.ai - API Key",
+            displayName: "Lumos - API Key",
             provider: createProvider({
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
             }),
@@ -2023,12 +2023,12 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            name: "Z.ai - Start Plan",
+            name: "Lumos - Start Plan",
             apiKey: "start-token",
           }),
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai - Coding Plan",
+            name: "Lumos - Coding Plan",
             apiKey: "coding-token",
           }),
         ],
@@ -2112,7 +2112,7 @@ describe("model provider coding plan", () => {
         presetProviders: [
           {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            displayName: "Z.ai - API Key",
+            displayName: "Lumos - API Key",
             provider: createProvider({
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
             }),
@@ -2121,7 +2121,7 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            name: "Z.ai - Start Plan",
+            name: "Lumos - Start Plan",
             apiKey: "start-token",
           }),
         ],
@@ -2220,7 +2220,7 @@ describe("model provider coding plan", () => {
         presetProviders: [
           {
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            displayName: "Z.ai - API Key",
+            displayName: "Lumos - API Key",
             provider: createProvider({
               id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
             }),
@@ -2229,11 +2229,11 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            name: "Z.ai - API Key",
+            name: "Lumos - API Key",
           }),
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            name: "Z.ai - Start Plan",
+            name: "Lumos - Start Plan",
             apiKey: "start-token",
           }),
         ],
@@ -2423,7 +2423,7 @@ describe("model provider coding plan", () => {
               },
               subscription: {
                 identityType: "email",
-                identityMasked: "t***@z.ai",
+                identityMasked: "t***@lumosai.cc",
                 details: [
                   {
                     productId: "team-current",
@@ -2468,11 +2468,11 @@ describe("model provider coding plan", () => {
       type: "codingPlan" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Start Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Start Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - Start Plan",
+        name: "Lumos - Start Plan",
       }),
       status: "notPurchased" as const,
       statusActive: false,
@@ -2482,13 +2482,13 @@ describe("model provider coding plan", () => {
       type: "codingPlan" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       }),
       status: "notPurchased" as const,
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     };
 
@@ -2510,14 +2510,14 @@ describe("model provider coding plan", () => {
       type: "codingPlan" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
         apiKey: "",
       }),
       status: "disconnected" as const,
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     };
 
@@ -2713,23 +2713,23 @@ describe("model provider coding plan", () => {
     }
   });
 
-  it("Z.ai Start Plan 编程套餐列表复用 Coding Plan 商品来源", () => {
+  it("Lumos Start Plan 编程套餐列表复用 Coding Plan 商品来源", () => {
     expect(
       resolveCodingPlanUpgradeProductsProviderId(BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan),
     ).toBe(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan);
   });
 
-  it("Z.ai Start Plan 未登录且无远端 preview 时不显示 Trial plan 卡片", () => {
+  it("Lumos Start Plan 未登录且无远端 preview 时不显示 Trial plan 卡片", () => {
     const html = renderDetail({
       key: "coding-plan:account:zai-start-plan",
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: null,
       status: "disconnected",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     });
 
@@ -2762,7 +2762,7 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.addModel");
   });
 
-  it("Z.ai Start 详情不显示体验套餐推广横幅", () => {
+  it("Lumos Start 详情不显示体验套餐推广横幅", () => {
     primeStartPlanPreviewCacheForTest({
       planId: "lumos-v3-start-plan",
       name: "Lumos V3 Start Plan",
@@ -2782,11 +2782,11 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: null,
       status: "disconnected",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     });
 
@@ -2799,17 +2799,17 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("CN¥598.00+");
   });
 
-  it("Z.ai Coding Plan 未连接时显示 Plan Card 且不显示 API Key 字段", () => {
+  it("Lumos Coding Plan 未连接时显示 Plan Card 且不显示 API Key 字段", () => {
     const html = renderDetail({
       key: "coding-plan:account:zai-individual-coding-plan",
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: null,
       status: "disconnected",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     });
 
@@ -2900,7 +2900,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
             }),
             loading: false,
@@ -3026,7 +3026,7 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            name: "Z.ai - API Key",
+            name: "Lumos - API Key",
           }),
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.bigmodelStartPlan,
@@ -3066,12 +3066,12 @@ describe("model provider coding plan", () => {
       key: "preset:account:zai-start-plan",
       type: "preset" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-      label: "Z.ai - API Key",
+      label: "Lumos - API Key",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - API Key",
+        name: "Lumos - API Key",
       }),
-      displayName: "Z.ai - API Key",
+      displayName: "Lumos - API Key",
       statusActive: true,
     };
     const startItem = {
@@ -3079,8 +3079,8 @@ describe("model provider coding plan", () => {
       type: "codingPlan" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: null,
       status: "disconnected" as const,
       planLevel: null,
@@ -3089,7 +3089,7 @@ describe("model provider coding plan", () => {
       subscriptionRenewTime: null,
       subscriptionExpireTime: null,
       quotaLimits: [],
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     };
 
@@ -3157,7 +3157,7 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai - Coding Plan",
+            name: "Lumos - Coding Plan",
             apiKey: "jwt-token",
           }),
         ],
@@ -3301,7 +3301,7 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.startPlan.balance.title");
   });
 
-  it("Z.ai Coding Plan 无付费权益时不复用 Start 免费态", () => {
+  it("Lumos Coding Plan 无付费权益时不复用 Start 免费态", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -3311,7 +3311,7 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai - Coding Plan",
+            name: "Lumos - Coding Plan",
             apiKey: "jwt-token",
           }),
         ],
@@ -3321,7 +3321,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               remaining: null,
               subscription: null,
@@ -3360,7 +3360,7 @@ describe("model provider coding plan", () => {
     expect(zaiStartPlan).toMatchObject({ type: "codingPlan", label: "Start Plan" });
   });
 
-  it("Z.ai 已登录且只有 Start 有权益时显示 Start 和个人 Coding Plan", () => {
+  it("Lumos 已登录且只有 Start 有权益时显示 Start 和个人 Coding Plan", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -3370,12 +3370,12 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai - Coding Plan",
+            name: "Lumos - Coding Plan",
             apiKey: "zai-coding-plan-key",
           }),
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            name: "Z.ai - Coding Plan",
+            name: "Lumos - Coding Plan",
             apiKey: "lumos-jwt",
           }),
         ],
@@ -3388,7 +3388,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               remaining: null,
               subscription: null,
@@ -3402,7 +3402,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               subscription: {
                 identityType: "unknown",
@@ -3457,7 +3457,7 @@ describe("model provider coding plan", () => {
     });
   });
 
-  it("Z.ai 未登录且缺少 Coding Key 时仍显示独立 Start", () => {
+  it("Lumos 未登录且缺少 Coding Key 时仍显示独立 Start", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -3467,7 +3467,7 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-            name: "Z.ai - Coding Plan",
+            name: "Lumos - Coding Plan",
             apiKey: "",
           }),
         ],
@@ -3476,7 +3476,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               remaining: null,
               subscription: null,
@@ -3515,7 +3515,7 @@ describe("model provider coding plan", () => {
     expect(zaiStartPlan).toMatchObject({ type: "codingPlan", label: "Start Plan" });
   });
 
-  it("Z.ai Start 登录后入口互斥时回落到可见的 Z.ai plan", () => {
+  it("Lumos Start 登录后入口互斥时回落到可见的 Lumos plan", () => {
     const fallbackNodeKey = resolveFallbackModelProviderNodeKey({
       selectedNodeKey: "coding-plan:account:zai-start-plan",
       selectableNavigationItems: [
@@ -3523,11 +3523,11 @@ describe("model provider coding plan", () => {
           key: "preset:account:zai-start-plan",
           type: "preset",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-          label: "Z.ai - API Key",
+          label: "Lumos - API Key",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           }),
-          displayName: "Z.ai - API Key",
+          displayName: "Lumos - API Key",
           statusActive: true,
         },
         {
@@ -3535,8 +3535,8 @@ describe("model provider coding plan", () => {
           type: "codingPlan",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
           oauthProviderId: ZAI_PROVIDER_ID,
-          label: "Z.ai - Coding Plan",
-          providerName: "Z.ai",
+          label: "Lumos - Coding Plan",
+          providerName: "Lumos",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
             apiKey: "zai-coding-plan-key",
@@ -3548,7 +3548,7 @@ describe("model provider coding plan", () => {
           subscriptionRenewTime: null,
           subscriptionExpireTime: null,
           quotaLimits: [],
-          purchaseUrl: "https://z.ai/manage-apikey/subscription",
+          purchaseUrl: "https://lumosai.cc/manage-apikey/subscription",
           statusActive: true,
         },
       ],
@@ -3599,7 +3599,7 @@ describe("model provider coding plan", () => {
     expect(fallbackNodeKey).toBe("preset:account:bigmodel-start-plan");
   });
 
-  it("首次进入 Model Providers 默认选中可见的 Z.ai Coding Plan", () => {
+  it("首次进入 Model Providers 默认选中可见的 Lumos Coding Plan", () => {
     const fallbackNodeKey = resolveFallbackModelProviderNodeKey({
       selectedNodeKey: null,
       selectableNavigationItems: [
@@ -3607,11 +3607,11 @@ describe("model provider coding plan", () => {
           key: "preset:account:zai-start-plan",
           type: "preset",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-          label: "Z.ai - API Key",
+          label: "Lumos - API Key",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           }),
-          displayName: "Z.ai - API Key",
+          displayName: "Lumos - API Key",
           statusActive: true,
         },
         {
@@ -3619,8 +3619,8 @@ describe("model provider coding plan", () => {
           type: "codingPlan",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
           oauthProviderId: ZAI_PROVIDER_ID,
-          label: "Z.ai - Coding Plan",
-          providerName: "Z.ai",
+          label: "Lumos - Coding Plan",
+          providerName: "Lumos",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
             apiKey: "zai-coding-plan-key",
@@ -3632,7 +3632,7 @@ describe("model provider coding plan", () => {
           subscriptionRenewTime: null,
           subscriptionExpireTime: null,
           quotaLimits: [],
-          purchaseUrl: "https://z.ai/manage-apikey/subscription",
+          purchaseUrl: "https://lumosai.cc/manage-apikey/subscription",
           statusActive: true,
         },
       ],
@@ -3649,11 +3649,11 @@ describe("model provider coding plan", () => {
           key: "preset:account:zai-start-plan",
           type: "preset",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-          label: "Z.ai - API Key",
+          label: "Lumos - API Key",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           }),
-          displayName: "Z.ai - API Key",
+          displayName: "Lumos - API Key",
           statusActive: true,
         },
         {
@@ -3661,8 +3661,8 @@ describe("model provider coding plan", () => {
           type: "codingPlan",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
           oauthProviderId: ZAI_PROVIDER_ID,
-          label: "Z.ai - Coding Plan",
-          providerName: "Z.ai",
+          label: "Lumos - Coding Plan",
+          providerName: "Lumos",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
             apiKey: "zai-coding-plan-key",
@@ -3674,7 +3674,7 @@ describe("model provider coding plan", () => {
           subscriptionRenewTime: null,
           subscriptionExpireTime: null,
           quotaLimits: [],
-          purchaseUrl: "https://z.ai/manage-apikey/subscription",
+          purchaseUrl: "https://lumosai.cc/manage-apikey/subscription",
           statusActive: true,
         },
         {
@@ -3682,8 +3682,8 @@ describe("model provider coding plan", () => {
           type: "codingPlan",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           oauthProviderId: ZAI_PROVIDER_ID,
-          label: "Z.ai - 体验套餐",
-          providerName: "Z.ai",
+          label: "Lumos - 体验套餐",
+          providerName: "Lumos",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
             apiKey: "lumos-jwt",
@@ -3695,7 +3695,7 @@ describe("model provider coding plan", () => {
           subscriptionRenewTime: null,
           subscriptionExpireTime: null,
           quotaLimits: [],
-          purchaseUrl: "https://z.ai/manage-apikey/subscription",
+          purchaseUrl: "https://lumosai.cc/manage-apikey/subscription",
           statusActive: true,
         },
       ],
@@ -3786,11 +3786,11 @@ describe("model provider coding plan", () => {
           key: "preset:account:zai-start-plan",
           type: "preset",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-          label: "Z.ai - API Key",
+          label: "Lumos - API Key",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           }),
-          displayName: "Z.ai - API Key",
+          displayName: "Lumos - API Key",
           statusActive: true,
         },
         {
@@ -3798,8 +3798,8 @@ describe("model provider coding plan", () => {
           type: "codingPlan",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           oauthProviderId: ZAI_PROVIDER_ID,
-          label: "Z.ai - 体验套餐",
-          providerName: "Z.ai",
+          label: "Lumos - 体验套餐",
+          providerName: "Lumos",
           provider: null,
           status: "disconnected",
           planLevel: null,
@@ -3808,7 +3808,7 @@ describe("model provider coding plan", () => {
           subscriptionRenewTime: null,
           subscriptionExpireTime: null,
           quotaLimits: [],
-          purchaseUrl: "https://z.ai/manage-apikey/subscription",
+          purchaseUrl: "https://lumosai.cc/manage-apikey/subscription",
           statusActive: false,
         },
         {
@@ -3816,8 +3816,8 @@ describe("model provider coding plan", () => {
           type: "codingPlan",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
           oauthProviderId: ZAI_PROVIDER_ID,
-          label: "Z.ai - Coding Plan",
-          providerName: "Z.ai",
+          label: "Lumos - Coding Plan",
+          providerName: "Lumos",
           provider: null,
           status: "disconnected",
           planLevel: null,
@@ -3826,7 +3826,7 @@ describe("model provider coding plan", () => {
           subscriptionRenewTime: null,
           subscriptionExpireTime: null,
           quotaLimits: [],
-          purchaseUrl: "https://z.ai/manage-apikey/subscription",
+          purchaseUrl: "https://lumosai.cc/manage-apikey/subscription",
           statusActive: false,
         },
       ],
@@ -3835,7 +3835,7 @@ describe("model provider coding plan", () => {
     expect(fallbackNodeKey).toBe("preset:account:zai-start-plan");
   });
 
-  it("Z.ai Coding Plan 不可见时首次进入默认选中 Z.ai Start Plan", () => {
+  it("Lumos Coding Plan 不可见时首次进入默认选中 Lumos Start Plan", () => {
     const fallbackNodeKey = resolveFallbackModelProviderNodeKey({
       selectedNodeKey: null,
       selectableNavigationItems: [
@@ -3843,11 +3843,11 @@ describe("model provider coding plan", () => {
           key: "preset:account:zai-start-plan",
           type: "preset",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-          label: "Z.ai - API Key",
+          label: "Lumos - API Key",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           }),
-          displayName: "Z.ai - API Key",
+          displayName: "Lumos - API Key",
           statusActive: true,
         },
         {
@@ -3855,8 +3855,8 @@ describe("model provider coding plan", () => {
           type: "codingPlan",
           presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           oauthProviderId: ZAI_PROVIDER_ID,
-          label: "Z.ai - 体验计划",
-          providerName: "Z.ai",
+          label: "Lumos - 体验计划",
+          providerName: "Lumos",
           provider: createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
             apiKey: "lumos-jwt",
@@ -3868,7 +3868,7 @@ describe("model provider coding plan", () => {
           subscriptionRenewTime: null,
           subscriptionExpireTime: null,
           quotaLimits: [],
-          purchaseUrl: "https://z.ai/manage-apikey/subscription",
+          purchaseUrl: "https://lumosai.cc/manage-apikey/subscription",
           statusActive: true,
         },
       ],
@@ -3877,7 +3877,7 @@ describe("model provider coding plan", () => {
     expect(fallbackNodeKey).toBe("preset:account:zai-start-plan");
   });
 
-  it("Z.ai Coding Plan 权益查询不可用时不误判为未开通或查询中", () => {
+  it("Lumos Coding Plan 权益查询不可用时不误判为未开通或查询中", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -3891,7 +3891,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               unavailableReason: "not_configured",
               remaining: null,
@@ -3930,7 +3930,7 @@ describe("model provider coding plan", () => {
     expect(zaiStartPlan).toMatchObject({ type: "codingPlan", label: "Start Plan" });
   });
 
-  it("Z.ai Coding Plan 缺少 apiKey 时旧失败快照刷新仍显示未连接", () => {
+  it("Lumos Coding Plan 缺少 apiKey 时旧失败快照刷新仍显示未连接", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -3943,7 +3943,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               unavailableReason: "not_configured",
               remaining: null,
@@ -3995,7 +3995,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               unavailableReason: "no_plan",
               remaining: null,
@@ -4153,7 +4153,7 @@ describe("model provider coding plan", () => {
     });
   });
 
-  it("Z.ai Coding Plan 有 apiKey 但服务端无付费套餐时仍显示付费入口", () => {
+  it("Lumos Coding Plan 有 apiKey 但服务端无付费套餐时仍显示付费入口", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -4167,7 +4167,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               unavailableReason: "no_plan",
               remaining: null,
@@ -4206,7 +4206,7 @@ describe("model provider coding plan", () => {
     expect(zaiStartPlan).toMatchObject({ type: "codingPlan", label: "Start Plan" });
   });
 
-  it("Z.ai Coding Plan 有订阅详情时优先显示已购买", () => {
+  it("Lumos Coding Plan 有订阅详情时优先显示已购买", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -4220,7 +4220,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               unavailableReason: "no_plan",
               remaining: null,
@@ -4276,7 +4276,7 @@ describe("model provider coding plan", () => {
     expect(zaiStartPlan).toMatchObject({ type: "codingPlan", label: "Start Plan" });
   });
 
-  it("Z.ai Start Plan 加载权益接口时连接方式仍显示 Start 入口", () => {
+  it("Lumos Start Plan 加载权益接口时连接方式仍显示 Start 入口", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -4286,7 +4286,7 @@ describe("model provider coding plan", () => {
         modelProviders: [
           createProvider({
             id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-            name: "Z.ai - Coding Plan",
+            name: "Lumos - Coding Plan",
             apiKey: "lumos-jwt",
           }),
         ],
@@ -4296,7 +4296,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               subscription: {
                 identityType: "unknown",
@@ -4343,7 +4343,7 @@ describe("model provider coding plan", () => {
     expect(loadingItem).toBeUndefined();
   });
 
-  it("Z.ai Coding Plan token 失效时显示同步失败", () => {
+  it("Lumos Coding Plan token 失效时显示同步失败", () => {
     let capturedNavigationItems: ReturnType<typeof useModelProviderNavigation>["navigationItems"] =
       [];
 
@@ -4357,7 +4357,7 @@ describe("model provider coding plan", () => {
             snapshot: createEntitlementSnapshot({
               provider: {
                 id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-                name: "Z.ai - Coding Plan",
+                name: "Lumos - Coding Plan",
               },
               unavailableReason: "unavailable",
               remaining: null,
@@ -4391,16 +4391,16 @@ describe("model provider coding plan", () => {
     });
   });
 
-  it("Z.ai Coding Plan 未连接时在 Plan Card 右侧显示 Connect 入口", () => {
+  it("Lumos Coding Plan 未连接时在 Plan Card 右侧显示 Connect 入口", () => {
     const apiKeyItem = {
       key: "preset:account:zai-start-plan",
       type: "preset" as const,
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-      label: "Z.ai - API Key",
-      displayName: "Z.ai - API Key",
+      label: "Lumos - API Key",
+      displayName: "Lumos - API Key",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - API Key",
+        name: "Lumos - API Key",
       }),
       statusActive: true,
     };
@@ -4409,11 +4409,11 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({ apiKey: "", models: [] }),
       status: "disconnected",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     } as const;
     const html = renderDetail(oauthItem, {
@@ -4435,18 +4435,18 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.apiKeyPlaceholder");
   });
 
-  it("Z.ai Coding Plan 连接等待时状态卡片显示 loading", () => {
+  it("Lumos Coding Plan 连接等待时状态卡片显示 loading", () => {
     const html = renderDetail(
       {
         key: "coding-plan:account:zai-individual-coding-plan",
         type: "codingPlan",
         presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
         oauthProviderId: ZAI_PROVIDER_ID,
-        label: "Z.ai - Coding Plan",
-        providerName: "Z.ai",
+        label: "Lumos - Coding Plan",
+        providerName: "Lumos",
         provider: createProvider({ apiKey: "", models: [] }),
         status: "disconnected",
-        purchaseUrl: "https://z.ai/",
+        purchaseUrl: "https://lumosai.cc/",
         statusActive: false,
       },
       {
@@ -4459,22 +4459,22 @@ describe("model provider coding plan", () => {
     expect(html).toContain("settings.modelProvider.codingPlan.connect");
   });
 
-  it("Z.ai Start Plan 连接等待时不提前显示今日余额", () => {
+  it("Lumos Start Plan 连接等待时不提前显示今日余额", () => {
     const html = renderDetail(
       {
         key: "coding-plan:account:zai-start-plan",
         type: "codingPlan",
         presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
         oauthProviderId: ZAI_PROVIDER_ID,
-        label: "Z.ai - Coding Plan",
-        providerName: "Z.ai",
+        label: "Lumos - Coding Plan",
+        providerName: "Lumos",
         provider: createProvider({
           id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
           apiKey: "",
           models: [],
         }),
         status: "disconnected",
-        purchaseUrl: "https://z.ai/",
+        purchaseUrl: "https://lumosai.cc/",
         statusActive: false,
       },
       {
@@ -4489,18 +4489,18 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.startPlan.balance.title");
   });
 
-  it("Z.ai Coding Plan 权益查询中时状态卡片不空白", () => {
+  it("Lumos Coding Plan 权益查询中时状态卡片不空白", () => {
     const html = renderDetail({
       key: "coding-plan:account:zai-individual-coding-plan",
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({ apiKey: "zai-coding-plan-key" }),
       status: "checking",
       planLevel: null,
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     });
 
@@ -4510,17 +4510,17 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.codingPlan.upgrade");
   });
 
-  it("Z.ai Coding Plan 有 apiKey 但无静态商品时隐藏个人套餐横幅", () => {
+  it("Lumos Coding Plan 有 apiKey 但无静态商品时隐藏个人套餐横幅", () => {
     const html = renderDetail({
       key: "coding-plan:account:zai-individual-coding-plan",
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({ apiKey: "zai-coding-plan-key" }),
       status: "notPurchased",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     });
 
@@ -4539,7 +4539,7 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.apiKey");
   });
 
-  it("Z.ai Coding Plan 入口价格跟随 Z.ai 商品币种", () => {
+  it("Lumos Coding Plan 入口价格跟随 Lumos 商品币种", () => {
     expect(
       resolvePurchaseChoiceBannerPrice({
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
@@ -4604,7 +4604,7 @@ describe("model provider coding plan", () => {
     ).toBeNull();
   });
 
-  it("Z.ai Start Plan 入口价格读取付费 Coding Plan 商品源", () => {
+  it("Lumos Start Plan 入口价格读取付费 Coding Plan 商品源", () => {
     expect(
       resolvePurchaseChoiceBannerProductsProviderId(BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan),
     ).toBe(BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan);
@@ -4673,7 +4673,7 @@ describe("model provider coding plan", () => {
     ]);
   });
 
-  it("Z.ai Coding Plan 已购买时显示 Plan Card、用量卡和解绑入口", () => {
+  it("Lumos Coding Plan 已购买时显示 Plan Card、用量卡和解绑入口", () => {
     // Bugfix：用例运行日在 8 月 10 日时，产品会把额度重置时间识别为“今天”并省略日期。
     // 只在同步渲染期间固定到同年的 1 月 15 日，稳定验证“日期 + 时间”展示，并保证断言失败时恢复时钟。
     const currentYear = 2026;
@@ -4686,15 +4686,15 @@ describe("model provider coding plan", () => {
         type: "codingPlan",
         presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
         oauthProviderId: ZAI_PROVIDER_ID,
-        label: "Z.ai - Coding Plan",
-        providerName: "Z.ai",
+        label: "Lumos - Coding Plan",
+        providerName: "Lumos",
         provider: createProvider(),
         status: "purchased",
         planLevel: "pro",
         subscriptionBillingCycle: "monthly",
         subscriptionRenewTime: `${currentYear}-07-10T00:00:00.000Z`,
         subscriptionExpireTime: "2026-12-31T00:00:00.000Z",
-        purchaseUrl: "https://z.ai/",
+        purchaseUrl: "https://lumosai.cc/",
         quotaLimits: [
           {
             type: "TOKENS_LIMIT",
@@ -4796,19 +4796,19 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.apiKey");
   });
 
-  it("Z.ai Coding Plan 已购买时升级入口不替换下方模型配置", () => {
+  it("Lumos Coding Plan 已购买时升级入口不替换下方模型配置", () => {
     const html = renderDetail({
       key: "coding-plan:account:zai-individual-coding-plan",
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider(),
       status: "purchased",
       planLevel: "PRO",
       currentProductId: "zai-coding-pro-monthly",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: true,
     });
 
@@ -4817,19 +4817,19 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.codingPlan.description.notPurchased");
   });
 
-  it("Z.ai Coding Plan 已购买时允许在官方模型列表添加模型", () => {
+  it("Lumos Coding Plan 已购买时允许在官方模型列表添加模型", () => {
     const html = renderDetail({
       key: "coding-plan:account:zai-individual-coding-plan",
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider(),
       status: "purchased",
       planLevel: "PRO",
       currentProductId: "zai-coding-pro-monthly",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: true,
     });
 
@@ -4837,18 +4837,18 @@ describe("model provider coding plan", () => {
     expect(html).toContain("settings.modelProvider.addModel");
   });
 
-  it("Z.ai Coding Plan 已购买时套餐标题保留模型名大小写", () => {
+  it("Lumos Coding Plan 已购买时套餐标题保留模型名大小写", () => {
     const html = renderDetail({
       key: "coding-plan:account:zai-individual-coding-plan",
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider(),
       status: "purchased",
       planLevel: "GLM CODING LITE",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       quotaLimits: [],
       statusActive: true,
     });
@@ -4863,8 +4863,8 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider(),
       status: "purchased",
       planLevel: "pro",
@@ -5347,8 +5347,8 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider(),
       status: "purchased",
       planLevel: "pro",
@@ -5416,20 +5416,20 @@ describe("model provider coding plan", () => {
     expect(html).toContain("background-color:var(--color-usage-chart-1)");
   });
 
-  it("Z.ai Coding Plan Upgrade 等待 OAuth 时显示 loading", () => {
+  it("Lumos Coding Plan Upgrade 等待 OAuth 时显示 loading", () => {
     const html = renderDetail(
       {
         key: "coding-plan:account:zai-individual-coding-plan",
         type: "codingPlan",
         presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
         oauthProviderId: ZAI_PROVIDER_ID,
-        label: "Z.ai - Coding Plan",
-        providerName: "Z.ai",
+        label: "Lumos - Coding Plan",
+        providerName: "Lumos",
         provider: createProvider(),
         status: "purchased",
         planLevel: "Start",
         currentProductId: "zai-start-free-monthly",
-        purchaseUrl: "https://z.ai/",
+        purchaseUrl: "https://lumosai.cc/",
         statusActive: true,
       },
       {
@@ -5447,8 +5447,8 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider(),
       status: "purchased",
       planLevel: null,
@@ -5468,15 +5468,15 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         enabled: false,
         systemDisabledReason: "coding_plan_auth_failed",
       }),
       status: "purchased",
       planLevel: "pro",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     });
 
@@ -5493,17 +5493,17 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - Coding Plan",
+        name: "Lumos - Coding Plan",
         apiKey: "",
         enabled: false,
         systemDisabledReason: undefined,
       }),
       status: "disconnected",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     });
 
@@ -5516,17 +5516,17 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - Coding Plan",
+        name: "Lumos - Coding Plan",
         apiKey: "",
         enabled: false,
         systemDisabledReason: "coding_plan_not_authenticated",
       }),
       status: "disconnected",
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: false,
     });
 
@@ -5534,7 +5534,7 @@ describe("model provider coding plan", () => {
     expect(html).not.toContain("settings.modelProvider.disableAction");
   });
 
-  it("Z.ai Start Plan 状态卡片隐藏续期时间且不展示管理和解绑入口", () => {
+  it("Lumos Start Plan 状态卡片隐藏续期时间且不展示管理和解绑入口", () => {
     vi.useFakeTimers();
     try {
       vi.setSystemTime(new Date(2026, 6, 10, 12, 0));
@@ -5543,17 +5543,17 @@ describe("model provider coding plan", () => {
         type: "codingPlan",
         presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
         oauthProviderId: ZAI_PROVIDER_ID,
-        label: "Z.ai - Coding Plan",
-        providerName: "Z.ai",
+        label: "Lumos - Coding Plan",
+        providerName: "Lumos",
         provider: createProvider({
           id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-          name: "Z.ai - Coding Plan",
+          name: "Lumos - Coding Plan",
         }),
         status: "purchased",
         planLevel: "Start",
         subscriptionRenewTime: new Date(2026, 6, 10, 0, 23).toISOString(),
         subscriptionExpireTime: new Date(2026, 6, 10, 23, 59).toISOString(),
-        purchaseUrl: "https://z.ai/",
+        purchaseUrl: "https://lumosai.cc/",
         statusActive: true,
       });
 
@@ -5585,7 +5585,7 @@ describe("model provider coding plan", () => {
     }
   });
 
-  it("Z.ai Start Plan 状态卡片只显示过期日期", () => {
+  it("Lumos Start Plan 状态卡片只显示过期日期", () => {
     vi.useFakeTimers();
     try {
       vi.setSystemTime(new Date(2026, 5, 3, 12, 0));
@@ -5594,17 +5594,17 @@ describe("model provider coding plan", () => {
         type: "codingPlan",
         presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
         oauthProviderId: ZAI_PROVIDER_ID,
-        label: "Z.ai - Coding Plan",
-        providerName: "Z.ai",
+        label: "Lumos - Coding Plan",
+        providerName: "Lumos",
         provider: createProvider({
           id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-          name: "Z.ai - Coding Plan",
+          name: "Lumos - Coding Plan",
         }),
         status: "purchased",
         planLevel: "Start",
         subscriptionRenewTime: new Date(2026, 5, 8, 0, 23).toISOString(),
         subscriptionExpireTime: new Date(2026, 5, 8, 23, 59).toISOString(),
-        purchaseUrl: "https://z.ai/",
+        purchaseUrl: "https://lumosai.cc/",
         statusActive: true,
       });
 
@@ -5619,17 +5619,17 @@ describe("model provider coding plan", () => {
     }
   });
 
-  it("Z.ai Start Plan 显示余额卡片", () => {
+  it("Lumos Start Plan 显示余额卡片", () => {
     const html = renderDetail({
       key: "coding-plan:account:zai-start-plan",
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - Coding Plan",
+        name: "Lumos - Coding Plan",
       }),
       status: "purchased",
       planLevel: "Start",
@@ -5688,7 +5688,7 @@ describe("model provider coding plan", () => {
           ],
         },
       ],
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: true,
     });
 
@@ -5720,7 +5720,7 @@ describe("model provider coding plan", () => {
     const html = renderToStaticMarkup(
       createElement(CodingPlanStatusPanel, {
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        providerName: "Z.ai",
+        providerName: "Lumos",
         status: "purchased",
         planLevel: "Welcome Plan",
         subscriptionDetails: [
@@ -5887,11 +5887,11 @@ describe("model provider coding plan", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        name: "Z.ai - Coding Plan",
+        name: "Lumos - Coding Plan",
       }),
       status: "purchased",
       planLevel: "Start",
@@ -5917,7 +5917,7 @@ describe("model provider coding plan", () => {
           usageDetails: [{ modelCode: "glm-5.2", displayName: "GLM-5.2", usage: 0 }],
         },
       ],
-      purchaseUrl: "https://z.ai/",
+      purchaseUrl: "https://lumosai.cc/",
       statusActive: true,
     });
 
@@ -6003,7 +6003,7 @@ describe("model provider coding plan", () => {
     const settledHtml = renderToStaticMarkup(
       createElement(CodingPlanStatusPanel, {
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        providerName: "Z.ai",
+        providerName: "Lumos",
         status: "purchased",
         subscriptionDetails: [],
         quotaLimits,
@@ -6018,7 +6018,7 @@ describe("model provider coding plan", () => {
     const checkingHtml = renderToStaticMarkup(
       createElement(CodingPlanStatusPanel, {
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        providerName: "Z.ai",
+        providerName: "Lumos",
         status: "purchased",
         viewState: {
           displayStatus: "purchased",
@@ -6619,7 +6619,7 @@ describe("model provider coding plan", () => {
     const personalHtml = renderToStaticMarkup(
       createElement(CodingPlanStatusPanel, {
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-        providerName: "Z.ai",
+        providerName: "Lumos",
         status: "purchased",
         planLevel: "Pro",
         quotaLimits: [
@@ -6746,11 +6746,11 @@ describe("model provider coding plan", () => {
     expect(html).toContain("text-warning");
   });
 
-  it("Z.ai Start Plan 展开升级套餐时保留余额卡片", () => {
+  it("Lumos Start Plan 展开升级套餐时保留余额卡片", () => {
     const html = renderToStaticMarkup(
       createElement(CodingPlanStatusPanel, {
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-        providerName: "Z.ai",
+        providerName: "Lumos",
         status: "purchased",
         planLevel: "Start",
         subscriptionExpireTime: new Date(2026, 5, 8, 23, 59).toISOString(),
@@ -6783,11 +6783,11 @@ describe("model provider coding plan", () => {
     expect(html).toContain("settings.modelProvider.startPlan.balance.title");
   });
 
-  it("Z.ai Coding Plan 展开升级套餐时保留剩余额度卡片", () => {
+  it("Lumos Coding Plan 展开升级套餐时保留剩余额度卡片", () => {
     const html = renderToStaticMarkup(
       createElement(CodingPlanStatusPanel, {
         providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-        providerName: "Z.ai",
+        providerName: "Lumos",
         status: "purchased",
         planLevel: "Pro",
         quotaLimits: [

@@ -35,7 +35,7 @@ describe("OAuth 凭据损坏恢复", () => {
     await ensureOAuthLoginPanelOpen();
     await waitForTestIdByDom(testId(TID_OAUTH_LOGIN_BUTTON, ZAI_PROVIDER_ID), {
       timeout: 20000,
-      timeoutMsg: "损坏 OAuth 凭据恢复后没有展示 Z.ai 登录入口",
+      timeoutMsg: "损坏 OAuth 凭据恢复后没有展示 Lumos 登录入口",
     });
     await waitForTestIdByDom(TID_OAUTH_LOGIN_BUTTON, {
       timeout: 20000,

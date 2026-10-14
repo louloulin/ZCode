@@ -35,9 +35,9 @@ class MemoryStorage implements Storage {
 
 function createProductionWebZaiOAuthConfig() {
   return createWebZaiOAuthConfig({
-    VITE_LUMOS_BASE_URL: "https://lumos.z.ai",
+    VITE_LUMOS_BASE_URL: "https://lumosai.cc",
     VITE_ZAI_OAUTH_CLIENT_ID: "client_P8X5CMWmlaRO9gyO-KSqtg",
-    VITE_ZAI_OAUTH_ORIGIN: "https://chat.z.ai",
+    VITE_ZAI_OAUTH_ORIGIN: "https://chat.lumosai.cc",
   });
 }
 
@@ -80,9 +80,9 @@ describe("WebAuthService", () => {
 
   it("uses VITE_ZAI_OAUTH_ORIGIN and VITE_ZAI_OAUTH_CLIENT_ID to build test environment authorize URL", async () => {
     const testConfig = createWebZaiOAuthConfig({
-      VITE_LUMOS_BASE_URL: "https://lumos.z.ai",
+      VITE_LUMOS_BASE_URL: "https://lumosai.cc",
       VITE_ZAI_OAUTH_CLIENT_ID: "client_P8X5CMWmlaRO9gyO-KSqtg",
-      VITE_ZAI_OAUTH_ORIGIN: "https://chat.z.ai/",
+      VITE_ZAI_OAUTH_ORIGIN: "https://chat.lumosai.cc/",
     });
     const localStorage = new MemoryStorage();
     const sessionStorage = new MemoryStorage();
@@ -94,8 +94,8 @@ describe("WebAuthService", () => {
       runtime: {
         assign: (url) => assigned.push(url),
         createNonce: () => "nonce-1",
-        getCurrentHref: () => "https://lumos.z.ai/web-remote",
-        getCurrentOrigin: () => "https://lumos.z.ai",
+        getCurrentHref: () => "https://lumosai.cc/web-remote",
+        getCurrentOrigin: () => "https://lumosai.cc",
         replace: () => undefined,
       },
     });
@@ -104,10 +104,10 @@ describe("WebAuthService", () => {
 
     const authorizeUrl = new URL(assigned[0]!);
     expect(authorizeUrl.origin + authorizeUrl.pathname).toBe(
-      "https://chat.z.ai/api/oauth/authorize",
+      "https://chat.lumosai.cc/api/oauth/authorize",
     );
     expect(authorizeUrl.searchParams.get("redirect_uri")).toBe(
-      "https://lumos.z.ai/web-remote/callback",
+      "https://lumosai.cc/web-remote/callback",
     );
     expect(authorizeUrl.searchParams.get("client_id")).toBe("client_P8X5CMWmlaRO9gyO-KSqtg");
   });
@@ -123,10 +123,10 @@ describe("WebAuthService", () => {
     const state = parseOAuthState(authorizeUrl.searchParams.get("state")!);
     expect(sessionStorage.getItem("oauth_pending_nonce")).toBe("nonce-1");
     expect(authorizeUrl.origin + authorizeUrl.pathname).toBe(
-      "https://chat.z.ai/api/oauth/authorize",
+      "https://chat.lumosai.cc/api/oauth/authorize",
     );
     expect(authorizeUrl.searchParams.get("redirect_uri")).toBe(
-      "https://lumos.z.ai/web-remote/callback",
+      "https://lumosai.cc/web-remote/callback",
     );
     expect(state).toEqual({
       nonce: "nonce-1",
@@ -138,33 +138,33 @@ describe("WebAuthService", () => {
 
   it("uses the independent share callback when starting share login", () => {
     const { assigned, service } = createService({
-      currentHref: "https://lumos.z.ai/cn/share/share-1",
+      currentHref: "https://lumosai.cc/cn/share/share-1",
     });
     service.startLogin({
-      appReturnTo: "https://lumos.z.ai/cn/share/share-1",
-      redirectUri: "https://lumos.z.ai/cn/share/callback",
+      appReturnTo: "https://lumosai.cc/cn/share/share-1",
+      redirectUri: "https://lumosai.cc/cn/share/callback",
     });
     expect(new URL(assigned[0]!).searchParams.get("redirect_uri")).toBe(
-      "https://lumos.z.ai/cn/share/callback",
+      "https://lumosai.cc/cn/share/callback",
     );
   });
 
   it("preserves the canonical share page as the whole-Web OAuth return target", () => {
     const { assigned, service } = createService({
-      currentHref: "https://lumos.z.ai/cn/share/share-1",
+      currentHref: "https://lumosai.cc/cn/share/share-1",
     });
-    service.startLogin({ appReturnTo: "https://lumos.z.ai/cn/share/share-1" });
+    service.startLogin({ appReturnTo: "https://lumosai.cc/cn/share/share-1" });
     const authorizeUrl = new URL(assigned[0]!);
     expect(parseOAuthState(authorizeUrl.searchParams.get("state")!)).toMatchObject({
-      app_return_to: "https://lumos.z.ai/cn/share/share-1",
+      app_return_to: "https://lumosai.cc/cn/share/share-1",
     });
   });
 
   it("forwards trusted cross-origin dev callbacks before nonce validation or token exchange", async () => {
     const { replaced, service } = createService({
       allowDevReturnToRedirect: true,
-      currentOrigin: "https://lumos.z.ai",
-      currentHref: "https://lumos.z.ai/web-remote/callback",
+      currentOrigin: "https://lumosai.cc",
+      currentHref: "https://lumosai.cc/web-remote/callback",
     });
     const state = buildOAuthState({
       nonce: "nonce-1",
@@ -175,7 +175,7 @@ describe("WebAuthService", () => {
     vi.stubGlobal("fetch", fetchMock);
 
     const result = await service.handleCallback(
-      `https://lumos.z.ai/web-remote/callback?code=code-1&state=${state}`,
+      `https://lumosai.cc/web-remote/callback?code=code-1&state=${state}`,
     );
 
     expect(result).toBeNull();
@@ -264,8 +264,8 @@ describe("WebAuthService", () => {
  * BigModel 登录。
  *
  * 起因：private 分享的 owner 判定用的是 provider 自己的 user id（BigModel 是
- * CustomerNumber 数字串，Z.ai 是 sub UUID），所以桌面端用 BigModel 发布的私享分享，
- * 在只能 z.ai 登录的分享页上永远匹配不到 owner，服务端按存在性隐匿返回 404/3211。
+ * CustomerNumber 数字串，Lumos 是 sub UUID），所以桌面端用 BigModel 发布的私享分享，
+ * 在只能 lumosai.cc 登录的分享页上永远匹配不到 owner，服务端按存在性隐匿返回 404/3211。
  */
 describe("WebAuthService BigModel provider", () => {
   afterEach(() => {
@@ -277,12 +277,12 @@ describe("WebAuthService BigModel provider", () => {
 
     service.startLogin({
       provider: "bigmodel",
-      redirectUri: "https://lumos.z.ai/cn/share/callback",
+      redirectUri: "https://lumosai.cc/cn/share/callback",
     });
 
     const url = new URL(assigned[0]!);
     expect(url.pathname).toBe("/login");
-    expect(url.searchParams.get("redirect")).toBe("https://lumos.z.ai/cn/share/callback");
+    expect(url.searchParams.get("redirect")).toBe("https://lumosai.cc/cn/share/callback");
     expect(url.searchParams.get("appId")).toBe("lumos");
     // ZAI 专用参数不能出现，否则 BigModel 侧会忽略 redirect 直接回默认地址
     expect(url.searchParams.get("redirect_uri")).toBeNull();
@@ -311,7 +311,7 @@ describe("WebAuthService BigModel provider", () => {
     vi.stubGlobal("fetch", fetchMock);
 
     const result = await service.handleCallback(
-      `https://lumos.z.ai/cn/share/callback?code=code-1&state=${state}`,
+      `https://lumosai.cc/cn/share/callback?code=code-1&state=${state}`,
     );
 
     expect(JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body)).provider).toBe("bigmodel");
@@ -340,7 +340,7 @@ describe("WebAuthService BigModel provider", () => {
     }));
     vi.stubGlobal("fetch", fetchMock);
 
-    await service.handleCallback(`https://lumos.z.ai/cn/share/callback?code=code-1&state=${state}`);
+    await service.handleCallback(`https://lumosai.cc/cn/share/callback?code=code-1&state=${state}`);
 
     expect(JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body)).provider).toBe("zai");
     expect(localStorage.getItem("oauth:active_provider")).toBe("zai");
@@ -363,7 +363,7 @@ describe("WebAuthService BigModel provider", () => {
     );
 
     await expect(
-      service.handleCallback(`https://lumos.z.ai/cn/share/callback?code=code-1&state=${state}`),
+      service.handleCallback(`https://lumosai.cc/cn/share/callback?code=code-1&state=${state}`),
     ).rejects.toThrow(/data\.bigmodel\.access_token/);
 
     expect(localStorage.getItem("lumosjwttoken")).toBeNull();

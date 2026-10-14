@@ -58,7 +58,7 @@ function fixture(provider: OAuthProviderId = "zai", responseStatus = 401) {
   });
   const url =
     provider === "zai"
-      ? "https://api.z.ai/api/biz/customer/getCustomerInfo"
+      ? "https://api.lumosai.cc/api/biz/customer/getCustomerInfo"
       : "https://bigmodel.cn/api/biz/customer/getCustomerInfo";
   const headers = new Headers({ Authorization: "Bearer old-token" });
   const notified = vi.fn();

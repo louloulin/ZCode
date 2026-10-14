@@ -52,7 +52,7 @@ Electron 用例不声称覆盖这些微观竞态。AUTH-06 保持 pending，Pro 
 2. `wdio.conf.ts` 识别 `oauth-credential-recovery.test.ts` 后，在 `~/.lumos/v2/credentials.json` 写入损坏 OAuth seed。
 3. 启动桌面端本地默认窗口。
 4. 等待登录入口渲染。
-5. 检查 Z.ai 与 BigModel 登录渠道均可见。
+5. 检查 Lumos 与 BigModel 登录渠道均可见。
 6. 检查没有展示 OAuth 错误提示。
 7. 读取隔离 HOME 下 `credentials.json`，确认损坏 OAuth 登录态已清理。
 
@@ -60,7 +60,7 @@ Electron 用例不声称覆盖这些微观竞态。AUTH-06 保持 pending，Pro 
 
 | 编号      | 验证项                    | 有效性说明                                                      | 当前断言位置                                                |
 | --------- | ------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------- |
-| AUTH-01-A | Z.ai 登录入口可见         | 证明 `oauthService.getProviders()` 没有因损坏凭据导致入口不可用 | `waitForTestIdByDom(testId(TID_OAUTH_LOGIN_BUTTON, "zai"))` |
+| AUTH-01-A | Lumos 登录入口可见         | 证明 `oauthService.getProviders()` 没有因损坏凭据导致入口不可用 | `waitForTestIdByDom(testId(TID_OAUTH_LOGIN_BUTTON, "zai"))` |
 | AUTH-01-B | BigModel 登录入口可见     | 证明多 provider 登录渠道仍能完整展示                            | `waitForTestIdByDom(TID_OAUTH_LOGIN_BUTTON)`                |
 | AUTH-01-C | 登录页没有 OAuth 错误提示 | 证明损坏凭据被当作可恢复登录态处理，不向用户暴露底层解密错误    | `expectNoOAuthErrorAlert()`                                 |
 | AUTH-01-D | OAuth 相关损坏凭据被清理  | 证明下次启动不会继续卡在同一份无效登录态                        | `waitForCorruptOAuthCredentialsCleanup()`                   |
@@ -69,7 +69,7 @@ Electron 用例不声称覆盖这些微观竞态。AUTH-06 保持 pending，Pro 
 
 - 本 case 不触发 provider 请求，manifest 使用 `providerRequestPolicy: "none"` 和空 `requests`。
 - 本 case 的输入 fixture 是 WDIO 冷启动 seed：`~/.lumos/v2/credentials.json`。
-- 需要清理的 key 包含 `oauth:active_provider`、Z.ai/BigModel access token、refresh token、user info，以及旧 `lumosjwttoken`。
+- 需要清理的 key 包含 `oauth:active_provider`、Lumos/BigModel access token、refresh token、user info，以及旧 `lumosjwttoken`。
 
 ### 转正说明
 
@@ -82,7 +82,7 @@ Electron 用例不声称覆盖这些微观竞态。AUTH-06 保持 pending，Pro 
 - `pnpm --filter @lumos/desktop test:e2e -- --spec ./test/e2e/oauth-credential-recovery.test.ts`
   - 结果：通过，1 个 spec / 1 个 case passed。
   - Artifact：`packages/desktop/.e2e-artifacts/desktop-e2e-20260709-042306-597/summary.md`。
-  - 结论：冷启动遇到无法解密的 OAuth 凭据时，Z.ai 与 BigModel 登录渠道均可见，页面没有 OAuth 错误提示，损坏登录态被清理。
+  - 结论：冷启动遇到无法解密的 OAuth 凭据时，Lumos 与 BigModel 登录渠道均可见，页面没有 OAuth 错误提示，损坏登录态被清理。
 
 Docker 准入暂不执行：该 case 不依赖 provider replay，也不属于 conversation Docker preset。
 
@@ -147,7 +147,7 @@ Docker 准入不执行：该 auth/config case 不依赖 provider replay，也不
 
 ### 测试场景
 
-desktop local 使用隔离 HOME 冷启动；`credentials.json` 预置一份完整 Z.ai OAuth 缓存会话，以及一枚 `exp` 明确早于当前时间的 `lumosjwttoken`。Local Host 恢复缓存会话时必须先清理失效认证事实，再通知 renderer 显示“登录已过期”提示；用户点击“重新登录”后直接进入现有 Welcome 登录页，不经过主动退出确认或 App relaunch。
+desktop local 使用隔离 HOME 冷启动；`credentials.json` 预置一份完整 Lumos OAuth 缓存会话，以及一枚 `exp` 明确早于当前时间的 `lumosjwttoken`。Local Host 恢复缓存会话时必须先清理失效认证事实，再通知 renderer 显示“登录已过期”提示；用户点击“重新登录”后直接进入现有 Welcome 登录页，不经过主动退出确认或 App relaunch。
 
 本 case 只验证 desktop local 的冷启动恢复和 UI 交互，不触发真实 OAuth callback、token refresh、provider/model 请求，也不修改 remote workspace、手机 `/remote` 或 task/session realtime 状态。
 
@@ -171,7 +171,7 @@ renderer 显示“登录已过期” AlertDialog
 用户点击“重新登录”
              |
              v
-Welcome 展示 Z.ai + BigModel 登录入口
+Welcome 展示 Lumos + BigModel 登录入口
 ```
 
 ### 验证条目
@@ -181,7 +181,7 @@ Welcome 展示 Z.ai + BigModel 登录入口
 | AUTH-03-A | 过期提示标题和说明可见        | 证明结构化 `reauthentication-required` 已传到 renderer，而非恢复伪登录态 |
 | AUTH-03-B | 提示确认前认证凭据已清理      | 证明 AlertDialog 不是清理认证事实的阻塞点                                |
 | AUTH-03-C | 点击“重新登录”进入 Welcome    | 证明用户能从过期态回到现有登录流程，不会停留在无法退出/无法重登的死态    |
-| AUTH-03-D | Z.ai 与 BigModel 登录入口可见 | 证明重新认证页具备完整 provider 选择能力                                 |
+| AUTH-03-D | Lumos 与 BigModel 登录入口可见 | 证明重新认证页具备完整 provider 选择能力                                 |
 | AUTH-03-E | 不展示主动退出确认            | 证明过期恢复没有误走“确认断开连接”或运行中会话二次确认流程               |
 
 ### Fixture 合同
@@ -189,7 +189,7 @@ Welcome 展示 Z.ai + BigModel 登录入口
 - manifest 使用 `providerRequestPolicy: "none"`、`noProviderRequests: true` 和空 `requests`。
 - 输入 fixture 是 WDIO 在 App 启动前写入隔离 HOME 的 `~/.lumos/v2/credentials.json`。
 - JWT 只包含测试用 header/payload/signature；payload 的 `exp` 固定在过去，不依赖签名有效性。
-- 需要清理的 key 包含 `oauth:active_provider`、Z.ai access token、refresh token、user info 和 `lumosjwttoken`。
+- 需要清理的 key 包含 `oauth:active_provider`、Lumos access token、refresh token、user info 和 `lumosjwttoken`。
 - 当前位于 `manual-review/pending`；人工确认可视交互后才能移动到正式路径并更新本节状态。
 
 ### 自动运行结论
@@ -469,7 +469,7 @@ Todo103 本轮运行证据记录在 staging-integration ledger。
 ## PAT-KEY-UPGRADE：有效登录态与坏旧 Key 共存
 
 候选用例：`packages/desktop/test/e2e/manual-review/pending/account-key-usage-scene.test.ts`。
-复用该文件 Z.AI 恢复用例：在隔离 HOME 的 credentials.json 中保存有效合成 OAuth 与账号资料，同时将同账号 account-provider:*:api-key 写为损坏密文；重启 Electron，要求直接恢复工作区，Host 创建 usageScene=1 的专用 Key 并签发 Token，不调用 Copy，原坏旧记录保持不变。BigModel 用例覆盖无旧 Key 的创建/换证路径。
+复用该文件 Lumos 恢复用例：在隔离 HOME 的 credentials.json 中保存有效合成 OAuth 与账号资料，同时将同账号 account-provider:*:api-key 写为损坏密文；重启 Electron，要求直接恢复工作区，Host 创建 usageScene=1 的专用 Key 并签发 Token，不调用 Copy，原坏旧记录保持不变。BigModel 用例覆盖无旧 Key 的创建/换证路径。
 此用例不触发模型推理；HTTP 为既有本地 Coding Plan mock，不代表真实后端联调。手机/远程链路由 Provisioning 与鉴权服务测试覆盖，本轮不宣称设备级远程 E2E。保持 pending，不自动转正。
 
 本轮自动复测：2026-09-23，2 cases passed；artifact：`packages/desktop/.e2e-artifacts/desktop-e2e-20260923070315610-p85476-12717808333f5136/summary.md`。未进行人工确认或转正；手机、真实后端及混版本远端不在本 case 范围。

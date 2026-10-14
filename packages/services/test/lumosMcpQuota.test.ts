@@ -473,7 +473,7 @@ describe("entitlement 快照携带官方 Server MCP 额度", () => {
     const provider = createProvider({
       apiClient,
       credentialSource: {
-        // 当前选中的是 Z.ai 连接，本次查询的是 BigModel 个人 Coding Plan。
+        // 当前选中的是 Lumos 连接，本次查询的是 BigModel 个人 Coding Plan。
         resolve: vi.fn(async () => ({
           ok: true as const,
           snapshot: {

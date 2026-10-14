@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 让 I32～I34 使用无 active OAuth 的本地 fake credentials fixture，避免 App reload 请求真实 Z.AI 网络。
+**Goal:** 让 I32～I34 使用无 active OAuth 的本地 fake credentials fixture，避免 App reload 请求真实 Lumos 网络。
 
 **Architecture:** 用纯函数根据当前 worker spec 选择凭据：selectedKey migration 只保留 legacy fake `auth_token`，其他 spec 继续合并默认 restored OAuth 凭据。WDIO 保持 readiness/recovery 特殊 fixture 的既有优先级。
 

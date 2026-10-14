@@ -57,7 +57,7 @@ legacy family mode / selectedKey
 ### 2.1 基线
 
 - Samantha 工作区：独立 worktree
-- MacBook Pro 标准仓库：`/Users/dev/Desktop/projects/Z.AI/lumos`
+- MacBook Pro 标准仓库：`/Users/dev/Desktop/projects/Lumos/lumos`
 - 两端提交：`21c38683e1 test(ui): remove stale built-in model label assertion`
 - MacBook Pro 使用已有标准 bootstrap/build 结果；执行时设置 `LUMOS_E2E_SKIP_BUILD=1`、`LUMOS_E2E_SKIP_AGENT_BUILD=1`，没有修改系统配置。
 
@@ -73,7 +73,7 @@ legacy family mode / selectedKey
 Artifact 根目录：
 
 ```text
-/Users/dev/Desktop/projects/Z.AI/lumos/packages/desktop/.e2e-artifacts/
+/Users/dev/Desktop/projects/Lumos/lumos/packages/desktop/.e2e-artifacts/
 ```
 
 四轮报告均显示 `0 flaky`、`0 infra failure`。
@@ -229,7 +229,7 @@ modelProviderFamilyModes + modelProviderFamilySelectedKeys
 `triggerCodingPlanWebviewPurchaseComplete()` 先读取可见 Webview origin，再把这个 origin 当作本地 upgrade mock server 调用“标记购买完成”。当前实际 Webview URL 是正式 Lumos Endpoint：
 
 ```text
-https://lumos.z.ai/coding-plan...
+https://lumosai.cc/coding-plan...
 ```
 
 它不是本地 mock server，所以 CPUW-03 在触发 bridge 以前就失败。该 Case 同时还在购买后读取 Personal Provider 的 `enabled`，与 R3 相同。

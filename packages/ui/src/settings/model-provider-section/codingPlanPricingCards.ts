@@ -12,7 +12,7 @@ export type CodingPlanLoginOptions = {
 export function resolveCodingPlanUpgradeProductsProviderId(
   providerId: CodingPlanProviderId,
 ): CodingPlanProviderId {
-  // Start Plan 是免费入口，编程套餐列表应直接展示原 Z.AI Coding Plan 付费套餐。
+  // Start Plan 是免费入口，编程套餐列表应直接展示原 Lumos Coding Plan 付费套餐。
   // 继续用 Start Plan providerId 会把免费 Start SKU 当成可购买套餐重复展示。
   if (providerId === BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan) {
     return BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan;

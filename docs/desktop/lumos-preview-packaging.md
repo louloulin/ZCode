@@ -239,8 +239,8 @@ workflow path selection
 
 ### 需求
 
-内部希望拿到一个"连接生产后端、能用生产 BigModel / Z.ai 账号登录"的 `Lumos Preview`，且不新增第三种产品身份。
-原设计里 `LUMOS_ENV` 同时决定后端环境和安装包身份，`test` 的 Preview 只能登录 `bigmodel.cn` / `lumos.z.ai`。
+内部希望拿到一个"连接生产后端、能用生产 BigModel / Lumos 账号登录"的 `Lumos Preview`，且不新增第三种产品身份。
+原设计里 `LUMOS_ENV` 同时决定后端环境和安装包身份，`test` 的 Preview 只能登录 `bigmodel.cn` / `lumosai.cc`。
 
 ### 决策
 

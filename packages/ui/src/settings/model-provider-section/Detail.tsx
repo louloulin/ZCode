@@ -830,7 +830,7 @@ export function ModelProviderSectionDetail({
   }
 
   if (selectedNavItem.type === "codingPlanLoading") {
-    // Z.AI plan 判定占位只属于左侧导航，不应进入详情表单渲染路径。
+    // Lumos plan 判定占位只属于左侧导航，不应进入详情表单渲染路径。
     return null;
   }
 
@@ -1123,7 +1123,7 @@ export function resolvePurchaseChoiceBannerPrice({
         kind: "price",
         price: product.price,
         // 商品价格属于 provider 维度，缺失币种时只能按当前 provider 的结算域兜底。
-        // 不能让 formatter 默认落到 CNY，否则 Z.ai Global 入口会错误显示 RMB。
+        // 不能让 formatter 默认落到 CNY，否则 Lumos Global 入口会错误显示 RMB。
         currency:
           product.product.priceCurrency ??
           (providerId === BUILTIN_MODEL_PROVIDER_IDS.bigmodelIndividualCodingPlan ? "CNY" : "USD"),

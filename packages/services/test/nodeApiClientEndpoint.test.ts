@@ -27,13 +27,13 @@ describe("NodeApiClient endpoint rewriting", () => {
     await client.request(`${DEFAULT_LUMOS_ENDPOINT_ORIGIN}/api/v1/event/report?x=1`);
     await client.request("https://example.com/static/config.json");
     await client.request("https://feedback.example.invalid/api/v1/tickets");
-    await client.request("https://api.z.ai/v1/models");
+    await client.request("https://api.lumosai.cc/v1/models");
 
     expect(fetchImpl.mock.calls.map(([input]) => String(input))).toEqual([
       "http://localhost:3030/api/v1/event/report?x=1",
       "https://example.com/static/config.json",
       "https://feedback.example.invalid/api/v1/tickets",
-      "https://api.z.ai/v1/models",
+      "https://api.lumosai.cc/v1/models",
     ]);
   });
 
@@ -41,18 +41,18 @@ describe("NodeApiClient endpoint rewriting", () => {
     const fetchImpl = vi.fn(async () => new Response("{}", { status: 200 }));
     const client = createNodeApiClient({
       fetchImpl: fetchImpl as typeof fetch,
-      resolveLumosEndpointOrigin: async () => "https://lumos.z.ai",
+      resolveLumosEndpointOrigin: async () => "https://lumosai.cc",
     });
 
     await client.request(`${DEFAULT_LUMOS_ENDPOINT_ORIGIN}/api/v1/client/configs`);
-    await client.request("https://api.z.ai/v1/models");
+    await client.request("https://api.lumosai.cc/v1/models");
 
     const lumosHeaders = new Headers(fetchImpl.mock.calls[0]?.[1]?.headers);
     expect(lumosHeaders.get("User-Agent")).toMatch(/^Lumos\//);
     expect(lumosHeaders.get("X-Title")).toBe(LUMOS_SOURCE_HEADERS["X-Title"]);
     expect(lumosHeaders.get("X-OpenRouter-Title")).toBeNull();
     expect(lumosHeaders.get("X-OpenRouter-Categories")).toBeNull();
-    expect(lumosHeaders.get("HTTP-Referer")).toBe("https://lumos.z.ai");
+    expect(lumosHeaders.get("HTTP-Referer")).toBe("https://lumosai.cc");
     expect(lumosHeaders.get("X-App-Version")).toBeNull();
     expect(lumosHeaders.get("X-Lumos-App-Version")).toBeTruthy();
     expect(lumosHeaders.get("X-Platform")).toBe(`${process.platform}-${process.arch}`);
@@ -76,7 +76,7 @@ describe("NodeApiClient endpoint rewriting", () => {
     const fetchImpl = vi.fn(async () => new Response("{}", { status: 200 }));
     const client = createNodeApiClient({
       fetchImpl: fetchImpl as typeof fetch,
-      resolveLumosEndpointOrigin: async () => "https://lumos.z.ai",
+      resolveLumosEndpointOrigin: async () => "https://lumosai.cc",
     });
 
     await client.request(`${DEFAULT_LUMOS_ENDPOINT_ORIGIN}/api/v1/oauth/token`, {
@@ -95,7 +95,7 @@ describe("NodeApiClient endpoint rewriting", () => {
     expect(headers.get("X-OpenRouter-Categories")).toBeNull();
     expect(headers.get("Authorization")).toBe("Bearer token");
     expect(headers.get("X-Device-Mid")).toBe("caller-device-mid");
-    expect(headers.get("HTTP-Referer")).toBe("https://lumos.z.ai");
+    expect(headers.get("HTTP-Referer")).toBe("https://lumosai.cc");
     expect(headers.get("x-request-id")).toMatch(
       /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     );
@@ -116,7 +116,7 @@ describe("NodeApiClient endpoint rewriting", () => {
     const fetchImpl = vi.fn(async () => new Response("{}", { status: 200 }));
     const client = createNodeApiClient({
       fetchImpl: fetchImpl as typeof fetch,
-      resolveLumosEndpointOrigin: async () => "https://lumos.z.ai",
+      resolveLumosEndpointOrigin: async () => "https://lumosai.cc",
     });
 
     await client.request(`${DEFAULT_LUMOS_ENDPOINT_ORIGIN}/api/v1/client/configs`);
@@ -143,7 +143,7 @@ describe("NodeApiClient endpoint rewriting", () => {
     const fetchImpl = vi.fn(async () => new Response("{}", { status: 200 }));
     const client = createNodeApiClient({
       fetchImpl: fetchImpl as typeof fetch,
-      resolveLumosEndpointOrigin: async () => "https://lumos.z.ai",
+      resolveLumosEndpointOrigin: async () => "https://lumosai.cc",
     });
 
     await client.request(`${DEFAULT_LUMOS_ENDPOINT_ORIGIN}/api/v1/client/configs`);

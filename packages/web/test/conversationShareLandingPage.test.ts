@@ -283,7 +283,7 @@ describe("ConversationShareLandingPage", () => {
       );
       expect(html).toContain(hint);
       expect(html).toContain(home);
-      expect(html).toContain('href="https://lumos.z.ai"');
+      expect(html).toContain('href="https://lumosai.cc"');
       expect(html).not.toContain('target="_blank"');
     },
   );

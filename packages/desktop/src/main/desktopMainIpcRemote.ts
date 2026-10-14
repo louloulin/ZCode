@@ -69,7 +69,7 @@ function parseOpenExternalRequest(payload: unknown): OpenExternalRequest | null 
   };
 }
 
-const CODING_PLAN_ZAI_PAYPAL_RELAY_HOSTS = new Set(["api.z.ai", "api.z.ai"]);
+const CODING_PLAN_ZAI_PAYPAL_RELAY_HOSTS = new Set(["api.lumosai.cc", "api.lumosai.cc"]);
 
 function isPaypalHostname(hostname: string): boolean {
   return hostname === "paypal.com" || hostname.endsWith(".paypal.com");

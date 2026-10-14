@@ -14,7 +14,7 @@ function harness(options: { url?: string; ready?: boolean; version?: string } = 
   const navigate = vi.fn();
   const onMismatch = vi.fn();
   const url =
-    options.url ?? "https://lumos.z.ai/remote/v4?sid=a&hash=x%2By&t=1&app_version=3.12.1#task";
+    options.url ?? "https://lumosai.cc/remote/v4?sid=a&hash=x%2By&t=1&app_version=3.12.1#task";
   const guard = createWebRemoteControlVersionGuard({
     requestBootstrap,
     getUrl: () => url,
@@ -38,10 +38,10 @@ describe("remote v4 desktop version guard", () => {
   });
 
   it("fills a missing version and accepts the v4 trailing slash", async () => {
-    const h = harness({ url: "https://lumos.z.ai/remote/v4/?sid=a", version: "3.12.2" });
+    const h = harness({ url: "https://lumosai.cc/remote/v4/?sid=a", version: "3.12.2" });
     await h.guard.check();
     expect(h.navigate).toHaveBeenCalledWith(
-      "https://lumos.z.ai/remote/v4/?sid=a&app_version=3.12.2",
+      "https://lumosai.cc/remote/v4/?sid=a&app_version=3.12.2",
     );
   });
 

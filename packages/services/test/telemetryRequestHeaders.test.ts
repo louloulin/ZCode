@@ -35,7 +35,7 @@ it("adds every public header and re-reads authorization on retry and logout", as
     osVersion: "24.0",
     releaseChannel: "test",
     randomUUID: () => "device-1",
-    resolveLumosEndpointOrigin: () => "https://lumos.z.ai",
+    resolveLumosEndpointOrigin: () => "https://lumosai.cc",
     sleep: async () => {
       token = "Bearer second";
     },
@@ -45,7 +45,7 @@ it("adds every public header and re-reads authorization on retry and logout", as
   expect(fetchImpl.mock.calls[0]?.[1]?.headers).toEqual({
     "Content-Type": "application/json",
     "User-Agent": "Lumos/1.2.3",
-    "HTTP-Referer": "https://lumos.z.ai",
+    "HTTP-Referer": "https://lumosai.cc",
     "X-Title": "Lumos@electron",
     "X-Lumos-App-Version": "1.2.3",
     "X-Platform": "darwin-arm64",

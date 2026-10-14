@@ -71,7 +71,7 @@ describe("CodingPlanUsagePanel", () => {
           family: "zai",
           planKind: "individual-coding-plan",
         },
-        label: "Z.ai - Coding Plan",
+        label: "Lumos - Coding Plan",
       }),
     ).toEqual({
       id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
@@ -81,7 +81,7 @@ describe("CodingPlanUsagePanel", () => {
         family: "zai",
         planKind: "individual-coding-plan",
       },
-      label: "Z.ai - Coding Plan",
+      label: "Lumos - Coding Plan",
     });
   });
 
@@ -129,7 +129,7 @@ describe("CodingPlanUsagePanel", () => {
     ]);
   });
 
-  it("把 zai 已购 Team Plan 展开为带 zai providerId 和 Z.ai 品牌前缀的 usage source", () => {
+  it("把 zai 已购 Team Plan 展开为带 zai providerId 和 Lumos 品牌前缀的 usage source", () => {
     const sources = buildCodingPlanUsageSources({
       accountAccesses: {
         zai: {
@@ -169,7 +169,7 @@ describe("CodingPlanUsagePanel", () => {
           organizationId: "zai-org",
           projectId: "zai-proj",
         },
-        label: "Z.ai - ZAI Org",
+        label: "Lumos - ZAI Org",
       },
     ]);
   });

@@ -9,8 +9,8 @@
   -> CodingPlanUpgradeDialog 收到 providerId、audience，以及可选的 teamPlanKey
   -> App 解析官网地址
      - 本地开发：    http://localhost:3000
-     - 测试环境：    https://lumos.z.ai
-     - 正式环境：    https://lumos.z.ai
+     - 测试环境：    https://lumosai.cc
+     - 正式环境：    https://lumosai.cc
      - 显式 override：VITE_CODING_PLAN_WEBVIEW_ORIGIN
   -> WebView 打开 /coding-plan?provider={zai|bigmodel}&audience={personal|team}&teamPlanKey={可选}&embedded=app&lang={cn|en}&theme={zai-light|zai-dark}
   -> dom-ready 后从 credentialService 读取 token
@@ -21,7 +21,7 @@
 
 `lang` 和 `theme` 都是首屏 hint：官网会在 App 注入脚本执行前先用它们渲染正确语言和主题。尤其是 `theme`，用于避免官网 SSR 默认深色和 App 浅色主题之间的首次打开闪烁；真实运行态主题仍以后续注入脚本写入的 `lumos-theme` 和 class 为准。
 
-`audience` 与 `teamPlanKey` 表达用户点击升级时的套餐意图。Z.ai/BigModel 只由 Provider ID 决定官网 family；个人套餐传 `audience=personal`，团队套餐传 `audience=team` 并携带当前团队连接 key。它们不参与鉴权，也不替代官网对实际套餐和团队权限的判断。
+`audience` 与 `teamPlanKey` 表达用户点击升级时的套餐意图。Lumos/BigModel 只由 Provider ID 决定官网 family；个人套餐传 `audience=personal`，团队套餐传 `audience=team` 并携带当前团队连接 key。它们不参与鉴权，也不替代官网对实际套餐和团队权限的判断。
 
 WebView 外壳继续保留 App 购买页原有结构：全屏覆盖、顶部“升级套餐”标题栏、右侧关闭按钮，以及标题栏下方的 150% 配额活动提示。官网页面只承载套餐主体和后续支付流程。
 
@@ -31,8 +31,8 @@ WebView 接入层隐藏宿主滚动容器和 guest 页面内的原生滚动条�
 
 | Provider             | WebView localStorage key      |
 | -------------------- | ----------------------------- |
-| Z.ai                 | `oauth:zai:access_token`      |
-| Z.ai Start Plan 兜底 | `lumosjwttoken`               |
+| Lumos                 | `oauth:zai:access_token`      |
+| Lumos Start Plan 兜底 | `lumosjwttoken`               |
 | BigModel             | `oauth:bigmodel:access_token` |
 
 token 不放入 URL query，避免被浏览器历史、日志、埋点和 Referer 泄露。WebView 页面只能通过当前 origin 的 localStorage 读取注入值。

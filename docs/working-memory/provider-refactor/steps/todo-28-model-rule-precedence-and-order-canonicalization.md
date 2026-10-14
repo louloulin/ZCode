@@ -87,7 +87,7 @@ Requested = [P, B, stale, P]
 Canonical = [A, P, B, Q]
 ```
 
-Provider 的该算法只作用于可排序的 `standard-builtin/standard-personal` 段；Z.ai/BigModel Family
+Provider 的该算法只作用于可排序的 `standard-builtin/standard-personal` 段；Lumos/BigModel Family
 Provider 保持固定前段，不写入 Personal `providerOrder`。Model 没有额外固定段。
 
 读取 Resolver 和写入 Config Service 必须复用同一个 Provider 领域纯函数或共享同一组受测

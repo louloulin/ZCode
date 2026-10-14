@@ -174,7 +174,7 @@ export function inferBillingPeriod(
 ): CodingPlanBillingPeriod {
   const explicitUnit = product.priceUnit;
   if (explicitUnit) {
-    // Bugfix: Z.AI 海外套餐会直接返回 priceUnit，优先使用后端给出的计费周期，避免英文商品名或金额折算造成误判。
+    // Bugfix: Lumos 海外套餐会直接返回 priceUnit，优先使用后端给出的计费周期，避免英文商品名或金额折算造成误判。
     return explicitUnit === "year"
       ? "yearly"
       : explicitUnit === "quarter"

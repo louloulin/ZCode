@@ -626,7 +626,7 @@ Add this test:
 ```ts
 it("desktop 新版本默认二维码 URL 应指向 /remote/v3", () => {
   expect(desktopMainIndexSource).toContain(
-    'process.env["LUMOS_WEB_REMOTE_CONTROL_URL"]?.trim() || "https://lumos.z.ai/remote/v3"',
+    'process.env["LUMOS_WEB_REMOTE_CONTROL_URL"]?.trim() || "https://lumosai.cc/remote/v3"',
   );
 });
 ```
@@ -636,7 +636,7 @@ it("desktop 新版本默认二维码 URL 应指向 /remote/v3", () => {
 In `packages/desktop/test/webRemoteControlManagerExternalRelay.test.ts`, change the harness dependency:
 
 ```ts
-mobileRemoteControlUrl: "https://lumos.z.ai/remote/v3",
+mobileRemoteControlUrl: "https://lumosai.cc/remote/v3",
 ```
 
 Change assertions:
@@ -667,7 +667,7 @@ In `packages/desktop/src/main/index.ts`, update the fallback:
 
 ```ts
 mobileRemoteControlUrl:
-  process.env["LUMOS_WEB_REMOTE_CONTROL_URL"]?.trim() || "https://lumos.z.ai/remote/v3",
+  process.env["LUMOS_WEB_REMOTE_CONTROL_URL"]?.trim() || "https://lumosai.cc/remote/v3",
 ```
 
 - [ ] **Step 5: Run focused desktop tests and confirm pass**

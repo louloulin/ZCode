@@ -203,7 +203,7 @@ describe("ConversationShareHttpClient", () => {
     const request = vi.fn(async () =>
       success({
         share_code: "share-1",
-        share_url: "https://lumos.z.ai/cn/share/share-1",
+        share_url: "https://lumosai.cc/cn/share/share-1",
         access_mode: "public_importable",
         expires_at: 2_000,
       }),
@@ -553,7 +553,7 @@ describe("ConversationShareHttpClient", () => {
       void init;
       return success({
         share_code: "share-1",
-        share_url: "https://lumos.z.ai/cn/share/share-1",
+        share_url: "https://lumosai.cc/cn/share/share-1",
         access_mode: "private",
         expires_at: 20_000,
       });
@@ -573,7 +573,7 @@ describe("ConversationShareHttpClient", () => {
     const request = vi.fn(async () =>
       success({
         share_code: "share-1",
-        share_url: "https://lumos.z.ai/cn/share/share-1",
+        share_url: "https://lumosai.cc/cn/share/share-1",
         access_mode: "private",
         expires_at: 20_000,
       }),

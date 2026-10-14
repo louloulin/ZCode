@@ -160,7 +160,7 @@ properties.supportsJsonSchemaOutput: boolean;
 
 证据分为三类：官方确认、产品确认、Endpoint 待验证。证据分类只进入评审材料，不进入运行时 Config。
 
-### 6.1 GLM / BigModel / Z.ai
+### 6.1 GLM / BigModel / Lumos
 
 当前产品主推模型确认是：
 
@@ -221,13 +221,13 @@ Team Plan 的 GLM-5.2 结果符合“Plan 服务提供统一视觉转写”的�
 后续仍需按真实 Endpoint 继续核对：
 
 - 5.3/5.3 Flash 的 context、max output、Image/Video、Tools 和三种 Schema 能力；
-- Z.ai、BigModel、Coding Plan Endpoint 的 MCS、JSON Schema 和 reasoning 参数差异；
+- Lumos、BigModel、Coding Plan Endpoint 的 MCS、JSON Schema 和 reasoning 参数差异；
 - `glm-5v-turbo` 是否仍作为独特视觉型号默认启用；
 - 大小写 Model ID 只用于请求身份，不应导致同一模型事实分叉。
 
 参考：[BigModel 模型总览](https://docs.bigmodel.cn/cn/guide/start/model-overview)、
-[Z.ai Chat Completion](https://docs.z.ai/api-reference/llm/chat-completion)、
-[Z.ai 核心参数](https://docs.z.ai/guides/overview/concept-param)。
+[Lumos Chat Completion](https://docs.lumosai.cc/api-reference/llm/chat-completion)、
+[Lumos 核心参数](https://docs.lumosai.cc/guides/overview/concept-param)。
 
 ### 6.2 Kimi
 
@@ -382,8 +382,8 @@ replayable、workspace identity、队列或任务恢复。
 
 | Case             | Setup                             | Assertion                               | 状态     |
 | ---------------- | --------------------------------- | --------------------------------------- | -------- |
-| ACCOUNT-PLAN-001 | Z.ai/BigModel Individual Provider | 成员顺序为 5.3、5.3 Flash、5.2、5-Turbo | accepted |
-| ACCOUNT-PLAN-002 | Z.ai/BigModel Team Provider       | 成员顺序为 5.3、5.3 Flash、5.2、5-Turbo | accepted |
+| ACCOUNT-PLAN-001 | Lumos/BigModel Individual Provider | 成员顺序为 5.3、5.3 Flash、5.2、5-Turbo | accepted |
+| ACCOUNT-PLAN-002 | Lumos/BigModel Team Provider       | 成员顺序为 5.3、5.3 Flash、5.2、5-Turbo | accepted |
 | ACCOUNT-PLAN-003 | Start/Individual/Team 任一成员    | Effective input 支持 Image/Video        | accepted |
 | ACCOUNT-PLAN-004 | 普通 Account API + GLM-5.3        | 原生事实保持文本；不报错不视为视觉支持  | accepted |
 | ACCOUNT-PLAN-005 | 普通 Account API + GLM-5.3-Flash  | 原生 Image/Video；Lumos 图片端到端可用  | accepted |

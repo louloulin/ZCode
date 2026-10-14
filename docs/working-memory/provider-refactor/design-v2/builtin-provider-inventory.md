@@ -28,11 +28,11 @@ reasoning map、能力字段、请求 Header 或 Personal Provider Instance。
 
 | 供应商                   | 类型             | ID                               | Base URL                                                 | 产品维护模型                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ------------------------ | ---------------- | -------------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Z.AI Coding Plan API     | API Template     | `zai-api`                        | `https://api.z.ai/api/anthropic`                         | `GLM-5.3`★、`GLM-5.3-Flash`★                                                                                                                                                                                                                                                                                                                                                                                            |
-| Z.AI API                 | API Template     | `zai-standard-api`               | `https://api.z.ai/api/paas/v4`                           | `GLM-5.3`★、`GLM-5.3-Flash`★、`GLM-5V-Turbo`★、`GLM-5.1`○、`GLM-5.1-Highspeed`○、`GLM-5`○、`GLM-5-Turbo`○、`GLM-4.7`○、`GLM-4.7-FlashX`○、`GLM-4.7-Flash`○、`GLM-4.6`○、`GLM-4.5-Air`○、`GLM-4.5`○、`GLM-4.6V`○、`GLM-4.6V-Flash`○、`GLM-4.6V-FlashX`○、`GLM-4.1V-Thinking-FlashX`○、`GLM-4.1V-Thinking-Flash`○、`GLM-4-FlashX-250414`○、`GLM-4-Flash-250414`○、`GLM-4V-Flash`○、`codegeex-4`○、`charglm-4`○、`emohaa`○ |
+| Lumos Coding Plan API     | API Template     | `zai-api`                        | `https://api.lumosai.cc/api/anthropic`                         | `GLM-5.3`★、`GLM-5.3-Flash`★                                                                                                                                                                                                                                                                                                                                                                                            |
+| Lumos API                 | API Template     | `zai-standard-api`               | `https://api.lumosai.cc/api/paas/v4`                           | `GLM-5.3`★、`GLM-5.3-Flash`★、`GLM-5V-Turbo`★、`GLM-5.1`○、`GLM-5.1-Highspeed`○、`GLM-5`○、`GLM-5-Turbo`○、`GLM-4.7`○、`GLM-4.7-FlashX`○、`GLM-4.7-Flash`○、`GLM-4.6`○、`GLM-4.5-Air`○、`GLM-4.5`○、`GLM-4.6V`○、`GLM-4.6V-Flash`○、`GLM-4.6V-FlashX`○、`GLM-4.1V-Thinking-FlashX`○、`GLM-4.1V-Thinking-Flash`○、`GLM-4-FlashX-250414`○、`GLM-4-Flash-250414`○、`GLM-4V-Flash`○、`codegeex-4`○、`charglm-4`○、`emohaa`○ |
 | BigModel Coding Plan API | API Template     | `bigmodel-api`                   | `https://open.bigmodel.cn/api/anthropic`                 | `GLM-5.3`★、`GLM-5.3-Flash`★                                                                                                                                                                                                                                                                                                                                                                                            |
 | BigModel API             | API Template     | `bigmodel-standard-api`          | `https://open.bigmodel.cn/api/paas/v4`                   | `GLM-5.3`★、`GLM-5.3-Flash`★、`GLM-5V-Turbo`★、`GLM-5.1`○、`GLM-5.1-Highspeed`○、`GLM-5`○、`GLM-5-Turbo`○、`GLM-4.7`○、`GLM-4.7-FlashX`○、`GLM-4.7-Flash`○、`GLM-4.6`○、`GLM-4.5-Air`○、`GLM-4.5`○、`GLM-4.6V`○、`GLM-4.6V-Flash`○、`GLM-4.6V-FlashX`○、`GLM-4.1V-Thinking-FlashX`○、`GLM-4.1V-Thinking-Flash`○、`GLM-4-FlashX-250414`○、`GLM-4-Flash-250414`○、`GLM-4V-Flash`○、`codegeex-4`○、`charglm-4`○、`emohaa`○ |
-| Z.ai                     | Account Provider | `account:zai-*`                  | 由套餐入口固定                                           | 个人／团队：`GLM-5.3`★、`GLM-5.3-Flash`★；Start／闲时保持各自名单                                                                                                                                                                                                                                                                                                                                                       |
+| Lumos                     | Account Provider | `account:zai-*`                  | 由套餐入口固定                                           | 个人／团队：`GLM-5.3`★、`GLM-5.3-Flash`★；Start／闲时保持各自名单                                                                                                                                                                                                                                                                                                                                                       |
 | BigModel                 | Account Provider | `account:bigmodel-*`             | 由套餐入口固定                                           | 个人／团队：`GLM-5.3`★、`GLM-5.3-Flash`★；Start／闲时保持各自名单                                                                                                                                                                                                                                                                                                                                                       |
 | Kimi                     | API Template     | `moonshot-kimi`                  | `https://api.moonshot.cn/anthropic`                      | `kimi-k3`★、`kimi-k2.7-code`★、`kimi-k2.6`★、`k3`○、`k3-256k`○、`kimi-k2.5`○、`moonshot-v1-8k`○、`moonshot-v1-32k`○、`moonshot-v1-128k`○、`moonshot-v1-8k-vision-preview`○、`moonshot-v1-32k-vision-preview`○、`moonshot-v1-128k-vision-preview`○                                                                                                                                                                       |
 | MiniMax                  | API Template     | `minimax`                        | `https://api.minimaxi.com/anthropic`                     | `MiniMax-M3`★、`MiniMax-M2.7`★、`MiniMax-M2.7-highspeed`★、`MiniMax-M2.5`○、`MiniMax-M2.5-highspeed`○、`MiniMax-M2.1`○、`MiniMax-M2.1-highspeed`○、`MiniMax-M2`○                                                                                                                                                                                                                                                        |
@@ -71,7 +71,7 @@ Provider 的能力或 Option 配置。
   `anthropic/claude-opus-4.5`○、`anthropic/claude-sonnet-4.6`○、`anthropic/claude-sonnet-4.5`○；
 - DeepSeek：`deepseek/deepseek-v4-pro`★、`deepseek/deepseek-v4-flash`★；
 - Moonshot：`moonshotai/kimi-k3`★、`moonshotai/kimi-k2.7-code`○、`moonshotai/kimi-k2.6`○、`moonshotai/kimi-k2.5`○；
-- Z.AI：`z-ai/glm-5.3`★、`z-ai/glm-5.3-flash`★、`z-ai/glm-5.2`○、`z-ai/glm-5.1`○、`z-ai/glm-5v-turbo`○、
+- Lumos：`z-ai/glm-5.3`★、`z-ai/glm-5.3-flash`★、`z-ai/glm-5.2`○、`z-ai/glm-5.1`○、`z-ai/glm-5v-turbo`○、
   `z-ai/glm-5`○、`z-ai/glm-5-turbo`○、`z-ai/glm-4.7`○、`z-ai/glm-4.7-flash`○、`z-ai/glm-4.6`○、
   `z-ai/glm-4.6v`○、`z-ai/glm-4.5-air`○、`z-ai/glm-4.5`○；
 - Qwen：`qwen/qwen3.8-max`★、`qwen/qwen3.8-flash`★、`qwen/qwen3.7-max`○、`qwen/qwen3.7-plus`○、
@@ -106,13 +106,13 @@ OpenCode Zen 的维护范围覆盖官方模型表中仍有效的各家模型，�
 
 上面是 Lumos 的维护列表，不是 Zen 的全量动态目录；正式写入前仍以 Zen 官方 `/zen/v1/models` 返回值和协议验证结果为最终门槛。
 
-Z.ai、BigModel、Kimi、MiniMax 和 Qwen 的“一般维护”模型以各自具体 API 入口在实现时的官方可用模型列表为最终门槛；
+Lumos、BigModel、Kimi、MiniMax 和 Qwen 的“一般维护”模型以各自具体 API 入口在实现时的官方可用模型列表为最终门槛；
 如果某个 ID 已不再被该入口接受，则从表和对应 Template 一并删除。这里不因为供应商官网仍保留历史资料就继续维护。
 
 ## 删除范围
 
-- Z.ai / BigModel 个人/团队 Account 和手动 Coding Plan 模板仅预设 `GLM-5.3`、`GLM-5.3-Flash`；不删除其他型号规则或用户已保存的选择。
-- 普通 Z.ai / BigModel API 模板保留维护中的其他官方 GLM 型号，非重点成员默认关闭；不把它与 Coding Plan API 混为一个入口。
+- Lumos / BigModel 个人/团队 Account 和手动 Coding Plan 模板仅预设 `GLM-5.3`、`GLM-5.3-Flash`；不删除其他型号规则或用户已保存的选择。
+- 普通 Lumos / BigModel API 模板保留维护中的其他官方 GLM 型号，非重点成员默认关闭；不把它与 Coding Plan API 混为一个入口。
 - Kimi 删除 `moonshot-v1-*`；K2.5/K2.6 只要官方 API 仍支持就一般维护，不因版本号较旧直接删除。
 - MiniMax 删除 M2.1 及更早型号；M2.7/M2.5 仍被官方发布文档列出，作为一般维护候选保留。
 - MiMo 删除 `mimo-v2-pro`、`mimo-v2-omni`、`mimo-v2-flash`；官方已公告这些旧型号于 2026-06-30 退役，迁移目标是 V2.5 系列。
@@ -145,7 +145,7 @@ Z.ai、BigModel、Kimi、MiniMax 和 Qwen 的“一般维护”模型以各自�
 
 ## 资料依据
 
-- [Z.AI Models](https://docs.z.ai/guides/overview/overview)
+- [Lumos Models](https://docs.lumosai.cc/guides/overview/overview)
 - [Kimi Code Models](https://www.kimi.com/code/docs/en/kimi-code/models.html)
 - [DeepSeek Models](https://api-docs.deepseek.com/quick_start/pricing/)
 - [Alibaba Model Studio Models](https://help.aliyun.com/en/model-studio/models)

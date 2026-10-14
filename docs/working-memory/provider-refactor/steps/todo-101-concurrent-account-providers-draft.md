@@ -133,7 +133,7 @@ ModelFactory 精确创建
 
 ## 六、Off-Peak、同步与隔离边界
 
-- 已裁决：唯一登录账号决定使用 BigModel 或 Z.ai 对应的既有闲时 Provider。普通个人/团队 Provider 可以并存，但不新增“为闲时任务选择个人/团队供额连接”的产品操作。
+- 已裁决：唯一登录账号决定使用 BigModel 或 Lumos 对应的既有闲时 Provider。普通个人/团队 Provider 可以并存，但不新增“为闲时任务选择个人/团队供额连接”的产品操作。
 - 设置页浏览项、普通模型选择都不参与闲时 Provider 的选择；删除的是普通套餐的全局互斥选择，不是登录账号身份。
 - 已取得的 Ticket 保持既定绑定；更换登录账号不能把已有 Ticket 自动改绑。资格、凭据和 Ticket 仍按闲时既有协议取得，未来实现时核对旧代码对普通 current connection 的依赖，不把它转化成新的用户选择项。
 - 同步需要传完整账号实例事实；旧 current 字段将退出，但完整接收、正确应用、Worker 生命周期与失效恢复仍有价值。
@@ -143,7 +143,7 @@ ModelFactory 精确创建
 ```text
 唯一登录账号
     ├─ 该账号的个人 / Team A / Team B -> 各自独立的普通 Provider
-    `─ 账号所属体系 BigModel / Z.ai   -> 对应闲时 Provider -> Ticket
+    `─ 账号所属体系 BigModel / Lumos   -> 对应闲时 Provider -> Ticket
 ```
 
 ## 七、尚待裁决

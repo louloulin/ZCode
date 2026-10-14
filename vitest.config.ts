@@ -46,7 +46,7 @@ const forkIsolatedTests = [
 export default defineConfig({
   // 测试固定注入事件上报端点，使遥测上报链路在单测中可验证；真实构建由 scripts/build-time-config.mjs 决定。
   define: {
-    __LUMOS_TELEMETRY_REPORT_ENDPOINT__: JSON.stringify("https://lumos.z.ai/api/v1/event/report"),
+    __LUMOS_TELEMETRY_REPORT_ENDPOINT__: JSON.stringify("https://lumosai.cc/api/v1/event/report"),
   },
   resolve: {
     alias: {

@@ -2,7 +2,7 @@
   "name": "android-emulator",
   "version": "0.1.0",
   "description": "Provides Android development workflows and emulator automation for Lumos.",
-  "author": { "name": "Z.ai" },
+  "author": { "name": "Lumos" },
   "license": "MIT",
   "skills": "skills",
   "commands": "commands",

@@ -85,7 +85,7 @@ function createManagerHarness(options?: {
     options?.disposeWorkspaceHostAttachmentsForRemoteSession ?? vi.fn();
   const manager = createWebRemoteControlManager({
     relayWsUrl: "ws://relay.test/ws",
-    mobileRemoteControlUrl: "https://lumos.z.ai/remote/v3",
+    mobileRemoteControlUrl: "https://lumosai.cc/remote/v3",
     getEndpointUrls: options?.getEndpointUrls,
     deviceMid: "mid-1",
     deviceName: "MacBook",

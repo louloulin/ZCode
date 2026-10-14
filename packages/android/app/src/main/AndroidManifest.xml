@@ -54,7 +54,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="lumos.z.ai"
+                    android:host="lumosai.cc"
                     android:pathPrefix="/remote"
                     android:scheme="https" />
             </intent-filter>

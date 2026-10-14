@@ -12,21 +12,21 @@ describe("Rewards embedded contract", () => {
     expect(REWARDS_PARTITION).toBe("persist:lumos-rewards");
     expect(REWARDS_CONTEXT_EVENT).toBe("lumos-rewards-context");
     for (const lang of ["cn", "en"]) {
-      expect(isTrustedRewardsUrl(`https://lumos.z.ai/${lang}/referrals?embedded=app`)).toBe(false);
+      expect(isTrustedRewardsUrl(`https://lumosai.cc/${lang}/referrals?embedded=app`)).toBe(false);
       expect(
         isTrustedRewardsUrl(`http://localhost:3000/${lang}/referrals?embedded=app`, { dev: true }),
       ).toBe(false);
     }
   });
   it("解析三环境及 cn/en 和主题", () => {
-    expect(resolveRewardsOrigin({ env: "test", dev: true })).toBe("https://lumos.z.ai");
-    expect(resolveRewardsOrigin({ env: "production", dev: true })).toBe("https://lumos.z.ai");
-    expect(resolveRewardsOrigin({ env: "test" })).toBe("https://lumos.z.ai");
-    expect(resolveRewardsOrigin({ env: "production" })).toBe("https://lumos.z.ai");
-    expect(buildRewardsUrl("https://lumos.z.ai", "zh-CN", "zai-light")).toBe(
-      "https://lumos.z.ai/cn/rewards?embedded=app&theme=zai-light",
+    expect(resolveRewardsOrigin({ env: "test", dev: true })).toBe("https://lumosai.cc");
+    expect(resolveRewardsOrigin({ env: "production", dev: true })).toBe("https://lumosai.cc");
+    expect(resolveRewardsOrigin({ env: "test" })).toBe("https://lumosai.cc");
+    expect(resolveRewardsOrigin({ env: "production" })).toBe("https://lumosai.cc");
+    expect(buildRewardsUrl("https://lumosai.cc", "zh-CN", "zai-light")).toBe(
+      "https://lumosai.cc/cn/rewards?embedded=app&theme=zai-light",
     );
-    expect(buildRewardsUrl("https://lumos.z.ai", "en-US", "zai-dark")).toContain(
+    expect(buildRewardsUrl("https://lumosai.cc", "en-US", "zai-dark")).toContain(
       "/en/rewards?",
     );
   });
@@ -36,20 +36,20 @@ describe("Rewards embedded contract", () => {
         "http://localhost:3000",
       );
       expect(resolveRewardsOrigin({ env, override: "http://localhost:3000" })).toBe(
-        env === "test" ? "https://lumos.z.ai" : "https://lumos.z.ai",
+        env === "test" ? "https://lumosai.cc" : "https://lumosai.cc",
       );
     }
   });
   it("只允许可信 origin 和精确 rewards 路径", () => {
     expect(resolveRewardsOrigin({ env: "production", override: "not-a-url" })).toBe(
-      "https://lumos.z.ai",
+      "https://lumosai.cc",
     );
-    expect(isTrustedRewardsUrl("https://lumos.z.ai/en/rewards?embedded=app")).toBe(true);
+    expect(isTrustedRewardsUrl("https://lumosai.cc/en/rewards?embedded=app")).toBe(true);
     for (const url of [
-      "https://lumos.z.ai.evil.test/en/rewards?embedded=app",
-      "https://user@lumos.z.ai/en/rewards?embedded=app",
-      "https://lumos.z.ai/en/rewards-fake?embedded=app",
-      "https://lumos.z.ai/en/rewards",
+      "https://lumosai.cc.evil.test/en/rewards?embedded=app",
+      "https://user@lumosai.cc/en/rewards?embedded=app",
+      "https://lumosai.cc/en/rewards-fake?embedded=app",
+      "https://lumosai.cc/en/rewards",
       "http://localhost:3000/en/rewards?embedded=app",
     ]) {
       expect(isTrustedRewardsUrl(url)).toBe(false);

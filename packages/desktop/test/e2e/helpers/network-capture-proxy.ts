@@ -27,9 +27,9 @@ export const DEFAULT_E2E_NETWORK_CAPTURE_NO_PROXY = [
   "127.0.0.1",
   "::1",
   "js.stripe.com",
-  "lumos.z.ai",
+  "lumosai.cc",
   // Plugin 商店原始图标 CDN 不需要进入模型请求抓包；直连也避免 Electron MITM 证书导致图片回退。
-  "cdn-lumos.z.ai",
+  "cdn.lumosai.cc",
   "cdn.lumos-ai.com",
 ].join(",");
 export interface E2ENetworkCaptureRecord {

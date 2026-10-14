@@ -50,9 +50,9 @@ describe("desktop renderer Vite dependency aliases", () => {
     );
 
     expect(result?.config.define).toMatchObject({
-      "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify("https://lumos.z.ai"),
+      "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify("https://lumosai.cc"),
       "import.meta.env.VITE_LUMOS_ENDPOINT_ORIGIN": JSON.stringify(
-        "https://lumos.z.ai",
+        "https://lumosai.cc",
       ),
       __LUMOS_LOCAL_DEVELOPMENT_RUNTIME__: JSON.stringify(false),
     });

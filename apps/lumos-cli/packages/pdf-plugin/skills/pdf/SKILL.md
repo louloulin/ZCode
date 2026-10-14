@@ -1,7 +1,7 @@
 ---
 name: pdf
 metadata:
-  author: Z.AI
+  author: Lumos
   version: "1.1"
 description: "Professional PDF toolkit covering four production workflows: reports, creative visuals, academic LaTeX, and existing PDF processing. Routes automatically by document type and supports reports, posters, papers, resumes, extraction, merging, splitting, and form filling. Use this skill for any conversion whose output is a PDF: Office → PDF (.docx/.doc/.pptx/.ppt/.xlsx/.xls/.odt/.odp/.ods/.rtf/.csv/.txt → PDF), HTML → PDF, and LaTeX/.tex → PDF; also PDF → images, PDF → text, and PDF → tables when reading a PDF apart. Trigger when the user asks to convert, export, render, print, or turn a file into a PDF, or to merge/split/extract from one — including phrasings like 'Word转PDF', 'PPT转PDF', 'Excel转PDF', 'html转pdf', '导出为PDF', 'save/export as PDF', or 'PDF转图片/文字'."
 license: Proprietary. LICENSE.txt has complete terms
@@ -556,7 +556,7 @@ These CSS properties **silently break** in Playwright's PDF renderer:
 After generating any Playwright PDF, **verify every page has content** (pypdf text extraction, check non-empty).
 
 ### PDF Metadata (all briefs)
-ALL PDFs must have: Title, Author (default "Z.ai"), Creator, Subject.
+ALL PDFs must have: Title, Author (default "Lumos"), Creator, Subject.
 
 ### Delivery Summary (all briefs)
 Report to user: file path, size, page count. Academic adds word/image count. Creative adds per-page verification.
@@ -585,7 +585,7 @@ env.fix                      # Auto-install missing
 # Quality
 code.sanitize <script>       # Sanitize forbidden Unicode
 content.sanitize <file> [--apply]  # Fix content issues (CJK, encoding)
-meta.brand <pdf>             # Add Z.ai metadata
+meta.brand <pdf>             # Add Lumos metadata
 font.check <pdf>             # Scan for missing glyphs
 toc.check <pdf>              # Validate TOC
 

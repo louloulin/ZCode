@@ -51,7 +51,7 @@ const ALLOWED_EMBEDDED_BROWSER_PROTOCOLS = new Set([
 ]);
 const ALLOWED_EMBEDDED_BROWSER_NEW_WINDOW_PROTOCOLS = new Set(["http:", "https:"]);
 const EXTERNAL_BROWSER_DISPOSITIONS = new Set(["background-tab"]);
-const CODING_PLAN_ZAI_PAYPAL_RELAY_HOSTS = new Set(["api.z.ai", "api.z.ai"]);
+const CODING_PLAN_ZAI_PAYPAL_RELAY_HOSTS = new Set(["api.lumosai.cc", "api.lumosai.cc"]);
 const embeddedBrowserJavaScriptDialogPreloadPath = join(
   import.meta.dirname,
   "../preload/embeddedBrowserJavaScriptDialog.cjs",
@@ -290,7 +290,7 @@ function isCodingPlanPaypalNavigationUrl(url: string): boolean {
     const parsed = new URL(url);
     if (parsed.protocol !== "https:") return false;
     if (isPaypalHostname(parsed.hostname)) return true;
-    // 后端下发的 PayPal approveUrl 可能先指向 Z.AI 支付 API 中转地址，
+    // 后端下发的 PayPal approveUrl 可能先指向 Lumos 支付 API 中转地址，
     // 由该地址再 302 到 PayPal。中转 URL 也必须留在当前 webview，否则会被系统浏览器接管。
     return (
       CODING_PLAN_ZAI_PAYPAL_RELAY_HOSTS.has(parsed.hostname) &&

@@ -205,7 +205,7 @@ Config Service 在 Personal Config 更新锁内重新检查名称
 - “添加模型”移动到“模型列表”标题右侧；
 - 删除 Provider 后继续使用当前导航 fallback，不实现相邻 Provider 选择；
 - Provider 删除失败时保持当前选择；
-- Template 选择页中的品牌名称由 Template `nameMap` 发布；`Z.AI` 中 `AI` 必须大写；
+- Template 选择页中的品牌名称由 Template `nameMap` 发布；`Lumos` 中 `AI` 必须大写；
 - 已创建 Provider 与 Account Provider 的名称继续读取各自 Effective Provider Config 的 `label`，不能反向读取 Template `nameMap`；
 - 除已明确本地化的名称外，英文界面使用官方英文品牌名；不在 Renderer 按 ID 翻译品牌。
 
@@ -216,11 +216,11 @@ Logo 保留在 `ProviderConfig`，不在 Provider Template 壳中重复定义。
 ### 7.1 当前实现事实
 
 - `ProviderConfig.logoUrl` 当前只在 Schema、Overlay、Resolver 和旧配置迁移中流转；设置页没有消费该字段；
-- 现有账号界面的 Z.AI / BigModel 图标由 OAuth 品牌图标 helper 提供；
+- 现有账号界面的 Lumos / BigModel 图标由 OAuth 品牌图标 helper 提供；
 - 普通 Personal Provider 和由 Template 创建的 Provider 当前统一显示通用 Package 图标；
 - 产品分支新增了多份 80×80 PNG，并在 Renderer 中维护 `Provider ID -> Logo import` 映射；
 - 该映射同时列举 Template Provider、Account Provider 和按量 API Provider，复制了 Provider 身份与品牌归属事实，不能原样采用；
-- 产品分支的素材清单中，Moonshot、MiniMax、Xiaomi、OpenAI、Anthropic、xAI、DeepSeek 有可追溯来源；Z.AI 标记为用户提供；Alibaba 素材来自第三方 GitHub 仓库，不能据此认定为官方来源；
+- 产品分支的素材清单中，Moonshot、MiniMax、Xiaomi、OpenAI、Anthropic、xAI、DeepSeek 有可追溯来源；Lumos 标记为用户提供；Alibaba 素材来自第三方 GitHub 仓库，不能据此认定为官方来源；
 - 产品分支新增 PNG 统一为不透明方形画布，深浅主题、视觉留白和不同品牌图形尺寸尚未统一验证。
 
 因此，本轮实施删除 Renderer 的 Provider ID Logo 映射，并把未被消费、名称又绑定 URL 载体的 `ProviderConfig.logoUrl` 直接替换为结构化 `ProviderConfig.logo`。当前结构尚未正式发布，不新增 `logoUrl -> logo` 兼容读取或 URL 转换；旧 Personal importer 也不迁移 `logoUrl`。Provider 与品牌资源的关联只在 Provider Config 中声明一次。
@@ -312,7 +312,7 @@ xai
 - 优先使用品牌官方提供的 SVG；没有合适 SVG 时使用官方 PNG/JPEG；
 - 素材不要求相同源格式或源尺寸；首批位图允许在不裁切、不改图形的前提下缩放为打包尺寸，源素材有透明通道时应保留；
 - UI 使用统一方形容器、`object-contain` 和一致留白控制视觉尺寸；
-- Z.AI 与 BigModel 复用仓库已有、已经用于正式登录/账号界面的品牌素材；
+- Lumos 与 BigModel 复用仓库已有、已经用于正式登录/账号界面的品牌素材；
 - Moonshot Kimi 使用 `MoonshotAI/Branding-Guide` 官方资源；首批单素材在两种主题复用；
 - MiniMax 使用官方品牌包中的方形素材；
 - DeepSeek 使用其官方组织发布的品牌图形，产品发布前确认商标使用授权；
@@ -333,7 +333,7 @@ xai
 | Provider 左侧导航              | Effective Provider Config                     | 展示 Provider Logo；缺失或未知 key 回退通用图标 |
 | Provider 详情标题              | Effective Provider Config                     | 与导航使用同一个 Logo Resolver                  |
 | Provider Template 选择页       | Template `config.logo`                        | 展示 Template 基线 Logo                         |
-| Account Provider 详情          | Account Provider 的 Effective Provider Config | 不再用 Provider ID 推断 Z.AI/BigModel Logo      |
+| Account Provider 详情          | Account Provider 的 Effective Provider Config | 不再用 Provider ID 推断 Lumos/BigModel Logo      |
 | Welcome/OAuth 登录入口         | 登录产品自身的品牌资源                        | 暂时保留，不能反向成为 Provider Logo 事实源     |
 | 模型选择器、会话消息、任务列表 | 不属于本轮                                    | 不为了“统一品牌”扩展新的 Logo 展示需求          |
 

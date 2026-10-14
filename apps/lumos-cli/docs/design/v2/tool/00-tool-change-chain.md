@@ -880,7 +880,7 @@ history。重点检查：
 
 - contract 中有 provider-native 执行模式。
 - model adapter 把它拼到 provider tool schemas，而不是普通 function tool。
-- 兼容端点必须确认支持 provider-native schema；当前只有 Anthropic provider kind 且 baseURL host 为 `bigmodel.cn`、`z.ai`、`deepseek.com` 或其子域时允许投影 `web_search_20260209`。
+- 兼容端点必须确认支持 provider-native schema；当前只有 Anthropic provider kind 且 baseURL host 为 `bigmodel.cn`、`lumosai.cc`、`deepseek.com` 或其子域时允许投影 `web_search_20260209`。
 - 如果 provider-native tool 直接进入主模型请求，runtime 不调用 ToolExecutor 执行它；
   WebSearch 不采用这条路径。
 - 如果 provider-native tool 只服务 side request，外层 client-side tool 仍必须完整经过

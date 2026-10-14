@@ -11,14 +11,14 @@ credential being present or decryptable.
 
 Dedicated Key management preserves the CLI's existing default-organization/default-project
 selection, falling back to the first entry without filtering project types. BigModel
-management requests retain the raw login JWT; Z.AI management requests retain Bearer.
+management requests retain the raw login JWT; Lumos management requests retain Bearer.
 Token issuance uses Bearer for both. The selection policy isolates persisted Key IDs
 from the desktop personal-project policy. Unrelated malformed Key entries are ignored;
 a matching personal Key with no ID fails without creating a duplicate.
 
 
 Account-based Coding Plan key creation explicitly sends `usageScene: 1` for both
-BigModel and Z.AI. This field describes intended usage, independently of `keyType`.
+BigModel and Lumos. This field describes intended usage, independently of `keyType`.
 Manual API key login does not create a server key. List requests keep their current
 unfiltered compatibility until the server's legacy-key mapping is confirmed.
 The implemented token-only flow, storage boundaries, and acceptance cases are
@@ -26,7 +26,7 @@ defined in [the project credential spec](../../../../../docs/model-provider-proj
 
 ## Scope
 
-Lumos CLI login uses the Lumos/Z.AI CLI OAuth device flow and shares the same
+Lumos CLI login uses the Lumos/Lumos CLI OAuth device flow and shares the same
 local credential store as the desktop Lumos product. The login boundary is a
 CLI/bootstrap/adapter concern. Core runtime does not open browsers, call OAuth
 HTTP endpoints, read environment variables directly, or write credential files.
@@ -38,7 +38,7 @@ This document is the v2 contract for:
 - `/login`
 - `/logout`
 - first-run TUI provider setup
-- Coding Plan API key setup for Z.AI and BigModel
+- Coding Plan API key setup for Lumos and BigModel
 
 ## Storage Contract
 
@@ -78,8 +78,8 @@ lumosjwttoken               -> data.token
 oauth:zai:user_info         -> JSON.stringify(data.user)
 ```
 
-These keys are not the runtime model API key. They only preserve the Z.AI app
-login state and allow the CLI to exchange the Z.AI access token for a Coding
+These keys are not the runtime model API key. They only preserve the Lumos app
+login state and allow the CLI to exchange the Lumos access token for a Coding
 Plan Project Access Token.
 
 `lumos logout` snapshots shared OAuth keys, account identity/source pointers, and
@@ -109,7 +109,7 @@ selection for this login flow. It does not receive the account API key.
 Base URL:
 
 ```text
-https://lumos.z.ai/api/v1
+https://lumosai.cc/api/v1
 ```
 
 `lumos login`:
@@ -155,20 +155,20 @@ hardcoded English.
 
 `/login` without arguments shows a local setup selection:
 
-1. `Z.AI Coding Plan`
+1. `Lumos Coding Plan`
 2. `BigModel Coding Plan`
-3. `Z.AI Coding Plan API Key`
+3. `Lumos Coding Plan API Key`
 4. `BigModel Coding Plan API Key`
 
 All four paths select the corresponding built-in provider/model. Only manual
 Key setup persists model credentials; OAuth setup retains the login session and
 stable identity, then resolves a Project Access Token before each HTTP attempt.
 
-`Z.AI Coding Plan` reuses the ZAI CLI OAuth flow above. After Poll returns
+`Lumos Coding Plan` reuses the ZAI CLI OAuth flow above. After Poll returns
 `ready`, the CLI stores the existing ZAI OAuth session keys and exchanges
 `data.zai.access_token` for a Project Access Token:
 
-1. `POST https://api.z.ai/api/auth/z/login` with `{ "token": accessToken }`.
+1. `POST https://api.lumosai.cc/api/auth/z/login` with `{ "token": accessToken }`.
 2. Use the returned biz token as `Authorization: Bearer <token>`.
 3. Read customer org/project information.
 4. Find or create an API key named `lumos-api-key`.
@@ -225,7 +225,7 @@ must not guess that an old derived Key was manually supplied. The public model r
 owner. Manual third-party/custom provider configuration retains its separate
 credential resolution contract.
 
-Z.AI OAuth login uses the returned user identity. BigModel uses stable org/project
+Lumos OAuth login uses the returned user identity. BigModel uses stable org/project
 metadata. Manual Key setup retains its existing irreversible Key-derived identity.
 Key ID records survive restart; explicit 404 invalidates the record for a new lookup.
 A valid Token refreshes 120 seconds plus 0–60 seconds jitter before expiry.
@@ -292,6 +292,6 @@ Required coverage:
 
 沿用共享 PAT owner。HTTP adapter 仅把结构化 network_error/timeout 和 HTTP 429/5xx 标记为临时故障；提前刷新遇到这些故障时，允许在原 expiresAt 内复用未被拒绝的 PAT，5 秒退避，并记录脱敏事件。取消、401/403/404、畸形响应及未知错误不降级。模型 401 恢复携带的拒绝指纹先清除匹配 PAT，不会因此重用失败凭据。退出/账号切换必须拒绝迟到结果；不回退 API Key。验收覆盖临时故障、取消、过期、明确拒绝、并发及两 family 的成功码 0/200/字符串兼容。
 
-Z.AI 前置业务 JWT 的 `ZaiBusinessTokenCache` 采用相同的临时故障分类与 5 秒退避，降级结果必须属于共享 pending。仅在 JWT exp / 响应 TTL 的最早期限内、同一登录且未被 invalidate 时复用旧值；无有效期元数据不降级。保留旧对象身份，确保迟到的 401 仍能将其标记为拒绝；clear/切账号拒绝在途结果。降级只记录固定 `project_token_business_login_refresh_deferred` 事件，不包含 JWT、OAuth 或响应内容。验收覆盖并发、退避恢复、原有效期边界、未知有效期、认证拒绝、取消及在途 clear/invalidate/换账号。
+Lumos 前置业务 JWT 的 `ZaiBusinessTokenCache` 采用相同的临时故障分类与 5 秒退避，降级结果必须属于共享 pending。仅在 JWT exp / 响应 TTL 的最早期限内、同一登录且未被 invalidate 时复用旧值；无有效期元数据不降级。保留旧对象身份，确保迟到的 401 仍能将其标记为拒绝；clear/切账号拒绝在途结果。降级只记录固定 `project_token_business_login_refresh_deferred` 事件，不包含 JWT、OAuth 或响应内容。验收覆盖并发、退避恢复、原有效期边界、未知有效期、认证拒绝、取消及在途 clear/invalidate/换账号。
 
-共享换证的生命周期属于 resolver/cache owner：Key ID 定位、PAT 签发/刷新/401 恢复与业务 JWT 换证 HTTP 都不携带单个调用方 signal，也不携带 context.abortSignal；保留 trace/logger，每次 HTTP 请求设置 15 秒超时。`resolve` 与 `resolveMaterial` 为调用方提供独立可取消等待，提前取消不发请求，等待中取消及时拒绝且移除监听器；不能让一个会话取消影响其他等待者或清空有效缓存。所有等待者退出后底层任务仍有超时，晚到失败必须消费；clear/登录代次保护不变。验收覆盖首个/后续等待者取消、并发共享、旧 PAT 刷新、401 恢复、Z.AI JWT 刷新、全员取消后的成功/失败、监听器清理和 logout 竞态。
+共享换证的生命周期属于 resolver/cache owner：Key ID 定位、PAT 签发/刷新/401 恢复与业务 JWT 换证 HTTP 都不携带单个调用方 signal，也不携带 context.abortSignal；保留 trace/logger，每次 HTTP 请求设置 15 秒超时。`resolve` 与 `resolveMaterial` 为调用方提供独立可取消等待，提前取消不发请求，等待中取消及时拒绝且移除监听器；不能让一个会话取消影响其他等待者或清空有效缓存。所有等待者退出后底层任务仍有超时，晚到失败必须消费；clear/登录代次保护不变。验收覆盖首个/后续等待者取消、并发共享、旧 PAT 刷新、401 恢复、Lumos JWT 刷新、全员取消后的成功/失败、监听器清理和 logout 竞态。

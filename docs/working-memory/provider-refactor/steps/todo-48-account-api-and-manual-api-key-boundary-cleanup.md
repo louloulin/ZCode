@@ -41,7 +41,7 @@ Runtime 和 UI。
 最新 `origin/staging@5ebc182b61` 的真实链路：
 
 ```text
-Welcome 选择 Z.ai / BigModel 并输入 Key
+Welcome 选择 Lumos / BigModel 并输入 Key
         |
         v
 builtin:zai / builtin:bigmodel（启动前已存在）

@@ -23,7 +23,7 @@ import {
 } from "./conversationSharePreviewClient.js";
 import { resolveShareHeaderView, type ShareHeaderView } from "./shareHeaderLayout.js";
 
-/** 登录入口的展示顺序，与桌面端登录卡片一致（z.ai 在上）。 */
+/** 登录入口的展示顺序，与桌面端登录卡片一致（lumosai.cc 在上）。 */
 const SHARE_LOGIN_PROVIDERS: readonly WebOAuthProviderId[] = [
   ZAI_PROVIDER_ID,
   BIGMODEL_PROVIDER_ID,
@@ -88,7 +88,7 @@ interface Copy {
 }
 
 // 站点首页本身就是下载入口，没有 /download 这个 path（单独的下载链接会 404）。
-const LUMOS_DOWNLOAD_URL = "https://lumos.z.ai";
+const LUMOS_DOWNLOAD_URL = "https://lumosai.cc";
 
 const COPY: Record<ConversationShareLandingLocale, Copy> = {
   "zh-CN": {
@@ -99,7 +99,7 @@ const COPY: Record<ConversationShareLandingLocale, Copy> = {
     loginDescription: "请登录后确认你是否有权限查看这个分享。",
     login: "登录",
     loginWith: {
-      zai: "连接 Z.ai 继续使用",
+      zai: "连接 Lumos 继续使用",
       bigmodel: "连接 BigModel 继续使用",
     },
     loginRegion: { zai: "全球", bigmodel: "中国" },
@@ -108,7 +108,7 @@ const COPY: Record<ConversationShareLandingLocale, Copy> = {
     notFoundTitle: "找不到分享内容",
     notFoundDescription: "链接可能无效、分享已被移除，或当前登录账号无法访问。",
     notFoundAccountHint:
-      "Z.ai 与 BigModel 的账号数据不互通。请检查是否选错了登录平台或使用了其他账号。",
+      "Lumos 与 BigModel 的账号数据不互通。请检查是否选错了登录平台或使用了其他账号。",
     backToHome: "回到首页",
     networkTitle: "暂时无法加载分享",
     networkDescription: "请检查网络后重试。",
@@ -136,7 +136,7 @@ const COPY: Record<ConversationShareLandingLocale, Copy> = {
     loginDescription: "Sign in to check whether you can view this shared conversation.",
     login: "Sign in",
     loginWith: {
-      zai: "Connect to Z.ai",
+      zai: "Connect to Lumos",
       bigmodel: "Connect to BigModel",
     },
     loginRegion: { zai: "Global", bigmodel: "CN" },
@@ -146,7 +146,7 @@ const COPY: Record<ConversationShareLandingLocale, Copy> = {
     notFoundDescription:
       "The link may be invalid, the share may have been removed, or your current account may not have access.",
     notFoundAccountHint:
-      "Z.ai and BigModel do not share account data. Check whether you selected the wrong sign-in platform or used a different account.",
+      "Lumos and BigModel do not share account data. Check whether you selected the wrong sign-in platform or used a different account.",
     backToHome: "Back to home",
     networkTitle: "Unable to load share",
     networkDescription: "Check your network connection and try again.",

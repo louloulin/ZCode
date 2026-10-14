@@ -139,7 +139,7 @@ Template 和“创建自定义供应商”使用同一套卡片骨架：
 | 阿里云百炼（国际）                   | 阿里云百炼（国际）      |
 | Xiaomi MiMo                          | Xiaomi MiMo / 小米 MiMo |
 
-`Z.AI API`、`BigModel API`、`MiniMax`、`DeepSeek`、`OpenAI`、`Anthropic` 和 `xAI` 保持简短官方名称。只修改 Template `nameMap`，不修改 `templateId`、Provider ID、API Schema 或 Registry 身份。
+`Lumos API`、`BigModel API`、`MiniMax`、`DeepSeek`、`OpenAI`、`Anthropic` 和 `xAI` 保持简短官方名称。只修改 Template `nameMap`，不修改 `templateId`、Provider ID、API Schema 或 Registry 身份。
 
 ### 3.4 顶部入口与外围协调
 

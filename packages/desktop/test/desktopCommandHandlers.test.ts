@@ -280,15 +280,15 @@ describe("desktopCommandHandlers resolveFeedbackUrl", () => {
     await openChangelog("zh-CN");
     await openChangelog("en-US");
 
-    expect(shell.openExternal).toHaveBeenNthCalledWith(1, "https://lumos.z.ai/cn/changelog");
-    expect(shell.openExternal).toHaveBeenNthCalledWith(2, "https://lumos.z.ai/en/changelog");
+    expect(shell.openExternal).toHaveBeenNthCalledWith(1, "https://lumosai.cc/cn/changelog");
+    expect(shell.openExternal).toHaveBeenNthCalledWith(2, "https://lumosai.cc/en/changelog");
   });
 
   it("changelog 按当前非生产 endpoint 打开", async () => {
     const { executeDesktopCommand } = await import("../src/main/desktopCommandHandlers.js");
     const { shell } = await import("electron");
     const commandOptions = createCommandOptions({
-      settings: { lumosEndpointOrigin: "https://lumos.z.ai" },
+      settings: { lumosEndpointOrigin: "https://lumosai.cc" },
     });
 
     await executeDesktopCommand({
@@ -297,7 +297,7 @@ describe("desktopCommandHandlers resolveFeedbackUrl", () => {
       currentApplicationLocale: "en-US",
     });
 
-    expect(shell.openExternal).toHaveBeenCalledWith("https://lumos.z.ai/en/changelog");
+    expect(shell.openExternal).toHaveBeenCalledWith("https://lumosai.cc/en/changelog");
   });
 
   it("relaunch app 命令交给主进程重启回调", async () => {
@@ -340,7 +340,7 @@ describe("desktopCommandHandlers resolveFeedbackUrl", () => {
       command: DesktopCommandIds.SetLumosEndpointTest,
     });
     expect(commandOptions.settingService.update).toHaveBeenLastCalledWith({
-      lumosEndpointOrigin: "https://lumos.z.ai",
+      lumosEndpointOrigin: "https://lumosai.cc",
     });
 
     await executeDesktopCommand({

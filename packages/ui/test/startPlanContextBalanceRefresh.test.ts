@@ -83,7 +83,7 @@ function createStartPlanSnapshot(): NonNullable<
     authenticated: true,
     provider: {
       id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-      name: "Z.ai Start Plan",
+      name: "Lumos Start Plan",
     },
     remaining: null,
     subscription: null,

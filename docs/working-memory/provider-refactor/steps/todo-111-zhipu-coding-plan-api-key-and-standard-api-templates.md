@@ -1,10 +1,10 @@
 # Todo 111：智谱四类 API 模板与 Coding Plan 手动 Key 请求安全校验
 
-> 2026-09-14 命名更新：上排两个模板的中英文名称统一为 `BigModel Coding Plan`、`Z.AI Coding Plan`，去掉末尾 `API`；下排 `BigModel API`、`Z.AI API` 不变。本条取代下文历史命名。名称仍由 Built-in 的 `templateNameMap` 统一提供，生产配置修改后生成测试配置，不增加前端特判。不修改模板 ID、Access、URL、模型能力或已有 Personal Provider 名称，不做数据迁移。
+> 2026-09-14 命名更新：上排两个模板的中英文名称统一为 `BigModel Coding Plan`、`Lumos Coding Plan`，去掉末尾 `API`；下排 `BigModel API`、`Lumos API` 不变。本条取代下文历史命名。名称仍由 Built-in 的 `templateNameMap` 统一提供，生产配置修改后生成测试配置，不增加前端特判。不修改模板 ID、Access、URL、模型能力或已有 Personal Provider 名称，不做数据迁移。
 
 > 状态：四模板、新 Access、双端点请求安全校验和浏览器验证完成。2026-09-10。实施/测试证据、逐条边界复审及真实环境限制见 [本批交付复审](./provider-todos-105-113-delivery-review.md)。
 >
-> 2026-09-11 Goal 更新：Todo120 已完成32组成对与共享底层测试（合计147项），两家官方地址两种Access均实际完成请求安全校验、HTTP200并正常返回文本。下方“Z.ai新增普通Key路径未实测”由本次证据替代；Air/手机/SSH独立安装包未验收的限制仍有效，详见Todo120末节（Todo120 文档仅官方版本保留）。
+> 2026-09-11 Goal 更新：Todo120 已完成32组成对与共享底层测试（合计147项），两家官方地址两种Access均实际完成请求安全校验、HTTP200并正常返回文本。下方“Lumos新增普通Key路径未实测”由本次证据替代；Air/手机/SSH独立安装包未验收的限制仍有效，详见Todo120末节（Todo120 文档仅官方版本保留）。
 
 > 2026-09-11 后续裁决已实现、待完整验收：补充普通 `api-key` 精确命中两家官方 Coding Plan Anthropic URL 时的安全校验准入。此条取代下文“普通 Key 无论地址均不进入安全校验”的旧限制；不修改持久化 Access，也不新增旧实例迁移。当前边界见 [请求协议 §5.2](../design/registry/request-compatibility-and-access-protocols.md#52-官方版本请求安全校验)，已有证据见文末；用户要求的完整等价性验证与 review 由 Todo120（文档仅官方版本保留）承接，未完成前不能宣称该补充已完整验收。
 
@@ -14,9 +14,9 @@
 
 | 模板展示名称             | 默认 API 协议             | 默认 Base URL                            | Access                           |
 | ------------------------ | ------------------------- | ---------------------------------------- | -------------------------------- |
-| Z.AI Coding Plan API     | `anthropic-messages`      | `https://api.z.ai/api/anthropic`         | 新增 `zhipu-coding-plan-api-key` |
+| Lumos Coding Plan API     | `anthropic-messages`      | `https://api.lumosai.cc/api/anthropic`         | 新增 `zhipu-coding-plan-api-key` |
 | BigModel Coding Plan API | `anthropic-messages`      | `https://open.bigmodel.cn/api/anthropic` | 新增 `zhipu-coding-plan-api-key` |
-| Z.AI API                 | `openai-chat-completions` | `https://api.z.ai/api/paas/v4`           | 原有 `api-key`                   |
+| Lumos API                 | `openai-chat-completions` | `https://api.lumosai.cc/api/paas/v4`           | 原有 `api-key`                   |
 | BigModel API             | `openai-chat-completions` | `https://open.bigmodel.cn/api/paas/v4`   | 原有 `api-key`                   |
 
 - Coding Plan 也有 Chat Completions 端点，路径是 `/api/coding/paas/v4`，不能与普通 `/api/paas/v4` 混用。四模板默认值按上表，不借本次扩大成全部协议模板组合。
@@ -66,15 +66,15 @@
     | 20px
 智谱
     | 12px
-[BigModel Coding Plan API]  [Z.AI Coding Plan API]
-[BigModel API]              [Z.AI API]
+[BigModel Coding Plan API]  [Lumos Coding Plan API]
+[BigModel API]              [Lumos API]
     | 24px（上组卡片底部至下组标题）
 其他
     | 12px
 [创建自定义供应商]           [其他预设模板……]
 ```
 
-- “智谱”固定为这四个手动 Key 模板，套餐一行、普通一行，BigModel 在前、Z.AI 在后；账号登录连接入口不混入。
+- “智谱”固定为这四个手动 Key 模板，套餐一行、普通一行，BigModel 在前、Lumos 在后；账号登录连接入口不混入。
 - “其他”首项为创建自定义供应商，其他模板沿用现有顺序；每个模板只出现一次，不遗漏、不重复。
 - 分组标题与卡片左边缘对齐，不缩进到卡片内部文字处。无图标、横线、数量徽标、分组底色或额外外框。
 - 遵守 `DESIGN.md`，只用现有语义 token。以下字号是默认界面字号下的值，不写死像素字号，随用户界面字号设置变化。
@@ -108,7 +108,7 @@
 
 当前 `toAiSdkProviderNativeTool()` 只支持 Anthropic 原生 WebSearch 编码；Chat Completions 会报不支持编码。仅设置 `supportsNativeWebSearch: true` 不是有效接入。
 
-- 最终裁决：普通 BigModel／Z.ai API 暂不开启内置 WebSearch，本轮不做搜索 Adapter 适配，不再列作待裁决或本轮必须补齐的功能。
+- 最终裁决：普通 BigModel／Lumos API 暂不开启内置 WebSearch，本轮不做搜索 Adapter 适配，不再列作待裁决或本轮必须补齐的功能。
 - 两家的 Chat Completions 搜索是 `tools[].web_search` 厂商扩展，不是 OpenAI Chat Completions 的顶层 `web_search_options`；也不能与 OpenAI Responses 的同名工具混为一谈。以后若接入，须单独核对请求和结果格式。
 - 新普通 API 模板的最终配置不得虚假声明已支持内置搜索；不因此关闭已有 Coding Plan 搜索，也不改变其他搜索工具。旧型号的官方示例不算 GLM-5.3 搜索组合已验证。
 
@@ -126,10 +126,10 @@
 | -------------------- | --------------------------------------------------- |
 | BigModel 普通 API    | `https://bigmodel.cn/usercenter/proj-mgmt/apikeys`  |
 | BigModel Coding Plan | `https://bigmodel.cn/coding-plan/personal/overview` |
-| Z.ai 普通 API        | `https://z.ai/manage-apikey/apikey-list`            |
-| Z.ai Coding Plan     | `https://z.ai/manage-apikey/apikey-list`            |
+| Lumos 普通 API        | `https://lumosai.cc/manage-apikey/apikey-list`            |
+| Lumos Coding Plan     | `https://lumosai.cc/manage-apikey/apikey-list`            |
 
-- Z.ai 普通与套餐模板使用相同主链接，不为了凑四个不同链接自行编造 URL。
+- Lumos 普通与套餐模板使用相同主链接，不为了凑四个不同链接自行编造 URL。
 - 一个套餐模板可接受个人／团队 Key，但获取入口不按身份拆分；控制台内的个人／团队导航交给用户，不根据 Lumos 当前账号猜测。
 - 获取 Key 直接跳转上表控制台，不采用说明页替代。仅使用 `apiKeyManagementUrl`，不保留团队专用字段或双入口 UI，复用同一平台打开机制，不在组件硬编码地址。
 - 普通 API 使用已确认的直接 Key 管理页；沿用 Todo107 的模板元数据唯一来源和平台打开机制，不在组件维护第二份地址表。
@@ -151,9 +151,9 @@
 官方资料（核查日期 2026-09-10）：
 
 - [智谱 Coding Plan 快速开始](https://docs.bigmodel.cn/cn/coding-plan/quick-start)、[普通 API 快速开始](https://docs.bigmodel.cn/cn/guide/start/quick-start)、[HTTP API](https://docs.bigmodel.cn/cn/guide/develop/http/introduction)：套餐／普通端点、个人／团队 Key 获取路径。
-- [Z.ai Coding Plan 快速开始](https://docs.z.ai/devpack/quick-start)、[普通 API 说明](https://docs.z.ai/api-reference/introduction)：端点、Key 入口与鉴权。
-- [GLM-5.3](https://docs.z.ai/guides/llm/glm-5.3)、[GLM-5.3-Flash](https://docs.z.ai/guides/vlm/glm-5.3-flash)：文本与原生多模态的区别。
-- [智谱搜索](https://docs.bigmodel.cn/cn/guide/tools/web-search)、[Z.ai 搜索](https://docs.z.ai/guides/tools/web-search)：独立搜索与对话内搜索的区别；不作为所有模型已实测的依据。
+- [Lumos Coding Plan 快速开始](https://docs.lumosai.cc/devpack/quick-start)、[普通 API 说明](https://docs.lumosai.cc/api-reference/introduction)：端点、Key 入口与鉴权。
+- [GLM-5.3](https://docs.lumosai.cc/guides/llm/glm-5.3)、[GLM-5.3-Flash](https://docs.lumosai.cc/guides/vlm/glm-5.3-flash)：文本与原生多模态的区别。
+- [智谱搜索](https://docs.bigmodel.cn/cn/guide/tools/web-search)、[Lumos 搜索](https://docs.lumosai.cc/guides/tools/web-search)：独立搜索与对话内搜索的区别；不作为所有模型已实测的依据。
 
 主要代码：`config/provider/lumos-builtin.json`；`packages/provider/src/config/provider-data-schema.ts`、`provider-config.ts`、`schema.ts` 与 `packages/provider/src/resolver.ts`；`packages/ui/src/settings/model-provider-section/ProviderDraftSave.ts`、`InlineEditableProviderCard.tsx`；`apps/lumos-cli/packages/adapters/src/model/model-execution.ts`、`tool-transform.ts`；官方版本的请求安全校验实现；`packages/services/src/model-provider/accountProviderRequestAuthService.ts`。
 
@@ -185,4 +185,4 @@
 - Adapter 定向 2 文件 51 项、共享请求安全校验／开关 2 文件 47 项，共 98 项通过，包含既有账号 Start/Off-Peak 排除、按 Key 隔离、缓存、重试／降级与错误边界。
 - 使用用户授权的 Key，在隔离内存配置中将 Access 保持为 `api-key`，实际请求 BigModel 官方套餐端点：官方版本请求安全校验流程完成，最终模型请求 HTTP 200、正常结束。Prompt 严格为 system `You are Lumos connectivity probe.` / user `hi`。Key 与校验材料不写入文档、配置或诊断输出；没有修改 Air 配置。
 - 根目录 typecheck、Adapter typecheck、根目录 lint（41 个既有 warnings、0 errors）、修改文件格式检查、架构检查（baseline/new 均 0）通过。Adapter 全目录 lint 仍因未改文件的既有 max-lines 等问题失败，不借本项扩修；修改文件定向 lint 通过。
-- 本次没有改交互和消息投递边界，不新增 UI E2E；两家地址均有实际 SDK + 离线 transport 断言。新增普通 Key 路径的线上实测仅 BigModel，不将其写成 Z.ai、Air 安装包、真实手机或 SSH 均已验收。
+- 本次没有改交互和消息投递边界，不新增 UI E2E；两家地址均有实际 SDK + 离线 transport 断言。新增普通 Key 路径的线上实测仅 BigModel，不将其写成 Lumos、Air 安装包、真实手机或 SSH 均已验收。

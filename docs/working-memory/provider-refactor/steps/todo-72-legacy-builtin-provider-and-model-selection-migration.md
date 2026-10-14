@@ -161,7 +161,7 @@ Bot/Session 的首次导入必须在最终身份转换接入后验收，不能�
 - 内置 ID 配合 `source: "custom"` 仍不产生自定义套餐；真正 UUID 自定义 Provider 不受影响。
 - Built-in API 只留下 Key，当前 Template 正常提供其余配置；空 Key 不覆盖有效配置。
 - 首次导入后不改写旧文件；再次加载不重复导入、不覆盖当前 Personal 编辑。
-- BigModel/Z.ai 各覆盖个人、Team、无明确账号连接；验证模型身份及未绑定结果，不只看页面是否出现供应商。
+- BigModel/Lumos 各覆盖个人、Team、无明确账号连接；验证模型身份及未绑定结果，不只看页面是否出现供应商。
 - 新旧字段冲突时新字段优先；模型不存在、Reasoning 缺失/失效时 Session 历史与任务列表仍能打开。
 - 旧版 `modelSelection` 中的明确旧内置身份也被转换；不能把“有这个字段”误判为迁移已完成。
 - 选择留空不弹提示，不被 Composer 初始化或重启恢复补回默认值。

@@ -33,7 +33,7 @@
 构建配置根据 `LUMOS_ENV` 选择对应链接，并向 renderer 注入公开的 `VITE_*` 值。
 renderer、host/service 和 agent 里的 Lumos API、远控链接、lumos-plan OpenAI/Anthropic
 入口都通过 `@lumos/shared` 的 endpoint resolver 派生，业务代码不要再手写
-`lumos.z.ai` / `lumos.z.ai` 的 lumos-plan URL。
+`lumosai.cc` / `lumosai.cc` 的 lumos-plan URL。
 
 ## Endpoint resolver
 
@@ -44,8 +44,8 @@ renderer、host/service 和 agent 里的 Lumos API、远控链接、lumos-plan O
 
 | 产品环境 | Lumos API | ZAI OAuth | ZAI Business API | BigModel API |
 | --- | --- | --- | --- | --- |
-| `test` | `https://lumos.z.ai` | `https://chat.z.ai` | `https://api.z.ai` | `https://bigmodel.cn` |
-| `production` | `https://lumos.z.ai` | `https://chat.z.ai` | `https://api.z.ai` | `https://bigmodel.cn` |
+| `test` | `https://lumosai.cc` | `https://chat.lumosai.cc` | `https://api.lumosai.cc` | `https://bigmodel.cn` |
+| `production` | `https://lumosai.cc` | `https://chat.lumosai.cc` | `https://api.lumosai.cc` | `https://bigmodel.cn` |
 
 覆盖优先级：
 

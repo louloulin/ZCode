@@ -194,7 +194,7 @@ describe("telemetryCore", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledWith(
-      "https://lumos.z.ai/api/v1/event/report",
+      "https://lumosai.cc/api/v1/event/report",
       expect.objectContaining({
         method: "POST",
         headers: expect.objectContaining({ "Content-Type": "application/json" }),

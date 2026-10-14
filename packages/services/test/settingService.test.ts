@@ -682,9 +682,9 @@ describe("settingService", () => {
     const settingsFile = join(home, ".lumos", "v2", "setting.json");
     const service = await createSettingServiceInHome(home);
 
-    await service.update({ lumosEndpointOrigin: "https://lumos.z.ai/path" });
+    await service.update({ lumosEndpointOrigin: "https://lumosai.cc/path" });
     await expect(service.get()).resolves.toMatchObject({
-      lumosEndpointOrigin: "https://lumos.z.ai",
+      lumosEndpointOrigin: "https://lumosai.cc",
     });
 
     await service.update({ lumosEndpointOrigin: "" });

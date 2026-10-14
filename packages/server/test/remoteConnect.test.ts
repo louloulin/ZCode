@@ -315,8 +315,8 @@ describe("connectRemote", () => {
       skipDeploy: true,
       remoteRuntimeEnv: {
         LUMOS_ENV: "test",
-        LUMOS_BASE_URL: "https://lumos.z.ai/api/v1",
-        ZAI_OAUTH_ORIGIN: "https://chat.z.ai",
+        LUMOS_BASE_URL: "https://lumosai.cc/api/v1",
+        ZAI_OAUTH_ORIGIN: "https://chat.lumosai.cc",
         ZAI_OAUTH_CLIENT_ID: "client_'test",
         ZAI_OAUTH_APP_SECRET: "must-not-cross-ssh",
       },
@@ -324,8 +324,8 @@ describe("connectRemote", () => {
     connection.dispose();
 
     expect(backend.commands[0]).toContain("LUMOS_ENV='test'");
-    expect(backend.commands[0]).toContain("LUMOS_BASE_URL='https://lumos.z.ai/api/v1'");
-    expect(backend.commands[0]).toContain("ZAI_OAUTH_ORIGIN='https://chat.z.ai'");
+    expect(backend.commands[0]).toContain("LUMOS_BASE_URL='https://lumosai.cc/api/v1'");
+    expect(backend.commands[0]).toContain("ZAI_OAUTH_ORIGIN='https://chat.lumosai.cc'");
     expect(backend.commands[0]).toContain(`ZAI_OAUTH_CLIENT_ID='client_'"'"'test'`);
     expect(backend.commands[0]).not.toContain("ZAI_OAUTH_APP_SECRET");
     expect(backend.commands[0]).not.toContain("must-not-cross-ssh");

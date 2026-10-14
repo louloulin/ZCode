@@ -67,7 +67,7 @@ function withTestResetAccess(request: Record<string, unknown>) {
 }
 
 describe("BigModelUsageQuotaProvider coding plan reset", () => {
-  it("Z.ai provider 的四个 reset 方法统一使用 Z.ai OAuth token", async () => {
+  it("Lumos provider 的四个 reset 方法统一使用 Lumos OAuth token", async () => {
     const request = vi.fn(async (url: string | URL) => {
       const pathname = new URL(String(url)).pathname;
       if (pathname.endsWith("/status")) {
@@ -120,7 +120,7 @@ describe("BigModelUsageQuotaProvider coding plan reset", () => {
     }
   });
 
-  it("reset credential 必须与 provider family 一致，不跨 Z.ai 与 BigModel 回退", async () => {
+  it("reset credential 必须与 provider family 一致，不跨 Lumos 与 BigModel 回退", async () => {
     const zaiRequest = vi.fn();
     const zaiProvider = createProviderForTest({
       apiClient: { request: zaiRequest },
@@ -188,7 +188,7 @@ describe("BigModelUsageQuotaProvider coding plan reset", () => {
 
     expect(request).toHaveBeenCalledTimes(1);
     const [url, init] = request.mock.calls[0] ?? [];
-    expect(String(url)).toBe("https://lumos.z.ai/api/v1/coding-plan/reset/status");
+    expect(String(url)).toBe("https://lumosai.cc/api/v1/coding-plan/reset/status");
     const headers = new Headers(init?.headers);
     expect(headers.get("Authorization")).toBe("Bearer lumos-jwt");
     // 后端契约:X-Bigmodel-Authorization 传 MaaS 登录态 JWT,不是 Coding Plan API key。
@@ -228,7 +228,7 @@ describe("BigModelUsageQuotaProvider coding plan reset", () => {
     // 团队凭证同样是 MaaS JWT + org/project header,不得再请求控制台复制项目 API Key。
     expect(request).toHaveBeenCalledTimes(1);
     const [url, init] = request.mock.calls[0] ?? [];
-    expect(String(url)).toBe("https://lumos.z.ai/api/v1/coding-plan/reset/status");
+    expect(String(url)).toBe("https://lumosai.cc/api/v1/coding-plan/reset/status");
     const headers = new Headers(init?.headers);
     expect(headers.get("X-Bigmodel-Authorization")).toBe("oauth-token");
     expect(headers.get("Bigmodel-Target-Type")).toBe("TEAM");
@@ -256,7 +256,7 @@ describe("BigModelUsageQuotaProvider coding plan reset", () => {
     ).resolves.toEqual({ granted: true, nextTryAt: null });
 
     const [url, init] = request.mock.calls[0] ?? [];
-    expect(String(url)).toBe("https://lumos.z.ai/api/v1/coding-plan/reset/opportunity");
+    expect(String(url)).toBe("https://lumosai.cc/api/v1/coding-plan/reset/opportunity");
     expect(init?.method).toBe("POST");
     expect(JSON.parse(String(init?.body))).toEqual({
       idempotency_key: "opportunity-idempotency-key",
@@ -478,7 +478,7 @@ describe("BigModelUsageQuotaProvider coding plan reset", () => {
     });
 
     const [url, init] = request.mock.calls[0] ?? [];
-    expect(String(url)).toBe("https://lumos.z.ai/api/v1/coding-plan/reset/history/read");
+    expect(String(url)).toBe("https://lumosai.cc/api/v1/coding-plan/reset/history/read");
     const headers = new Headers(init?.headers);
     expect(headers.get("Authorization")).toBe("Bearer lumos-jwt");
     expect(headers.get("X-Bigmodel-Authorization")).toBe("maas-login-jwt");

@@ -18,7 +18,7 @@ WelcomeScreen 不等待套餐查询完成，仍保持现有进入应用节奏。
 ### 导航与连接方式分层
 
 - 左侧 side 导航只显示 provider family / custom provider：
-  - Z.ai
+  - Lumos
   - BigModel
   - 其他 Built-in provider
   - 自定义 provider
@@ -32,7 +32,7 @@ WelcomeScreen 不等待套餐查询完成，仍保持现有进入应用节奏。
 
 ### OAuth 登录入口
 
-当用户通过 WelcomeScreen 选择 Z.ai 或 BigModel OAuth 登录后，Model Provider 设置页先选中对应 family 的 side 导航入口，再在同 family 内等待连接方式状态可判定，按以下优先级选中一次：
+当用户通过 WelcomeScreen 选择 Lumos 或 BigModel OAuth 登录后，Model Provider 设置页先选中对应 family 的 side 导航入口，再在同 family 内等待连接方式状态可判定，按以下优先级选中一次：
 
 1. 个人套餐（Coding Plan，个人）：有个人 Coding Plan 权益。
 2. 团队套餐（Coding Plan，团队）：按团队套餐获取结果中的第一个团队项。
@@ -64,7 +64,7 @@ OAuth 回调成功后还必须在 Root 后台尽力刷新当前账号的连接�
 
 ### API Key 入口
 
-当用户通过 WelcomeScreen 的 API Key 入口选择 Z.ai 或 BigModel 后，Model Provider 设置页选中同 family 的 side 导航入口，并在右侧连接方式中直接选中 API Key，不受体验套餐、个人套餐或团队套餐权益影响。
+当用户通过 WelcomeScreen 的 API Key 入口选择 Lumos 或 BigModel 后，Model Provider 设置页选中同 family 的 side 导航入口，并在右侧连接方式中直接选中 API Key，不受体验套餐、个人套餐或团队套餐权益影响。
 
 API Key 登录只要求写入 `modelProviderFamilyModes[family] = "apiKey"`；输入框和设置页看到 API Key mode 后直接按同 family 的 API Key 入口展示，不需要依赖 OAuth selected key。
 
@@ -72,4 +72,4 @@ API Key 登录只要求写入 `modelProviderFamilyModes[family] = "apiKey"`；�
 
 - 初始选中意图只消费一次，消费后不再因后续 entitlement refresh 抢用户手动选择。
 - 普通打开设置页不写入 WelcomeScreen 初始选中意图，继续沿用现有选中项、已保存 family mode 和 fallback 行为；不能按套餐权益优先级重新选择右侧连接方式。
-- 入口意图只限定当前 family，不跨 Z.ai / BigModel 互相选择。
+- 入口意图只限定当前 family，不跨 Lumos / BigModel 互相选择。

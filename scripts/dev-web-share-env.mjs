@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 
-const TEST_SHARE_ENDPOINT_ORIGIN = "https://lumos.z.ai";
+const TEST_SHARE_ENDPOINT_ORIGIN = "https://lumosai.cc";
 
 const mode = process.argv[2]?.trim().toLowerCase();
 if (mode !== "test" && mode !== "mock") {

@@ -84,7 +84,7 @@ describe("coding plan embedded webview bridge", () => {
   it("builds the website URL with app embedded marker and no telemetry query", () => {
     const url = new URL(
       buildCodingPlanEmbeddedWebviewUrl({
-        origin: "https://lumos.z.ai",
+        origin: "https://lumosai.cc",
         provider: "bigmodel",
         audience: "team",
         teamPlanKey: "team-plan-a",
@@ -92,7 +92,7 @@ describe("coding plan embedded webview bridge", () => {
       }),
     );
 
-    expect(url.origin).toBe("https://lumos.z.ai");
+    expect(url.origin).toBe("https://lumosai.cc");
     expect(url.pathname).toBe("/coding-plan");
     expect(Object.fromEntries(url.searchParams)).toMatchObject({
       provider: "bigmodel",
@@ -190,28 +190,28 @@ describe("coding plan embedded webview bridge", () => {
     expect(
       resolveCodingPlanEmbeddedOrigin({
         dev: true,
-        endpointOrigin: "https://lumos.z.ai",
+        endpointOrigin: "https://lumosai.cc",
         lumosEnv: "test",
       }),
     ).toBe("http://localhost:3000");
     expect(
       resolveCodingPlanEmbeddedOrigin({
         dev: true,
-        endpointOrigin: "https://lumos.z.ai",
+        endpointOrigin: "https://lumosai.cc",
         lumosEnv: "production",
       }),
-    ).toBe("https://lumos.z.ai");
+    ).toBe("https://lumosai.cc");
     expect(
       resolveCodingPlanEmbeddedOrigin({
         dev: false,
-        endpointOrigin: "https://lumos.z.ai",
+        endpointOrigin: "https://lumosai.cc",
         lumosEnv: "production",
       }),
-    ).toBe("https://lumos.z.ai");
+    ).toBe("https://lumosai.cc");
     expect(
       resolveCodingPlanEmbeddedOrigin({
         dev: true,
-        endpointOrigin: "https://lumos.z.ai",
+        endpointOrigin: "https://lumosai.cc",
         lumosEnv: "test",
         overrideOrigin: "https://example.test/path",
       }),
@@ -219,8 +219,8 @@ describe("coding plan embedded webview bridge", () => {
   });
 
   it("only trusts official coding plan origins unless the E2E bridge enables loopback mocks", () => {
-    expect(isTrustedCodingPlanWebviewOrigin("https://lumos.z.ai")).toBe(true);
-    expect(isTrustedCodingPlanWebviewOrigin("https://lumos.z.ai")).toBe(true);
+    expect(isTrustedCodingPlanWebviewOrigin("https://lumosai.cc")).toBe(true);
+    expect(isTrustedCodingPlanWebviewOrigin("https://lumosai.cc")).toBe(true);
     expect(isTrustedCodingPlanWebviewOrigin("http://localhost:3000")).toBe(true);
     expect(isTrustedCodingPlanWebviewOrigin("https://evil.example")).toBe(false);
     expect(isTrustedCodingPlanWebviewOrigin("http://127.0.0.1:4555")).toBe(false);
@@ -366,19 +366,19 @@ describe("coding plan embedded webview bridge", () => {
   it("only injects credentials on the current trusted embedded coding plan page", () => {
     expect(
       isTrustedCodingPlanEmbeddedWebviewUrl(
-        "https://lumos.z.ai/coding-plan?provider=zai&embedded=app",
+        "https://lumosai.cc/coding-plan?provider=zai&embedded=app",
       ),
     ).toBe(true);
     expect(
       isTrustedCodingPlanEmbeddedWebviewUrl(
-        "https://lumos.z.ai/cn/coding-plan?provider=zai&embedded=app",
+        "https://lumosai.cc/cn/coding-plan?provider=zai&embedded=app",
       ),
     ).toBe(true);
     expect(isTrustedCodingPlanEmbeddedWebviewUrl("https://pay.example/checkout?embedded=app")).toBe(
       false,
     );
     expect(
-      isTrustedCodingPlanEmbeddedWebviewUrl("https://lumos.z.ai/coding-plan?provider=zai"),
+      isTrustedCodingPlanEmbeddedWebviewUrl("https://lumosai.cc/coding-plan?provider=zai"),
     ).toBe(false);
   });
 

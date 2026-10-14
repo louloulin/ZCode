@@ -109,7 +109,7 @@ describe("WelcomeScreen", () => {
     oauthState.providers = [
       {
         id: "zai",
-        displayName: "Z.AI",
+        displayName: "Lumos",
         enabled: true,
         order: 0,
       },

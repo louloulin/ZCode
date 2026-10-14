@@ -59,7 +59,7 @@ describe("global notice store", () => {
           expiresAt: 2000,
           payload: {
             cardId: "hsc_mock_1",
-            shareUrl: "https://mock.z.ai/highspeed/share/hsc_mock_1",
+            shareUrl: "https://mock.lumosai.cc/highspeed/share/hsc_mock_1",
           },
           actions: [],
           dismissPolicy: { kind: "cooldown", cooldownMs: 24 * 60 * 60_000 },

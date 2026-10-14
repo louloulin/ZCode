@@ -63,8 +63,8 @@ describe("MCS published capability boundaries", () => {
       );
     }
     for (const baseUrl of [
-      "https://lumos.z.ai/api/v1/off-peak/anthropic/",
-      "https://lumos.z.ai/api/v1/lumos-plan/anthropic/",
+      "https://lumosai.cc/api/v1/off-peak/anthropic/",
+      "https://lumosai.cc/api/v1/lumos-plan/anthropic/",
     ]) {
       expect(
         rules.resolve({
@@ -76,7 +76,7 @@ describe("MCS published capability boundaries", () => {
       ).toBe(true);
       for (const negative of [
         `${baseUrl}extra`,
-        baseUrl.replace("lumos.z.ai", "lumos.z.ai.evil.example"),
+        baseUrl.replace("lumosai.cc", "lumosai.cc.evil.example"),
       ]) {
         expect(
           rules.resolve({

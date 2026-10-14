@@ -187,7 +187,7 @@ steps/
 ├─ todo-48-account-api-and-manual-api-key-boundary-cleanup.md
 │  └─ Account API 幻觉的调查记录；正式裁决与实施由 Todo 49 取代
 ├─ todo-49-manual-api-key-and-coding-plan-credential-boundary-cutover.md
-│  └─ 删除伪 Account API，将 Z.ai/BigModel 按量 API 归回真实 API Key Provider
+│  └─ 删除伪 Account API，将 Lumos/BigModel 按量 API 归回真实 API Key Provider
 ├─ todo-50-provider-enabled-and-account-entitlement-separation.md
 │  └─ 分离 Provider 配置参与开关与 Account Access 权益事实
 ├─ todo-51-provider-access-consumer-and-offpeak-auth-closeout.md
@@ -195,7 +195,7 @@ steps/
 ├─ todo-52-provider-e2e-regression-closeout.md
 │  └─ 已完成：删除过时 Family Case、迁移正式输入 Fixture，并收口 Registry 轮询屏障
 ├─ todo-55-provider-template-inheritance-cutover.md
-│  └─ 已完成：按量 API 与普通供应商迁入 Template，Z.ai/BigModel Family 收窄为 Account-only
+│  └─ 已完成：按量 API 与普通供应商迁入 Template，Lumos/BigModel Family 收窄为 Account-only
 ├─ todo-56-remote-provider-provisioning-environment-sync.md
 │  └─ 已完成：合并远端 Provisioning 基线，并以 Application 级 Environment Coordinator 收口自动同步
 ├─ todo-57-provider-e2e-runtime-verification-closeout.md
@@ -277,7 +277,7 @@ steps/
 - [`todo-50-provider-enabled-and-account-entitlement-separation.md`](./todo-50-provider-enabled-and-account-entitlement-separation.md) 保留 Provider `enabled` 作为“加入当前配置”的唯一事实，并将账号套餐资格收缩为 `zhipu-account access.entitled`，删除 Account Overlay 对顶层 `enabled` 的复用。
 - [`todo-51-provider-access-consumer-and-offpeak-auth-closeout.md`](./todo-51-provider-access-consumer-and-offpeak-auth-closeout.md) 收口 Todo 47/49/50 后的消费层漂移：彻底拆清 `enabled`、`entitled` 与 `executable`，将 Off-Peak 账号材料与逐请求鉴权归并为唯一 Host 私有来源，并删除旧 Family mode、错误接口命名和文档残余；其中 Welcome 保存固定 Family API Provider Overlay 的阶段性结论由 Todo 55 改为创建 Provider Template 实例。
 - [`todo-52-provider-e2e-regression-closeout.md`](./todo-52-provider-e2e-regression-closeout.md) 记录已完成的 Provider E2E 回归收口：统一正式输入 Fixture、Bot Selection、Subagent structured selection 和 Personal Config 轮询屏障；删除失去产品对象的 Family Case，并恢复仍有效的 Account、Runtime、恢复和 Upgrade 行为证明。
-- [`todo-55-provider-template-inheritance-cutover.md`](./todo-55-provider-template-inheritance-cutover.md) 以复用现有 Provider Config 值结构的 Provider Template 取代全部非 Account Built-in Concrete Provider；Z.ai API / BigModel API 与其他模板一样支持多实例，Family 删除按量 API 槽位并收窄为 Account-only；同时增加 `template-model`、原子 Built-in Release，并退役 Provider placement enabled 与 addable Built-in 生命周期。
+- [`todo-55-provider-template-inheritance-cutover.md`](./todo-55-provider-template-inheritance-cutover.md) 以复用现有 Provider Config 值结构的 Provider Template 取代全部非 Account Built-in Concrete Provider；Lumos API / BigModel API 与其他模板一样支持多实例，Family 删除按量 API 槽位并收窄为 Account-only；同时增加 `template-model`、原子 Built-in Release，并退役 Provider placement enabled 与 addable Built-in 生命周期。
 - [`todo-56-remote-provider-provisioning-environment-sync.md`](./todo-56-remote-provider-provisioning-environment-sync.md) 先吸收远端 Provisioning Source/Target/事务基线，再删除手动与 only-if-missing 语义；由 Desktop Main 按 Remote Environment 做 application 级 single-flight 调度，并在配置、默认模型、账号、凭据和上线事件后完整覆盖远端执行镜像。
 - [`todo-57-provider-e2e-runtime-verification-closeout.md`](./todo-57-provider-e2e-runtime-verification-closeout.md) 在 Todo 56 稳定后真正启动 Electron/WDIO，逐组复现并修复 Todo 52 的 Provider 回归与新增 Remote Provisioning Case，严格区分静态前置检查和实际 E2E 通过证据。
 - [`todo-60-required-reasoning-option-and-mapping-editor.md`](./todo-60-required-reasoning-option-and-mapping-editor.md) 将 Reasoning Option 收口为每个 Effective Model Config 的必填事实，退役固定 thinking budget，并开放有序档位与 Mapping placeholder 编辑。

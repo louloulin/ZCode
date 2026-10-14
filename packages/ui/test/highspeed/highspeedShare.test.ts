@@ -158,13 +158,13 @@ describe("highspeed client share", () => {
   it("copies the complete share text", async () => {
     let copied = "";
     await copyHighspeedShareText(
-      "我用 Lumos 高速卡节省了 120 秒的时间，你也来试试吧。下载 Lumos https://lumos.z.ai",
+      "我用 Lumos 高速卡节省了 120 秒的时间，你也来试试吧。下载 Lumos https://lumosai.cc",
       async (text) => {
         copied = text;
       },
     );
     expect(copied).toBe(
-      "我用 Lumos 高速卡节省了 120 秒的时间，你也来试试吧。下载 Lumos https://lumos.z.ai",
+      "我用 Lumos 高速卡节省了 120 秒的时间，你也来试试吧。下载 Lumos https://lumosai.cc",
     );
   });
 

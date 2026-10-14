@@ -759,14 +759,14 @@ describe("browserDataManager", () => {
     await writeFile(
       join(levelDbPath, "000001.ldb"),
       Buffer.from(
-        "binary\0META:https://chat.z.ai\0META:http://localhost:3000\0META:chrome-extension://ignored",
+        "binary\0META:https://chat.lumosai.cc\0META:http://localhost:3000\0META:chrome-extension://ignored",
         "latin1",
       ),
     );
 
     await expect(discoverChromeLocalStorageOrigins(localStoragePath)).resolves.toEqual([
       "http://localhost:3000",
-      "https://chat.z.ai",
+      "https://chat.lumosai.cc",
     ]);
   });
 
@@ -776,7 +776,7 @@ describe("browserDataManager", () => {
     await mkdir(levelDbPath, { recursive: true });
     await writeFile(
       join(levelDbPath, "000001.ldb"),
-      Buffer.from("binary\0META:https://chat.z.ai", "latin1"),
+      Buffer.from("binary\0META:https://chat.lumosai.cc", "latin1"),
     );
 
     const result = await importChromeLocalStorage({

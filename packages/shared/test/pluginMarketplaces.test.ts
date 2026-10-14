@@ -8,7 +8,7 @@ describe("DEFAULT_PLUGIN_MARKETPLACES", () => {
         id: "lumos-plugins-official",
         name: "lumos-plugins-official",
         pluginCount: 0,
-        source: "https://cdn-lumos.z.ai/lumos/official-plugin/marketplace.json",
+        source: "https://cdn.lumosai.cc/lumos/official-plugin/marketplace.json",
       }),
       expect.objectContaining({
         id: "claude-plugins-official",

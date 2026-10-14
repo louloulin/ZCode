@@ -50,6 +50,6 @@ settings selectedKey = coding-plan:<start-plan-provider>
 ## Regression coverage
 
 - Service tests cover explicit Start Plan selection while the sibling Coding
-  Plan is also enabled and has an API key, for both Z.ai and BigModel.
+  Plan is also enabled and has an API key, for both Lumos and BigModel.
 - UI tests cover a `provider.notInRegistry` send failure becoming a visible
   runtime-model-unavailable composer error.

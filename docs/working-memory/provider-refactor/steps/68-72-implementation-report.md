@@ -261,7 +261,7 @@ Core 全量、Bootstrap 定向回归、Pro 首请求证据与文档/类型入口
 按用户最新要求，后续测试统一使用 MacBook Pro。此前误沿用 68 文档中的 Air 要求，已修正文档。
 Air 第一轮 E2E 停在模型菜单不可点击，未取得完整切模证据，不能算验证通过；第二轮停止。
 Air 独立目录、依赖和测试日志暂留，旧源码目录及真实用户数据未覆盖。
-Pro 独立测试目录：`/Users/dev/Desktop/projects/Z.AI/lumos-todo68-e2e.H1cvBo`。
+Pro 独立测试目录：`/Users/dev/Desktop/projects/Lumos/lumos-todo68-e2e.H1cvBo`。
 Pro 使用 Node 24.14.0 / pnpm 10.33.2。Electron 下载中断后复用同机旧目录的相同版本 41.0.3 二进制；
 只给测试命令设置 PATH / 跳过重复下载，不改全局 mise 信任、Shell 或 Git 配置，也不覆盖旧源码目录。
 
@@ -277,6 +277,6 @@ Pro 使用 Node 24.14.0 / pnpm 10.33.2。Electron 下载中断后复用同机旧
 
 - Session 恢复只接受当前 Model Selection；旧结构仅在明确旧身份时单向转换，缺失或失效模型/Reasoning 保持空态，不再从 Registry 第一项静默替换。此前遗留的 `ensureSessionModelAvailable` fallback 已改为无写入过渡入口，避免覆盖用户选择。
 - Composer Draft 继续保存 mode/modelSelection，空文本不删除选择；移除 scope 数量上限，长期模型选择不会被后台裁剪。
-- Built-in 迁移仅保留 BigModel/Z.ai 按量 API Key，其他内置配置不生成 Personal 副本；Coding Plan 身份按当前账号连接一次性固定，后续恢复只认新字段。
+- Built-in 迁移仅保留 BigModel/Lumos 按量 API Key，其他内置配置不生成 Personal 副本；Coding Plan 身份按当前账号连接一次性固定，后续恢复只认新字段。
 - 阶段验证：Bootstrap 迁移/未绑定恢复 **35 tests passed**，Adapters 迁移 **12 passed**，Composer Draft/控制器 **20 passed**，Bootstrap 命令集 **71 passed**；typecheck、lint（0 error）和 diff check 通过。Pro 上已验证的 provider-refactor E2E 保持通过；超大图片旧夹具仍因调用已删除接口而单独跳过，不属于本轮产品逻辑。
 - 本轮未增加数据库表迁移；旧文件按既定单向读取边界保留，已错误生成的新配置按人工修复处理。

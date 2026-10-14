@@ -185,7 +185,7 @@ describe("BigModel Coding Plan 官网 webview 支付完成 E2E", () => {
     ).toBe("");
   });
 
-  it("CPUW-03: Z.ai webview 通知 App 关闭升级弹窗并刷新当前 provider 与 Team Plan products", async function () {
+  it("CPUW-03: Lumos webview 通知 App 关闭升级弹窗并刷新当前 provider 与 Team Plan products", async function () {
     this.timeout(120000);
 
     await prepareZaiCodingPlanUpgradeState();
@@ -201,13 +201,13 @@ describe("BigModel Coding Plan 官网 webview 支付完成 E2E", () => {
       (request) =>
         request.path.endsWith("/api/biz/customer/getCustomerInfo") &&
         request.headers.authorization === "Bearer zai-webview-oauth-token",
-      "购买完成后没有按 Z.ai token 刷新 customerInfo",
+      "购买完成后没有按 Lumos token 刷新 customerInfo",
     );
     await waitForCodingPlanUpgradeMockRequest(
       (request) =>
         request.path.endsWith("/api/biz/subscription/enterprise/v2/pricing") &&
         request.headers.authorization === "zai-webview-oauth-token",
-      "购买完成后没有刷新 Z.ai enterprise pricing",
+      "购买完成后没有刷新 Lumos enterprise pricing",
     );
     // Account 凭据属于 Credential Store，不恢复旧 Provider Store 的 apiKey 持久化断言。
     expect(
@@ -256,7 +256,7 @@ async function waitForZaiWebviewCredentialsInjected() {
     },
     {
       timeout: 30000,
-      timeoutMsg: `Z.ai credentials 没有注入到 Coding Plan webview localStorage: ${JSON.stringify(latestStorage)}`,
+      timeoutMsg: `Lumos credentials 没有注入到 Coding Plan webview localStorage: ${JSON.stringify(latestStorage)}`,
     },
   );
 }

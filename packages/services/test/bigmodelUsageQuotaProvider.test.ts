@@ -179,8 +179,8 @@ describe("BigModelUsageQuotaProvider", () => {
     });
   });
 
-  it("Z.ai Start Plan 用 lumosjwttoken 读取当前套餐和到期时间", async () => {
-    const balanceUrl = `https://lumos.z.ai/api/v1/lumos-plan/billing/balance?app_version=${LUMOS_VERSION}`;
+  it("Lumos Start Plan 用 lumosjwttoken 读取当前套餐和到期时间", async () => {
+    const balanceUrl = `https://lumosai.cc/api/v1/lumos-plan/billing/balance?app_version=${LUMOS_VERSION}`;
     const requestUrls: string[] = [];
     const apiClient: ApiClient = {
       request: vi.fn(async (input, init) => {
@@ -255,7 +255,7 @@ describe("BigModelUsageQuotaProvider", () => {
     expect(snapshot.serverTime).toBe(1_780_400_123_000);
     expect(snapshot.provider).toMatchObject({
       id: BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan,
-      name: "Z.ai - Coding Plan",
+      name: "Lumos - Coding Plan",
     });
     expect(snapshot.subscription?.details[0]).toMatchObject({
       productId: "lumos-v3-start-plan",
@@ -291,7 +291,7 @@ describe("BigModelUsageQuotaProvider", () => {
     });
   });
 
-  it("Z.ai Start Plan 保留多个套餐顺序和额度桶 plan id", async () => {
+  it("Lumos Start Plan 保留多个套餐顺序和额度桶 plan id", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async () =>
         createJsonResponse({
@@ -377,7 +377,7 @@ describe("BigModelUsageQuotaProvider", () => {
     ]);
   });
 
-  it("Z.ai Start Plan 过期套餐不进入 subscription 且移除其额度桶", async () => {
+  it("Lumos Start Plan 过期套餐不进入 subscription 且移除其额度桶", async () => {
     // 固化服务端契约被破坏时的行为：subscription 只含 active 套餐；
     // 无法归属的桶由 provider 原样透传（设置页归属层会丢弃，聊天气泡仍展示），
     // 同时 provider 会打 warn tripwire 日志（见 warnOnUnattributedStartPlanBuckets）。
@@ -446,7 +446,7 @@ describe("BigModelUsageQuotaProvider", () => {
     ]);
   });
 
-  it("Z.ai Start Plan 乱序穿插非active套餐时保持服务端相对顺序", async () => {
+  it("Lumos Start Plan 乱序穿插非active套餐时保持服务端相对顺序", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async () =>
         createJsonResponse({
@@ -524,7 +524,7 @@ describe("BigModelUsageQuotaProvider", () => {
     ]);
   });
 
-  it("Z.ai Start Plan 桶缺失 expires_at 时 nextResetTime 为 undefined 且不抛错", async () => {
+  it("Lumos Start Plan 桶缺失 expires_at 时 nextResetTime 为 undefined 且不抛错", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async () =>
         createJsonResponse({
@@ -580,7 +580,7 @@ describe("BigModelUsageQuotaProvider", () => {
     expect(snapshot.remaining).toMatchObject({ count: 2_500_000 });
   });
 
-  it("Z.ai Start Plan 余额展示优先使用 remaining_units 而不是 available_units", async () => {
+  it("Lumos Start Plan 余额展示优先使用 remaining_units 而不是 available_units", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async (input) => {
         const url = input.toString();
@@ -642,8 +642,8 @@ describe("BigModelUsageQuotaProvider", () => {
     });
   });
 
-  it("Z.ai Start Plan 只请求一次 billing/balance 并从 plans 判定套餐", async () => {
-    const balanceUrl = `https://lumos.z.ai/api/v1/lumos-plan/billing/balance?app_version=${LUMOS_VERSION}`;
+  it("Lumos Start Plan 只请求一次 billing/balance 并从 plans 判定套餐", async () => {
+    const balanceUrl = `https://lumosai.cc/api/v1/lumos-plan/billing/balance?app_version=${LUMOS_VERSION}`;
     const requestOrder: string[] = [];
     const apiClient: ApiClient = {
       request: vi.fn(async (input) => {
@@ -716,7 +716,7 @@ describe("BigModelUsageQuotaProvider", () => {
     ]);
   });
 
-  it("Z.ai Start Plan 缺少 lumosjwttoken 时不调用远端状态接口", async () => {
+  it("Lumos Start Plan 缺少 lumosjwttoken 时不调用远端状态接口", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async () =>
         createJsonResponse({
@@ -828,7 +828,7 @@ describe("BigModelUsageQuotaProvider", () => {
     ]);
     expect(apiClient.request).toHaveBeenCalledTimes(1);
     expect(apiClient.request).not.toHaveBeenCalledWith(
-      "https://lumos.z.ai/api/v1/oauth/token",
+      "https://lumosai.cc/api/v1/oauth/token",
       expect.anything(),
     );
     expect(snapshot.provider).toMatchObject({
@@ -1496,7 +1496,7 @@ describe("BigModelUsageQuotaProvider", () => {
     });
   });
 
-  it("Z.ai Coding Plan 用量权益直接使用 provider apiKey 请求 quota", async () => {
+  it("Lumos Coding Plan 用量权益直接使用 provider apiKey 请求 quota", async () => {
     const requestUrls: string[] = [];
     const apiClient: ApiClient = {
       request: vi.fn(async (input, init) => {
@@ -1506,7 +1506,7 @@ describe("BigModelUsageQuotaProvider", () => {
           expect(init?.headers).toMatchObject({ Authorization: "zai-api-key" });
           return createJsonResponse({ code: 200, data: [] });
         }
-        expect(url).toBe("https://api.z.ai/api/monitor/usage/quota/limit");
+        expect(url).toBe("https://api.lumosai.cc/api/monitor/usage/quota/limit");
         expect(init?.headers).toMatchObject({
           authorization: "zai-api-key",
         });
@@ -1533,15 +1533,15 @@ describe("BigModelUsageQuotaProvider", () => {
     });
 
     expect(requestUrls).toEqual([
-      "https://api.z.ai/api/biz/subscription/list",
-      "https://api.z.ai/api/monitor/usage/quota/limit",
+      "https://api.lumosai.cc/api/biz/subscription/list",
+      "https://api.lumosai.cc/api/monitor/usage/quota/limit",
     ]);
     expect(snapshot.provider).toMatchObject({
       id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
     });
   });
 
-  it("Z.ai Coding Plan 团队授权不可用时不会回退个人 key 发送 team quota header", async () => {
+  it("Lumos Coding Plan 团队授权不可用时不会回退个人 key 发送 team quota header", async () => {
     const requestHeaders: Array<HeadersInit | undefined> = [];
     const apiClient: ApiClient = {
       request: vi.fn(async (_input, init) => {
@@ -1577,12 +1577,12 @@ describe("BigModelUsageQuotaProvider", () => {
       }),
     ).rejects.toThrow("Coding Plan entitlement refresh failed");
 
-    // 修复原因：误传 team context 时不能把个人 Z.ai Coding Plan key 和 team header 混用。
+    // 修复原因：误传 team context 时不能把个人 Lumos Coding Plan key 和 team header 混用。
     // 团队业务登录态和调用 Key 均缺失时权益未知，不能回退个人 Key。
     expect(requestHeaders).toEqual([]);
   });
 
-  it("Z.ai Coding Plan 用 provider apiKey 读取订阅状态和到期时间", async () => {
+  it("Lumos Coding Plan 用 provider apiKey 读取订阅状态和到期时间", async () => {
     const requestUrls: string[] = [];
     const apiClient: ApiClient = {
       request: vi.fn(async (input, init) => {
@@ -1601,7 +1601,7 @@ describe("BigModelUsageQuotaProvider", () => {
           });
         }
 
-        expect(url).toBe("https://api.z.ai/api/biz/subscription/list");
+        expect(url).toBe("https://api.lumosai.cc/api/biz/subscription/list");
         expect(init?.headers).toMatchObject({
           Authorization: "zai-api-key",
         });
@@ -1634,8 +1634,8 @@ describe("BigModelUsageQuotaProvider", () => {
     });
 
     expect(requestUrls).toEqual([
-      "https://api.z.ai/api/biz/subscription/list",
-      "https://api.z.ai/api/monitor/usage/quota/limit",
+      "https://api.lumosai.cc/api/biz/subscription/list",
+      "https://api.lumosai.cc/api/monitor/usage/quota/limit",
     ]);
     expect(snapshot.subscription?.details[0]).toMatchObject({
       productId: "product-zai-pro-quarter",
@@ -1646,7 +1646,7 @@ describe("BigModelUsageQuotaProvider", () => {
     });
   });
 
-  it("Z.ai Coding Plan quota 失败时仍用订阅列表判断已购买状态", async () => {
+  it("Lumos Coding Plan quota 失败时仍用订阅列表判断已购买状态", async () => {
     const requestUrls: string[] = [];
     const apiClient: ApiClient = {
       request: vi.fn(async (input, init) => {
@@ -1671,7 +1671,7 @@ describe("BigModelUsageQuotaProvider", () => {
           });
         }
 
-        expect(url).toBe("https://api.z.ai/api/monitor/usage/quota/limit");
+        expect(url).toBe("https://api.lumosai.cc/api/monitor/usage/quota/limit");
         expect(init?.headers).toMatchObject({
           authorization: "zai-api-key",
         });
@@ -1695,8 +1695,8 @@ describe("BigModelUsageQuotaProvider", () => {
     });
 
     expect(requestUrls).toEqual([
-      "https://api.z.ai/api/biz/subscription/list",
-      "https://api.z.ai/api/monitor/usage/quota/limit",
+      "https://api.lumosai.cc/api/biz/subscription/list",
+      "https://api.lumosai.cc/api/monitor/usage/quota/limit",
     ]);
     expect(snapshot.unavailableReason).toBeUndefined();
     expect(snapshot.subscription?.details[0]).toMatchObject({
@@ -1709,7 +1709,7 @@ describe("BigModelUsageQuotaProvider", () => {
     expect(snapshot.quota).toBeNull();
   });
 
-  it("Z.ai Coding Plan 订阅列表有效时不被 quota no_plan 覆盖", async () => {
+  it("Lumos Coding Plan 订阅列表有效时不被 quota no_plan 覆盖", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async (input, init) => {
         const url = input.toString();
@@ -1732,7 +1732,7 @@ describe("BigModelUsageQuotaProvider", () => {
           });
         }
 
-        expect(url).toBe("https://api.z.ai/api/monitor/usage/quota/limit");
+        expect(url).toBe("https://api.lumosai.cc/api/monitor/usage/quota/limit");
         expect(init?.headers).toMatchObject({
           authorization: "zai-api-key",
         });
@@ -1763,10 +1763,10 @@ describe("BigModelUsageQuotaProvider", () => {
     expect(snapshot.quota).toBeNull();
   });
 
-  it("Z.ai Coding Plan token 失效时返回同步失败而不是未开通", async () => {
+  it("Lumos Coding Plan token 失效时返回同步失败而不是未开通", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(async (input, init) => {
-        expect(input.toString()).toBe("https://api.z.ai/api/biz/subscription/list");
+        expect(input.toString()).toBe("https://api.lumosai.cc/api/biz/subscription/list");
         expect(init?.headers).toMatchObject({ Authorization: "zai-api-key" });
         return createJsonResponse({
           code: 401,
@@ -1791,7 +1791,7 @@ describe("BigModelUsageQuotaProvider", () => {
     ).rejects.toThrow("Coding Plan entitlement refresh failed");
   });
 
-  it("Z.ai Coding Plan provider 未同步时不会回退 OAuth token 查询权益", async () => {
+  it("Lumos Coding Plan provider 未同步时不会回退 OAuth token 查询权益", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(),
     };
@@ -1816,7 +1816,7 @@ describe("BigModelUsageQuotaProvider", () => {
     expect(snapshot.provider).toBeNull();
   });
 
-  it("Z.ai Coding Plan 空 apiKey 时按未配置权益处理且不回退 OAuth token", async () => {
+  it("Lumos Coding Plan 空 apiKey 时按未配置权益处理且不回退 OAuth token", async () => {
     const apiClient: ApiClient = {
       request: vi.fn(),
     };

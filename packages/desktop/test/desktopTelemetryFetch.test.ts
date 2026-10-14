@@ -12,9 +12,9 @@ describe("desktop telemetry fetch", () => {
       body: JSON.stringify({ event_id: "event-1" }),
     };
 
-    const result = await telemetryFetch("https://lumos.z.ai/api/v1/event/report", init);
+    const result = await telemetryFetch("https://lumosai.cc/api/v1/event/report", init);
 
     expect(result).toBe(response);
-    expect(electronFetch).toHaveBeenCalledWith("https://lumos.z.ai/api/v1/event/report", init);
+    expect(electronFetch).toHaveBeenCalledWith("https://lumosai.cc/api/v1/event/report", init);
   });
 });

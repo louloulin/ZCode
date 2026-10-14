@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "description": "Develop and validate Lumos plugins through a local dev marketplace, installation, trials and updates.",
   "author": {
-    "name": "Z.ai"
+    "name": "Lumos"
   },
   "license": "MIT",
   "skills": "skills"

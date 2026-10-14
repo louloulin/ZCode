@@ -18,7 +18,7 @@ const oauthState = vi.hoisted(() => ({
   error: null as string | null,
   providers: [
     { id: "bigmodel", displayName: "BigModel", enabled: true, order: 0 },
-    { id: "zai", displayName: "Z.AI", enabled: true, order: 1 },
+    { id: "zai", displayName: "Lumos", enabled: true, order: 1 },
   ] as Array<{ id: string; displayName: string; enabled: boolean; order: number }>,
 }));
 

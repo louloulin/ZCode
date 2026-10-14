@@ -329,7 +329,7 @@ export class OAuthCredentialRepo {
 
     if (provider === ZAI_PROVIDER_ID || provider === BIGMODEL_PROVIDER_ID) {
       if (tokenSet.lumosJwtToken) {
-        // BigModel Start Plan 与 Z.ai Start Plan 一样消费 lumos JWT。
+        // BigModel Start Plan 与 Lumos Start Plan 一样消费 lumos JWT。
         // JWT 必须在 OAuth callback 阶段随 tokenSet 落盘，后续 balance/runtime 只读取它，
         // 不能再拿 BigModel access token 拼另一个 /oauth/token body 临时兑换。
         await this.credentialService.save(LUMOS_JWT_TOKEN_KEY, tokenSet.lumosJwtToken);

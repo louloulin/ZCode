@@ -2,17 +2,17 @@
 
 ## 目标
 
-Z.AI 与 BigModel Desktop 登录不再把 `lumos://oauth/callback` 作为唯一完成路径。App 使用 Lumos
+Lumos 与 BigModel Desktop 登录不再把 `lumos://oauth/callback` 作为唯一完成路径。App 使用 Lumos
 后端已有的短期 OAuth flow，在浏览器完成授权后轮询 flow 状态；deep link 仍保留为兼容路径。
 轮询接口的 `provider` 使用 `zai` 或 `bigmodel`，两者共享 flow 生命周期，但 `ready` 凭据字段按 provider 区分。
 BigModel 创建 flow 后，App 把授权地址中的回调改为官网旧中转页
-`https://lumos.z.ai/app/oauth/login`（测试环境使用对应测试站点），中转页继续把 `authCode/state`
+`https://lumosai.cc/app/oauth/login`（测试环境使用对应测试站点），中转页继续把 `authCode/state`
 透传到 `lumos://oauth/callback`；Host 中的 polling flow 同时保留。
 
 ## 时序
 
 ```text
-Desktop App                 Lumos Backend                 Browser / Z.AI
+Desktop App                 Lumos Backend                 Browser / Lumos
     | POST /oauth/cli/init        |                              |
     |---------------------------->|                              |
     | flow_id + authorize_url     |                              |
@@ -84,7 +84,7 @@ App                  init A                  init B                  Host pendin
 
 ## 验收场景
 
-- Z.AI 或 BigModel deep link 未返回时，polling `ready` 仍能完成登录和既有 Coding Plan 刷新。
+- Lumos 或 BigModel deep link 未返回时，polling `ready` 仍能完成登录和既有 Coding Plan 刷新。
 - deep link 先完成时停止 polling；polling 先完成时忽略迟到 deep link。
 - 用户取消、开始新登录、flow `failed`、flow 过期后不再落盘。
 - 快速连续开始两个 flow 时，较晚发起的 flow 保持有效，迟到的旧 init/poll 不得覆盖它。

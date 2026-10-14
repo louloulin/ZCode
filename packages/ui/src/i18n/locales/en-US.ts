@@ -279,7 +279,7 @@ const enUS: Record<string, string> = {
   "manualClaimPlan.claim.share.copyImageSucceeded": "Image copied",
   "manualClaimPlan.claim.share.actionFailed": "Share action failed. Please try again.",
   "manualClaimPlan.claim.share.twitterText":
-    "I claimed {subtitle} on Lumos. Download and install Lumos to claim yours. https://lumos.z.ai",
+    "I claimed {subtitle} on Lumos. Download and install Lumos to claim yours. https://lumosai.cc",
   "manualClaimPlan.claim.share.twitterTextLabel": "Twitter/X post text",
   // Common
   "common.loading": "Loading...",
@@ -985,7 +985,7 @@ const enUS: Record<string, string> = {
   "login.oauth.noProviders":
     "No account providers are available right now. Please try again later.",
   "login.oauth.button": "Continue with {provider}",
-  "login.oauth.button.zai": "Connect to Z.ai",
+  "login.oauth.button.zai": "Connect to Lumos",
   "login.oauth.button.bigmodel": "Connect to BigModel",
   "login.oauth.regionTag.zai": "Global",
   "login.oauth.regionTag.bigmodel": "CN",
@@ -1001,7 +1001,7 @@ const enUS: Record<string, string> = {
   "login.apiKey.title": "API Key",
   "login.apiKey.placeholder": "Enter API key",
   "login.apiKey.providerLabel": "API key provider",
-  "login.apiKey.provider.zai": "Z.ai",
+  "login.apiKey.provider.zai": "Lumos",
   "login.apiKey.provider.bigmodel": "BigModel",
   "login.apiKey.getApiKey": "Get API Key",
   "login.apiKey.cancel": "Cancel",
@@ -3100,7 +3100,7 @@ const enUS: Record<string, string> = {
   "settings.modelProvider.modelSaveFailure": "Failed to save {provider} / {model}: {error}",
   "settings.modelProvider.cancel": "Cancel",
   "settings.modelProvider.name": "Name",
-  "settings.modelProvider.namePlaceholder": "e.g. Z.ai GLM",
+  "settings.modelProvider.namePlaceholder": "e.g. Lumos GLM",
   "settings.modelProvider.addProviderTitle": "Add model provider",
   "settings.modelProvider.addProviderDescription":
     "Configure a custom API endpoint and initial model.",
@@ -3388,7 +3388,7 @@ const enUS: Record<string, string> = {
     "{provider} did not return any purchasable Coding Plan products for this account.",
   "settings.modelProvider.codingPlan.dynamicUnsupportedTitle": "Dynamic plans are not available",
   "settings.modelProvider.codingPlan.dynamicUnsupportedDescription":
-    "In-app subscription is only connected for Z.ai / BigModel Coding Plan right now.",
+    "In-app subscription is only connected for Lumos / BigModel Coding Plan right now.",
   "settings.modelProvider.codingPlan.priceUnavailable": "Price unavailable",
   "settings.modelProvider.codingPlan.systemBusy": "The system is busy. Please try again later.",
   "settings.modelProvider.codingPlan.subscriptionBusy": "Subscription busy",
@@ -3398,7 +3398,7 @@ const enUS: Record<string, string> = {
   "settings.modelProvider.codingPlan.paymentTimeout":
     "Payment is still pending. Recheck your Coding Plan status after the payment page finishes.",
   "settings.modelProvider.codingPlan.zaiOverseasPaymentRequired":
-    "Z.ai overseas plans must be paid through PayPal or the official Z.ai payment page, not the Alipay signing flow.",
+    "Lumos overseas plans must be paid through PayPal or the official Lumos payment page, not the Alipay signing flow.",
   "settings.modelProvider.codingPlan.paypalSetupRequired":
     "Authorize PayPal before continuing the payment.",
   "settings.modelProvider.codingPlan.paypalApproveUrlMissing":
@@ -3416,7 +3416,7 @@ const enUS: Record<string, string> = {
   "settings.modelProvider.codingPlan.securityVerificationFailed":
     "Security verification failed. Try again in a moment.",
   "settings.modelProvider.codingPlan.start.loginEnable": "Connect to enable",
-  "settings.modelProvider.codingPlan.start.loginTrial": "Connect Z.ai",
+  "settings.modelProvider.codingPlan.start.loginTrial": "Connect Lumos",
   "settings.modelProvider.codingPlan.start.enabled": "Enabled",
   "settings.modelProvider.codingPlan.start.freeBadge": "Free",
   "settings.modelProvider.codingPlan.start.freeEquityTitle": "Start free plan",
@@ -3547,7 +3547,7 @@ const enUS: Record<string, string> = {
     "The plan for this unpaid order was not found. Refresh plans and try again.",
   "settings.modelProvider.codingPlan.overseasPayment.title": "{product} overseas payment",
   "settings.modelProvider.codingPlan.overseasPayment.description":
-    "Amount due: {price}. Choose PayPal or continue on the official Z.ai payment page.",
+    "Amount due: {price}. Choose PayPal or continue on the official Lumos payment page.",
   "settings.modelProvider.codingPlan.overseasPayment.paypal": "PayPal",
   "settings.modelProvider.codingPlan.overseasPayment.paypalDescription":
     "Open PayPal authorization, then return here to continue.",
@@ -3629,7 +3629,7 @@ const enUS: Record<string, string> = {
   "settings.modelProvider.codingPlan.overseasPayment.policyLink": "Policy",
   "settings.modelProvider.codingPlan.overseasPayment.accountPolicySuffix": ".",
   "settings.modelProvider.codingPlan.overseasPayment.authorizationPrefix":
-    "You agree that Z.ai will charge your card the above amount now and on a recurring basis according to your subscription plan until you cancel in accordance with our ",
+    "You agree that Lumos will charge your card the above amount now and on a recurring basis according to your subscription plan until you cancel in accordance with our ",
   "settings.modelProvider.codingPlan.overseasPayment.authorizationTermsLink": "terms",
   "settings.modelProvider.codingPlan.overseasPayment.authorizationSuffix": ".",
   "settings.modelProvider.codingPlan.paymentDialog.agreementPrefix":
@@ -3881,7 +3881,7 @@ const enUS: Record<string, string> = {
     "Quota values follow the current usage guide and may change with platform policy.",
   "settings.usage.entitlementLoginRequired": "Login required",
   "settings.usage.entitlementNotConfigured":
-    "No connected Z.ai or BigModel Coding Plan account is available for quota lookup. Connect a Coding Plan account first.",
+    "No connected Lumos or BigModel Coding Plan account is available for quota lookup. Connect a Coding Plan account first.",
   "settings.usage.entitlementStatusActive": "Active",
   "settings.usage.entitlementStatusError": "Error",
   "settings.usage.entitlementStatusLoading": "Loading",
@@ -4032,7 +4032,7 @@ const enUS: Record<string, string> = {
   "settings.usage.timesUnit": " times",
   "settings.usage.codingPlanNotConfiguredTitle": "Coding Plan is not connected",
   "settings.usage.codingPlanNotConfiguredDescription":
-    "Connect a Z.ai or BigModel Coding Plan provider in Model Settings to view plan quota, model usage, and tool usage.",
+    "Connect a Lumos or BigModel Coding Plan provider in Model Settings to view plan quota, model usage, and tool usage.",
   "settings.usage.codingPlanCurrentConnectionTitle": "Current connection is not using Coding Plan",
   "settings.usage.codingPlanCurrentConnectionDescription":
     "Switch the workspace model connection to an Individual Plan or Team Plan to view its quota and usage here.",
@@ -4052,7 +4052,7 @@ const enUS: Record<string, string> = {
   "settings.usage.dayLabel.wed": "Wed",
   "settings.usage.dayLabel.fri": "Fri",
   "settings.modelProvider.presetDescription":
-    "Built-in Z.ai and BigModel providers with OAuth-assisted configuration.",
+    "Built-in Lumos and BigModel providers with OAuth-assisted configuration.",
   "settings.modelProvider.presetEmpty": "Not synced yet. Complete OAuth login first.",
   "settings.modelProvider.customTitle": "Custom providers",
   "settings.modelProvider.refresh": "Refresh",
@@ -7386,7 +7386,7 @@ const enUS: Record<string, string> = {
   "globalNotice.highspeed.speedSummary": "HighSpeed · {duration}",
   "globalNotice.highspeed.lessWaiting": "{percent}% less waiting",
   "globalNotice.highspeed.copySummary":
-    "I used the Lumos Highspeed card and saved {duration}s. Give it a try. Download Lumos https://lumos.z.ai",
+    "I used the Lumos Highspeed card and saved {duration}s. Give it a try. Download Lumos https://lumosai.cc",
   "globalNotice.highspeed.imageSummary": "{tokens} tokens · {duration}s saved",
   "globalNotice.highspeed.close": "Close Highspeed share card",
   ...requestSecurityMessagesEnUS,

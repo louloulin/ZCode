@@ -714,7 +714,7 @@ describe("messageTelemetry", () => {
         askMode: "chat",
         modelName: "glm-5.1",
         provider: "glm",
-        providerBaseURL: "https://api.z.ai/api/paas/v4",
+        providerBaseURL: "https://api.lumosai.cc/api/paas/v4",
         planIdentitySnapshot: {
           generatedAt: 100,
           planStatus: "coding_plan",
@@ -735,12 +735,12 @@ describe("messageTelemetry", () => {
     expect(sendButtonExtra).toMatchObject({
       plan_status: "coding_plan",
       plan_product_id: "product-coding-pro",
-      provider_name: "api.z.ai",
+      provider_name: "api.lumosai.cc",
     });
     expect(completion?.eventExtraDetail).toMatchObject({
       plan_status: "coding_plan",
       plan_product_id: "product-coding-pro",
-      provider_name: "api.z.ai",
+      provider_name: "api.lumosai.cc",
     });
   });
 

@@ -23,7 +23,7 @@ describe("LoginApiKeyForm provider update helpers", () => {
   });
 
   it("API key 表单展示 BigModel 品牌固定大小写", () => {
-    expect(resolveLoginApiKeyProviderLabel("zai")).toBe("Z.ai");
+    expect(resolveLoginApiKeyProviderLabel("zai")).toBe("Lumos");
     expect(resolveLoginApiKeyProviderLabel("bigmodel")).toBe("BigModel");
   });
 
@@ -38,8 +38,8 @@ describe("LoginApiKeyForm provider update helpers", () => {
   });
 
   it("只有输入框为空且 provider 有 URL 时展示获取 API key 链接", () => {
-    expect(shouldShowLoginApiKeyLink("", "https://z.ai/manage-apikey/apikey-list")).toBe(true);
-    expect(shouldShowLoginApiKeyLink(" sk-login ", "https://z.ai/manage-apikey/apikey-list")).toBe(
+    expect(shouldShowLoginApiKeyLink("", "https://lumosai.cc/manage-apikey/apikey-list")).toBe(true);
+    expect(shouldShowLoginApiKeyLink(" sk-login ", "https://lumosai.cc/manage-apikey/apikey-list")).toBe(
       false,
     );
     expect(shouldShowLoginApiKeyLink("", undefined)).toBe(false);

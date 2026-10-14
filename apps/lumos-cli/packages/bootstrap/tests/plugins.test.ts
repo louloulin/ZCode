@@ -184,7 +184,7 @@ describe("Lumos plugins", () => {
           await readFile(join(marketplaceRoot, "marketplace.json"), "utf8"),
         ) as { plugins: Array<{ icon?: string }> };
         expect(saved.plugins[0]?.icon).toBe(
-          "https://cdn-lumos.z.ai/lumos/official-plugin/assets/figma/icon.png",
+          "https://cdn.lumosai.cc/lumos/official-plugin/assets/figma/icon.png",
         );
       });
     } finally {
@@ -632,7 +632,7 @@ describe("Lumos plugins", () => {
             pluginCount: 14,
             source: {
               source: "url",
-              url: "https://cdn-lumos.z.ai/lumos/official-plugin/marketplace.json",
+              url: "https://cdn.lumosai.cc/lumos/official-plugin/marketplace.json",
             },
           }),
           expect.objectContaining({
@@ -2391,7 +2391,7 @@ describe("Lumos plugins", () => {
         pluginCount: 14,
         source: {
           source: "url",
-          url: "https://cdn-lumos.z.ai/lumos/official-plugin/marketplace.json",
+          url: "https://cdn.lumosai.cc/lumos/official-plugin/marketplace.json",
         },
       });
       expect(overview.diagnostics).toEqual(

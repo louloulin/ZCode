@@ -26,7 +26,7 @@ test("renders non-filterable selections without a filter prompt", () => {
 
   assert.equal(textNodes.some((node) => node.text.includes("filter:")), false);
   assert.ok(textNodes.some((node) => node.text === baseSelection.help));
-  assert.ok(textNodes.some((node) => node.text === "Z.AI Coding Plan"));
+  assert.ok(textNodes.some((node) => node.text === "Lumos Coding Plan"));
   const detailNode = textNodes.find((node) => node.text.includes("Open browser login"));
   assert.equal(detailNode?.style.fg, palette.muted);
   assert.equal(detailNode?.style.flexShrink, 0);
@@ -102,7 +102,7 @@ test("pending selections replace options and keep escape as cancel", () => {
       command: "/login zai-coding-plan",
       help: "Esc cancels and returns to setup choices.",
       itemId: "zai-coding-plan",
-      primary: "Waiting for Z.AI authorization",
+      primary: "Waiting for Lumos authorization",
       secondary: "Complete sign-in in your browser.",
       status: "Waiting for browser authorization...",
     },
@@ -111,8 +111,8 @@ test("pending selections replace options and keep escape as cancel", () => {
   const panel = SelectionPanel({ contentWidth: 72, copy: EN_COPY, selection });
   const textNodes = collectTextNodes(panel);
 
-  assert.ok(textNodes.some((node) => node.text === "Waiting for Z.AI authorization"));
-  assert.equal(textNodes.some((node) => node.text === "Z.AI Coding Plan"), false);
+  assert.ok(textNodes.some((node) => node.text === "Waiting for Lumos authorization"));
+  assert.equal(textNodes.some((node) => node.text === "Lumos Coding Plan"), false);
 });
 
 test("pending selection escape aborts and restores setup choices", () => {
@@ -125,7 +125,7 @@ test("pending selection escape aborts and restores setup choices", () => {
       command: "/login zai-coding-plan",
       help: "Esc cancels and returns to setup choices.",
       itemId: "zai-coding-plan",
-      primary: "Waiting for Z.AI authorization",
+      primary: "Waiting for Lumos authorization",
       status: "Waiting for browser authorization...",
     },
     selectedIndex: 0,
@@ -197,7 +197,7 @@ test("input selections replace options with an inline hidden input", () => {
       itemId: "zai-coding-plan-api-key",
       mask: true,
       placeholder: "Paste API key",
-      primary: "Enter Z.AI Coding Plan API Key",
+      primary: "Enter Lumos Coding Plan API Key",
       secondary: "Paste the key here. It is hidden while typing.",
       status: "Enter the API key, then press Enter.",
       submitStatus: "Saving API key...",
@@ -209,7 +209,7 @@ test("input selections replace options with an inline hidden input", () => {
   const panel = SelectionPanel({ contentWidth: 72, copy: EN_COPY, selection });
   const textNodes = collectTextNodes(panel);
 
-  assert.ok(textNodes.some((node) => node.text === "Enter Z.AI Coding Plan API Key"));
+  assert.ok(textNodes.some((node) => node.text === "Enter Lumos Coding Plan API Key"));
   assert.ok(textNodes.some((node) => node.text === "> **********"));
   assert.equal(textNodes.some((node) => node.text === "BigModel Coding Plan"), false);
 });
@@ -284,7 +284,7 @@ test("input selection escape restores setup choices", () => {
       itemId: "zai-coding-plan-api-key",
       mask: true,
       placeholder: "Paste API key",
-      primary: "Enter Z.AI Coding Plan API Key",
+      primary: "Enter Lumos Coding Plan API Key",
       status: "Enter the API key, then press Enter.",
       value: "manual-key",
     },
@@ -318,11 +318,11 @@ const baseSelection: SelectionState = {
       pending: {
         cancelStatus: "Login cancelled. Choose a setup method.",
         help: "Esc cancels and returns to setup choices.",
-        primary: "Waiting for Z.AI authorization",
+        primary: "Waiting for Lumos authorization",
         secondary: "Complete sign-in in your browser.",
         status: "Waiting for browser authorization...",
       },
-      primary: "Z.AI Coding Plan",
+      primary: "Lumos Coding Plan",
       secondary: "Open browser login and create a Coding Plan API key.",
     },
     {
@@ -341,12 +341,12 @@ const baseSelection: SelectionState = {
         help: "Enter saves the key. Esc returns to setup choices.",
         mask: true,
         placeholder: "Paste API key",
-        primary: "Enter Z.AI Coding Plan API Key",
+        primary: "Enter Lumos Coding Plan API Key",
         secondary: "Paste the key here. It is hidden while typing.",
         status: "Enter the API key, then press Enter.",
         submitStatus: "Saving API key...",
       },
-      primary: "Z.AI Coding Plan API Key",
+      primary: "Lumos Coding Plan API Key",
       secondary: "Paste a Coding Plan API key manually.",
     },
   ],

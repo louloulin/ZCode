@@ -335,7 +335,7 @@ sess_54392f61：首条消息上方挂 [modelChange]），编辑期切换也只�
   A→B→A 净变化为零不产 marker。onModelSelected 只更新 config，不再落 marker
   （旧实现在选型事件即落 marker，正是草稿态 bug 的根因）。
 - **marker 文案身份**（2026-07-29）：CLI marker 已携带起止 provider/model ID；
-  renderer 必须订阅 provider snapshot 并映射供应商名称。Z.ai / BigModel 内置供应商只显示
+  renderer 必须订阅 provider snapshot 并映射供应商名称。Lumos / BigModel 内置供应商只显示
   modelId；其他供应商显示 `provider.name/modelId`，配置缺失时回落 provider ID。该规则与模型
   触发器和 toast 一致，不改 marker schema、落位、desktop continuous 或 mobile replayable
   语义；目录稍后水合或供应商改名时，已渲染 marker 必须原地刷新名称。

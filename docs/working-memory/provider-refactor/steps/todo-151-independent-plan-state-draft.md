@@ -133,7 +133,7 @@ Composer 固定本次提交
 - 新工具转换直接赋值 `planEnabled`；保留 `lastPlanTransitionId`，同一结果重复快照不再应用。
 - 已验证进入／退出首次到达覆盖手动改选、已批准后重新开启不被同一回放再清除、无转换不改草稿；4 文件 23 项通过。
 - typecheck、lint（0 error，42 warning）、E2E 类型检查、审批 fixture check 与架构检查通过。
-- E2E 转到专用 MacBook Pro（Darwin）的隔离副本 `/Users/dev/Desktop/projects/Z.AI/todo151-pro.hGJ5yI/repo`；不使用 Pro 原工作区及真实用户数据。
+- E2E 转到专用 MacBook Pro（Darwin）的隔离副本 `/Users/dev/Desktop/projects/Lumos/todo151-pro.hGJ5yI/repo`；不使用 Pro 原工作区及真实用户数据。
 - 实际审批用例新增进入／批准前后 Plan 标记变化与 yolo 不变的断言。Pro 已完成依赖安装、CLI 与 Electron 构建，并实际运行测试正文。
 - 复跑排查并修正测试同步：Plan 标记更新先于 DropdownMenu 关闭动画完成，测试须等旧菜单卸载再打开；种子会话标题请求异步发出，空 `/plan` 的请求计数须先等该标题请求。均不改产品逻辑或提示词。
 - Pro 最终运行 `desktop-e2e-20260915070056792-p63678-7820fb061f2b3987`：3 个 spec、6 项全通过（独立标记／权限／叉号 1 项，工具进入与批准同步 1 项，`/plan` 4 项），使用真实 Electron 与 CLI、模型 fixture 回放，不代表线上供应商请求验证。

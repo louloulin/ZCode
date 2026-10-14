@@ -47,7 +47,7 @@
 | R05-P3 | 查询期间读代理设置 / 保存普通偏好：不死锁、不丢字段                    | 实际 Setting 服务     |
 | R05-P4 | 查询期间手动改连接 / 换账号域：旧结果不覆盖                            | 实际 Setting 服务     |
 | R05-P5 | API 模式 / 完整 Team / 已有新字段：不请求补组织                        | 迁移单测              |
-| R05-P6 | OAuth 查询仅 GET 用户信息；不创建 Key，不混用 BigModel/Z.ai token/域名 | 网络边界单测          |
+| R05-P6 | OAuth 查询仅 GET 用户信息；不创建 Key，不混用 BigModel/Lumos token/域名 | 网络边界单测          |
 
 不枚举全部 UI、主题、业务组合；这些入口共享同一连接迁移，UI 主代表用 I26，运行时与失败竞争用单测证明。无新模型请求 fixture；I26 继续使用已有独立 replay。
 
@@ -77,7 +77,7 @@
 | AS01 | `626f939c29` 的 Markdown 选区辅助提问经 `0ed79bae571` 人工合并后，按钮及 helper 保留，SessionPane 却丢掉 reference 并强制新建；referenceBlocked 也未传入。旧恢复表 R11 的“已保留”不足以证明装配 | 已恢复：真实 SessionPane 注册测试先 2 红，再 8/8；Pro 正式 MPS01/02/06/08/09 通过 `desktop-e2e-20260907-162820-560`，真实辅助引用、主草稿、发送引用路径均验证。旧 E2E 前置 DOM focus 无法挂载行操作，改为真实 hover，不调整产品挂载策略    |
 | AS02 | 自定义 Subagent 损坏的新 modelSelection 被解析成 undefined，可能继承父模型                                                                                                                  | 用户已明确接受按继承处理，不再实施“保留展示、执行明确报配置错误”提案；接受现状不算修复通过，未上线中间格式的退役由 Todo 97 承接                                                                                                                                |
 | AS03 | CLI SEA TUI 依赖闭包测试缺 `@lumos/shared/src/index.ts`；TUI 导入 shared CUA 常量，资产打包仅含 dist/package.json，shared exports 指向 TS src                                                   | 固定 staging 的 app-approval 与 sea-tui-assets 和当前无行为差异，确认是基线同样存在的打包问题；不删测试、不临时复制 src 冒充完成，单独交付风险                                                                                             |
-| AS04 | 真实用户原备份 15 条 Automation，在内存副本导入 14 条，1 条旧 BigModel Coding Plan 待迁移；当前保存账号域为 Z.ai                                                                                 | Todo72 §3.2 明确禁止旧身份跨 Family 猜测；原记录/旧列未改，重复迁移幂等，待迁移项可后续重试。不能称全 15 条已恢复，也不能擅自改为 Z.ai 来提高通过数                                                                                        |
+| AS04 | 真实用户原备份 15 条 Automation，在内存副本导入 14 条，1 条旧 BigModel Coding Plan 待迁移；当前保存账号域为 Lumos                                                                                 | Todo72 §3.2 明确禁止旧身份跨 Family 猜测；原记录/旧列未改，重复迁移幂等，待迁移项可后续重试。不能称全 15 条已恢复，也不能擅自改为 Lumos 来提高通过数                                                                                        |
 | AS05 | Bot `/model` 草稿及已存在任务只写身份，未接 R11 主动选模最高档                                                                                                                                  | 新测试实证只收到身份、没有 options；两个入口接同一 completion。当前 View 不能确认目标时不写空选择、不下发 setModel。93 条服务测试通过；Pro `desktop-e2e-20260907-163541-147` synthetic 3/3，覆盖主动选择不自动建任务。不是飞书真实网络验收 |
 
 ## 近期提交与当前行为的复审归属

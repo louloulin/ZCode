@@ -24,7 +24,7 @@
 
 ```text
 Selected Account Provider
-├─ provider family  -> Z.ai / BigModel
+├─ provider family  -> Lumos / BigModel
 ├─ plan audience    -> personal / team
 └─ team plan key    -> 具体 Team Plan（仅团队入口）
           |
@@ -104,7 +104,7 @@ preferredSelection
 ## 6. 测试与完成标准
 
 - 单测证明 Team Provider 可以打开对应 Family、Audience 与 Team Plan Key 的 WebView；
-- 单测证明 Z.ai / BigModel、personal / team 的 URL 启动意图不串线；
+- 单测证明 Lumos / BigModel、personal / team 的 URL 启动意图不串线；
 - Provider 单测证明 Account 模型可编辑、可启停、可测试，Builtin 模型仍不可删除或改 ID；
 - Automation 单测证明 `preferredSelection` 初始化、具体选择持久化、Workspace 切换和无可用模型失败态；
 - Desktop E2E 覆盖 Team 升级入口、Account 模型编辑/测试，以及 Automation 无手动选模即可提交；
@@ -113,7 +113,7 @@ preferredSelection
 
 ## 7. 实施结果
 
-- Coding Plan 升级入口恢复 `providerId + audience + teamPlanKey`，Z.ai / BigModel 与个人/团队入口不再串线；
+- Coding Plan 升级入口恢复 `providerId + audience + teamPlanKey`，Lumos / BigModel 与个人/团队入口不再串线；
 - Provider 设置页恢复 `max-w-4xl`，Model Config 弹窗保持 `max-w-2xl`；
 - 删除 `modelsReadOnly` 及模型测试对表单 API Key、只读状态和 executable 的 UI 预判；
 - Account Provider 继续隐藏 Endpoint、API Schema 与账号凭据，但模型使用标准编辑、启停和测试能力；

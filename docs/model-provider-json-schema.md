@@ -319,9 +319,9 @@ interface FieldUnsetPatch {
   "providers": [
     {
       "id": "zai",
-      "name": "Z.AI",
+      "name": "Lumos",
       "endpoints": {
-        "baseURL": "https://api.z.ai",
+        "baseURL": "https://api.lumosai.cc",
         "paths": {
           "anthropic": "/api/anthropic/v1/messages",
           "openai-compatible": "/api/coding/v1/chat/completions"

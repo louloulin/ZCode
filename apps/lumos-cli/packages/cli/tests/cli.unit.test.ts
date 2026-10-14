@@ -671,7 +671,7 @@ test("shows a non-blocking login notice when no coding plan key is configured", 
         listModels: () => [
           {
             ...createTestModelOption("zai", "glm-5.1"),
-            disabledReason: "Sign in to Z.AI Coding Plan first.",
+            disabledReason: "Sign in to Lumos Coding Plan first.",
           },
         ],
         runtime: {} as never,
@@ -982,7 +982,7 @@ test("lumos login runs OAuth flow without exposing tokens", async () => {
     loginLumosCli: async (options) => {
       sawNoBrowser = options?.noBrowser === true;
       await options?.onAuthorizeUrl?.({
-        authorize_url: "https://chat.z.ai/oauth/authorize?state=state",
+        authorize_url: "https://chat.lumosai.cc/oauth/authorize?state=state",
         expires_at: 1735000000,
         flow_id: "flow-1",
         poll_interval_sec: 2,
@@ -1005,7 +1005,7 @@ test("lumos login runs OAuth flow without exposing tokens", async () => {
   assert.equal(exitCode, 0);
   assert.equal(sawNoBrowser, true);
   assert.match(ctx.stdout.output(), /Open this URL to sign in/);
-  assert.match(ctx.stdout.output(), /https:\/\/chat\.z\.ai\/oauth\/authorize/);
+  assert.match(ctx.stdout.output(), /https:\/\/chat\.lumosai\.cc\/oauth\/authorize/);
   assert.match(ctx.stdout.output(), /Login successful as Alice/);
   assert.match(
     ctx.stdout.output(),
@@ -1078,7 +1078,7 @@ test("command center handles login and logout locally", async () => {
       loginCalled = true;
       loginAbortSignal = options?.abortSignal;
       await options?.onAuthorizeUrl?.({
-        authorize_url: "https://chat.z.ai/oauth/authorize?state=state",
+        authorize_url: "https://chat.lumosai.cc/oauth/authorize?state=state",
         expires_at: 1735000000,
         flow_id: "flow-1",
         poll_interval_sec: 2,
@@ -1129,9 +1129,9 @@ test("command center handles login and logout locally", async () => {
   assert.equal(pickerResult.selection?.filterable, false);
   assert.equal(
     pickerResult.selection?.items[0]?.pending?.primary,
-    "Waiting for Z.AI authorization",
+    "Waiting for Lumos authorization",
   );
-  assert.equal(pickerResult.selection?.items[2]?.input?.primary, "Enter Z.AI Coding Plan API Key");
+  assert.equal(pickerResult.selection?.items[2]?.input?.primary, "Enter Lumos Coding Plan API Key");
   assert.equal(pickerResult.selection?.items[2]?.input?.mask, true);
   assert.equal(loginAbortSignal, loginAbort.signal);
   assert.equal(loginCalled, true);
@@ -1142,7 +1142,7 @@ test("command center handles login and logout locally", async () => {
   assert.equal(emittedEvents[0]?.traceId, "trace-login");
   assert.match(
     String((emittedEvents[0]?.payload as { content?: string } | undefined)?.content),
-    /https:\/\/chat\.z\.ai\/oauth\/authorize/,
+    /https:\/\/chat\.lumosai\.cc\/oauth\/authorize/,
   );
   assert.match(loginResult.response, /Configured Z\.AI Coding Plan as Alice/);
   assert.match(
@@ -1171,7 +1171,7 @@ test("command center localizes the Coding Plan setup picker", async () => {
   assert.equal(result.selection?.prompt, "选择登录或 API key 配置方式。");
   assert.equal(result.selection?.filterable, false);
   assert.match(result.selection?.items[0]?.secondary ?? "", /打开浏览器登录/);
-  assert.equal(result.selection?.items[2]?.input?.primary, "输入 Z.AI Coding Plan API Key");
+  assert.equal(result.selection?.items[2]?.input?.primary, "输入 Lumos Coding Plan API Key");
   assert.equal(result.selection?.items[2]?.input?.placeholder, "粘贴 API key");
 });
 

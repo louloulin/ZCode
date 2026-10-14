@@ -7,7 +7,7 @@
 - 生产 Built-in JSON 为唯一编辑源，脚本同步生成测试 JSON，仅变换账号 Provider 的四类 URL 和对应站点规则。
 - 测试配置保留生产站点规则（手动模板仍使用它们），派生规则逐 URL 生成，能力及优先级不改。
 - revision 同步，不修改用户配置，不发布在线配置，不新增运行时 URL 改写。
-- 签名补充两个明确的 z.ai 测试 hostname；bigmodel.cn 沿用既有匹配。
+- 签名补充两个明确的 lumosai.cc 测试 hostname；bigmodel.cn 沿用既有匹配。
 - 体验／闲时仍不发 Sig，其他签名、鉴权及 Header 行为保持。
 
 详细规则与命令见 [双环境构建 Spec](../../../builtin-provider-config-build-environments.md)。

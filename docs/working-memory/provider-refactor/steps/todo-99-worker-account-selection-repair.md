@@ -19,7 +19,7 @@
 
 本项不做：多个人/Team 同时连接、设置页纯导航、Provider 身份新格式、持久化迁移、独立终端 CLI 账号能力统一、删除临时同步、每次发送追平最新配置、Factory/bind 内自动换 Provider、重写 SSH provisioning 或手机 attachment。
 
-唯一登录账号决定 BigModel/Z.ai 闲时域；已绑定 Ticket 不跨账号/域重绑。本次不增加“闲时从哪个个人/Team 扣费”的选择。
+唯一登录账号决定 BigModel/Lumos 闲时域；已绑定 Ticket 不跨账号/域重绑。本次不增加“闲时从哪个个人/Team 扣费”的选择。
 
 ### 1.1 最终裁决清单（实施与复审入口）
 
@@ -276,7 +276,7 @@ Registry 刷新：本地 Built-in 还是 A，不匹配
 
 剪枝与证据安排：
 
-- 普通账号用个人 -> Team 同模型代表 remap；不同 Team 身份、BigModel/Z.ai 用集中分类/协议测试补边界，不给套餐、主题、语言做全排列。
+- 普通账号用个人 -> Team 同模型代表 remap；不同 Team 身份、BigModel/Lumos 用集中分类/协议测试补边界，不给套餐、主题、语言做全排列。
 - 时序用受控 promise/故障注入，不靠真实网络碰运气或长 sleep。新意图、固定 Submission、隐式继承、内部 override、Ticket 不能剪成一个成功用例。
 - UI 与请求/协议/持久数据联合断言；Bot/附件/child 的 helper 单测不冒充 E2E。
 - 代表交互用例登记到 [Case Catalog](../../../conversation-session-case-catalog.md) 与 [Coverage Matrix](../../../testing/conversation-session-e2e-coverage-matrix.md) 的 Todo99 专节。目前均 missing/planned，不是正式覆盖。

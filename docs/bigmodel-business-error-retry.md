@@ -4,7 +4,7 @@
 
 ## 背景
 
-BigModel / Z.AI 兼容接口会把一部分可恢复失败包装成业务错误码返回，甚至可能出现在 HTTP 200 的 SSE error frame 中。Lumos adapter 已经在 provider fetch 边界把这类响应归一为 `ProviderBusinessError`，再由 model runner 分类并进入统一 retry budget。
+BigModel / Lumos 兼容接口会把一部分可恢复失败包装成业务错误码返回，甚至可能出现在 HTTP 200 的 SSE error frame 中。Lumos adapter 已经在 provider fetch 边界把这类响应归一为 `ProviderBusinessError`，再由 model runner 分类并进入统一 retry budget。
 
 这次是保守改动：不重构 retry 目录，不新增协议字段，只补充 BigModel 业务码到现有分类表，并复用已有的失败事件、重试事件和日志。若 SSE error chunk 没有结构化 `code` 字段、只在 message 里返回 `[1302][...][request_id]` 这类 BigModel 强格式前缀，adapter 也会先提取四位业务码再进入同一张分类表。
 

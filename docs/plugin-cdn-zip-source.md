@@ -128,7 +128,7 @@
       "source": {
         "source": "url",
         "type": "zip",
-        "url": "https://cdn-lumos.z.ai/lumos/official-plugin/plugins/example-plugin/0.1.1/plugin.zip",
+        "url": "https://cdn.lumosai.cc/lumos/official-plugin/plugins/example-plugin/0.1.1/plugin.zip",
         "sha256": "5e93c44a9a3c292d6c59688d76874d9035ff740486390612c5daf13566d4049b",
         "path": "example-plugin"
       }
@@ -137,7 +137,7 @@
 }
 ```
 
-入口 URL 为 `https://cdn-lumos.z.ai/lumos/official-plugin/index.json`。示例中的版本和 digest
+入口 URL 为 `https://cdn.lumosai.cc/lumos/official-plugin/index.json`。示例中的版本和 digest
 仅表示发布时快照；客户端 smoke 测试应从 overview 读取 live 版本，避免 CDN 增量发布造成硬编码漂移。
 
 ## 3. Install pipeline steps

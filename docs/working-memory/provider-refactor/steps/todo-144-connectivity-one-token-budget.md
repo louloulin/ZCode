@@ -40,7 +40,7 @@
 
 ## 2026-09-15 补验收
 
-- 上述桌面环境阻塞已解除：Pro 隔离仓库重新构建 Electron 与 CLI，两个 pending spec 联合通过（2/2），run：`desktop-e2e-20260915073727784-p67110-e4267aabc5aa16a0`。产物在 Pro `/Users/dev/Desktop/projects/Z.AI/todo151-pro.hGJ5yI/repo/packages/desktop/.e2e-artifacts/` 对应 run 目录。
+- 上述桌面环境阻塞已解除：Pro 隔离仓库重新构建 Electron 与 CLI，两个 pending spec 联合通过（2/2），run：`desktop-e2e-20260915073727784-p67110-e4267aabc5aa16a0`。产物在 Pro `/Users/dev/Desktop/projects/Lumos/todo151-pro.hGJ5yI/repo/packages/desktop/.e2e-artifacts/` 对应 run 目录。
 - C91-04 验证真实模型行点击、无正文且用量为 1 的 length 成功、400 失败、固定 Prompt 和 wire 预算、配置/选择不变。Todo95 验证 UI 添加仅 high 档位后，正式请求使用 high 且预算为 1。
 - 首轮失败均已定位：无用量 fixture 触发现有空响应重试；旧 Todo95 用例仍依赖智能开关/档位在基础区，以及未知型号仅有 disabled 的旧默认。只修正 fixture 和真实 UI 操作，未修改通用重试、产品布局或模型默认规则。
 - Core + Adapter 26/26、Service + UI 目标路由 8/8 通过；根 typecheck、Core typecheck、Desktop typecheck:e2e 通过；lint 0 errors / 42 既有 warnings，架构 0 violations，格式与 diff 检查通过。

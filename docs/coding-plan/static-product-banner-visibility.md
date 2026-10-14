@@ -26,7 +26,7 @@ flowchart LR
 
 验证矩阵：两种配置 × 两个 family × 旧键独有/新键独有/两键冲突/旧键空数组/两键缺失；通过真实 Service 接口验证，并检查无需 OAuth。
 
-第二阶段线上验证：指定 app_version=3.12.1、platform=darwin-arm64，真实响应经 Service 解析后个人 BigModel/Z.ai 各 9 项、团队 BigModel 8 项/Z.ai 0 项。开发环境默认配置请求与该请求的返回不同，默认请求缺静态商品字段，不据此声称已完成有效商品横幅的 UI 验证。
+第二阶段线上验证：指定 app_version=3.12.1、platform=darwin-arm64，真实响应经 Service 解析后个人 BigModel/Lumos 各 9 项、团队 BigModel 8 项/Lumos 0 项。开发环境默认配置请求与该请求的返回不同，默认请求缺静态商品字段，不据此声称已完成有效商品横幅的 UI 验证。
 
 ## 未登录团队目录加载修复
 

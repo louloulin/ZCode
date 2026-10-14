@@ -29,7 +29,7 @@ Settings language coverage verifies that the General settings language selector 
 
 ## Plan navigation labels
 
-- PN-01 (formal, reviewed 2026-09-18): BigModel/Z.ai × zh-CN/en-US. In an isolated unauthenticated profile, open Model settings; assert BigModel/Z.ai and Start Plan (unchanged across locales) by their distinct navigation keys, then click each and assert its selected state and detail heading (brand vs Start Plan).
+- PN-01 (formal, reviewed 2026-09-18): BigModel/Lumos × zh-CN/en-US. In an isolated unauthenticated profile, open Model settings; assert BigModel/Lumos and Start Plan (unchanged across locales) by their distinct navigation keys, then click each and assert its selected state and detail heading (brand vs Start Plan).
 - PN-02 (formal, reviewed 2026-09-18): repeat at narrow renderer width; assert both accessible names and hover tooltip. Chinese/dark and English/light at wide and narrow widths cover presentation pairwise; no claim of phone remote transport coverage.
 - Existing entitlement, payment and usage cases are pruned from this label-only change. Provider IDs, selection commands, detail brand names and persistence contracts remain unchanged.
 - Spec: `packages/desktop/test/e2e/settings/provider-plan-navigation-labels.test.ts`. No model request fixture is needed: this case never sends a prompt or connects an account.
@@ -38,7 +38,7 @@ Settings language coverage verifies that the General settings language selector 
 
 - macOS Electron: PN-01/02 four family/locale cases passed, including detail selection, wide/narrow layouts, accessible names and hover tooltips. Screenshots and results: `packages/desktop/.e2e-artifacts/desktop-e2e-20260917143155914-p51546-7a7006e045bf7287/`.
 - Existing SL-01 and OAuth credential recovery passed in the same run. SL-01 now completes first-run occupation onboarding through a shared UI helper before checking locale behavior.
-- Source audit found no navigation selector requiring the former BigModel/Z.ai label. Brand checks in login actions remain valid. CTP-02 had a stale connection-mode expectation (`Personal Plan` instead of the current `Individual Plan`); corrected independently of the sidebar labels.
+- Source audit found no navigation selector requiring the former BigModel/Lumos label. Brand checks in login actions remain valid. CTP-02 had a stale connection-mode expectation (`Personal Plan` instead of the current `Individual Plan`); corrected independently of the sidebar labels.
 - Targeted CTP-02 replay passed via WDIO native `--mochaOpts.grep`; report: `packages/desktop/.e2e-artifacts/desktop-e2e-20260917-143637-861/summary.md`.
 - Follow-up diagnosis reproduced CTP-02B/CTP-05 on the unchanged tests: the English UI already displayed the `Team` badge and `Individual Plan` usage tab. The former assertion only accepted Chinese; the latter only accepted obsolete English wording. Both cases now run explicitly in zh-CN/en-US, assert the specific badge/tab and retain quota, model and connection persistence checks. The command-palette text at the start of the body dump was not the cause of the missing-string assertion. Full-suite transport errors after interruption are not counted as product regressions.
 - CTP-02B/CTP-05 final macOS replay: all four zh-CN/en-US cases passed. Report: `packages/desktop/.e2e-artifacts/desktop-e2e-20260917-144717-306/summary.md`. Desktop E2E typecheck, workspace typecheck, lint (55 existing warnings, no errors), and architecture checks passed. These two findings are resolved; this targeted run does not claim full-suite coverage.
@@ -53,5 +53,5 @@ Settings language coverage verifies that the General settings language selector 
 
 ### Brand naming restored (2026-09-18)
 
-- Navigation uses BigModel/Z.ai and Start Plan in both locales again. PN-01/02 retain their formal status and now assert the restored names, including accessible labels and narrow-layout tooltips.
+- Navigation uses BigModel/Lumos and Start Plan in both locales again. PN-01/02 retain their formal status and now assert the restored names, including accessible labels and narrow-layout tooltips.
 - Rebuilt macOS Electron replay: 4/4 passed, `packages/desktop/.e2e-artifacts/desktop-e2e-20260918-020819-008/summary.json`. Covers Chinese/dark and English/light at wide/narrow widths. Two related UI test files passed 208 assertions; typecheck, desktop E2E typecheck, lint and architecture checks passed. Real phone remote transport and Docker were not run.

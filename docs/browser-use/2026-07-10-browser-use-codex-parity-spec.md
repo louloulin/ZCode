@@ -549,7 +549,7 @@ IAB 的 locator 与 `domSnapshot()` 必须共享固定版本的 Playwright injec
 
 ### 8.8 fill 超时与 kernel reset
 
-2026-07-14 z.ai 轨迹中，`count()` 已经证明输入框唯一存在，但 `fill()` 在 injected
+2026-07-14 lumosai.cc 轨迹中，`count()` 已经证明输入框唯一存在，但 `fill()` 在 injected
 `checkElementStates(["stable", ...])` 内持续等待。该单次 CDP probe 没有被 locator 的 3000ms
 预算中断，最终命中外层 MCP 30000ms hard timeout，并返回 `AbortError: aborted`。Node REPL
 虽已重建 kernel，但错误没有告诉模型旧 binding 已清除，因此后续继续使用 `browser` / `zaiTab`，

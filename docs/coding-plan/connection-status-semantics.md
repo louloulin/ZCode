@@ -136,11 +136,11 @@ packages/ui  resolveAccountProviderInspectionAccess()  accountProviderAccess.ts:
 
 `validateTeamPlanQuotaAvailability` 在 HTTP 200 + envelope `code:500, success:false` 时走 `hasQuotaData=false → coding_plan_not_entitled` 确定态，并写入 24h 入口缓存（`codingPlanProviderAvailability.ts:381-392`）。应归 `unknown`（不落缓存）。本账号 `org-272fbf` 项目 2026-09-10 实测 11 次 `code:500`。
 
-### 7.2 Z.AI 与 BigModel 的"缺派生 key"原因不对称（本次决定不改，待产品确认）
+### 7.2 Lumos 与 BigModel 的"缺派生 key"原因不对称（本次决定不改，待产品确认）
 
 **触发条件**：登录的是 zai family（`providerFamilyDomain` 落成 zai）**且**账号级派生 key 为空（无套餐导致派生不出，或派生失败）。
 
-| 账号状态 | BigModel 的 reason | Z.AI 的 reason | 本次改动后显示 |
+| 账号状态 | BigModel 的 reason | Lumos 的 reason | 本次改动后显示 |
 |---|---|---|---|
 | 未登录 | `not_connected`（resolver 早退，`accountProviderConnectionResolver.ts:111-120`） | 同左（同一早退分支） | 两端"未连接"，无分叉 |
 | 登录 + 派生 key 为空 | `not_connected`（调用点常量） | `auth_failed`（`resolveMissingZaiApiKeyReason` 见 user_info 即判定） | 未连接 vs **获取失败**，分叉 |

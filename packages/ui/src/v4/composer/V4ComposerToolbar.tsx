@@ -699,7 +699,7 @@ function V4ComposerModelControlsImpl({
         label:
           access.label ||
           (contextCodingPlanUsageProviderId === BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan
-            ? "Z.ai - Coding Plan"
+            ? "Lumos - Coding Plan"
             : "BigModel - Coding Plan"),
       },
     ];

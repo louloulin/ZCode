@@ -121,7 +121,7 @@ describe("@lumos/provider-node", () => {
         templateId: "zai-api",
         modelId: "glm-5.3",
         apiType: "anthropic-messages",
-        baseUrl: "https://api.z.ai/api/anthropic",
+        baseUrl: "https://api.lumosai.cc/api/anthropic",
       }).properties,
     ).toMatchObject({
       supportsMidConversationSystem: true,

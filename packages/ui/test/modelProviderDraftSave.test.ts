@@ -76,16 +76,16 @@ describe("Provider draft uses formal Provider Config", () => {
         access: {
           type: "zhipu-coding-plan-api-key",
           apiKey: "old",
-          apiKeyManagementUrl: "https://z.ai/manage-apikey/apikey-list",
+          apiKeyManagementUrl: "https://lumosai.cc/manage-apikey/apikey-list",
         },
-        api: { type: "anthropic-messages", baseUrl: "https://api.z.ai/api/anthropic" },
+        api: { type: "anthropic-messages", baseUrl: "https://api.lumosai.cc/api/anthropic" },
       },
     });
     const result = resolvePendingProviderDraftSave({
       provider,
       draft: createDraft({
         apiFormat: "anthropic-messages",
-        baseUrlValue: "https://api.z.ai/api/anthropic",
+        baseUrlValue: "https://api.lumosai.cc/api/anthropic",
         apiKeyValue: "new",
       }),
       now: () => 0,

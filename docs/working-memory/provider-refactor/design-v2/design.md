@@ -394,7 +394,7 @@ Account Provider Config 是正式 Provider Overlay，但它只投影账号上游
 
 Account State 的可选 `unavailableReason` 随同一份快照传递，Host 与 CLI 的严格协议复用 shared 原因 schema。
 个人套餐服务端明确无权益显示未开通；已登录但获取 Key 失败显示获取失败并复用手动刷新重试，不能仅凭缺 Key
-推断 OAuth 失效或强制重新登录。Z.ai 与 BigModel 使用一致分类。原因只属于运行态事实，不写 Provider Config；
+推断 OAuth 失效或强制重新登录。Lumos 与 BigModel 使用一致分类。原因只属于运行态事实，不写 Provider Config；
 具体裁决与验证见 [Todo114](../steps/todo-114-account-status-sync-and-key-retry.md)（上游原 Todo105）。
 
 Account 与 Built-in revision 必须配对。Built-in 更新而 Account 仍基于旧 revision 时，Registry 继续服务上一份完整快照，
@@ -416,7 +416,7 @@ Provider Config，并被 Registry、ModelFactory 和 Runtime 消费。隐藏是�
 
 2026-09-16 用户完成逐层裁决：Start 复用当前 App 登录，免单独连接，与当前个人／团队套餐同时可用；不启动 Todo101 的个人／多团队全面并存。
 
-- 保留两家 Start Provider ID，统一显示名称，logo 各自沿用 Z.ai／BigModel。按当前品牌过滤，在现有“智谱”分组独立展示，复用详情，只去掉连接／断开。无虚拟 Provider、ID 合并或展示身份映射。
+- 保留两家 Start Provider ID，统一显示名称，logo 各自沿用 Lumos／BigModel。按当前品牌过滤，在现有“智谱”分组独立展示，复用详情，只去掉连接／断开。无虚拟 Provider、ID 合并或展示身份映射。
 - 保留 current，解释为匹配当前账号访问上下文。Start 不依赖付费 selection；个人／团队仍依赖当前付费选择。允许 Start 与一个付费套餐同时 current=true；权益、模型完整性、启用及请求凭据独立校验。Start connectionKey 不包含付费选择。
 - Start 按保存的 Provider ID／modelId／options 解析，退出唯一当前付费连接映射；个人／团队继续原映射。Start 失效或跨品牌后不自动替换 Provider。
 - Start 请求直接复用当前对应品牌登录的 lumosJwtToken，解除 selection.kind 必须等于 Start 的条件；保留原鉴权，不复制 token、不新增切账号竞态校验或中断机制。

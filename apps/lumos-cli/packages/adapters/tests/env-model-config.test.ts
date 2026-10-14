@@ -17,7 +17,7 @@ describe("env model config", () => {
 
   it("does not validate legacy model environment variables", () => {
     const config = parseEnvConfig({
-      LUMOS_BASE_URL: "https://api.z.ai/api/anthropic",
+      LUMOS_BASE_URL: "https://api.lumosai.cc/api/anthropic",
       LUMOS_MODEL: "zai/",
     });
 

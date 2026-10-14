@@ -40,7 +40,7 @@ import {
 const PLUGIN_STABLE_ID = "skill-creator@lumos-plugins-official";
 const STORE_TRY_PLUGIN_STABLE_ID = "lumos-guide@lumos-plugins-official";
 const STORE_TRY_PLUGIN_ICON =
-  "https://cdn-lumos.z.ai/lumos/official-plugin/assets/lumos-guide/icon.png";
+  "https://cdn.lumosai.cc/lumos/official-plugin/assets/lumos-guide/icon.png";
 const PROMPT_MARKER = "E2E_PLUGIN_REFERENCE";
 const REPLY_MARKER = "PLUGIN_REFERENCE_REPLY_OK";
 const NOTE_RELATIVE_PATH = "plugin-reference-e2e/note.md";

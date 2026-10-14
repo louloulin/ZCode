@@ -12,7 +12,7 @@
 - `packages/ui/src/v4/composer/V4ComposerToolbar.tsx`
   - 把 snapshot 的 `usage.contextWindow.usedTokens` / `maxTokens` / cache / breakdown 转成输入栏展示模型
   - 复用 `packages/ui/src/chat-input-toolbar/contextUsage.tsx` 的 `ChatContextUsage`
-  - 复用已加载的 Z.ai / BigModel Coding Plan entitlement，不在 context 菜单里重复发起 quota 请求
+  - 复用已加载的 Lumos / BigModel Coding Plan entitlement，不在 context 菜单里重复发起 quota 请求
   - Coding Plan `Usage Remaining` 复用 paid Coding Plan 的 entitlement/state 解析工具，但展示入口只保留在输入框 context 和 Usage 页
   - footer badge 与输入框 context 的 Coding Plan entitlement 使用同一套 provider/apiKey 指纹缓存，并对齐 paid plan 查询参数，避免同源额度拆成两份缓存
   - 使用 `ContextTrigger` 作为上下文入口

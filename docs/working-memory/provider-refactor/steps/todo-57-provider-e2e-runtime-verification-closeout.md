@@ -50,9 +50,9 @@ Provider 回归组实跑
 
 ## 2. 当前产品边界
 
-- Z.ai / BigModel Provider Family 和结构化 Connection Selection 当前继续保留；不得再次删除对应正式 E2E；
+- Lumos / BigModel Provider Family 和结构化 Connection Selection 当前继续保留；不得再次删除对应正式 E2E；
 - 旧 `mode/selectedKey` 未发布兼容 Case 继续删除，不恢复兼容迁移；
-- Todo 55 已经是本 Todo 的生产基线：普通第三方 Provider 从 Template 创建 Personal 实例，Z.ai/BigModel 按量 API 不再是 Family Connection Selection；
+- Todo 55 已经是本 Todo 的生产基线：普通第三方 Provider 从 Template 创建 Personal 实例，Lumos/BigModel 按量 API 不再是 Family Connection Selection；
 - Account 场景由正式 Account API/Credential mock 驱动，不伪装成 Personal API-key Provider；
 - Personal Provider 场景写正式 Personal Overlay；
 - Model Selection 使用完整 `{ providerId, modelId, options }`；
@@ -100,7 +100,7 @@ Todo 56 另补 Remote Provisioning E2E helper 时，必须从真实连接生命�
 Todo 55 还必须补齐并实跑以下最终语义代表：
 
 - 同一 Template 创建多个 Provider 实例，Personal Overlay 与真实请求身份互不污染；
-- Z.ai/BigModel 按量 API 通过普通 Template 创建，不进入 Account Family Connection Selection；
+- Lumos/BigModel 按量 API 通过普通 Template 创建，不进入 Account Family Connection Selection；
 - Welcome API Key 每次创建新的 Personal Provider 实例，不复用固定 Provider ID；
 - Template 默认值、Personal 修改与全部恢复默认使用同一 Resolver 基线；
 - Provider 顶层 `enabled`、`standard-builtin` 与普通 Built-in 复活入口在 UI、协议和持久化中归零。

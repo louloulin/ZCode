@@ -560,7 +560,7 @@ describe("chat error banner telemetry", () => {
       },
       {
         name: "DNS lookup failure",
-        message: "Cannot connect to API: getaddrinfo ENOENT lumos.z.ai",
+        message: "Cannot connect to API: getaddrinfo ENOENT lumosai.cc",
         expected: { error_source: "network", failure_reason: "network_error" },
       },
       {

@@ -4,7 +4,7 @@
 
 ## 背景
 
-Family provider 详情页已经把 Z.ai / BigModel 收敛为用户可见的 provider family，内部仍按 API Key / Start Plan / Coding Plan provider id 解析运行时目标。购买或升级 Coding Plan 时，用户需要保持在当前 family provider 上下文内完成操作，不应跳转到独立设置页或外部页面后丢失 provider 上下文。
+Family provider 详情页已经把 Lumos / BigModel 收敛为用户可见的 provider family，内部仍按 API Key / Start Plan / Coding Plan provider id 解析运行时目标。购买或升级 Coding Plan 时，用户需要保持在当前 family provider 上下文内完成操作，不应跳转到独立设置页或外部页面后丢失 provider 上下文。
 
 购买/升级入口统一来自 family provider 的 Plan Card：
 
@@ -36,7 +36,7 @@ Family provider 详情页已经把 Z.ai / BigModel 收敛为用户可见的 prov
 - 不新增 provider id。运行时身份仍使用现有 `builtin:zai-start-plan` / `builtin:zai-coding-plan` / `builtin:bigmodel-start-plan` / `builtin:bigmodel-coding-plan`。
 - 不把团队套餐强行接入个人支付链路。团队未来可能涉及席位、组织、发票和企业支付，应独立建模。
 - 不在 family provider 导航、header 或无明确套餐语义的位置新增促销徽标。
-- 不改变现有 BigModel 支付宝、Z.ai Stripe / PayPal 的后端接口协议。Z.ai Coding Plan 产品流程不再展示 PayPal 支付入口；为保持旧版本协议兼容，本次不删除已有 PayPal 能力。
+- 不改变现有 BigModel 支付宝、Lumos Stripe / PayPal 的后端接口协议。Lumos Coding Plan 产品流程不再展示 PayPal 支付入口；为保持旧版本协议兼容，本次不删除已有 PayPal 能力。
 
 ## 状态机
 
@@ -71,7 +71,7 @@ Plan Card 根据当前权益状态展示不同主操作：
 
 当前套餐状态显示在套餐卡片内容内部，不只依赖按钮文案表达；如果当前套餐内仍有更高周期可买，卡片继续允许进入周期页。已订阅用户不能从 Plan 页进入低等级或同等级无更高周期的套餐。
 
-Family provider 详情页里的套餐入口 banner 按 provider 区分：BigModel 未连接或无权益时可以展示 Start/个人/团队入口，帮助用户选择国内个人或团队购买路径；Z.ai 未连接或已连接但无权益时展示 Start（仅远端 preview 存在时）和个人套餐入口，但不展示团队套餐入口。Z.ai 没有团队购买入口。
+Family provider 详情页里的套餐入口 banner 按 provider 区分：BigModel 未连接或无权益时可以展示 Start/个人/团队入口，帮助用户选择国内个人或团队购买路径；Lumos 未连接或已连接但无权益时展示 Start（仅远端 preview 存在时）和个人套餐入口，但不展示团队套餐入口。Lumos 没有团队购买入口。
 
 ## 页面框架
 
@@ -97,7 +97,7 @@ Family provider 详情页里的套餐入口 banner 按 provider 区分：BigMode
 ## 页面 1：选择 Plan
 
 选 Plan 页不展示额外 Pricing 说明与 More Info 外链。页面内容直接按活动 banner、`For Individuals`、Start Plan 卡片、个人套餐列表、`For Teams`、团队套餐列表的顺序铺开，不再展示 audience tabs；团队套餐进入团队/企业页，不复用个人周期和支付页。section 标题使用比卡片标题更大的字号，形成页面级分组。
-首屏只承担选择动作，不放解释性标题和长说明；套餐卡片按固定信息层级展示：Plan name、当前套餐状态、起始价格、带 150% 活动 banner 图标的用量额度、分割线、关键权益列表、底部满宽圆角按钮。Plan name 使用普通正文大小并保持 medium 权重，价格使用更大的字号作为视觉重点；中文价格只放大金额本体，例如 `¥49.00`，金额在 light 使用黑色、dark 使用白色，`人民币 起` 保持正常字号并使用低一档文字色。套餐卡片本身不展示选中态，也不响应整卡点击，只有底部按钮进入下一页；当前套餐状态用卡片内胶囊标识，不只放在按钮里；如果当前 plan 仍有更高周期可买，按钮继续作为升级入口，否则禁用。选 Plan 卡片使用产品营销文案，不直接复用支付接口的权益字段；接口权益和价格仍以周期页、支付页和后端 preview 为准。BigModel 个人套餐卡片内容固定显示中文，以匹配国内购买场景；Z.ai 个人套餐卡片内容固定显示英文，以匹配海外购买场景。Start Plan 是否展示由远端 `startPlanPreview` 决定：preview 存在时展示，preview 关闭或缺失时隐藏；Start Plan 的标题优先使用远端 `name`。BigModel 星星图标旁的汇总额度和权益列表数值均来自远端 `entitlements`，前端只固定中文格式：汇总展示为 `GLM 模型每日 500万 tokens`，权益列表展示为 `GLM-5.2 每日 300万 tokens` 和 `GLM-5-Turbo 每日 200万 tokens`；远端字段缺失时才回退到本地 provider 文案。Z.ai Start Plan 卡片也由远端 `entitlements` 生成汇总额度和权益列表，前端只固定英文格式：汇总展示为 `5M GLM tokens daily`，权益列表展示为 `GLM-5.2 · 3M tokens daily` 和 `GLM-5-Turbo · 2M tokens daily`；远端字段缺失时本地 provider 文案也使用同一组英文 fallback。当前 Start 权益有效时标记当前，用户已登录但无有效 Start 权益时只在状态胶囊和按钮标记已过期，星星图标旁不展示状态说明，过期态不降低整张卡片透明度，避免权益列表变成 disabled 文案。BigModel 和 Z.ai 使用独立文案来源，不能把 BigModel 的支付宝/协议说明和 Z.ai 的 PayPal/Stripe/海外订阅说明共用。
+首屏只承担选择动作，不放解释性标题和长说明；套餐卡片按固定信息层级展示：Plan name、当前套餐状态、起始价格、带 150% 活动 banner 图标的用量额度、分割线、关键权益列表、底部满宽圆角按钮。Plan name 使用普通正文大小并保持 medium 权重，价格使用更大的字号作为视觉重点；中文价格只放大金额本体，例如 `¥49.00`，金额在 light 使用黑色、dark 使用白色，`人民币 起` 保持正常字号并使用低一档文字色。套餐卡片本身不展示选中态，也不响应整卡点击，只有底部按钮进入下一页；当前套餐状态用卡片内胶囊标识，不只放在按钮里；如果当前 plan 仍有更高周期可买，按钮继续作为升级入口，否则禁用。选 Plan 卡片使用产品营销文案，不直接复用支付接口的权益字段；接口权益和价格仍以周期页、支付页和后端 preview 为准。BigModel 个人套餐卡片内容固定显示中文，以匹配国内购买场景；Lumos 个人套餐卡片内容固定显示英文，以匹配海外购买场景。Start Plan 是否展示由远端 `startPlanPreview` 决定：preview 存在时展示，preview 关闭或缺失时隐藏；Start Plan 的标题优先使用远端 `name`。BigModel 星星图标旁的汇总额度和权益列表数值均来自远端 `entitlements`，前端只固定中文格式：汇总展示为 `GLM 模型每日 500万 tokens`，权益列表展示为 `GLM-5.2 每日 300万 tokens` 和 `GLM-5-Turbo 每日 200万 tokens`；远端字段缺失时才回退到本地 provider 文案。Lumos Start Plan 卡片也由远端 `entitlements` 生成汇总额度和权益列表，前端只固定英文格式：汇总展示为 `5M GLM tokens daily`，权益列表展示为 `GLM-5.2 · 3M tokens daily` 和 `GLM-5-Turbo · 2M tokens daily`；远端字段缺失时本地 provider 文案也使用同一组英文 fallback。当前 Start 权益有效时标记当前，用户已登录但无有效 Start 权益时只在状态胶囊和按钮标记已过期，星星图标旁不展示状态说明，过期态不降低整张卡片透明度，避免权益列表变成 disabled 文案。BigModel 和 Lumos 使用独立文案来源，不能把 BigModel 的支付宝/协议说明和 Lumos 的 PayPal/Stripe/海外订阅说明共用。
 
 150% 配额活动的 Info 弹窗由远端 `codingPlanBillingDiscount` 当前语言节点提供
 `infoTitle` 和 `infoBody`；`infoBody` 使用 Markdown。前端不保留本地权益规则正文，
@@ -105,7 +105,7 @@ Family provider 详情页里的套餐入口 banner 按 provider 区分：BigMode
 
 Plan Select 中只有 `unavailable` 状态调整展示语义：按钮文案统一显示“立即订阅”但保持
 禁用，hover 或键盘 focus 时显示“当前套餐不可购买，查看详情”；“查看详情”必须是
-可操作链接，Tooltip 与按钮间距为 `4px`。Z.ai 打开 `https://z.ai/subscribe`，BigModel 打开
+可操作链接，Tooltip 与按钮间距为 `4px`。Lumos 打开 `https://lumosai.cc/subscribe`，BigModel 打开
 `https://bigmodel.cn/glm-coding`。disabled 按钮由可聚焦包裹层承接 Tooltip 事件；当前套餐、
 已包含、已售罄和订阅服务繁忙等其他禁用状态的文案与行为保持不变。个人套餐和团队套餐
 共用这套 unavailable 展示规则。
@@ -206,7 +206,7 @@ Team section 的核心约束是直接展示团队套餐入口；团队区域宽�
 
 ## 页面 3：确认支付
 
-确认支付页负责调用 `preview({ productId, ... })` 取得支付金额明细，展示 provider 对应的续费/账号/协议确认信息，但不生成二维码、不创建 Stripe/PayPal 支付动作。个人确认支付页按内容自然高度展示，不强制撑满页面。preview 加载中或金额明细不可用时，只展示加载/不可用提示，不展示续费政策、账号规范、协议确认和继续支付按钮。用户勾选同意并点击确认后才进入支付页。确认页不再额外展示 Plan / Billing cycle 摘要，金额明细用独立卡片展示，至少包含套餐原价、活动折扣、当前套餐抵扣和实付金额；后端未返回的折扣或抵扣行不展示。活动折扣与当前套餐抵扣默认收起到一行 `抵扣费用` / `Deductions`，收起态右侧展示总抵扣金额，点击后展开逐条展示多个优惠活动和当前套餐剩余价值。BigModel 个人确认支付页固定使用中文页面标题、金额标签、周期、续费政策、账号规范和协议确认文案，以匹配国内支付宝签约场景；Z.ai 继续使用 `overseasPayment.*` 文案，不能共用条款、扣费渠道和账号规范说明。用户需要返回上一页才能修改周期，返回两次才能修改 plan。
+确认支付页负责调用 `preview({ productId, ... })` 取得支付金额明细，展示 provider 对应的续费/账号/协议确认信息，但不生成二维码、不创建 Stripe/PayPal 支付动作。个人确认支付页按内容自然高度展示，不强制撑满页面。preview 加载中或金额明细不可用时，只展示加载/不可用提示，不展示续费政策、账号规范、协议确认和继续支付按钮。用户勾选同意并点击确认后才进入支付页。确认页不再额外展示 Plan / Billing cycle 摘要，金额明细用独立卡片展示，至少包含套餐原价、活动折扣、当前套餐抵扣和实付金额；后端未返回的折扣或抵扣行不展示。活动折扣与当前套餐抵扣默认收起到一行 `抵扣费用` / `Deductions`，收起态右侧展示总抵扣金额，点击后展开逐条展示多个优惠活动和当前套餐剩余价值。BigModel 个人确认支付页固定使用中文页面标题、金额标签、周期、续费政策、账号规范和协议确认文案，以匹配国内支付宝签约场景；Lumos 继续使用 `overseasPayment.*` 文案，不能共用条款、扣费渠道和账号规范说明。用户需要返回上一页才能修改周期，返回两次才能修改 plan。
 
 BigModel 续费政策按当前选中周期动态展示金额周期，但“本次实付金额”和“未来续费金额”必须分开处理。金额明细卡里的实付金额来自 preview 的本次结算结果，可受首购优惠、活动折扣、当前套餐抵扣、赠金、余额和第三方支付拆分影响；续费政策里的自动扣费金额只能使用后端明确返回的续费金额语义，例如 `renewAmount`。如果后端没有明确续费金额，不展示固定扣费金额，改为提示后续按所选周期自动续费，实际扣费以续费时账单为准。
 
@@ -226,9 +226,9 @@ BigModel 账号使用规范展示为可展开模块，默认收起并露出总�
 金额下方信息按 provider 区分：
 
 - BigModel：展示旧版支付宝支付弹窗里的中文续费说明、账号使用规范提示块，以及底部《服务协议》《订阅及自动续费协议》同意确认；退款相关说明只出现在账号使用规范展开内容里，底部协议勾选区不重复展示退款文案。
-- Z.ai：展示固定英文的 Renewal Policy、Account Usage Policy，以及银行卡/订阅授权条款勾选确认；即使应用 locale 为中文，Z.ai 确认支付和海外支付条款也保持英文。
+- Lumos：展示固定英文的 Renewal Policy、Account Usage Policy，以及银行卡/订阅授权条款勾选确认；即使应用 locale 为中文，Lumos 确认支付和海外支付条款也保持英文。
 
-Z.ai Renewal Policy 同样不能把本次 Amount due 当作未来 recurring charge。只有 `renewAmount` 明确存在时才展示固定续费金额；否则使用不承诺具体金额的 fallback 文案。
+Lumos Renewal Policy 同样不能把本次 Amount due 当作未来 recurring charge。只有 `renewAmount` 明确存在时才展示固定续费金额；否则使用不承诺具体金额的 fallback 文案。
 
 - 有明确续费金额：`{renewAmount} will be charged automatically per {month|quarter|year}.`
 - 无明确续费金额：`Future renewals will follow your selected subscription cycle. The actual renewal amount is subject to your renewal invoice.`
@@ -237,15 +237,15 @@ Z.ai Renewal Policy 同样不能把本次 Amount due 当作未来 recurring char
 - `{Monthly|Quarterly|Yearly} charges will continue on a recurring basis until you cancel in accordance with our Terms of Service.`
 - `You may disable auto-renewal at least 1 day before the renewal date in your subscription setting.`
 
-Z.ai Account Usage Policy 文案：
+Lumos Account Usage Policy 文案：
 
 - `The GLM Coding Plan is strictly limited to use by the subscriber within officially supported products. Any sharing, resale, transfer, or third-party access is strictly prohibited. Any improper, unauthorized, or policy-violating use may result in immediate account restriction or suspension with no refunds. Please comply with our Terms and Policy.`
 
-Z.ai 银行卡/订阅授权勾选文案：
+Lumos 银行卡/订阅授权勾选文案：
 
-- `You agree that Z.ai will charge your card the above amount now and on a recurring basis according to your subscription plan until you cancel in accordance with our [terms](https://docs.z.ai/legal-agreement/subscription-terms).`
+- `You agree that Lumos will charge your card the above amount now and on a recurring basis according to your subscription plan until you cancel in accordance with our [terms](https://docs.lumosai.cc/legal-agreement/subscription-terms).`
 
-支付页必须继承确认支付页这一次 `preview`，不再重新拉取金额明细，但支付页不展示金额明细卡。支付页只把 preview 的实付金额用于支付控件文案，并继续调用后续支付接口：BigModel 根据同一个 `bizId` 生成二维码签约内容；Z.ai 根据同一个 `bizId` 展示并提交 Stripe 银行卡支付表单。
+支付页必须继承确认支付页这一次 `preview`，不再重新拉取金额明细，但支付页不展示金额明细卡。支付页只把 preview 的实付金额用于支付控件文案，并继续调用后续支付接口：BigModel 根据同一个 `bizId` 生成二维码签约内容；Lumos 根据同一个 `bizId` 展示并提交 Stripe 银行卡支付表单。
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -262,7 +262,7 @@ Z.ai 银行卡/订阅授权勾选文案：
 │ Renewal policy / 续费说明                                    │
 │ • Uses provider-specific legacy payment policy copy.         │
 │ • BigModel shows Alipay renewal/account/agreement details.   │
-│ • Z.ai shows Renewal policy/account policy/card auth terms.  │
+│ • Lumos shows Renewal policy/account policy/card auth terms.  │
 │                                                              │
 │ ☑ Provider-specific agreement / authorization confirmation.  │
 │                                                              │
@@ -272,7 +272,7 @@ Z.ai 银行卡/订阅授权勾选文案：
 
 ## 页面 4：支付
 
-支付页负责展示真实支付渠道，不再允许修改 plan 或周期。BigModel 支付宝二维码与 Z.ai 海外支付主收银台都必须直接嵌入当前购买面板内容区，不使用额外外层卡片/边框包裹，也不能再额外打开主支付弹窗；只有信用卡新增/管理这类支付方式子流程允许继续使用独立弹窗。
+支付页负责展示真实支付渠道，不再允许修改 plan 或周期。BigModel 支付宝二维码与 Lumos 海外支付主收银台都必须直接嵌入当前购买面板内容区，不使用额外外层卡片/边框包裹，也不能再额外打开主支付弹窗；只有信用卡新增/管理这类支付方式子流程允许继续使用独立弹窗。
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -288,7 +288,7 @@ Z.ai 银行卡/订阅授权勾选文案：
 └──────────────────────────────────────────────────────────────┘
 ```
 
-Z.ai 海外支付继续使用确认式收银台，但支付方式入口只展示 Credit Card / Debit Card（Stripe），不展示 PayPal。本次只下线界面入口，现有 PayPal service、deep-link 回调和协议定义保持不变。真正扣款发生在用户点击 `Pay` / `Confirm` 后。Z.ai 支付页的 `Payment method` 标题、错误提示和银行卡支付内容直接放在支付页内容区，不使用额外 section/card 容器包裹。Z.ai 支付页和添加信用卡子流程的主按钮需要与购买面板其它流程一致，使用 `h-10`、`rounded-full`、`text-ui-base`；已保存卡片和添加信用卡表单使用 `rounded-xl`，添加信用卡弹窗 header 不使用分割线。
+Lumos 海外支付继续使用确认式收银台，但支付方式入口只展示 Credit Card / Debit Card（Stripe），不展示 PayPal。本次只下线界面入口，现有 PayPal service、deep-link 回调和协议定义保持不变。真正扣款发生在用户点击 `Pay` / `Confirm` 后。Lumos 支付页的 `Payment method` 标题、错误提示和银行卡支付内容直接放在支付页内容区，不使用额外 section/card 容器包裹。Lumos 支付页和添加信用卡子流程的主按钮需要与购买面板其它流程一致，使用 `h-10`、`rounded-full`、`text-ui-base`；已保存卡片和添加信用卡表单使用 `rounded-xl`，添加信用卡弹窗 header 不使用分割线。
 
 当 Plan 首页的套餐 preview 返回系统繁忙时，保留页面上的系统繁忙提示，但 Plan Card 主按钮继续显示“升级” / `Upgrade`，且允许点击。点击后不能直接使用失败的 preview 进入周期页，而是复用原有未登录升级链路重新登录；登录成功后只重开个人套餐 Plan 首页，不恢复登录前点击的具体 plan，由用户基于刷新后的套餐状态重新选择。
 
@@ -365,7 +365,7 @@ BigModel 支付宝二维码仍属于支付页的一种支付状态。宽屏下�
 购买流程中遇到 OAuth required 或业务 token 过期时，面板不应直接变成错误页。当前页切换为连接态：
 
 ```text
-Connect Z.ai to continue
+Connect Lumos to continue
 ```
 
 未登录用户在 Plan Select 点击个人或团队套餐时，购买面板必须先记录由本次点击发起的

@@ -8,7 +8,7 @@ import presentationsIcon from "@/assets/plugin-icons/presentations.png";
 import spreadsheetsIcon from "@/assets/plugin-icons/spreadsheets.png";
 import type { DraftSuggestedPromptItem } from "@/v4/draftSuggestedPromptItems.js";
 
-const ASSETS = "https://cdn-lumos.z.ai/lumos/official-plugin/assets";
+const ASSETS = "https://cdn.lumosai.cc/lumos/official-plugin/assets";
 
 type FeatureRecommendedPrompt = DraftSuggestedPromptItem & {
   mode: "office" | "coding";

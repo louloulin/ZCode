@@ -83,6 +83,6 @@ Renderer 本地 fallback，也不改变 desktop continuous、mobile replayable �
 - 删除 Facade 中跨 Overlay 生命周期保留的 `retiredProviderIds`，同 Provider 操作仍按原有 Mutation Queue 串行；
 - `savePersonalProvider()` 对普通 Built-in 和 Personal-only Provider 改为 update-only，创建分别只由
   `addBuiltinProvider()` 与 `createPersonalProvider()` 承担；
-- 固定 Z.ai/BigModel Family Provider 保留首次保存稀疏 Personal Overlay 的能力；
+- 固定 Lumos/BigModel Family Provider 保留首次保存稀疏 Personal Overlay 的能力；
 - 单测覆盖删除后重加、迟到保存、Personal-only 显式创建、Family 首次保存及保存/删除顺序；
 - Provider、Provider Node、Services、UI 相关定向测试共 625 项通过，根 `typecheck` 与 `lint` 通过。

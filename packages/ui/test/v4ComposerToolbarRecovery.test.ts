@@ -923,7 +923,7 @@ describe("V4ComposerModelControls recovery", () => {
     addAccountProviderAccess(
       BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       { accountType: "zai", mode: "individual-coding-plan" },
-      "Z.ai - Coding Plan",
+      "Lumos - Coding Plan",
     );
     mocks.codingPlanEntitlements = {
       [BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan]: {

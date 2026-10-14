@@ -99,7 +99,7 @@ describe("web Vite config", () => {
 
     expect(result?.config.define).toMatchObject({
       "import.meta.env.VITE_ZAI_OAUTH_CLIENT_ID": JSON.stringify("client_P8X5CMWmlaRO9gyO-KSqtg"),
-      "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify("https://lumos.z.ai"),
+      "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify("https://lumosai.cc"),
     });
   });
 
@@ -129,15 +129,15 @@ describe("web Vite config", () => {
 
       expect(result?.config.define).toMatchObject({
         "import.meta.env.VITE_ZAI_OAUTH_CLIENT_ID": JSON.stringify("client_P8X5CMWmlaRO9gyO-KSqtg"),
-        "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify("https://lumos.z.ai"),
-        "import.meta.env.VITE_ZAI_OAUTH_ORIGIN": JSON.stringify("https://chat.z.ai"),
+        "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify("https://lumosai.cc"),
+        "import.meta.env.VITE_ZAI_OAUTH_ORIGIN": JSON.stringify("https://chat.lumosai.cc"),
       });
     },
   );
 
   it("uses shared Lumos endpoint env override for renderer injection", async () => {
     vi.stubEnv("LUMOS_ENV", "test");
-    vi.stubEnv("LUMOS_BASE_URL", "https://lumos.z.ai/custom/path");
+    vi.stubEnv("LUMOS_BASE_URL", "https://lumosai.cc/custom/path");
     const webRoot = resolve(import.meta.dirname, "..");
     const configFile = resolve(webRoot, "vite.config.ts");
     const result = await loadConfigFromFile(
@@ -153,8 +153,8 @@ describe("web Vite config", () => {
     );
 
     expect(result?.config.define).toMatchObject({
-      "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify("https://lumos.z.ai"),
-      "import.meta.env.VITE_LUMOS_ENDPOINT_ORIGIN": JSON.stringify("https://lumos.z.ai"),
+      "import.meta.env.VITE_LUMOS_BASE_URL": JSON.stringify("https://lumosai.cc"),
+      "import.meta.env.VITE_LUMOS_ENDPOINT_ORIGIN": JSON.stringify("https://lumosai.cc"),
     });
   });
 });

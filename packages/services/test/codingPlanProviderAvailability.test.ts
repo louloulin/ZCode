@@ -342,7 +342,7 @@ describe("codingPlanProviderAvailability", () => {
     expect(apiClient.request).not.toHaveBeenCalled();
   });
 
-  it("Z.ai 只有 Start Plan 权益时保留 Start 并关闭 Coding", async () => {
+  it("Lumos 只有 Start Plan 权益时保留 Start 并关闭 Coding", async () => {
     const apiClient = createZaiPairApiClient({
       startPlanActive: true,
       codingPlanActive: false,

@@ -255,9 +255,9 @@ describe("forceUpdateGuard", () => {
       "../src/main/forceUpdateGuard.js"
     );
 
-    const url = new URL(resolveForceUpdateClientConfigUrl("https://lumos.z.ai"));
+    const url = new URL(resolveForceUpdateClientConfigUrl("https://lumosai.cc"));
 
-    expect(url.origin).toBe("https://lumos.z.ai");
+    expect(url.origin).toBe("https://lumosai.cc");
     expect(url.pathname).toBe("/api/v1/client/configs");
     expect(url.searchParams.get("app_version")).toBeTruthy();
     expect(url.searchParams.get("platform")).toBe(`${process.platform}-${process.arch}`);
@@ -492,14 +492,14 @@ describe("forceUpdateGuard", () => {
     const result = await maybeBlockStartupForForceUpdate({
       locale: "en-US",
       logger: createLogger(),
-      endpointOrigin: "https://lumos.z.ai",
+      endpointOrigin: "https://lumosai.cc",
       fetchRemoteConfig: async () => ({
         forceUpdate: { minimalVersion: "999.0.0" },
       }),
     });
 
     expect(result.blocked).toBe(true);
-    expect(electronMocks.shellOpenExternalMock).toHaveBeenCalledWith("https://lumos.z.ai/en");
+    expect(electronMocks.shellOpenExternalMock).toHaveBeenCalledWith("https://lumosai.cc/en");
     expect(electronMocks.appQuitMock).toHaveBeenCalled();
   });
 

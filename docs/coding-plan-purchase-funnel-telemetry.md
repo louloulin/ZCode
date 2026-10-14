@@ -297,14 +297,14 @@ V4 conversation 使用同一事件契约，但入口由 V4 session quota banner 
 - 团队：点击“继续支付”时上报最终产品、周期、席位和时长。
 - `product_id` 必须取商品接口返回值，禁止按 provider、套餐和周期自行拼接。
 - 团队只切换配置但未继续时不报。
-- Z.ai 在本阶段尚未选择 PayPal/Stripe 时，`payment_method=""`。
+- Lumos 在本阶段尚未选择 PayPal/Stripe 时，`payment_method=""`。
 
 ## 6. 渠道差异
 
 | Provider | `provider_family` | `channel` | 产品 | 支付 |
 | --- | --- | --- | --- | --- |
 | BigModel | `bigmodel` | `MaaS` | 个人和团队 | 当前为支付宝 |
-| Z.ai | `zai` | `Z_AI` | 当前仅个人 | PayPal/Stripe 在支付确认阶段确定 |
+| Lumos | `zai` | `Z_AI` | 当前仅个人 | PayPal/Stripe 在支付确认阶段确定 |
 
 映射只根据 `providerId`，不根据语言、币种或域名猜测。
 
@@ -453,7 +453,7 @@ New task 首页和 Automations 闲时任务资格提示统一创建：
 - Start provider 承载付费 Coding Plan 权益时归为 `coding_plan`，不误报
   `start_plan`。
 - BigModel -> `bigmodel/MaaS`。
-- Z.ai -> `zai/Z_AI`。
+- Lumos -> `zai/Z_AI`。
 - 产品组阶段 `product_id=""`。
 - 团队只在“继续支付”时上报最终配置。
 - 三个新增事件、`purchase_pay_ck`、`purchase_result` 五个事件复用同一个

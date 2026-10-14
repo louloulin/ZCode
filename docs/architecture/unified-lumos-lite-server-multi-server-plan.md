@@ -350,7 +350,7 @@ Source Server A ──完整镜像──> Target Server B
 ### 9.2 不同步
 
 - OAuth 登录态和 OAuth token。
-- Z.ai / BigModel 当前连接选择、domain 和 family mode。
+- Lumos / BigModel 当前连接选择、domain 和 family mode。
 - UI 最近模型、thought level 和 Agent config。
 - runtime-only headers。
 - Provider 展示顺序。

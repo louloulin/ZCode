@@ -10,13 +10,13 @@
 
 ## 2. 线上实测
 
-请求 `https://lumos.z.ai/api/v1/client/configs?app_version=3.12.0&platform=linux-x86_64`，HTTP 200、业务 code 0：
+请求 `https://lumosai.cc/api/v1/client/configs?app_version=3.12.0&platform=linux-x86_64`，HTTP 200、业务 code 0：
 
 ```json
 {
   "data": {
     "configs": {
-      "builtin_provider_config_json": "https://cdn-lumos.z.ai/lumos/config/lumos-builtin.json"
+      "builtin_provider_config_json": "https://cdn.lumosai.cc/lumos/config/lumos-builtin.json"
     }
   }
 }

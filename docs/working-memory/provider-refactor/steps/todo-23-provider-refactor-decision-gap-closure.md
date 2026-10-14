@@ -259,7 +259,7 @@ Effective 结果使用单独的低强调预览。
 消失。Provider ID 在所有界面只读。
 
 简化编辑器与完整编辑器可以复用模型列表、API Key 和测试组件，但不能因为复用 `InlineEditableProviderCard` 而重新暴露完整
-字段。Z.ai/BigModel Family 保持固定 Family UI，不进入这两个普通入口，也不提供 Provider disable 操作。
+字段。Lumos/BigModel Family 保持固定 Family UI，不进入这两个普通入口，也不提供 Provider disable 操作。
 
 ## 6. Adapter Compatibility 删除与命名归零
 

@@ -44,7 +44,7 @@ const capabilities: ConversationShareCapabilities = {
 
 const shareRecord = {
   share_code: "share-1",
-  share_url: "https://lumos.z.ai/cn/share/share-1",
+  share_url: "https://lumosai.cc/cn/share/share-1",
   access_mode: "public_importable" as const,
   expires_at: 20_000,
 };
@@ -241,7 +241,7 @@ function createDependencies(rows = completedRows(), pollOptions: PollOptions = {
       confirmRequests.push(request);
       return {
         share_code: "share-1",
-        share_url: "https://lumos.z.ai/cn/share/share-1",
+        share_url: "https://lumosai.cc/cn/share/share-1",
         access_mode: preparationRequests.at(-1)?.access_mode ?? "private",
         expires_at: 20_000,
       };
@@ -1434,7 +1434,7 @@ describe("ConversationShareService", () => {
     // 服务端固定下发 /cn/share/...（见 shareRecord），客户端按界面语言改写站点前缀。
     await expect(
       service.publish({ ...publishInput(), locale: "en-US" }, "publish-op-locale-en"),
-    ).resolves.toMatchObject({ share_url: "https://lumos.z.ai/share/share-1" });
+    ).resolves.toMatchObject({ share_url: "https://lumosai.cc/share/share-1" });
 
     await expect(
       service.publish({ ...publishInput(), locale: "zh-CN" }, "publish-op-locale-zh"),
@@ -2036,7 +2036,7 @@ describe("ConversationShareService", () => {
       expires_at: 20_000,
       share: {
         share_code: "existing-share",
-        share_url: "https://lumos.z.ai/cn/share/existing-share",
+        share_url: "https://lumosai.cc/cn/share/existing-share",
         access_mode: "public_importable",
         expires_at: 20_000,
       },
@@ -2057,7 +2057,7 @@ describe("ConversationShareService", () => {
       expires_at: 20_000,
       share: {
         share_code: "existing-share-locale",
-        share_url: "https://lumos.z.ai/cn/share/existing-share-locale",
+        share_url: "https://lumosai.cc/cn/share/existing-share-locale",
         access_mode: "public_importable",
         expires_at: 20_000,
       },
@@ -2066,7 +2066,7 @@ describe("ConversationShareService", () => {
     await expect(
       service.publish({ ...publishInput(), locale: "en-US" }, "publish-op-confirmed-locale"),
     ).resolves.toMatchObject({
-      share_url: "https://lumos.z.ai/share/existing-share-locale",
+      share_url: "https://lumosai.cc/share/existing-share-locale",
     });
   });
 
@@ -2093,7 +2093,7 @@ describe("ConversationShareService", () => {
       expires_at: 20_000,
       share: {
         share_code: "existing-share",
-        share_url: "https://lumos.z.ai/cn/share/existing-share",
+        share_url: "https://lumosai.cc/cn/share/existing-share",
         access_mode: "public_importable",
         expires_at: 20_000,
       },

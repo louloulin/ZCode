@@ -290,7 +290,7 @@ D5 只锁了 queued，本条补齐 running / awaiting_approval 的空档（"用�
 > **口径修正（2026-07-28）**：本条的「Automations Tab（All / Scheduled tasks / Idle-time task）」
 > 已由 D47 收窄为 Scheduled / Idle 两个 tab，All 混排总览删除；其余定案继续成立。
 
-Figma（⚫️ Z.ai - Lumos / 自动化 & 闲时任务页）定稿范式：闲时任务是 **Automations 体系下的实体**，不是"对话上的延迟发送"。
+Figma（⚫️ Lumos - Lumos / 自动化 & 闲时任务页）定稿范式：闲时任务是 **Automations 体系下的实体**，不是"对话上的延迟发送"。
 
 - **创建**：Automations 主视图整页表单（Task title + Instructions + 项目 + Ask for approval 下拉 + 模型 + Idle-time 时段选择），Settings/History 双 tab——完全复用 feat/cron 定时任务的创建范式。
 - **列表**：Automations Tab（All / Scheduled tasks / Idle-time task），卡片带排队位次徽章与操作菜单。

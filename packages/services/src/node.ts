@@ -2486,7 +2486,7 @@ export function createLocalServices(options: {
               };
             }
             // 旧行没有 Provider 身份；只能复用当前账号凭据链已裁定的 Account Family，
-            // 不能靠 Registry/JSON 顺序在 Z.ai 与 BigModel 间猜测。
+            // 不能靠 Registry/JSON 顺序在 Lumos 与 BigModel 间猜测。
             const selection = {
               providerId: provider.providerId,
               modelId,

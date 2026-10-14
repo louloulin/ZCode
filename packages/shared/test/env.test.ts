@@ -16,7 +16,7 @@ describe("shared runtime env", () => {
     // 单测不注入 ARMS 与自动更新；事件上报端点由 vitest.config.ts 固定注入。
     expect(env.LUMOS_ARMS_RUM_ENDPOINT).toBe("");
     expect(env.LUMOS_AUTO_UPDATE_ENABLED).toBe(false);
-    expect(env.LUMOS_TELEMETRY_REPORT_ENDPOINT).toBe("https://lumos.z.ai/api/v1/event/report");
+    expect(env.LUMOS_TELEMETRY_REPORT_ENDPOINT).toBe("https://lumosai.cc/api/v1/event/report");
   });
 
   it("未注入 LUMOS_ENV 时默认 test 并映射为 local", async () => {

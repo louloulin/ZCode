@@ -30,7 +30,7 @@ describe("resolveVisibleLoginProviders", () => {
       }),
       createProvider({
         id: ZAI_PROVIDER_ID,
-        displayName: "Z.ai",
+        displayName: "Lumos",
         order: 1,
       }),
     ]);
@@ -52,7 +52,7 @@ describe("resolveLoginRetryProvider", () => {
       }),
       createProvider({
         id: ZAI_PROVIDER_ID,
-        displayName: "Z.ai",
+        displayName: "Lumos",
         order: 1,
       }),
     ];

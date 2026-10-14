@@ -21,7 +21,7 @@
   隐私政策/服务条款）。
 
 公开分段对应官方市场 `lumos-plugins-official`（内置插件 + CDN zip 插件，目录源
-`https://cdn-lumos.z.ai/lumos/official-plugin/marketplace.json`）；个人分段承载其余一切
+`https://cdn.lumosai.cc/lumos/official-plugin/marketplace.json`）；个人分段承载其余一切
 个人来源（claude-plugins-official、用户自加市场、inline）。
 
 ### 官方市场单一身份与合并合同
@@ -286,7 +286,7 @@ flowchart TD
 
 `claude-plugins-official` 的上游目录不保证为每个插件提供 `icon`。刷新该市场时，Agent
 可以从 Lumos CDN 的
-`https://cdn-lumos.z.ai/lumos/official-plugin/assets/icon-sources.json` 获取可选图标映射，
+`https://cdn.lumosai.cc/lumos/official-plugin/assets/icon-sources.json` 获取可选图标映射，
 并按插件 `name` 为缺失 `icon` 的目录条目补齐：
 
 - 仅作用于 `claude-plugins-official`；用户自加市场、inline 插件及孤立安装不按名称套用，
@@ -294,7 +294,7 @@ flowchart TD
 - marketplace 条目自带的 `icon` 优先，映射不得覆盖。
 - 映射只消费 `name`、`icon`、`mimeType`、`sha256`；素材溯源字段不得进入协议、日志或 UI。
 - `icon` 必须是安全的相对 PNG 路径，最终 URL 固定落在
-  `https://cdn-lumos.z.ai/lumos/official-plugin/assets/` 下。
+  `https://cdn.lumosai.cc/lumos/official-plugin/assets/` 下。
 - 市场 manifest 是主数据，图标映射是可选增强。映射下载或解析失败不得导致市场刷新失败；
   有旧缓存时继续使用旧缓存，无缓存或未命中时按统一的 Blocks 图标降级。
 - 映射在 marketplace 更新阶段获取并缓存；`plugins/overview` 不为每个条目单独发起图标网络请求。
@@ -379,7 +379,7 @@ sequenceDiagram
     participant Svc as lumosAgentService
     participant Boot as bootstrap handlers
     participant Ad as adapters
-    participant CDN as cdn-lumos.z.ai
+    participant CDN as cdn.lumosai.cc
 
     UI->>Store: 进入页面
     Store->>Svc: getPluginsOverview()

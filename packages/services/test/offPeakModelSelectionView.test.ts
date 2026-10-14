@@ -51,7 +51,7 @@ describe("buildOffPeakModelSelectionView", () => {
           access: { type: "zhipu-account", accountType: "zai", mode: "off-peak" },
           api: {
             type: "anthropic-messages",
-            baseUrl: "https://lumos.z.ai/api/v1/off-peak/anthropic",
+            baseUrl: "https://lumosai.cc/api/v1/off-peak/anthropic",
           },
         },
       });

@@ -106,7 +106,7 @@ it.each([
   expect(result.status).toBe("notPurchased");
 });
 
-it("Z.AI 个人套餐与服务端无权益判定对称", () => {
+it("Lumos 个人套餐与服务端无权益判定对称", () => {
   const result = resolveCodingPlanEntitlementState({
     providerId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
     accountEntitled: false,
@@ -841,11 +841,11 @@ describe("zai family Team Plan 可见性对称化", () => {
       type: "codingPlan",
       presetId: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
       oauthProviderId: ZAI_PROVIDER_ID,
-      label: "Z.ai - Coding Plan",
-      providerName: "Z.ai",
+      label: "Lumos - Coding Plan",
+      providerName: "Lumos",
       provider: createProvider({
         id: BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan,
-        name: "Z.ai - Coding Plan",
+        name: "Lumos - Coding Plan",
       }),
       status,
       statusActive: status === "purchased",
@@ -858,8 +858,8 @@ describe("zai family Team Plan 可见性对称化", () => {
       subscribedTeamProducts: [
         {
           productId: "zai-team-pro",
-          productName: "Z.ai Coding Team",
-          productBigTitle: "Z.ai Coding Team",
+          productName: "Lumos Coding Team",
+          productBigTitle: "Lumos Coding Team",
           originalAmount: 216,
           payAmount: 216,
           priceUnit: "year",
@@ -899,7 +899,7 @@ describe("zai family Team Plan 可见性对称化", () => {
     expect(teamItem?.key).toBe(`team:zai:zai-team-pro:zai-org:zai-project`);
     expect(teamItem?.key).not.toContain("bigmodel");
     // providerName 应继承自 zai codingPlanItem
-    expect(teamItem?.providerName).toBe("Z.ai");
+    expect(teamItem?.providerName).toBe("Lumos");
     expect(teamItem?.teamPlanName).toBe("Zai Org");
     expect(teamItem?.purchaseUrl).toBe(getModelProviderFamilySpec("zai").teamCodingPlanManageUrl);
   });

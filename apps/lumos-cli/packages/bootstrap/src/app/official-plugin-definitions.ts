@@ -54,8 +54,8 @@ export interface OfficialPluginDefinition {
   version: string;
 }
 
-const ZAI_AUTHOR = { name: "Z.ai", url: "https://z.ai" } as const;
-const OFFICIAL_PLUGIN_ASSETS_BASE_URL = "https://cdn-lumos.z.ai/lumos/official-plugin/assets";
+const ZAI_AUTHOR = { name: "Lumos", url: "https://lumosai.cc" } as const;
+const OFFICIAL_PLUGIN_ASSETS_BASE_URL = "https://cdn.lumosai.cc/lumos/official-plugin/assets";
 
 export const OFFICIAL_NODE_REPL_HOST_REQUIRED_SEED_PATHS = ["dist/mcp/server.js"] as const;
 

@@ -43,7 +43,7 @@ export const DEFAULT_PLUGIN_MARKETPLACES: DefaultPluginMarketplace[] = [
     // Lumos 官方唯一市场：本地 seed 分片与 CDN 分片在 Agent storage 内合并。
     // CDN manifest 的 name 必须与该 canonical id 一致。
     id: LUMOS_OFFICIAL_PLUGIN_MARKETPLACE_ID,
-    source: "https://cdn-lumos.z.ai/lumos/official-plugin/marketplace.json",
+    source: "https://cdn.lumosai.cc/lumos/official-plugin/marketplace.json",
     name: LUMOS_OFFICIAL_PLUGIN_MARKETPLACE_ID,
     description: "Official Lumos plugins marketplace: built-in and community plugins for Lumos.",
     pluginCount: 0,

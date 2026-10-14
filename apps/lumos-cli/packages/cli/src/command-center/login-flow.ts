@@ -94,7 +94,7 @@ export function formatLoginResult(result: CommandCenterLoginResult): string {
       : "";
 
   return [
-    `Configured Z.AI Coding Plan as ${label}.`,
+    `Configured Lumos Coding Plan as ${label}.`,
     `Model: ${result.model}`,
     `Credentials: ${result.credentialsPath}`,
     `Model selection: ${result.configPath}${browserNote}`,
@@ -106,7 +106,7 @@ export function formatProviderSetupResult(result: {
   model: string;
   providerId: "bigmodel" | "zai";
 }): string {
-  const provider = result.providerId === "bigmodel" ? "BigModel" : "Z.AI";
+  const provider = result.providerId === "bigmodel" ? "BigModel" : "Lumos";
   return [
     `Configured ${provider} Coding Plan.`,
     `Model: ${result.model}`,

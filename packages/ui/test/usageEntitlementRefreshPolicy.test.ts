@@ -36,7 +36,7 @@ function createSnapshot(
   return {
     generatedAt: 1,
     authenticated: true,
-    provider: { id: "account:zai-individual-coding-plan", name: "Z.ai Coding Plan" },
+    provider: { id: "account:zai-individual-coding-plan", name: "Lumos Coding Plan" },
     remaining: null,
     subscription: null,
     quota: null,

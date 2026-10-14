@@ -21,13 +21,13 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["usesCleartextTraffic"] = "false"
-        buildConfigField("String", "REMOTE_CONTROL_DEFAULT_URL", "\"https://lumos.z.ai/remote\"")
+        buildConfigField("String", "REMOTE_CONTROL_DEFAULT_URL", "\"https://lumosai.cc/remote\"")
     }
 
     buildTypes {
         debug {
             manifestPlaceholders["usesCleartextTraffic"] = "true"
-            buildConfigField("String", "REMOTE_CONTROL_DEFAULT_URL", "\"https://lumos.z.ai/remote\"")
+            buildConfigField("String", "REMOTE_CONTROL_DEFAULT_URL", "\"https://lumosai.cc/remote\"")
         }
         release {
             isMinifyEnabled = false

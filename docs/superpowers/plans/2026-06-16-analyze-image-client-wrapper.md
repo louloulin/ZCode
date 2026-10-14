@@ -82,8 +82,8 @@ describe("analyze-image contracts", () => {
 
   it.each([
     "https://open.bigmodel.cn/api/anthropic/v1",
-    "https://lumos.z.ai/api/v1/lumos-plan/anthropic",
-    "https://api.z.ai/anthropic",
+    "https://lumosai.cc/api/v1/lumos-plan/anthropic",
+    "https://api.lumosai.cc/anthropic",
   ])("allows AnalyzeImage-capable host %s", (baseURL) => {
     expect(isAnalyzeImageCapableBaseURL(baseURL)).toBe(true);
   });
@@ -127,7 +127,7 @@ import { z } from "zod";
 import { toToolJsonSchema } from "./json-schema.js";
 import type { ProviderNativeToolSpec, ToolContractDeclaration } from "./contract.js";
 
-const ANALYZE_IMAGE_CAPABLE_BASE_HOSTS = ["bigmodel.cn", "z.ai", "z.ai"];
+const ANALYZE_IMAGE_CAPABLE_BASE_HOSTS = ["bigmodel.cn", "lumosai.cc", "lumosai.cc"];
 
 export const AnalyzeImageInputSchema = z
   .object({

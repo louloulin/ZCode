@@ -1,17 +1,17 @@
 import type { LumosEnv } from "./env.js";
 
-export const DEFAULT_LUMOS_ENDPOINT_ORIGIN = "https://lumos.z.ai";
-export const TEST_LUMOS_ENDPOINT_ORIGIN = "https://lumos.z.ai";
+export const DEFAULT_LUMOS_ENDPOINT_ORIGIN = "https://lumosai.cc";
+export const TEST_LUMOS_ENDPOINT_ORIGIN = "https://lumosai.cc";
 export const CODING_PLAN_LOCAL_WEBVIEW_ORIGIN = "http://localhost:3000";
 export const DEFAULT_BIGMODEL_API_ORIGIN = "https://bigmodel.cn";
 export const TEST_BIGMODEL_API_ORIGIN = "https://bigmodel.cn";
-export const DEFAULT_ZAI_OAUTH_ORIGIN = "https://chat.z.ai";
-export const TEST_ZAI_OAUTH_ORIGIN = "https://chat.z.ai";
-export const DEFAULT_ZAI_BUSINESS_BASE_URL = "https://api.z.ai";
-export const TEST_ZAI_BUSINESS_BASE_URL = "https://api.z.ai";
+export const DEFAULT_ZAI_OAUTH_ORIGIN = "https://chat.lumosai.cc";
+export const TEST_ZAI_OAUTH_ORIGIN = "https://chat.lumosai.cc";
+export const DEFAULT_ZAI_BUSINESS_BASE_URL = "https://api.lumosai.cc";
+export const TEST_ZAI_BUSINESS_BASE_URL = "https://api.lumosai.cc";
 export const DEFAULT_ZAI_OAUTH_CLIENT_ID = "client_P8X5CMWmlaRO9gyO-KSqtg";
 export const TEST_ZAI_OAUTH_CLIENT_ID = "client_P8X5CMWmlaRO9gyO-KSqtg";
-export const DEFAULT_WEB_REMOTE_CONTROL_RELAY_WS_URL = "wss://lumos.z.ai/ws";
+export const DEFAULT_WEB_REMOTE_CONTROL_RELAY_WS_URL = "wss://lumosai.cc/ws";
 export const WEB_REMOTE_CONTROL_V4_MIN_APP_VERSION = "3.4.0";
 
 export interface BuildLumosEndpointUrlsOptions {
@@ -244,7 +244,7 @@ export function resolveWebRemoteControlRelayWsUrl(options?: {
   // Bugfix：标准 test endpoint 已部署独立 relay；继续固定到生产 relay 会让测试环境跨环境配对。
   // 仅识别规范 test origin，避免改变 production、localhost 和其他自定义 endpoint 的既有行为。
   if (options?.endpointOrigin?.trim() === TEST_LUMOS_ENDPOINT_ORIGIN) {
-    return "wss://lumos.z.ai/ws";
+    return "wss://lumosai.cc/ws";
   }
 
   return DEFAULT_WEB_REMOTE_CONTROL_RELAY_WS_URL;

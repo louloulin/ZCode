@@ -110,11 +110,11 @@ describe("desktop tsup chunk isolation", () => {
   it("remote runtime CDN 根应可由 CI 的 CDN_DOMAIN/OSS_PATH_PREFIX 多值注入", () => {
     expect(
       resolveBuildRemoteCdnReleaseRoots({
-        CDN_DOMAIN: "cdn-lumos.z.ai,cdn.lumos-ai.com",
+        CDN_DOMAIN: "cdn.lumosai.cc,cdn.lumos-ai.com",
         OSS_PATH_PREFIX: "lumos/electron/releases",
       }),
     ).toEqual([
-      "https://cdn-lumos.z.ai/lumos/electron/releases",
+      "https://cdn.lumosai.cc/lumos/electron/releases",
       "https://cdn.lumos-ai.com/lumos/electron/releases",
     ]);
   });
@@ -122,7 +122,7 @@ describe("desktop tsup chunk isolation", () => {
   it("remote runtime CDN 根的路径前缀数量不匹配时应失败", () => {
     expect(() =>
       resolveBuildRemoteCdnReleaseRoots({
-        CDN_DOMAIN: "cdn-lumos.z.ai,cdn.lumos-ai.com",
+        CDN_DOMAIN: "cdn.lumosai.cc,cdn.lumos-ai.com",
         OSS_PATH_PREFIX: "new-prefix,old-prefix,extra-prefix",
       }),
     ).toThrow("OSS_PATH_PREFIX must contain one value or match CDN_DOMAIN count");

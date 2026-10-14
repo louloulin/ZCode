@@ -136,7 +136,7 @@ export function seedPluginCdnZipMarketplaceFixture(input: {
         id: PLUGIN_CDN_ZIP_MARKETPLACE_ID,
         source: {
           source: "url",
-          url: "https://cdn-lumos.z.ai/lumos/official-plugin/marketplace.json",
+          url: "https://cdn.lumosai.cc/lumos/official-plugin/marketplace.json",
         },
         name: PLUGIN_CDN_ZIP_MARKETPLACE_NAME,
         description: manifest.description,

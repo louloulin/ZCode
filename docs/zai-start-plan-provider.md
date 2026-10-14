@@ -1,4 +1,4 @@
-# Z.AI / BigModel Start Plan Provider
+# Lumos / BigModel Start Plan Provider
 
 ## 当前 Provider 架构（Todo154：Start 独立）
 
@@ -28,7 +28,7 @@ Start 跟随当前 App 登录，无需单独连接。`current` 表示匹配账�
 
 保存的 Start 选择按原 Provider ID、模型和选项精确解析，不跨品牌映射，不回退到付费额度。个人／团队继续按当前唯一付费连接映射。历史会话、任务、Automation、Subagent、Bot 和 Wiki 不批量改写，Session 沿用成功执行后的原有写回；旧 `kind: start-plan` 保留读取，启动不再通过写入它激活 Start。
 
-会话内的模型切换分隔提示、首次使用提示及对应切换 toast，对 BigModel／Z.ai 的账号套餐模型使用 `模型名(套餐类型)`：个人套餐、体验套餐、团队套餐。例如 `GLM-5.3(团队套餐) → GLM-5.3(体验套餐)`，即使模型同名也能区分额度来源。类型分别取提示记录的前后 Provider ID，不读取当前全局连接或输入框草稿；Provider 已不在当前目录时仍可识别内置套餐。套餐名称随界面语言翻译，普通自定义供应商继续使用原名称规则；桌面和手机使用相同展示逻辑，历史数据无需迁移。
+会话内的模型切换分隔提示、首次使用提示及对应切换 toast，对 BigModel／Lumos 的账号套餐模型使用 `模型名(套餐类型)`：个人套餐、体验套餐、团队套餐。例如 `GLM-5.3(团队套餐) → GLM-5.3(体验套餐)`，即使模型同名也能区分额度来源。类型分别取提示记录的前后 Provider ID，不读取当前全局连接或输入框草稿；Provider 已不在当前目录时仍可识别内置套餐。套餐名称随界面语言翻译，普通自定义供应商继续使用原名称规则；桌面和手机使用相同展示逻辑，历史数据无需迁移。
 
 用户提交新消息、创建／修改模型后保存定时任务、手动生成 Wiki，以及保存显式 Subagent 模型时，若当前有效选择为付费模型、Start 有相同且思考选项兼容的可执行模型及明确正额度，可推荐使用体验套餐。额度未知或查询失败跳过，不为提交等待一次强制额度刷新。用户点“切换套餐”后按原提交／保存边界记住本入口的 Start 选择；点“不了”继续原选择；关闭则保留草稿、不执行本次操作。
 
@@ -57,8 +57,8 @@ reads the active free plan identity and the daily quota bucket renewal time from
 one balance request:
 
 ```http
-GET https://lumos.z.ai/api/v1/lumos-plan/billing/balance?app_version=<LUMOS_VERSION>
-Authorization: Bearer <lumosjwttoken>          # Z.AI
+GET https://lumosai.cc/api/v1/lumos-plan/billing/balance?app_version=<LUMOS_VERSION>
+Authorization: Bearer <lumosjwttoken>          # Lumos
 Authorization: Bearer <lumosjwttoken>          # BigModel
 X-Device-Mid: <telemetry-state.json deviceMid>  # required; missing -> 400 {"code":3001,"msg":"parameter error"}
 ```
@@ -79,10 +79,10 @@ before `balance` or issue a second `balance` request for the same snapshot.
 `app_version` always uses the current app `LUMOS_VERSION`, including development
 builds, so backend gating observes the same version identity as the running app.
 
-`lumosjwttoken` is the OAuth backend JWT saved during Z.AI or BigModel login.
+`lumosjwttoken` is the OAuth backend JWT saved during Lumos or BigModel login.
 BigModel passes the one-time callback `code` directly to
-`https://lumos.z.ai/api/v1/oauth/token` with `state`, `redirect_uri`, and
-`provider: "bigmodel"` to save the same JWT shape used by Z.AI Start Plan.
+`https://lumosai.cc/api/v1/oauth/token` with `state`, `redirect_uri`, and
+`provider: "bigmodel"` to save the same JWT shape used by Lumos Start Plan.
 Paid Coding Plan providers continue to use `/api/biz/subscription/list`;
 monitor quota APIs remain reserved for Coding Plan usage/limit views.
 
@@ -233,7 +233,7 @@ pricing cards, and any other client-config consumers in the same provider
 instance:
 
 ```http
-GET https://lumos.z.ai/api/v1/client/configs?app_version=<LUMOS_VERSION>&platform=<platform>-<arch>
+GET https://lumosai.cc/api/v1/client/configs?app_version=<LUMOS_VERSION>&platform=<platform>-<arch>
 ```
 
 `StartPlanCard` uses `configs.startPlanPreview`:
@@ -252,7 +252,7 @@ interface StartPlanPreviewConfig {
 }
 ```
 
-The current payload is provider-neutral, so Z.AI Start Plan and BigModel Start
+The current payload is provider-neutral, so Lumos Start Plan and BigModel Start
 Plan both show the same Start Plan preview. The provider-specific difference is
 the paid pricing list underneath:
 
@@ -277,7 +277,7 @@ description lists the remote entitlement model names and quota groups. When the
 preview is missing, the personal/team purchase entries may remain visible, but
 the Start Plan entry and all Start-specific copy must be absent.
 
-When the user unlinks the active Z.ai / BigModel OAuth session while the same
+When the user unlinks the active Lumos / BigModel OAuth session while the same
 family still has an API key, the family domain remains selected, but the current
 Start/Coding detail must return to the signed-out Start view. This preserves the
 family settings context and re-shows the Start preview plus pricing cards when
@@ -368,7 +368,7 @@ idle -> checking-auth -> verifying -> claiming -> success-dialog -> refreshing -
   `effective_at = 0` 继续按立即生效处理，不展示待生效说明。
   分享面板复制文案成功后，复制按钮应原位短暂切换为“✓ 已复制”，避免用户视线离开当前操作；
   复制图片成功使用全局 Toast。剪贴板或图片生成失败时显示失败 Toast，不能只写日志后静默结束。
-  分享文案必须包含 `https://lumos.z.ai` 入口，并邀请接收者下载安装 Lumos 后领取。中文链接独占最后一行；
+  分享文案必须包含 `https://lumosai.cc` 入口，并邀请接收者下载安装 Lumos 后领取。中文链接独占最后一行；
   英文链接直接跟在完整句子后。两种语言都不使用冒号引出链接，且链接必须位于文案末尾，避免社交平台把后续文字错误识别为 URL 的一部分。
 
   设置页 Start Plan 套餐卡中，若套餐 entitlement 的 `effective_at` 晚于当前时间，状态行显示

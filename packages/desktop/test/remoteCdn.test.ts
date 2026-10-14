@@ -22,7 +22,7 @@ describe("remoteCdn", () => {
       }),
     ).toEqual([
       "https://cdn.codegeex.cn/lumos/electron/releases/0.0.0-test",
-      "https://cdn-lumos.z.ai/lumos/electron/releases/0.0.0-test",
+      "https://cdn.lumosai.cc/lumos/electron/releases/0.0.0-test",
     ]);
   });
 
@@ -47,7 +47,7 @@ describe("remoteCdn", () => {
         version: "0.0.0-test",
       }),
     ).toEqual([
-      "https://cdn-lumos.z.ai/lumos/electron/releases/0.0.0-test",
+      "https://cdn.lumosai.cc/lumos/electron/releases/0.0.0-test",
       "https://cdn.codegeex.cn/lumos/electron/releases/0.0.0-test",
     ]);
   });

@@ -30,7 +30,7 @@
       "normalization": "Byte-for-byte copy of the user-provided 128x128 RGBA PNG on 2026-09-17. Shared by both Start Plans in light and dark themes."
     },
     {
-      "brand": "Z.AI",
+      "brand": "Lumos",
       "file": "model-provider-zai-app.png",
       "providerIds": [
         "zai-api",
@@ -39,7 +39,7 @@
         "account:zai-offpeak-idle-plan"
       ],
       "sourceUrl": "repository:packages/desktop/build/icons/128x128.png",
-      "sourceOwner": "Z.AI",
+      "sourceOwner": "Lumos",
       "normalization": "Byte-for-byte copy of the existing 128x128 Lumos application PNG. No extra Dock padding, redraw, inversion or added outline. User decision corrected in Todo148 on 2026-09-15."
     },
     {

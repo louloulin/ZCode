@@ -190,7 +190,7 @@ zai-family / bigmodel-family
 
 Provider Templates
 └─ 顶部“添加供应商”打开的创建基线
-   ├─ Z.AI API / BigModel API
+   ├─ Lumos API / BigModel API
    ├─ DeepSeek / Moonshot / MiniMax
    └─ 其他官方模板
 

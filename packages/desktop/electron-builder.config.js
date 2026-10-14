@@ -563,10 +563,10 @@ export default {
   extraMetadata: {
     version: buildMetadata.appVersion,
     lumosProductFlavor: desktopProductIdentity.flavor,
-    homepage: "https://lumos.z.ai",
+    homepage: "https://lumosai.cc",
     author: {
       name: "Lumos",
-      email: "dev@lumos.z.ai",
+      email: "dev@lumosai.cc",
     },
   },
   // macOS 签名阶段会对 Electron Framework 下每个语言包逐个 codesign。
@@ -876,7 +876,7 @@ export default {
     // 与 /usr/share/icons/hicolor/*/apps/lumos.png 保持一致。
     executableName: desktopProductIdentity.linuxExecutableName,
     category: "Development",
-    maintainer: "Lumos <dev@lumos.z.ai>",
+    maintainer: "Lumos <dev@lumosai.cc>",
   },
   deb: {
     // 生产版与 Preview 必须是两个 dpkg package；只改可执行名仍会让安装器把另一版本当成升级替换。

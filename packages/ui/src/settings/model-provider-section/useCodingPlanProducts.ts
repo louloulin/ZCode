@@ -194,7 +194,7 @@ export async function loadCodingPlanProductsForTest(
   }
 
   // React 严格模式和设置页状态刷新会短时间重复挂载套餐卡，
-  // BigModel/Z.AI 套餐预览接口对连发请求会偶发返回“系统繁忙”；这里合并进行中请求，并只短缓存成功结果，
+  // BigModel/Lumos 套餐预览接口对连发请求会偶发返回“系统繁忙”；这里合并进行中请求，并只短缓存成功结果，
   // 手动刷新、登录/连接成功和购买完成都用 force 绕过缓存，避免交易状态长期陈旧。
   // 登录/连接成功还必须让旧的未登录试算请求失去写缓存资格，避免它晚返回后覆盖新的登录态试算结果。
   const promise = loadBatchPreviewWithStaticProducts(
@@ -300,7 +300,7 @@ function buildZaiStartStaticProducts(
   const isChineseLocale =
     typeof navigator !== "undefined" &&
     navigator.language.toLowerCase().startsWith("zh");
-  const previewName = preview.name.trim() || "Z.ai Start";
+  const previewName = preview.name.trim() || "Lumos Start";
   const equityList = preview.entitlements.map((entitlement) => ({
     productEquityTitle: entitlement.showName,
     productEquityDetails: formatStartPlanPreviewEntitlement(
@@ -314,7 +314,7 @@ function buildZaiStartStaticProducts(
       productId: ZAI_START_FREE_PRODUCT_IDS.month,
       productName: previewName,
       productSmallTitle: "Free Coding Plan",
-      description: "Free Coding Plan entry for connected Z.ai users.",
+      description: "Free Coding Plan entry for connected Lumos users.",
       productEquityList: equityList,
       priceUnit: "month",
       displayOrder: 0,
@@ -327,7 +327,7 @@ function buildZaiStartStaticProducts(
       productId: ZAI_START_FREE_PRODUCT_IDS.quarter,
       productName: previewName,
       productSmallTitle: "Free Coding Plan",
-      description: "Free Coding Plan entry for signed-in Z.ai users.",
+      description: "Free Coding Plan entry for signed-in Lumos users.",
       productEquityList: equityList,
       priceUnit: "quarter",
       displayOrder: 0,
@@ -340,7 +340,7 @@ function buildZaiStartStaticProducts(
       productId: ZAI_START_FREE_PRODUCT_IDS.year,
       productName: previewName,
       productSmallTitle: "Free Coding Plan",
-      description: "Free Coding Plan entry for signed-in Z.ai users.",
+      description: "Free Coding Plan entry for signed-in Lumos users.",
       productEquityList: equityList,
       priceUnit: "year",
       displayOrder: 0,
@@ -443,7 +443,7 @@ export async function loadCodingPlanStaticProductListForTest(
     }
 
     // Start 免费档现在归属于独立的 Start Plan 入口，且必须由远端 preview 开关显式打开。
-    // Z.AI - Coding Plan 的购买列表只展示付费升级项，避免把 Start 当成可购买套餐重复显示。
+    // Lumos - Coding Plan 的购买列表只展示付费升级项，避免把 Start 当成可购买套餐重复显示。
     const seen = new Set<string>();
     return [
       ...buildZaiStartStaticProducts(startPlanPreview),

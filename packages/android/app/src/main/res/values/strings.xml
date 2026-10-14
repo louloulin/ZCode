@@ -3,7 +3,7 @@
     <string name="remote_launcher_title">Lumos Remote</string>
     <string name="remote_launcher_description">Open the remote control link from your desktop QR code.</string>
     <string name="remote_url_label">Remote URL</string>
-    <string name="remote_url_placeholder">https://lumos.z.ai/remote?sid=...</string>
+    <string name="remote_url_placeholder">https://lumosai.cc/remote?sid=...</string>
     <string name="remote_url_invalid">Use a Lumos remote link.</string>
     <string name="remote_open_button">Open remote control</string>
     <string name="remote_scan_button">Scan QR code</string>

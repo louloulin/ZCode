@@ -661,8 +661,8 @@ export class BigModelUsageQuotaProvider {
     if (!lumosJwt) {
       throw new Error("coding_plan_reset_lumos_jwt_required");
     }
-    // reset 同时支持 Z.ai 与 BigModel Coding Plan。固定读取 oauth:bigmodel:access_token
-    // 会让只登录 Z.ai 的用户在请求发出前失败；业务 JWT 必须跟随当前 provider family
+    // reset 同时支持 Lumos 与 BigModel Coding Plan。固定读取 oauth:bigmodel:access_token
+    // 会让只登录 Lumos 的用户在请求发出前失败；业务 JWT 必须跟随当前 provider family
     // 精确选择，禁止跨 family 回退。Header 仍按后端契约直传且不套 Bearer。
     const codingPlanJwtKey =
       accountAccess.family === "zai" ? ZAI_OAUTH_ACCESS_TOKEN_KEY : BIGMODEL_OAUTH_ACCESS_TOKEN_KEY;
@@ -1676,7 +1676,7 @@ function resolveAccountProviderQuotaUrl(providerId: string, env: NodeJS.ProcessE
 function resolveAccountProviderLabel(providerId: string): string {
   return providerId === BUILTIN_MODEL_PROVIDER_IDS.zaiIndividualCodingPlan ||
     providerId === BUILTIN_MODEL_PROVIDER_IDS.zaiStartPlan
-    ? "Z.ai - Coding Plan"
+    ? "Lumos - Coding Plan"
     : "BigModel - Coding Plan";
 }
 
@@ -1686,6 +1686,6 @@ function buildBigModelQuotaUrl(env: NodeJS.ProcessEnv = process.env): string {
 
 function buildZaiQuotaUrl(env: NodeJS.ProcessEnv = process.env): string {
   // ZAI usage/quota 与 business login 共用业务域名。
-  // 测试环境必须请求 配置的 ZAI Business origin，不能把测试 token 发送到生产 api.z.ai。
+  // 测试环境必须请求 配置的 ZAI Business origin，不能把测试 token 发送到生产 api.lumosai.cc。
   return buildRuntimeZaiBusinessUrl(env, "/api/monitor/usage/quota/limit");
 }

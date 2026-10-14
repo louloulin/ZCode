@@ -91,7 +91,7 @@ retry）。修完恢复原 mock 顺序作为回归。
 
 - `stdioDesktopPresentationSurface`：期望装配传 `presentationSurface: "desktop"`，
   `packages/server/src` 无该字段（services 层有）；
-- `feedbackHttpClient`：LUMOS_ENV=test 期望 base `lumos.z.ai`，实际 `lumos.z.ai`；
+- `feedbackHttpClient`：LUMOS_ENV=test 期望 base `lumosai.cc`，实际 `lumosai.cc`；
 - `useCodingPlanQuotaResetUi`：mock 收到 `builtin:personal-granted`，期望 `builtin:team`。
 
 ### 间歇性 0xC0000005

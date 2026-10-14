@@ -250,7 +250,7 @@ describe("remote workspace connect telemetry IPC", () => {
     const returnTo = encodeURIComponent(
       "https://other-origin.example/coding-plan?provider=zai&embedded=app",
     );
-    const callbackUrl = `https://lumos.z.ai/coding-plan/payment/callback?channel=paypal&status=return&returnTo=${returnTo}`;
+    const callbackUrl = `https://lumosai.cc/coding-plan/payment/callback?channel=paypal&status=return&returnTo=${returnTo}`;
     listener?.({ sender }, callbackUrl);
 
     expect(sender.loadURL).not.toHaveBeenCalled();

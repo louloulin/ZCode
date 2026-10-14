@@ -186,7 +186,7 @@ effectiveModelRules.resolve(
 
 | 账号类型            | availability 来源               | 是否返回动态模型 ID |
 | ------------------- | ------------------------------- | ------------------- |
-| Z.AI Start Plan     | `/billing/balance`              | 是                  |
+| Lumos Start Plan     | `/billing/balance`              | 是                  |
 | BigModel Start Plan | `/billing/balance`              | 是                  |
 | Coding Plan         | `/subscription/list`            | 否，只返回可用状态  |
 | Team Plan           | customer / project / quota 接口 | 否，只返回可用状态  |

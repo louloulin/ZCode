@@ -572,7 +572,7 @@ interface SessionConfigState {
 - 事件写入路径：`switchModelConfig` / `setFollowupMode` / `switchCollaborationMode`（M5 additive）command → guard → 事件（ModelSelected / FollowupModeChanged / SessionModeChanged）→ 本字段整体替换下发。`ModelSelected` 必须携带切换完成后 runtime 的 `thoughtLevels` 与 `contextWindow`，使 `provider/model/thought/thoughtLevels` 和该模型实际窗口在同一 revision 原子收敛。客户端选择器 UI 是 optimistic overlay（按 commandId 挂起），权威值到达即收口——**没有「本地已选值 vs 回显值」的合并逻辑**（消灭 P2-10 补丁群）。
 - 模型切换的 timeline 提示由 CLI 在下一个 turn 开始时生成 `modelChange` marker row（R-17），协议上没有「暂存的 marker」状态。
   - **R-17 时机细则（2026-07-07 五测裁决，2026-07-08 追认 thought-only 边界）**：marker 的比较基准 = **上一个实际启动的 turn 使用的模型身份**，模型身份只包含 `provider/model`，不包含 `thought`。推论：① 草稿态/首轮前任意拨动选择器不产 marker（首轮以最终选型启动，「第一次用什么」不构成「变化」）；② 编辑期切 A→B→A 净变化为零，下一 turn 不产 marker；③ 仅思考深度变化（例如 `high → max`）更新 `config.thought` 与请求参数，但不产 `modelChange`；④ 切换动作的即时反馈是**纯 UI 逻辑**（toast），不进 timeline。marker 位置：紧邻新 turn 的 turnHeader row 之前。
-  - **R-17 展示细则（2026-07-29，2026-07-29 文案修正）**：marker 的 `fromProvider/fromModel/toProvider/toModel` 是完整模型身份，比较语义不因展示裁剪而改变。renderer 使用当前 provider snapshot 将 provider ID 映射为 `provider.name`；Z.ai / BigModel 内置供应商只显示 modelId，其他供应商按 `provider.name/modelId` 展示，配置已删除或尚未水合时回落为 `providerId/modelId`。该规则与模型触发器和 toast 一致，不改变 marker schema、生成时机或 replay 语义。
+  - **R-17 展示细则（2026-07-29，2026-07-29 文案修正）**：marker 的 `fromProvider/fromModel/toProvider/toModel` 是完整模型身份，比较语义不因展示裁剪而改变。renderer 使用当前 provider snapshot 将 provider ID 映射为 `provider.name`；Lumos / BigModel 内置供应商只显示 modelId，其他供应商按 `provider.name/modelId` 展示，配置已删除或尚未水合时回落为 `providerId/modelId`。该规则与模型触发器和 toast 一致，不改变 marker schema、生成时机或 replay 语义。
 
 **config 种子语义（R-19，2026-07-07 裁决；落掉 M6 TODO「draft 期免 revision 种子通道」）**：
 

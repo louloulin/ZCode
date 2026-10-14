@@ -159,7 +159,7 @@ describe("plugins/referenceCatalog protocol", () => {
         (entry) => entry.pluginId === "lumos-guide@lumos-plugins-official",
       );
       expect(lumosGuide?.icon).toBe(
-        "https://cdn-lumos.z.ai/lumos/official-plugin/assets/lumos-guide/icon.png",
+        "https://cdn.lumosai.cc/lumos/official-plugin/assets/lumos-guide/icon.png",
       );
       // 内置 seed listing 的本地化显示名沿 display-only 通道进入 catalog，
       // 供 Picker 中文搜索/展示（插件 @ 引用中文搜索）。

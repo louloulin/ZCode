@@ -157,10 +157,10 @@ Provider，写边界同时机械拒绝固定 Account Provider 的 Personal `acce
 
 | 产品入口                               | Access Mode              | 静态行为                                                     |
 | -------------------------------------- | ------------------------ | ------------------------------------------------------------ |
-| Z.ai / BigModel Start Plan             | `start-plan`             | 官方版本安全校验材料链；不进入 V4                            |
-| Z.ai / BigModel Individual Coding Plan | `individual-coding-plan` | 当前连接请求鉴权；具备 V4 静态准入                           |
-| Z.ai / BigModel Team Coding Plan       | `team-coding-plan`       | 当前 Team scope 与请求鉴权；具备 V4 静态准入                 |
-| Z.ai / BigModel Idle Plan              | `off-peak`               | 执行期 JWT、Plan Key、Ticket 与 Off-Peak 失败协议；不进入 V4 |
+| Lumos / BigModel Start Plan             | `start-plan`             | 官方版本安全校验材料链；不进入 V4                            |
+| Lumos / BigModel Individual Coding Plan | `individual-coding-plan` | 当前连接请求鉴权；具备 V4 静态准入                           |
+| Lumos / BigModel Team Coding Plan       | `team-coding-plan`       | 当前 Team scope 与请求鉴权；具备 V4 静态准入                 |
+| Lumos / BigModel Idle Plan              | `off-peak`               | 执行期 JWT、Plan Key、Ticket 与 Off-Peak 失败协议；不进入 V4 |
 
 每个 Provider 保留既有精确 Provider ID、`group`、`visibility`、Endpoint 和模型成员。固定 ID 继续用于 Provider 身份、
 ModelSelection 和任务持久化，不用于猜测 Mode。
@@ -334,7 +334,7 @@ replayable、Session/Task Queue、Snapshot 或恢复语义。
 | 用户场景                     | 展示/草稿来源                      | 提交或运行 Owner                  | 本 Todo 行为                                   | 必须隔离                     |
 | ---------------------------- | ---------------------------------- | --------------------------------- | ---------------------------------------------- | ---------------------------- |
 | 普通 Provider 设置           | Personal API Key Draft             | Provider Settings Service         | `zai-api/bigmodel-api` 保持普通 API Key、无 V4 | 不进入 Family Account 流程   |
-| Z.ai/BigModel Family API Key | Account Connection 与凭据状态      | Account/Credential + Request Auth | Built-in Mode 固定为 `api-key`，不提供手填 Key | 不写 Personal access         |
+| Lumos/BigModel Family API Key | Account Connection 与凭据状态      | Account/Credential + Request Auth | Built-in Mode 固定为 `api-key`，不提供手填 Key | 不写 Personal access         |
 | Start 登录与请求             | Account Connection + 安全校验 UI   | Account/Request Auth              | 只按 `mode=start-plan` 进入安全校验            | 不影响普通 API Key           |
 | Individual/Team 请求         | Account Connection                 | Request Auth + Adapter            | 按 Mode 解析当前 Key，具备 V4 准入             | 不冻结账号或 Team scope      |
 | Off-Peak 创建与执行          | 固定 Provider Selection + 当前账号 | Off-Peak Service + Adapter        | 按 `mode=off-peak` 执行                        | 不污染普通 Session Selection |
@@ -400,7 +400,7 @@ replayable、Session/Task Queue、Snapshot 或恢复语义。
 
 - `zai-api/bigmodel-api` 是普通 `api-key` 且不进入 V4；
 - 两个 Family API Key Provider 是 `zhipu-account/api-key`；
-- Start、Individual、Team、Off-Peak 的 Z.ai/BigModel Provider 均声明正确 Family/Mode；
+- Start、Individual、Team、Off-Peak 的 Lumos/BigModel Provider 均声明正确 Family/Mode；
 - Built-in JSON 不含真实 API Key和旧协议字段。
 
 ### 10.3 运行时纵向证明
@@ -483,7 +483,7 @@ ZhipuAccountAccessConfig.apiKeyManagementUrl      = 0
 只有以下条件全部满足才能完成：
 
 1. 两种一级 Access Type 与智谱 Mode 枚举进入正式 Config、Schema、Registry、Protocol 和 Adapter；
-2. Built-in Provider 全部迁入正确类型和 Mode，普通 Z.ai/BigModel API 明确退出 V4，Family API Key
+2. Built-in Provider 全部迁入正确类型和 Mode，普通 Lumos/BigModel API 明确退出 V4，Family API Key
    明确改为账号凭据来源；
 3. Account Overlay、Request Auth、官方版本安全校验、Off-Peak 均只按 `type/mode` 分派；
 4. 旧通用协议字段与 `execution-provided` 完成生产机械归零；

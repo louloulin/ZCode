@@ -11,7 +11,7 @@ non-API links.
 - `LUMOS_ENV=test` uses `https://bigmodel.cn` for BigModel API requests.
 - `BIGMODEL_API_BASE_URL` may override the selected API origin for local debugging.
 - `BIGMODEL_TEST_API_BASE_URL` and `BIGMODEL_PRODUCTION_API_BASE_URL` are scoped
-  overrides, following the same pattern as Z.ai test/production endpoint config.
+  overrides, following the same pattern as Lumos test/production endpoint config.
 - BigModel OAuth authorize/login uses the same environment main domain with
   `/login`, so `LUMOS_ENV=test` opens `https://bigmodel.cn/login`.
 - Docs, purchase pages, and model runtime subdomains such as `open.bigmodel.cn`

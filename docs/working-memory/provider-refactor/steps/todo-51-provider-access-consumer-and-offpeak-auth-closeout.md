@@ -236,7 +236,7 @@ Resolver 不一致。本 Todo 建立时先修正为：Account Built-in 固定 `e
 
 - 未登录、未购买、接口失败和明确 entitlement=false 不跳过首次同步、不提前报告订阅成功；
 - Plan 状态、quota/usage 和 funnel telemetry 不再读取 Account Provider `enabled` 作为权益；
-- Welcome 保存 Z.ai/BigModel Key 只更新对应 Provider Personal Overlay；
+- Welcome 保存 Lumos/BigModel Key 只更新对应 Provider Personal Overlay；
 - 保存前后 `providerFamilyConnectionSelections` 完全不变；
 - Personal Overlay 只含用户输入的 Key/既有 Personal 字段，不复制 Built-in Endpoint、Schema、models 或 group；
 - Provider Settings 主列表/添加菜单仍只按 `enabled` 投影。
@@ -278,7 +278,7 @@ Resolver 不一致。本 Todo 建立时先修正为：Account Built-in 固定 `e
   `access.entitled === true` 解释为当前账号具有权益；`enabled` 不再参与账号已连接/已购判断；
 - 通用 Personal Provider 写入口已无 alias 重命名为 `savePersonalProviderOverlay`，从 Config Service、Facade、
   Services 到 UI helper 统一表达“保存稀疏 Overlay”，不再暗示创建 Personal-only Provider；
-- Welcome 的 Z.ai/BigModel API Key 继续只写固定 Built-in API Provider 的稀疏 Personal Overlay，并保留既有
+- Welcome 的 Lumos/BigModel API Key 继续只写固定 Built-in API Provider 的稀疏 Personal Overlay，并保留既有
   Personal 字段；没有复制 Built-in Endpoint、Schema、模型成员或 group，也没有改写连接 selection；
 - Account Connection Resolver 中的凭据依赖已收窄命名为 `loadCodingPlanApiKey`，明确它不是通用 Provider API Key；
 - Desktop Host 已删除 Settings View Account Provider 二次扫描。Services 组合根现在只通过 Host-private WeakMap

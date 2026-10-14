@@ -75,7 +75,7 @@ en-US：Alibaba Model Studio (China) / Alibaba Model Studio (International)
 
 ### 2.3 其他名称结论
 
-- `Z.AI` 中 `AI` 保持大写；
+- `Lumos` 中 `AI` 保持大写；
 - BigModel 保持正式英文品牌名；
 - Moonshot Template 的中英文名称统一为 `Moonshot Kimi`，不使用“月之暗面 Kimi”；
 - 其他 Template 延续当前正式英文品牌名；不在 Renderer 按 Provider ID 单独翻译。

@@ -113,7 +113,7 @@ function createStartPlanRegistry(params?: {
         providerId: START_PLAN_PROVIDER_ID,
         apiKeyRequired: false,
         kind: "openai-compatible",
-        baseURL: "https://lumos.z.ai/api/v1/lumos-plan",
+        baseURL: "https://lumosai.cc/api/v1/lumos-plan",
         models: [
           {
             modelId: "GLM-5.2",

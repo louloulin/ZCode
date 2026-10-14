@@ -18,7 +18,7 @@
 ## 专用 Key 管理兼容契约
 
 - 个人仍按名称复用 lumos-api-key；同名条目缺少 ID 时失败，不重复创建。团队只复用名称 lumos-team-api-key、keyType=2 且 ID 非空的条目，创建响应也必须满足这三个条件，否则禁止继续换证。无关坏条目不影响有效条目。
-- 管理接口保留旧 Authorization：个人 BigModel 用原始登录 JWT，Z.AI 用 Bearer；团队 customerInfo 同个人，团队列表/创建两 family 均用原始登录 JWT，并保留组织项目头。只有 access_tokens 统一使用 Bearer。
+- 管理接口保留旧 Authorization：个人 BigModel 用原始登录 JWT，Lumos 用 Bearer；团队 customerInfo 同个人，团队列表/创建两 family 均用原始登录 JWT，并保留组织项目头。只有 access_tokens 统一使用 Bearer。
 - 桌面个人选择非团队项目（projectType 去空白后不为 2），跳过无组织 ID 的候选；Standalone 保留默认机构/默认项目优先、否则首项的规则，不新增项目类型过滤。团队成员归属比较继续去除 ID 两端空白。
 - 项目选择策略由调用端明确传给公共换证客户端，参与内存与持久化 ID 作用域，防止桌面和 CLI 共用记录时覆盖彼此的选择。既有 Token owner、刷新和退出失效时序不变。
 - 验收覆盖错误团队创建响应、无关坏条目、个人同名坏 ID、两 family 管理/签发请求头、混合项目选择和跨策略 ID 隔离。
@@ -71,9 +71,9 @@ Token 不写 Provider Config、Registry、Session、UI 快照、日志或 creden
 桌面 continuous / 手机 replayable → 沿用原 task owner、workspaceIdentity 与事件顺序
 ```
 
-Desktop Z.AI 的 deep link 和 polling 均在 `ZaiProviderAdapter` 登录边界调用 `/api/auth/z/login`；`oauth:zai:access_token` 已是业务 JWT，个人/团队 PAT owner 直接使用该值，不能二次兑换。Standalone 存储原始 OAuth Token，因此换证位置不同。回归覆盖 polling → 业务 JWT 落盘 → 个人/团队元数据 → PAT 签发的完整顺序。
+Desktop Lumos 的 deep link 和 polling 均在 `ZaiProviderAdapter` 登录边界调用 `/api/auth/z/login`；`oauth:zai:access_token` 已是业务 JWT，个人/团队 PAT owner 直接使用该值，不能二次兑换。Standalone 存储原始 OAuth Token，因此换证位置不同。回归覆盖 polling → 业务 JWT 落盘 → 个人/团队元数据 → PAT 签发的完整顺序。
 
-Standalone Z.ai 的 `/api/auth/z/login` 成功结果按 `expires_in` / `expiresIn` 和 JWT `exp` 的最早值缓存，提前 120 秒刷新；无有效期元数据最多缓存 5 分钟。并发刷新合并；clear/登录变化拒绝迟到结果。业务接口 HTTP 401 时只允许重新交换业务 JWT 并重试换证一次，403/网络错误不触发此恢复；二次 401 清掉失败业务 JWT，后续调用仍可重新尝试。该恢复仅覆盖元数据/签发请求，不重放模型推理。
+Standalone Lumos 的 `/api/auth/z/login` 成功结果按 `expires_in` / `expiresIn` 和 JWT `exp` 的最早值缓存，提前 120 秒刷新；无有效期元数据最多缓存 5 分钟。并发刷新合并；clear/登录变化拒绝迟到结果。业务接口 HTTP 401 时只允许重新交换业务 JWT 并重试换证一次，403/网络错误不触发此恢复；二次 401 清掉失败业务 JWT，后续调用仍可重新尝试。该恢复仅覆盖元数据/签发请求，不重放模型推理。
 
 业务 JWT 提前刷新复用 HTTP adapter 的临时故障分类（网络、超时、429、5xx）。仅当已知原始有效期尚未结束、该 JWT 未被拒绝且登录代次未变时，所有并发调用共享旧值并退避 5 秒；不延长有效期，记录固定 `project_token_business_login_refresh_deferred` 事件。缺少有效期元数据的 5 分钟缓存上限不代表真实有效期，因此不允许临时故障降级。认证拒绝、取消、未知错误、畸形响应、退出和账号切换均不降级。
 
@@ -85,7 +85,7 @@ CLI ZaiBusinessTokenCache（唯一 owner）
   → clear / 登录切换：拒绝在途结果；invalidate：禁止被拒绝 JWT 降级
 ```
 
-Standalone 的 PAT、Key ID 定位与 Z.AI 业务 JWT 单飞请求由 resolver/cache owner 管理，不能继承任何单个模型请求的 AbortSignal（含 execution context 内的 abortSignal）。共享 HTTP 仅保留 trace/logger 上下文，每次请求有 15 秒超时；每个调用方在 `resolve` / `resolveMaterial` 外层独立等待，取消立即终止自己的等待并移除监听器，不清除共享缓存、不影响其他等待者。已取消的调用不启动换证；所有等待者取消后，已有换证仍受超时和登录代次约束，晚到失败被消费。logout/clear 仍使在途结果失效，不重放已建立的模型流。
+Standalone 的 PAT、Key ID 定位与 Lumos 业务 JWT 单飞请求由 resolver/cache owner 管理，不能继承任何单个模型请求的 AbortSignal（含 execution context 内的 abortSignal）。共享 HTTP 仅保留 trace/logger 上下文，每次请求有 15 秒超时；每个调用方在 `resolve` / `resolveMaterial` 外层独立等待，取消立即终止自己的等待并移除监听器，不清除共享缓存、不影响其他等待者。已取消的调用不启动换证；所有等待者取消后，已有换证仍受超时和登录代次约束，晚到失败被消费。logout/clear 仍使在途结果失效，不重放已建立的模型流。
 
 ```text
 会话 A ─ 独立等待（取消只结束 A） ─┐
@@ -103,7 +103,7 @@ Standalone 的 PAT、Key ID 定位与 Z.AI 业务 JWT 单飞请求由 resolver/c
 
 所有 OAuth 模型请求返回账号作用域约束；重试换证前后均校验，切账号/项目不得串用。迟到的旧 401 不能清除已更新的 PAT；指纹不进入持久化，不传到模型上游，也不记录凭据原文。SSE 已输出文本、思考或工具调用后不重放；compact 保留原 response-body 边界。取消不触发恢复。桌面 continuous 与手机 replayable 的状态 owner、会话路由和回放规则不变，SSH 仍通过原私有 Runtime Headers 通道换证。
 
-验收：闲时同一轮跨 TTL 后新请求使用新 PAT且票据不变；切账号/项目和换证中途变化失败；无 owner 时不能沿用过期快照；Z.ai 业务 JWT 跨 TTL 与并发刷新、单次 401 恢复、403/网络不重试、退出竞态均覆盖。已建立 SSE 不重放。
+验收：闲时同一轮跨 TTL 后新请求使用新 PAT且票据不变；切账号/项目和换证中途变化失败；无 owner 时不能沿用过期快照；Lumos 业务 JWT 跨 TTL 与并发刷新、单次 401 恢复、403/网络不重试、退出竞态均覆盖。已建立 SSE 不重放。
 
 模型 PAT 恢复验收：首次 401 后实际使用新 PAT；普通请求预算为 1 时仍有一次恢复机会；二次 401 / 换证失败终止；SSE 首个错误块可恢复、文本或工具输出后不可重放；并发和迟到 401 不重复签发或清除新 PAT；取消、手工 Key、Start Plan、安全校验错误不触发 PAT 恢复；SSH 私有协议与子会话路由保留原作用域和失败指纹。
 
@@ -121,7 +121,7 @@ Standalone 的 PAT、Key ID 定位与 Z.AI 业务 JWT 单飞请求由 resolver/c
 | --- | ------------------------------------------------------------ | ---------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------- |
 | K01 | GET /api/biz/customer/getCustomerInfo                        | 首次定位个人/团队组织项目；有持久化 ID 时跳过                          | 登录 JWT                                | 公共/服务/CLI 单测；桌面 E2E通过                           |
 | K02 | GET …/projects/{project}/api_keys                            | 仅复用专用名称的 ID；不增加 usageScene 过滤                            | 登录 JWT                                | 两 family、个人/团队、已有/缺失组合通过                    |
-| K03 | POST …/projects/{project}/api_keys                           | 缺失时创建；usageScene=1；团队另传 keyType=2                           | 登录 JWT                                | 单测 + BigModel/Z.AI 桌面 E2E通过                          |
+| K03 | POST …/projects/{project}/api_keys                           | 缺失时创建；usageScene=1；团队另传 keyType=2                           | 登录 JWT                                | 单测 + BigModel/Lumos 桌面 E2E通过                          |
 | T01 | POST …/api_keys/{apiKeyId}/access_tokens                     | 返回短期 Token；默认启用；显式关闭/异常失败                            | Bearer 登录 JWT                         | 单测 + 两 family 桌面 E2E通过                              |
 | T02 | 本地 ID 记录 / Token 缓存                                    | ID 可跨重启；按账号/环境/项目隔离；Token 不落盘；404 清 ID、403 不创建 | 仅 ID 持久化                            | 重启复用/隔离/失效专项通过                                 |
 | T03 | GET …/api_keys/copy/{id}                                     | 第一方 OAuth 路径不再调用                                              | 无请求                                  | 静态引用清理 + 单测/E2E Copy=0                             |
@@ -163,13 +163,13 @@ E2E runId：desktop-e2e-20260923035859355-p42258-c98f5ad1034a9175。
 
 | 场景                                | 预期与证据                                                                      |
 | ----------------------------------- | ------------------------------------------------------------------------------- |
-| OAuth 有效、旧 Key 不存在或不可解密 | CLI snapshot/请求成功；桌面 Z.AI 冷启动恢复并换证，无重新登录，旧记录不改       |
+| OAuth 有效、旧 Key 不存在或不可解密 | CLI snapshot/请求成功；桌面 Lumos 冷启动恢复并换证，无重新登录，旧记录不改       |
 | 明确手工 Key、有损坏 OAuth          | 只读手工 Key，独立鉴权                                                          |
 | 远程同步、本地或远端有损坏旧 Key    | 只同步 OAuth；旧信封 Key 忽略；原旧记录不覆盖、不删除                           |
 | 远程附加个人/团队用量               | 原 owner 存在则复用；无 owner 时真实换证流程；quota header 为测试 Token，Copy=0 |
 | UI 可用性及 Token 失败              | 保留权益/ID/请求期凭据校验；无旧 Key 存在性门槛，无失败回退                     |
 
-最终桌面 E2E 2 项通过：`desktop-e2e-20260923070315610-p85476-12717808333f5136`，覆盖 BigModel 无旧 Key、Z.AI 坏旧 Key 的创建/换证和 Copy=0。根 typecheck/lint/architecture、CLI typecheck、E2E typecheck 通过。CLI lint 与前述全包测试的已复现基线失败仍未解决，因此仍不 commit/push/MR。真实后端推理、手机 E2E、混版本远端没有验证。
+最终桌面 E2E 2 项通过：`desktop-e2e-20260923070315610-p85476-12717808333f5136`，覆盖 BigModel 无旧 Key、Lumos 坏旧 Key 的创建/换证和 Copy=0。根 typecheck/lint/architecture、CLI typecheck、E2E typecheck 通过。CLI lint 与前述全包测试的已复现基线失败仍未解决，因此仍不 commit/push/MR。真实后端推理、手机 E2E、混版本远端没有验证。
 日志：`/tmp/key-audit-broad.log`、`/tmp/key-audit-remote-final.log`、`/tmp/key-audit-cli-green.log`、`/tmp/key-audit-e2e-final.log`。
 
 ### CLI 退出复查（2026-09-23 15:23）
@@ -195,6 +195,6 @@ GET `/api/v1/agent/configs` 不再发送 `x-api-key` 或登录/PAT Authorization
 
 ID 仅随请求期鉴权材料传递，不写入模型静态配置、不添加到模型请求 Header；重试沿用当前 owner 的身份检查。路由缓存仍为进程级公共映射，成功五分钟、失败三十秒冷却；缓存命中不重新请求配置。上游已移除安全校验开关请求：手工 Provider 直接沿用默认安全校验逻辑，只有路由配置读取 agent/configs，且不发送手工 Key。桌面和 SSH 共用 Host/Server 鉴权服务；手机复用已有 host，continuous/replayable 消息语义不变。
 
-验收：个人/团队及 BigModel/Z.AI 返回 ID 与 PAT 配对；独立 CLI OAuth 返回 ID、手工登录无 ID；协议往返保留 ID；配置请求仅含真实 ID，模型请求仍含 PAT 且没有 ID Header；手工 Provider 的路由配置请求不泄露 Key，安全校验逻辑不再请求配置开关；换证/切换账号后的新请求使用对应 ID。
+验收：个人/团队及 BigModel/Lumos 返回 ID 与 PAT 配对；独立 CLI OAuth 返回 ID、手工登录无 ID；协议往返保留 ID；配置请求仅含真实 ID，模型请求仍含 PAT 且没有 ID Header；手工 Provider 的路由配置请求不泄露 Key，安全校验逻辑不再请求配置开关；换证/切换账号后的新请求使用对应 ID。
 
 本次验证：服务/Host 回归 76 项、CLI 专项 201 项、协议 ID 透传 1 项通过（共 278 项，含本地 HTTP 实际 Header 验证）。根 typecheck、lint、architecture 检查及 CLI contracts/adapters/bootstrap 独立类型检查通过。CLI 总入口缺少 turbo；三个包的完整 lint 有 50 个既有 max-lines 错误，变更文件排除该存量规则后通过。扩大执行时另有 3 个旧安全校验测试、2 个旧协议测试失败，已用 HEAD 测试/实现复现对应失败，不计入本次通过数。真实平台及 SSH 环境尚未联调；需使用包含 apiKeyId 私有协议的配套 Host/Server 与 Agent。

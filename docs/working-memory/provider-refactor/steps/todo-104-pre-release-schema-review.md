@@ -530,7 +530,7 @@ interface ProviderSiteMatchConfigRule {
 }
 ```
 
-三层 modelMatch 均必填；整个站点通用时显式写 `".*"`。已有 Z.ai / BigModel Anthropic 站点的搜索、中途 System 规则就是这一用法，用户已确认保留。以上接口用于分层展示，实际类型仍须由相应 schema 推导；不能仅删 TypeScript 字段而让运行时 schema 接受未知 providerMatch。
+三层 modelMatch 均必填；整个站点通用时显式写 `".*"`。已有 Lumos / BigModel Anthropic 站点的搜索、中途 System 规则就是这一用法，用户已确认保留。以上接口用于分层展示，实际类型仍须由相应 schema 推导；不能仅删 TypeScript 字段而让运行时 schema 接受未知 providerMatch。
 
 匹配字段仍为正则表达式字符串，apiTypeMatch 不改成单个 API 枚举值。保留当前整串匹配、modelMatch 忽略大小写及 URL 规范化语义；不要把改名顺带变成相等判断或子串匹配。站点路径中的点等字符需要按正则语义正确转义。
 
@@ -567,14 +567,14 @@ Provider 精确模型规则见 6.2；内置集合只接受普通 ProviderModelCo
 
 Endpoint 依据当前配置 / 模板记录，实施时按对应路径生成匹配条件，不因转换成 Site 规则随意放大到整个域名：
 
-- 图片 / 视频对应当前个人、团队、Start Plan 使用的三个 Endpoint：`https://api.z.ai/api/anthropic`、`https://open.bigmodel.cn/api/anthropic`、`https://lumos.z.ai/api/v1/lumos-plan/anthropic`。
+- 图片 / 视频对应当前个人、团队、Start Plan 使用的三个 Endpoint：`https://api.lumosai.cc/api/anthropic`、`https://open.bigmodel.cn/api/anthropic`、`https://lumosai.cc/api/v1/lumos-plan/anthropic`。
 - Anthropic：`https://api.anthropic.com/v1`。
 - Moonshot：`https://api.moonshot.cn/anthropic`。
 - DeepSeek：`https://api.deepseek.com/anthropic`。
 
 用户明确同意图片 / 视频按 Endpoint 声明：同 Endpoint 的普通 API Key 实例与账号实例得到相同站点能力。此前“账号能力必须留在 builtinProviderModelRules，以避免普通 API Key 实例命中”的建议已被本裁决取代，不能继续作为约束实施。原账号规则未包含 Off-Peak，本次不额外把其独立 Endpoint 加进来。
 
-已有匹配 Z.ai / BigModel 上述两个普通 Anthropic Endpoint 的站点规则保留：modelMatch 为 `".*"`、API 为 Anthropic Messages，声明 supportsNativeWebSearch 与 supportsMidConversationSystem 为 true。本次不将这条已有搜索规则无依据扩大到 Start Plan Endpoint；不要因图片 / 视频规则含 Start Plan 而把不同规则的 URL 条件混在一起。
+已有匹配 Lumos / BigModel 上述两个普通 Anthropic Endpoint 的站点规则保留：modelMatch 为 `".*"`、API 为 Anthropic Messages，声明 supportsNativeWebSearch 与 supportsMidConversationSystem 为 true。本次不将这条已有搜索规则无依据扩大到 Start Plan Endpoint；不要因图片 / 视频规则含 Start Plan 而把不同规则的 URL 条件混在一起。
 
 最终删除 providerMatch 字段及对应解析、匹配、序列化逻辑；四条原规则改为站点规则，不以兼容新格式为由保留第二套 Provider 正则匹配入口。按 providerId + modelId 的精确实例规则仍保留。
 
@@ -1199,7 +1199,7 @@ Endpoint A(rev 20) -> 切换到 B(rev 20，内容不同)
 
 2026-09-10 实施更新：B1c 已落实磁盘包装与旧快照保留，局部集成回归通过，完整交付验证仍跟随 B5。下文“当前迁移后”为改造前的调查示例。逻辑 SessionStorePort 沿用 ModelSelection payload，adapter 统一包装/解包；不要求 core/bootstrap 感知回滚字段。证据及边界见 [实施账本](../research/todo104-schema-implementation-ledger.md)。
 
-数据库 session_entry 中已有 type 为 runtime/model_selection 的“当前模型选择”记录。当前迁移若命中这条旧记录，会沿用其 id，改写它的 data JSON；从旧消息推导选择时则新增一条 entry。旧 message 行保持原字节。以能确定的旧 Z.ai Coding Plan 身份为例：
+数据库 session_entry 中已有 type 为 runtime/model_selection 的“当前模型选择”记录。当前迁移若命中这条旧记录，会沿用其 id，改写它的 data JSON；从旧消息推导选择时则新增一条 entry。旧 message 行保持原字节。以能确定的旧 Lumos Coding Plan 身份为例：
 
 ```text
 同一条 session_entry.data（迁移前）

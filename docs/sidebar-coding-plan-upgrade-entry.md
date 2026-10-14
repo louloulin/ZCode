@@ -17,6 +17,6 @@
 
 点击“升级”后直接调用现有 `CodingPlanUpgradeDialog`：
 
-- 如果当前上下文能解析出 Z.ai / BigModel Coding Plan provider，则打开对应 provider。
-- 如果无法解析 provider，则默认打开 Z.ai Coding Plan。
+- 如果当前上下文能解析出 Lumos / BigModel Coding Plan provider，则打开对应 provider。
+- 如果无法解析 provider，则默认打开 Lumos Coding Plan。
 - 如果当前 entitlement 可识别为 Max，文案仍显示续费；否则显示升级。

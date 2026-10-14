@@ -225,7 +225,7 @@ describe("Lumos Built-in Provider Config 完整性", () => {
         templateId: "zai-api",
         modelId: "glm-5.3-flash",
         apiType: "openai-chat-completions",
-        baseUrl: "https://api.z.ai/api/anthropic",
+        baseUrl: "https://api.lumosai.cc/api/anthropic",
       });
       expect(glm53FlashChat.properties?.inputFormat.supportsPdf).toBe(true);
     } finally {
@@ -1114,7 +1114,7 @@ function builtinRuleFamily(rule: {
     provider.includes("zai") ||
     provider.includes("bigmodel") ||
     provider.includes("offpeak-idle-plan") ||
-    baseUrl.includes("z\\.ai") ||
+    baseUrl.includes("lumosai\\.cc") ||
     baseUrl.includes("bigmodel\\.cn")
   ) {
     return "glm";

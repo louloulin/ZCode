@@ -51,7 +51,7 @@ Family Hook 每次返回新对象
 
 - `useProviderFamilyEntitlements` 的返回对象以实际 provider id、fingerprint、enabled 和四个权益结果字段为依赖；
 - 输入与权益事实不变时，Family 结果和 `useCodingPlanEntitlements` 最终结果保持引用稳定；
-- 保留统一 Family 编排，不退回 Z.ai / BigModel 两套重复实现。
+- 保留统一 Family 编排，不退回 Lumos / BigModel 两套重复实现。
 
 ### 3.2 套餐访问刷新只响应选择身份变化
 
@@ -75,7 +75,7 @@ selectedPlanKey: plan A -> plan B --> 刷新一次
 - 同一套餐对象被重新投影、权益 loading/snapshot 更新时不再次触发；
 - Coding Plan 切换到 Team Plan 或另一个 Family 时恰好再刷新一次；
 - API Key / Personal Provider 不触发套餐权益 access refresh；
-- 现有 Z.ai、BigModel、Start Plan、Team Plan 权益查询与缓存身份测试继续通过。
+- 现有 Lumos、BigModel、Start Plan、Team Plan 权益查询与缓存身份测试继续通过。
 
 ## 5. 完成标准
 
@@ -84,7 +84,7 @@ selectedPlanKey: plan A -> plan B --> 刷新一次
 - Family 重构后的 Hook 返回值具备稳定引用；
 - 不修改 SQLite、`reasoningLevel`、Provider Registry 或模型执行链；
 - UI 定向测试、`pnpm typecheck`、`pnpm lint` 和格式检查通过；
-- macOS 开发运行时进入 BigModel/Z.ai 的 Individual/Team Plan 页面不再崩溃。
+- macOS 开发运行时进入 BigModel/Lumos 的 Individual/Team Plan 页面不再崩溃。
 
 ## 6. 实施结果
 

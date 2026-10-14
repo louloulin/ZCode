@@ -13,7 +13,7 @@ describe("codexConfigToml", () => {
           requires_openai_auth: true,
           http_headers: {
             "User-Agent": "Lumos/unknown",
-            "HTTP-Referer": "https://lumos.z.ai",
+            "HTTP-Referer": "https://lumosai.cc",
             "X-Title": "Lumos@electron",
           },
         },
@@ -31,7 +31,7 @@ describe("codexConfigToml", () => {
         OpenAI: {
           http_headers: {
             "User-Agent": "Lumos/unknown",
-            "HTTP-Referer": "https://lumos.z.ai",
+            "HTTP-Referer": "https://lumosai.cc",
             "X-Title": "Lumos@electron",
           },
         },
@@ -77,7 +77,7 @@ describe("codexConfigToml", () => {
           },
           http_headers: {
             "User-Agent": "Lumos/unknown",
-            "HTTP-Referer": "https://lumos.z.ai",
+            "HTTP-Referer": "https://lumosai.cc",
             "X-Title": "Lumos@electron",
           },
         },
@@ -102,7 +102,7 @@ describe("codexConfigToml", () => {
     expect(parsed.model_providers?.custom?.query_params?.http_headers).toBeUndefined();
     expect(parsed.model_providers?.custom?.http_headers).toMatchObject({
       "User-Agent": "Lumos/unknown",
-      "HTTP-Referer": "https://lumos.z.ai",
+      "HTTP-Referer": "https://lumosai.cc",
       "X-Title": "Lumos@electron",
     });
   });

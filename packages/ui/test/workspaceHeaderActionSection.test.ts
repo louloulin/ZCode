@@ -302,7 +302,7 @@ describe("WorkspaceHeaderActionSection", () => {
     );
     expect(capturedHeaderHelp.openFeatureRequest).toHaveBeenCalledTimes(1);
     expect(capturedHeaderHelp.openCommunity).toHaveBeenCalledTimes(1);
-    expect(capturedHeaderHelp.openExternal).toHaveBeenCalledWith("https://lumos.z.ai/docs");
+    expect(capturedHeaderHelp.openExternal).toHaveBeenCalledWith("https://lumosai.cc/docs");
     expect(capturedHeaderHelp.exportLogs).not.toHaveBeenCalled();
   });
 

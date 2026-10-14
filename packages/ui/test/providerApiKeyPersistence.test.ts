@@ -18,15 +18,15 @@ function createSettingsView(): ProviderSettingsView {
         enabled: true,
         executable: true,
         accessAllowed: true,
-        personalConfig: { label: "My Z.ai" },
+        personalConfig: { label: "My Lumos" },
         effectiveConfig: {
-          label: "My Z.ai",
+          label: "My Lumos",
           access: {
             type: "api-key",
             apiKey: "old-key",
-            apiKeyManagementUrl: "https://api.z.ai/keys",
+            apiKeyManagementUrl: "https://api.lumosai.cc/keys",
           },
-          api: { baseUrl: "https://api.z.ai" },
+          api: { baseUrl: "https://api.lumosai.cc" },
           builtinModelIds: ["glm-5"],
         },
         issues: [],
@@ -51,7 +51,7 @@ describe("Provider API Key Personal persistence", () => {
       providerSettingsService: { getView: async () => view, savePersonalProviderOverlay: save },
     });
     expect(save).toHaveBeenCalledWith("zai-api", {
-      label: "My Z.ai",
+      label: "My Lumos",
       access: { type: "zhipu-coding-plan-api-key", apiKey: "new" },
     });
   });
@@ -72,7 +72,7 @@ describe("Provider API Key Personal persistence", () => {
 
     expect(calls).toEqual(["personal"]);
     expect(savePersonalProviderOverlay).toHaveBeenCalledWith("zai-api", {
-      label: "My Z.ai",
+      label: "My Lumos",
       access: { type: "api-key", apiKey: "new-key" },
     });
   });
@@ -102,7 +102,7 @@ describe("Provider API Key Personal persistence", () => {
 
   it("从 Settings Effective Config 读取 API Key 管理链接", () => {
     expect(resolveSettingsProviderApiKeyManagementUrl(createSettingsView(), "zai-api")).toBe(
-      "https://api.z.ai/keys",
+      "https://api.lumosai.cc/keys",
     );
     expect(
       resolveSettingsProviderApiKeyManagementUrl(createSettingsView(), "missing"),

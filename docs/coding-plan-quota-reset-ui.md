@@ -85,7 +85,7 @@ Bigmodel-Project: <TEAM only>
 约束：
 
 - JWT 从 credential service 的 `lumosjwttoken` 读取。
-- `X-Bigmodel-Authorization` 传当前 Coding Plan provider family 对应的业务 JWT，直传且不套 `Bearer`，**不是 Coding Plan API key**：Z.ai family 使用 credential service 的 `oauth:zai:access_token`，BigModel family 使用 `oauth:bigmodel:access_token`。两类凭据禁止互相回退，避免当前 provider identity 与服务端校验身份串用（2026-08-14 Z.ai reset 鉴权修正）。
+- `X-Bigmodel-Authorization` 传当前 Coding Plan provider family 对应的业务 JWT，直传且不套 `Bearer`，**不是 Coding Plan API key**：Lumos family 使用 credential service 的 `oauth:zai:access_token`，BigModel family 使用 `oauth:bigmodel:access_token`。两类凭据禁止互相回退，避免当前 provider identity 与服务端校验身份串用（2026-08-14 Lumos reset 鉴权修正）。
 - Coding Plan provider 解析用于确认套餐已配置、选择与 provider family 一致的业务 JWT，并推导 Personal/Team scope；Team scope 完全由 `Bigmodel-Organization` / `Bigmodel-Project` header 承载，客户端不再为 reset 请求复制团队项目 API Key。
 - credential 值不得写日志、不得进入 UI store、不得持久化。
 - URL 使用 `buildRuntimeLumosApiUrl(env, path)`，随 test/production/custom endpoint 设置切换。

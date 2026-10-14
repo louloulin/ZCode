@@ -781,7 +781,7 @@ Account 远端接口并不总是同时成功：Start Plan 的 `billing/balance`�
 
 ## 79. Services 将当前 Plan 产品状态适配为 Connection Result
 
-新增 `accountProviderConnectionResolver` 作为 Services 与纯 Provider 领域之间的过渡边界。它读取当前账号域、Family 的 API Key / OAuth 连接模式、Personal/Team 选择，并调用现有 Z.ai / BigModel Start/Coding 权益校验；对外只产生按 Provider 排序的 `available / unavailable / unknown`。
+新增 `accountProviderConnectionResolver` 作为 Services 与纯 Provider 领域之间的过渡边界。它读取当前账号域、Family 的 API Key / OAuth 连接模式、Personal/Team 选择，并调用现有 Lumos / BigModel Start/Coding 权益校验；对外只产生按 Provider 排序的 `available / unavailable / unknown`。
 
 非当前账号域与显式 API Key 连接模式被解释为确定 `unavailable`，不再请求 Plan 接口。Coding Plan 在选中有效 Team connection key 时使用完整 key 作为 accessId，否则使用稳定 Personal accessId；Start Plan 使用稳定 Start accessId。某个 Provider 未从远端得到结论时保留 `unknown`，后续交给领域解析的按 Provider last-known-good 规则处理。
 
@@ -879,7 +879,7 @@ Repository 现在记录最近一次已知的 content revision。显式写入在�
 
 ## 92. Provider Family Domain 迁移改读 Model Selection View
 
-启动期的一次性 `providerFamilyDomain` 迁移需要在没有旧 OAuth active provider 时，判断当前是否只有一个可选的 Z.ai / BigModel Family。旧实现读取 `ModelProviderConfig[]`，再用 API Key、enabled 和 endpoint 重做一遍可用性判断；这会让迁移结果与新 Registry 的选择事实分叉。
+启动期的一次性 `providerFamilyDomain` 迁移需要在没有旧 OAuth active provider 时，判断当前是否只有一个可选的 Lumos / BigModel Family。旧实现读取 `ModelProviderConfig[]`，再用 API Key、enabled 和 endpoint 重做一遍可用性判断；这会让迁移结果与新 Registry 的选择事实分叉。
 
 迁移现在直接读取 Model Selection View。View 中的 Provider 已由 Registry 完成 Config、Account Access、模型完整性与可选性解析，迁移只负责把 `providerId` 映射到 Family，并在唯一 Family 时写入历史设置。空 View 继续表示启动事实尚未恢复，本轮不标记迁移完成；OAuth active provider 的原有优先级和设置写入时序没有改变。
 
@@ -1332,7 +1332,7 @@ Provider Family 仍决定应查询的 Coding Plan 和 Start Plan providerId，St
 ## 123. 设置页 Usage 退出旧 Provider 凭据事实
 
 设置页 Usage 过去调用 `useModelProviders()`，用旧 Provider 的 `enabled`、不可用原因和 API Key 判断
-Z.ai / BigModel Coding Plan 是否可以查询，并用 API Key 指纹构造 Entitlement Cache。随后又把完整旧
+Lumos / BigModel Coding Plan 是否可以查询，并用 API Key 指纹构造 Entitlement Cache。随后又把完整旧
 Provider 数组传给 Usage 面板，只为再次找到相同 Provider 并生成缓存 Key。Provider 静态配置、套餐
 连接和动态请求凭据因此在一个 UI 链路中混合。
 
@@ -1353,7 +1353,7 @@ Entitlement 与 SettingsPage 挂载共 43 条测试；全仓 typecheck 通过，
 “可查询 Coding Plan”集合，再把完整对象交给 Entitlement Cache、余额状态解析器和升级目标选择器。
 这条常驻链路与设置页 Usage 使用相同的旧事实，却有独立的过滤和缓存逻辑。
 
-本轮让侧栏订阅 `ProviderSettingsView`。Z.ai / BigModel 只有在 Account Overlay 提供非空 accessId 时
+本轮让侧栏订阅 `ProviderSettingsView`。Lumos / BigModel 只有在 Account Overlay 提供非空 accessId 时
 进入可用来源；用户禁用模型入口不会删除连接。个人 Entitlement 与 Enterprise Products 的门禁和
 缓存身份都使用 `providerId + accessId`，动态凭据继续由 Usage Service 请求期解析。Account Access
 缺失时，侧栏不会再根据静态 Provider 或残留 API Key 猜测连接。
@@ -1431,7 +1431,7 @@ Provider Settings View 中已发布 `accessId` 的 Provider 集合；权益状�
 
 未装配新 Provider Settings Service 的旧 Entry 仍保留 `apiKey` 兼容语义；一旦 Service
 存在，即使旧 Key 非空也不能代替缺失的 `accessId`。反向回归同时固定：旧 Key
-为空但 Account Access 存在时，Z.ai 与 BigModel 均能正常显示已连接套餐。
+为空但 Account Access 存在时，Lumos 与 BigModel 均能正常显示已连接套餐。
 
 设置页 Provider 相关 18 个测试文件、307 条测试通过；全仓 typecheck 通过，
 lint 保持 35 条既有 warning。全量 pre-push 按当前约定留到后续集中执行。
@@ -1580,7 +1580,7 @@ Provider Service、Official Source、Personal 导入、Provider Runtime 与桌�
 旧 `ModelProviderService` 会把 Builtin Preset 的本地兜底和远端同步结果写入旧 Provider Store。
 这些对象同时包含用户 API Key、系统 label、运行 endpoint、远端模型列表和账号可用状态。此前首次
 迁移会把它们整体与 Official Config 求差异；当旧兜底只有 `GLM-5.2`、`GLM-5-Turbo`，而 Official
-已经包含完整 Z.ai 模型列表时，这个差异会被误写成 Personal `models`，导致新 Registry 反而长期
+已经包含完整 Lumos 模型列表时，这个差异会被误写成 Personal `models`，导致新 Registry 反而长期
 丢失 Official 新模型。
 
 本轮按旧数据中能够证明的所有权收窄迁移：
@@ -1597,7 +1597,7 @@ Provider Service、Official Source、Personal 导入、Provider Runtime 与桌�
 ```
 
 未知的旧 Builtin Provider 仍不进入 Personal。Personal-only Provider 和旧 Store 中按 custom 来源保存的
-Official API Provider 继续沿用原来的完整/差异迁移语义，不受这一裁决影响。回归测试固定旧 Z.ai 两模型
+Official API Provider 继续沿用原来的完整/差异迁移语义，不受这一裁决影响。回归测试固定旧 Lumos 两模型
 兜底不能覆盖 Official 模型集合，同时保留用户显式新增的 modified 模型。
 
 ## 135. 模型后缀与新增模型缺省退出 UI 和 Shared 硬编码
@@ -1659,7 +1659,7 @@ testModelConnectivity
 
 Shared 曾以 `ZAI_START_PLAN_FREE_MODELS` 保存两个免费模型。输入框的旧 Provider Snapshot 投影会用这份
 常量过滤 Start Plan 模型，设置页还会用它构造一份占位 Provider；旧 Provider Store 在远端同步失败时，
-也会据此把 Z.ai 与 BigModel Start Plan 写入旧配置。这三处逻辑会覆盖或伪造正式事实：Official Config
+也会据此把 Lumos 与 BigModel Start Plan 写入旧配置。这三处逻辑会覆盖或伪造正式事实：Official Config
 已经声明静态模型，Account Overlay 又会根据当前权益给出实际可用成员。
 
 本轮删除该常量及其三类消费者。正式事实链现在是：
@@ -1948,7 +1948,7 @@ Start Plan 的 JWT 随 OAuth Token Set 清理，不在 Account Credential Store 
 
 ## 148. Team Plan Request Key 移出旧 Provider Service
 
-条目 146 留下的代码内聚问题已经收束。BigModel 与 Z.ai Team Plan 的请求期 Key 解析现在位于独立
+条目 146 留下的代码内聚问题已经收束。BigModel 与 Lumos Team Plan 的请求期 Key 解析现在位于独立
 `accountProviderTeamPlanRequestKey` 模块：
 
 ```text
@@ -1964,10 +1964,10 @@ Team Plan Request Key Resolver
 
 新的 Account Request Auth Service 直接依赖该模块。旧 Registry Snapshot 在退出前也调用同一实现，因此
 迁移期不会形成两套 Team Plan Key 算法。模块不读取 Provider Config、不持有 Registry，也不缓存 Key；它只
-处理请求期账号鉴权。BigModel 对陈旧 Lumos JWT 的拒绝、旧 project-only 选择的组织恢复，以及 Z.ai 的业务域
+处理请求期账号鉴权。BigModel 对陈旧 Lumos JWT 的拒绝、旧 project-only 选择的组织恢复，以及 Lumos 的业务域
 Header 行为均保持原样。
 
-测试先建立独立模块边界，并分别覆盖 BigModel 与 Z.ai 从组织/项目取得 `apiKey.secret` 的完整流程；再移动
+测试先建立独立模块边界，并分别覆盖 BigModel 与 Lumos 从组织/项目取得 `apiKey.secret` 的完整流程；再移动
 实现。3 个相关测试文件共 141 条测试通过；全仓 typecheck 通过，lint 为 0 error、35 条既有 warning。
 全量 pre-push 按约定延后。
 
@@ -2790,9 +2790,9 @@ Model 请求在每个真实 attempt 前使用 Model 固定的 `accessId` 读取�
 Registry，也不改变已经创建的 Model 身份；下一次请求直接取得新值。账号身份被删除或切换时，旧 accessId
 失效，Account Source 同时把对应 Provider 从以后创建 Model 使用的 Registry 中移除。
 
-Z.AI OAuth 使用服务端用户 ID 作为账号身份。BigModel OAuth 和手工 API Key 当前没有稳定 Profile ID，暂时使用
+Lumos OAuth 使用服务端用户 ID 作为账号身份。BigModel OAuth 和手工 API Key 当前没有稳定 Profile ID，暂时使用
 API Key 的不可逆摘要形成进程内需要的稳定身份；未来 Account Service 提供正式账号 ID 后可以替换这一来源，
-`accessId` 与请求期鉴权边界不需要变化。当前只接入 Z.AI / BigModel Personal Coding Plan，不借此扩展 Start Plan、
+`accessId` 与请求期鉴权边界不需要变化。当前只接入 Lumos / BigModel Personal Coding Plan，不借此扩展 Start Plan、
 Team Plan 或闲时任务。
 
 旧 CLI Config 现在只作为 Personal Config 与 configured default 的一次性导入输入。新文件一旦生成，后续修改旧
@@ -3304,7 +3304,7 @@ OAuth、设置页和 Account Provider 已经分别通过 Account Credential Stor
 继续保留会让已经分离的账号事实重新汇入旧静态配置。
 
 本轮删除两个公共方法、Service 实现、旧依赖注入和 29 个以旧 Store 改写结果为断言的测试。测试清理前先将
-仍然有效的产品规则迁到 `codingPlanProviderAvailability.test.ts`，直接覆盖 Z.ai Start/Coding 未登录、互斥权益、
+仍然有效的产品规则迁到 `codingPlanProviderAvailability.test.ts`，直接覆盖 Lumos Start/Coding 未登录、互斥权益、
 Coding 查询暂时失败时保留 Start 结果，以及已选 Team Project 校验暂时失败时保留上一版连接状态。权益规则
 继续由新的 Account Connection Resolver 调用，不再依赖旧 Service 的刷新副作用。随两个调用入口一同失去
 消费者的旧 Account Facts Emitter 和断开原因辅助函数也同步删除，避免继续暗示旧 Service 会发布账号事实。
@@ -4533,7 +4533,7 @@ v1 文档，并原子替换原路径；正式版本与未来版本不会进入�
 没有调用者的转发层、旧启动门禁或误放在 Provider Working Memory 根下的临时记录。没有发现删除
 staging 新功能后又以 M2 名义带入旧实现的情况。
 
-Repo Snapshot Sidecar 中的 `bigmodel / z.ai / others` 只写入旁路快照上传元数据，用于服务端归因；它
+Repo Snapshot Sidecar 中的 `bigmodel / lumosai.cc / others` 只写入旁路快照上传元数据，用于服务端归因；它
 不选择 Provider、Model，不补充 Properties 或 Option Specs，也不参与 Model 创建。该品牌映射仍属于
 Account/产品域的后续整理对象，但不构成 M2 Provider 执行事实源。为此不在 M2 临时增加新的 Provider
 品牌字段。

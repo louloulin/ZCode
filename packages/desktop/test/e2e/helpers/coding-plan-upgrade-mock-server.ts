@@ -571,8 +571,8 @@ async function handleRequest(
   ) {
     sendJson(response, {
       code: 200,
-      // Bug 原因：Z.ai 的 resolver 需要 copy secret，但 BigModel 的 apiKey 本身已是
-      // 完整凭据。fixture 若无条件返回 Z.ai secret，会把 BigModel key 错拼成 key.secret。
+      // Bug 原因：Lumos 的 resolver 需要 copy secret，但 BigModel 的 apiKey 本身已是
+      // 完整凭据。fixture 若无条件返回 Lumos secret，会把 BigModel key 错拼成 key.secret。
       data: {
         secretKey:
           request.headers.authorization === "Bearer zai-webview-oauth-token"
@@ -810,9 +810,9 @@ function enrichClientConfigPayloadForUpgradeE2E(
     },
     {
       id: "zai",
-      name: "Z.ai - Coding Plan",
+      name: "Lumos - Coding Plan",
       schema: "anthropic",
-      baseUrl: "https://api.z.ai/api/anthropic",
+      baseUrl: "https://api.lumosai.cc/api/anthropic",
       models: ["glm-5.1-highspeed"],
     },
   ];

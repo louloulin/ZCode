@@ -11,7 +11,7 @@
 
 原分支修复“已登录、服务端明确无个人套餐，却显示未连接”：Host 把 `unavailableReason` 随 Account State 下发，UI 区分未开通和获取失败。这符合 Provider 重构的单一事实源，不恢复 UI 的第二次权益探测。
 
-审查发现两处需要补齐：Host 发送新增字段，但 CLI 使用的严格同步 schema 未接受它，会拒绝整份 Account 快照；个人 Coding Plan 获取 Key 失败时，Z.ai 根据本地登录信息分类，BigModel 却固定报未连接。
+审查发现两处需要补齐：Host 发送新增字段，但 CLI 使用的严格同步 schema 未接受它，会拒绝整份 Account 快照；个人 Coding Plan 获取 Key 失败时，Lumos 根据本地登录信息分类，BigModel 却固定报未连接。
 
 用户确认：
 
@@ -69,7 +69,7 @@ Host 获取个人套餐 Key
 ## 4. 验证与兼容
 
 - 协议：四种原因无损往返；不带原因仍接受；错误原因和未知字段拒绝；混合可用/不可用 Provider 的快照能整体接收。
-- 服务：Z.ai/BigModel 各自覆盖有/无登录信息的缺 Key 状态，不发 subscription 请求；成功有/无订阅及其他套餐既有用例回归。
+- 服务：Lumos/BigModel 各自覆盖有/无登录信息的缺 Key 状态，不发 subscription 请求；成功有/无订阅及其他套餐既有用例回归。
 - 交互：获取失败点击重试触发刷新而非登录；重试失败可再次操作，成功恢复当前状态。设置页实际场景用 E2E 验证，并区分桌面窄窗口与真实手机测试证据。
 - 运行时通过真实 schema 与状态生产/消费函数验证，不能只用源码字符串断言替代协议回归。
 - 执行定向测试、typecheck、lint、architecture:check；E2E 补 typecheck:e2e。环境阻塞记录实际结果，不冒充通过，不借机重建整个 E2E 基础设施。
@@ -87,14 +87,14 @@ Host 获取个人套餐 Key
 
 ### 已接受的浏览器交互用例（实施前固定）
 
-T105-UI01：分别渲染 Z.ai、BigModel 个人套餐“获取失败”卡片；点击重试，受控刷新未完成期间按钮不可重复提交；第一次刷新仍失败后可再次重试，第二次恢复到明确未开通后显示订阅。全过程登录回调为零。覆盖 390px 中文浅色与 1200px 英文深色，保存浏览器错误、截图和刷新次数。
+T105-UI01：分别渲染 Lumos、BigModel 个人套餐“获取失败”卡片；点击重试，受控刷新未完成期间按钮不可重复提交；第一次刷新仍失败后可再次重试，第二次恢复到明确未开通后显示订阅。全过程登录回调为零。覆盖 390px 中文浅色与 1200px 英文深色，保存浏览器错误、截图和刷新次数。
 
 用例进入 `packages/ui/test/browser/manual-review/pending/account-provider-key-retry.*`，复用现有 Vite + Playwright 组件浏览器工作流。它证明实际卡片交互，Host 的实际解析→协议由集成测试单独验证；不将组件 fixture 宣称为完整 Electron 或手机 shared-host E2E。
 
 ### 交付
 
 - 同步协议增加可选原因字段并继续 strict；`shared/account-provider-state` 公共子路径提供唯一原因 schema 与推导类型，Provider 保留原导出名。使用轻量子路径避免 Provider 构建通过 shared 总入口引入 Node 环境定义；未改包依赖或同步命令。
-- Z.ai/BigModel 个人套餐统一按对应 family 的本地用户信息处理缺 Key。上层缺账号身份的既有早退、其他套餐、缓存和网络适配不变。
+- Lumos/BigModel 个人套餐统一按对应 family 的本地用户信息处理缺 Key。上层缺账号身份的既有早退、其他套餐、缓存和网络适配不变。
 - 个人套餐 `credential-failed` 卡片通过 Detail 获得重试动作；调用现有 `useModelProviders.refresh()` → `settings-manual`，其 loading/版本守卫与错误日志沿用。按钮不触发 OAuth 登录；Start/Team 和升级流程仍保留已有操作。
 - 新增源码 schema 模块和测试文件属于代码组织，不是用户目录新增存储文件。
 

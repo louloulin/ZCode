@@ -86,7 +86,7 @@ key 生成层有半套设施，但识别、匹配、数据获取、UI 渲染、�
 
 ## 后端契约（用户确认）
 
-- zai 用自己的域名（测试 `api.z.ai` / 线上 `api.z.ai`，即 `resolveZaiCodingPlanHost()`）。
+- zai 用自己的域名（测试 `api.lumosai.cc` / 线上 `api.lumosai.cc`，即 `resolveZaiCodingPlanHost()`）。
 - 除"购买"相关路径外，定价 / 团队项目 / 订阅查询 / 余额等路径结构复用 bigmodel 的 URL 结构，
   仅 host、providerId、OAuth token 不同。
 - 购买路径：Stripe / PayPal 在 bigmodel provider 内已 zai-aware（`assertZaiPaymentProvider` +
@@ -173,7 +173,7 @@ composer、services layer）逐个改 family-aware。多数已在 `createTeamPla
 
 ### 后端契约验证
 
-测试环境实际请求 `https://api.z.ai/api/biz/customer/getCustomerInfo`（zai 域名）成功，
+测试环境实际请求 `https://api.lumosai.cc/api/biz/customer/getCustomerInfo`（zai 域名）成功，
 返回结构与 bigmodel 同构（含 `organizations[].projects[]`，`projectType=2` 标识团队编程项目）。
 zai token 用 `Bearer` header（区别于 bigmodel 裸 token）。
 
@@ -182,11 +182,11 @@ zai token 用 `Bearer` header（区别于 bigmodel 裸 token）。
 
 ### 注入流程运行时验证（dev:desktop:test）
 
-5 环节对称化在 zai 已端到端打通，证据来自 app 日志 + `~/.lumos-dev` 凭证手动调用 `api.z.ai`：
+5 环节对称化在 zai 已端到端打通，证据来自 app 日志 + `~/.lumos-dev` 凭证手动调用 `api.lumosai.cc`：
 
 1. **routing 正确**：`getEnterprisePricing` 由 `ZaiCodingPlanSubscriptionProvider` 处理，prewarm 日志带
-   `family: "builtin:zai-coding-plan"`，请求落在测试环境 zai biz 域名 `api.z.ai`
-   （`TEST_ZAI_BUSINESS_BASE_URL`，不是 lumos 前端域 `lumos.z.ai`）。
+   `family: "builtin:zai-coding-plan"`，请求落在测试环境 zai biz 域名 `api.lumosai.cc`
+   （`TEST_ZAI_BUSINESS_BASE_URL`，不是 lumos 前端域 `lumosai.cc`）。
 2. **customerInfo 正确**：测试账号在 `org-2B118...` / `proj_50399...` 下有 `projectType: 2` 团队项目，
    `getCustomerInfo` 200 成功，结构与 bigmodel 同构。
 3. **注入流程复用**：prewarm 已对 zai 执行 list + POST create `lumos-team-api-key`：
@@ -265,7 +265,7 @@ zai token 用 `Bearer` header（区别于 bigmodel 裸 token）。
 ### 现象
 
 zai OAuth 登录成功 + team plan provider 已落盘 + selectedKey 已是 team key 后，
-设置页 Z.ai Plan Card 仍一直显示「加载中...」，无法进入连接方式详情。
+设置页 Lumos Plan Card 仍一直显示「加载中...」，无法进入连接方式详情。
 
 ### 根因（CDP 抓 React fiber + 运行时 state 确认）
 
@@ -370,7 +370,7 @@ sidebar badge               WorkspaceSidebarFooterUsageSummary.tsx
 
 - `CurrentSidebarCodingPlanUsageSource.team.providerId` 从硬绑 `bigmodelCodingPlan` 松开为 `SidebarUsageCodingPlanProviderId`
 - `resolveSidebarCurrentCodingPlanUsageSource` 新增 `zaiSelectedKey` 参数，zai 分支先判 team-plan 前缀，命中返回 team source
-- `formatTeamUsageSourceLabel` 按 `product.family` 取品牌前缀（zai → `Z.ai - `，bigmodel → `BigModel - `）
+- `formatTeamUsageSourceLabel` 按 `product.family` 取品牌前缀（zai → `Lumos - `，bigmodel → `BigModel - `）
 
 **消费方 1 — sidebar badge**（`WorkspaceSidebarFooterUsageSummary.tsx`）：
 
@@ -401,7 +401,7 @@ sidebar badge               WorkspaceSidebarFooterUsageSummary.tsx
 
 `packages/ui/test/codingPlanUsagePanel.test.ts` 新增 5 个 zai 对称回归测试：
 
-- zai team product 展开为带 zai providerId + `Z.ai - ` 品牌前缀的 usage source
+- zai team product 展开为带 zai providerId + `Lumos - ` 品牌前缀的 usage source
 - `resolveSidebarCurrentCodingPlanUsageSource` 把 zai team selectedKey 解析成 team source
 - zai team key 未匹配 source 时返回 null（不回退 individual）
 - zai 个人 coding-plan key 解析成 individual
@@ -472,7 +472,7 @@ zai/bigmodel 两个分支共享 `modelProviderFamilySelectedKeys`：
 ### 测试
 
 `packages/services/test/modelProviderService.test.ts` 新增回归测试
-「Z.ai 已选 Team Plan 项目时刷新 Coding Plan 会按 team project 校验并启用 provider（对齐 BigModel）」，
+「Lumos 已选 Team Plan 项目时刷新 Coding Plan 会按 team project 校验并启用 provider（对齐 BigModel）」，
 覆盖 zai team selectedKey + getCustomerInfo team project 场景。已验证该测试在修复前失败、修复后通过。
 
 ## 修复：zai Team Plan 选中后发消息仍走个人 Coding Plan（runtime registry 漏 team apiKey 投影）
@@ -524,7 +524,7 @@ team 选中后才会被 enable）会被 `pickResolvedFamilyProvider` 提前丢�
 ### 测试
 
 `packages/services/test/modelProviderService.test.ts` 新增回归测试
-「Z.ai Team Plan 选中时 provider registry 使用团队项目 API Key（对齐 BigModel）」，覆盖：
+「Lumos Team Plan 选中时 provider registry 使用团队项目 API Key（对齐 BigModel）」，覆盖：
 zai team selectedKey + zai 业务域名 `getCustomerInfo` / `api_keys` / `api_keys/copy` mock 场景，
 断言 registry 返回 `apiKey: { source: "inline", value: "team-ak-zai.team-secret-zai" }`、
 `models[0].disabledReason` 为 undefined、所有业务请求的 authorization 头为原始 zai token。
@@ -647,11 +647,11 @@ provider）有 4 处只认 `bigmodelCodingPlan`，zai coding plan team plan 进�
 
 `packages/services/test/usageStatsService.test.ts` 新增 2 个 zai 对称回归测试：
 
-- 「Z.ai Team Plan 用量在 provider apiKey 为空时复制团队项目 API Key（对齐 BigModel）」
-- 「Z.ai Team Plan 用量允许已登录但被禁用的 Coding Plan provider（对齐 BigModel）」
+- 「Lumos Team Plan 用量在 provider apiKey 为空时复制团队项目 API Key（对齐 BigModel）」
+- 「Lumos Team Plan 用量允许已登录但被禁用的 Coding Plan provider（对齐 BigModel）」
 
 覆盖：zai coding plan provider + zai OAuth token（`oauth:zai:access_token`，对齐
-`loadZaiAuthorization`）+ zai 业务域名（`api.z.ai`）+ 团队项目 api_keys list/copy +
+`loadZaiAuthorization`）+ zai 业务域名（`api.lumosai.cc`）+ 团队项目 api_keys list/copy +
 monitor quota/model-usage/tool-usage。已通过 stash 验证：修复前两个测试均失败
 （token key 不匹配导致 `zai_coding_plan_api_key_required`），修复后通过。
 usageStatsService 全部 12 tests 全绿。
@@ -721,7 +721,7 @@ stream / snapshot / queue / owner / replayable 等远控语义，桌面与手机
 
 | 风险                                                                          | 缓解                                                                                                                                                                                                                                |
 | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ~~zai 后端企业接口实际行为未知~~                                              | ✅ 已验证：测试环境 `api.z.ai` getCustomerInfo 成功，结构与 bigmodel 同构；注入流程（list + POST create `lumos-team-api-key`）已在 zai 复用，prewarm 日志可见。测试账号 POST 创建被拒（缺 grant）属后端侧问题，代码无需改动 |
+| ~~zai 后端企业接口实际行为未知~~                                              | ✅ 已验证：测试环境 `api.lumosai.cc` getCustomerInfo 成功，结构与 bigmodel 同构；注入流程（list + POST create `lumos-team-api-key`）已在 zai 复用，prewarm 日志可见。测试账号 POST 创建被拒（缺 grant）属后端侧问题，代码无需改动 |
 | ~~ModelProviderSection 清理 useEffect 重复（anomaly）~~                       | ✅ 已合并为单个 family-aware effect                                                                                                                                                                                                 |
 | ~~`WorkspaceSidebarFooterUsageSummary` 显式 `providerFamily !== "zai"` 排除~~ | ✅ 已修复：sidebar badge / 聊天框模型选择 / 使用统计页三个消费方已全部对称化（见上文「消费方对称化遗漏」章节）                                                                                                                      |
 | literal 前缀检查点遗漏                                                        | grep 全量 `team-plan:` literal 逐一评估，已覆盖核心路径                                                                                                                                                                             |
@@ -759,7 +759,7 @@ UI 判定 `resolveCodingPlanEntitlementState` 里 `hasCodingPlanProvider=false` 
 `packages/services/src/model-provider/repo/oauthPresetProviderRepoShared.ts` 新增 zai 三件套：
 
 1. `resolveZaiCodingPlanAnthropicBaseUrl(env)` → `${resolveZaiBusinessBaseUrl(env)}/api/anthropic`
-   （测试 `api.z.ai` / 线上 `api.z.ai`，与 builtin:zai API Key provider 运行时域名一致）
+   （测试 `api.lumosai.cc` / 线上 `api.lumosai.cc`，与 builtin:zai API Key provider 运行时域名一致）
 2. `normalizeZaiCodingPlanAnthropicBaseUrlForEnv(baseUrl, env)`：remote baseUrl 优先，缺失或非法时
    回退兜底；补一层 `new URL()` 合法性校验（`normalizeModelProviderBaseUrlForKind` 不拦截纯文本）
 3. `buildZaiCodingPlanAnthropicEndpoints(providers)`：remote anthropic baseUrl 优先，否则兜底；
@@ -832,7 +832,7 @@ export function isSameLimitCategory(limitType, queryType): boolean {
 
 ### 设计说明
 
-zai 后端用 `CREDIT_LIMIT` 是当前线上行为（api.z.ai / api.z.ai 均如此）。
+zai 后端用 `CREDIT_LIMIT` 是当前线上行为（api.lumosai.cc / api.lumosai.cc 均如此）。
 按「和 bigmodel 应该一样」的产品预期，`CREDIT_LIMIT` 视为 zai 后端待对齐的历史命名；
 消费方等价匹配后，zai 后端若后续统一切到 `TOKENS_LIMIT`，UI 无需再改。
 unit/number 语义是稳定契约，type 枚举差异通过等价集合吸收。

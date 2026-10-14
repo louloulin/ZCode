@@ -1385,7 +1385,7 @@ async function startCodingPlanTeamMockIfNeeded(specs: string[] = []) {
       writeJson(response, {
         code: 0,
         data: {
-          authorize_url: `https://bigmodel.cn/login?appId=lumos&redirect=${encodeURIComponent("https://lumos.z.ai/api/v1/oauth/cli/callback/bigmodel")}&state=${SUBAGENT_CODING_PLAN_OAUTH_STATE}`,
+          authorize_url: `https://bigmodel.cn/login?appId=lumos&redirect=${encodeURIComponent("https://lumosai.cc/api/v1/oauth/cli/callback/bigmodel")}&state=${SUBAGENT_CODING_PLAN_OAUTH_STATE}`,
           expires_at: Math.floor(Date.now() / 1000) + 300,
           flow_id: SUBAGENT_CODING_PLAN_OAUTH_FLOW_ID,
           poll_interval_sec: 30,
@@ -4394,7 +4394,7 @@ async function seedUpstreamE2EModelConfig(specs: string[] = []) {
           provider({
             baseURL: `${anthropicBaseURL}/builtin-personal-conflict`,
             id: "e2e-zai-template-provider",
-            label: "Z.ai Template Provider E2E",
+            label: "Lumos Template Provider E2E",
             models: [model("glm-5.3")],
           }),
         ]

@@ -29,7 +29,7 @@ CR-01 修复边界：基于 Reviewer 的 5cad9f6028 快照，仅调整 SectionLa
 
 ## 2026-07-02 Provider family 与连接方式分层
 
-- 左侧导航只负责选择 provider family 或自定义 provider。Z.ai / BigModel 在左侧各自只占一个入口，不随 Start Plan、个人 Coding Plan 或团队 Coding Plan 数量变化。
+- 左侧导航只负责选择 provider family 或自定义 provider。Lumos / BigModel 在左侧各自只占一个入口，不随 Start Plan、个人 Coding Plan 或团队 Coding Plan 数量变化。
 - Start Plan、个人 Coding Plan、团队 Coding Plan 和 API Key 是同一个 provider family 下的连接方式，只在右侧详情顶部的“连接方式”菜单中切换。
 - 团队 Coding Plan 可以有多个，全部作为“连接方式”菜单项展示，不生成多个左侧导航节点。
 - `selectedNodeKey` 只表示左侧导航节点；当前右侧详情项由 `selectedNodeKey` 对应 family 的连接方式设置和已保存连接方式 key 派生。
@@ -47,7 +47,7 @@ CR-01 修复边界：基于 Reviewer 的 5cad9f6028 快照，仅调整 SectionLa
 - 个人 Coding Plan 使用个人 API Key 请求 `GET /api/biz/subscription/list`，识别 Coding 订阅且同时满足 `status=VALID`、`inCurrentPeriod=true` 才判有权益。缺 Key、被采用的 Coding 条目字段缺失或请求失败保持未知；成功返回空数组为无权益。订阅列表按条目解析，无关或不可识别条目不遮蔽有效 Coding Plan；存在有效条目即确认权益。没有有效条目且疑似 Coding 条目损坏时保持未知，其余为无权益。
 - 团队入口来自 `GET /api/biz/customer/getCustomerInfo` 的组织/项目成员关系，不能由项目存在、active 或 pricing 的客户端补值推断权益。
 - 团队使用业务 access token 携带 `bigmodel-organization`、`bigmodel-project` 请求 `GET /api/biz/team/subscribe/product/querySubscribeDetail`。`hasSubscription=true`、`status=EFFECTIVE`、`memberGrantStatus=VALID` 同时成立才有权益；`hasSubscription=false`、`EXPIRED` 或 `EFFECTIVE + UNASSIGNED` 为无权益，分别保留未开通、过期或未分配语义；其他未验证状态、缺失字段保持未知。
-- BigModel 上述有效响应已于 2026-09-17 用生产账号验证。Z.ai 保持 family 域名和 Bearer 鉴权隔离，未支持接口或未识别响应保持未知，不能回退 quota 猜权益。
+- BigModel 上述有效响应已于 2026-09-17 用生产账号验证。Lumos 保持 family 域名和 Bearer 鉴权隔离，未支持接口或未识别响应保持未知，不能回退 quota 猜权益。
 - `includeSubscription` 保留兼容参数，但 Coding Plan 快照始终查询并返回订阅摘要，轻量入口也不能仅凭额度判权益。
 - 个人和团队的 `quota/limit`（包括 `type=2`）只负责额度/用量展示。额度为零、缺 data、业务失败或传输异常，都不能生成或撤销订阅。用量快照不得从 quota level 构造订阅，也不得给团队附上个人订阅。
 - 权益、调用凭据就绪和用量可用是三个独立事实；团队查询无需创建/复制 API Key。个人缺 Key 不能当成无权益，团队获取调用 Key 失败不撤销已确认权益。
@@ -103,7 +103,7 @@ CR-01 修复边界：基于 Reviewer 的 5cad9f6028 快照，仅调整 SectionLa
   - 选中：`border-primary + text-foreground`
   - 未选中：`border-transparent + hover:border-border-hover/60`
 - 节点左侧补充供应商图标：
-  - 预置供应商：使用 OAuth provider logo（`Z.AI` / `BigModel`）
+  - 预置供应商：使用 OAuth provider logo（`Lumos` / `BigModel`）
   - 自定义供应商：使用通用 `Package` 图标
   - 添加供应商：沿用 `Plus` 图标并使用 `text-primary` 强化可发现性
 - 节点右侧状态点改为 `CircleIcon`，按是否可用区分蓝色（`text-sky-500`）与灰色（`text-gray-400`）。
@@ -141,6 +141,6 @@ Start Plan 详情的购买 banner 还需检查同一账号平台的个人/团队
 
 同平台已有有效个人或团队套餐时，Start Plan 卡片的“升级 · 150% 配额”按钮及其活动说明一并隐藏，复用购买 banner 的有效权益判断。有效/待生效 Start 多卡的余额与模型列表保持原展示；个人/团队详情自己的升级动作不变。
 
-设置页左侧智谱导航恢复品牌命名：BigModel / Z.ai，独立体验入口显示 Start Plan；中英文界面均保持这些名称。图标、状态点、导航 key、连接方式及右侧供应商品牌标题不变。
+设置页左侧智谱导航恢复品牌命名：BigModel / Lumos，独立体验入口显示 Start Plan；中英文界面均保持这些名称。图标、状态点、导航 key、连接方式及右侧供应商品牌标题不变。
 
 团队连接的设置页匹配身份为平台、组织和项目。保存的商品 ID 与订阅接口当前商品 ID 不同时，同组织/项目仍保持选中；初始化权益快照和后续商品列表均不得因此显示“连接不可用”或空选项。商品 ID 继续作为套餐元数据，展示匹配不写回选择、不改变请求鉴权或执行资格；不同平台、组织、项目保持隔离。

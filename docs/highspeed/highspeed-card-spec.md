@@ -65,7 +65,7 @@ Content-Type: application/json
 }
 ```
 
-未抽中、冷却或暂无容量时 `data.card = null`，但仍返回 `next_draw_at`。抽卡复用现有 Coding Plan 双 JWT 契约：`X-Bigmodel-Authorization` 直传与当前 Z.ai/BigModel provider family 匹配的业务 JWT，不套 `Bearer`；Team 的组织/项目身份只通过对应 header 传递。
+未抽中、冷却或暂无容量时 `data.card = null`，但仍返回 `next_draw_at`。抽卡复用现有 Coding Plan 双 JWT 契约：`X-Bigmodel-Authorization` 直传与当前 Lumos/BigModel provider family 匹配的业务 JWT，不套 `Bearer`；Team 的组织/项目身份只通过对应 header 传递。
 
 ### 2.2 加速推理
 
@@ -427,7 +427,7 @@ dismissKey = highspeed-share
 priority = normal
 ```
 
-历史开发版可能已将 `hsc_mock_*` 或 `mock.z.ai` 分享通知写入用户级持久化存储。正式链路读取该存储时必须自动丢弃这类遗留 mock 通知，不得在重启后继续展示或打开 mock 分享地址。真实 Highspeed 分享通知不受影响。
+历史开发版可能已将 `hsc_mock_*` 或 `mock.lumosai.cc` 分享通知写入用户级持久化存储。正式链路读取该存储时必须自动丢弃这类遗留 mock 通知，不得在重启后继续展示或打开 mock 分享地址。真实 Highspeed 分享通知不受影响。
 
 只持久化最新展示快照：`cardId/shareId/shareUrl/shareExpiresAt/dismissedUntilMs`。不新增分享历史表，不修改 session 表。用户主动点击 X 后 24 小时内全局不展示；若用户一直未点击 X，分享卡也必须在发布 24 小时后自动消失。通知展示截止时间取“分享链接过期时间”与“通知创建时间 + 24 小时”的较早值；页面持续打开时需在到点后主动刷新可见性，不能依赖重启或其他通知事件。到期后不自动弹，下一次加速完成后再展示。历史手动分享不解除静默、不替换左下卡。
 

@@ -4,7 +4,7 @@
 
 ## 背景
 
-Lumos 的「Plan usage」需要展示用户当前 GLM Coding Plan 的真实用量，而不是本地 session 的估算值。当前接入方式改为直接使用用户已配置的 Z.AI / BigModel provider API key 查询 BigModel quota 接口，不再依赖 Z.AI OAuth token，也不改动现有登录鉴权流程。
+Lumos 的「Plan usage」需要展示用户当前 GLM Coding Plan 的真实用量，而不是本地 session 的估算值。当前接入方式改为直接使用用户已配置的 Lumos / BigModel provider API key 查询 BigModel quota 接口，不再依赖 Lumos OAuth token，也不改动现有登录鉴权流程。
 
 ## 接口
 
@@ -16,12 +16,12 @@ authorization: <完整 API key>
 注意：
 
 - 国内 host 可使用 `https://bigmodel.cn` 或 `https://open.bigmodel.cn`。
-- 海外 / Z.AI host 可使用 `https://api.z.ai`。
+- 海外 / Lumos host 可使用 `https://api.lumosai.cc`。
 - 国内与海外接口路径、请求方式、返回结构一致；同一个 key 两个 host 都能查，主要差异是 `msg` 文案语言可能不同。
 - `authorization` header 直接传完整 API key，格式为 `<id>.<secret>`。
 - 不要加 `Bearer` 前缀；该接口加 `Bearer` 会鉴权失败。
-- Lumos 默认优先读取当前模型供应商配置里的 `builtin:zai` API key，其次读取 `builtin:bigmodel`，再尝试 endpoint 指向 `bigmodel.cn` 或 `api.z.ai` 的自定义供应商。
-- `builtin:zai` 或 endpoint 指向 `api.z.ai` 的供应商默认请求 `https://api.z.ai/api/monitor/usage/quota/limit`；其他 BigModel 供应商默认请求当前环境的 BigModel API 主域名，生产为 `https://bigmodel.cn/api/monitor/usage/quota/limit`，`LUMOS_ENV=test` 为 `https://bigmodel.cn/api/monitor/usage/quota/limit`。
+- Lumos 默认优先读取当前模型供应商配置里的 `builtin:zai` API key，其次读取 `builtin:bigmodel`，再尝试 endpoint 指向 `bigmodel.cn` 或 `api.lumosai.cc` 的自定义供应商。
+- `builtin:zai` 或 endpoint 指向 `api.lumosai.cc` 的供应商默认请求 `https://api.lumosai.cc/api/monitor/usage/quota/limit`；其他 BigModel 供应商默认请求当前环境的 BigModel API 主域名，生产为 `https://bigmodel.cn/api/monitor/usage/quota/limit`，`LUMOS_ENV=test` 为 `https://bigmodel.cn/api/monitor/usage/quota/limit`。
 - 本地调试可通过 `LUMOS_BIGMODEL_USAGE_API_KEY` 或 `BIGMODEL_USAGE_API_KEY` 覆盖。
 - 接口地址可通过 `LUMOS_BIGMODEL_USAGE_QUOTA_URL` 或 `BIGMODEL_USAGE_QUOTA_URL` 覆盖。
 
@@ -92,7 +92,7 @@ authorization: <完整 API key>
 | Pro | 约 600 次 | 1000 次/月 | 中 |
 | Max | 约 2400 次 | 4000 次/月 | 高 |
 
-这些数值可能随平台策略调整，最新说明以 Z.AI / BigModel 官方用量说明为准。
+这些数值可能随平台策略调整，最新说明以 Lumos / BigModel 官方用量说明为准。
 
 ## 前端展示
 
@@ -115,7 +115,7 @@ Coding Plan 剩余额度在 Model Provider、侧边栏和输入框 context 面�
 - `usageDetails` 分项用量
 - 本地 session 使用统计
 
-当 Z.AI 与 BigModel 两个来源都已启用并配置 API key 时，设置页「使用统计」会展示来源切换控件。权益卡、模型用量、工具用量和刷新操作都跟随当前选中的来源读取，避免两边都配置时只隐式展示第一家 provider 的数据。
+当 Lumos 与 BigModel 两个来源都已启用并配置 API key 时，设置页「使用统计」会展示来源切换控件。权益卡、模型用量、工具用量和刷新操作都跟随当前选中的来源读取，避免两边都配置时只隐式展示第一家 provider 的数据。
 
 Coding Plan 的「用量统计」继续复用 `getCodingPlanUsageSnapshot` / `useCodingPlanUsageStats`
 这条入口和缓存策略，但内部数据源对齐 BigModel 官方个人用量页：
@@ -199,7 +199,7 @@ UsageStatsService 依赖注入入口读取，服务层不得使用 host 默认�
 
 ## 错误处理
 
-- 未配置 Z.AI / BigModel API key：展示“未找到可查询 quota 的 API key”。
+- 未配置 Lumos / BigModel API key：展示“未找到可查询 quota 的 API key”。
 - 接口返回“当前用户不存在 coding plan”：展示“暂无有效 Coding Plan”。
 - 其他错误：展示接口错误信息，允许用户手动刷新。
 
@@ -207,5 +207,5 @@ UsageStatsService 依赖注入入口读取，服务层不得使用 host 默认�
 
 - UI 层只通过 `useUsageEntitlement` hook 获取数据。
 - 服务层通过 `BigModelUsageQuotaProvider` 访问 BigModel quota 接口。
-- API key 来源仍然走现有模型供应商配置服务，不改 Z.AI OAuth 登录、退出、刷新或用户鉴权逻辑。
+- API key 来源仍然走现有模型供应商配置服务，不改 Lumos OAuth 登录、退出、刷新或用户鉴权逻辑。
 - Desktop 本地流程和远程 workspace 流程都通过依赖注入传入同一个 usage stats service，避免 UI 直接访问本地文件或 credential。

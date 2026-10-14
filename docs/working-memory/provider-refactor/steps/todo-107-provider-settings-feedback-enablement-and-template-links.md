@@ -45,7 +45,7 @@
 
 ## 5. 补齐预设模板的“获取 API Key”入口
 
-智谱／Z.ai 的普通 API 与 Coding Plan 模板拆分、手动套餐 Key 签名及个人／团队获取入口由后续 [Todo111](./todo-111-zhipu-coding-plan-api-key-and-standard-api-templates.md) 承接。此处通用入口规则继续有效；这两家的具体模板归属与链接选择以 Todo111 为准，避免按原来两个模板的名称继续误配。
+智谱／Lumos 的普通 API 与 Coding Plan 模板拆分、手动套餐 Key 签名及个人／团队获取入口由后续 [Todo111](./todo-111-zhipu-coding-plan-api-key-and-standard-api-templates.md) 承接。此处通用入口规则继续有效；这两家的具体模板归属与链接选择以 Todo111 为准，避免按原来两个模板的名称继续误配。
 
 - 仅预设模板提供此入口；任意用户自建 Provider 不猜测 URL。
 - 不根据是否已经填写 API Key 来隐藏入口：有 Key、无 Key 时均可访问模板声明的 URL。
@@ -92,7 +92,7 @@ Provider enabled + 配置完整性 + 模型可执行性 + Account 权益／当�
 ### 6.3 开关展示与执行边界
 
 - 开关置于 Provider 外层的供应商级区域，不混入某个模型的开关。
-- 账号组的开关仅控制当前连接对应的具体 Provider，并让用户能看出控制的是当前套餐；不联动关闭整个 BigModel／Z.ai 家族。
+- 账号组的开关仅控制当前连接对应的具体 Provider，并让用户能看出控制的是当前套餐；不联动关闭整个 BigModel／Lumos 家族。
 - 禁用影响后续执行资格和可执行模型发布；不回收已绑定模型，不中断已经运行的任务，也不擅自替换模型。
 - 灰／黄／绿同时提供准确的文字或无障碍描述，不能只靠颜色区分；遵循 DESIGN.md，覆盖深浅主题和窄屏。
 
