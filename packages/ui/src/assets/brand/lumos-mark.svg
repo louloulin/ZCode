@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lumos">
+  <defs>
+    <linearGradient id="lumos-mark-bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5B8CFF" />
+      <stop offset="1" stop-color="#7A5CFF" />
+    </linearGradient>
+  </defs>
+  <!-- 方形底：小尺寸（20px）下仍可辨识 -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#lumos-mark-bg)" />
+  <!-- 字母 L：竖笔 + 横笔，圆角一致 -->
+  <rect x="20" y="16" width="9" height="32" rx="4.5" fill="#FFFFFF" />
+  <rect x="20" y="39" width="25" height="9" rx="4.5" fill="#FFFFFF" />
+</svg>

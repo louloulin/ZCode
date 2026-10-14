@@ -89,7 +89,7 @@ describe("about", () => {
     expect(html).toContain("class=\"ok-button\"");
     expect(html).toContain(">OK</button>");
     expect(html).toContain("class=\"app-logo\"");
-    expect(html).toContain("viewBox=\"0 0 256 218\"");
+    expect(html).toContain("viewBox=\"0 0 64 64\"");
     expect(html).toContain("linear-gradient(180deg, #000000 0%, #151718 100%)");
     expect(html).toContain("class=\"about-window\"");
     expect(html).toContain("border-radius: 0");
