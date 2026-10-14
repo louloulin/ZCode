@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  Universal Links: https://lumosai.cc/remote?...
+	  还需：站点发布 /.well-known/apple-app-site-association，
+	  并在 Apple Developer 的 App ID 上勾选 Associated Domains 后重新签发 profile。
+	-->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:lumosai.cc</string>
+	</array>
+</dict>
+</plist>

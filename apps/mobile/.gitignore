@@ -1,0 +1,23 @@
+# Standalone npm project (NOT part of the pnpm workspace) — mirrors how
+# packages/android is a standalone Gradle project.
+node_modules/
+
+# Generated shell bundle (run `npm run build` first)
+www/shell.js
+
+# Capacitor copies www/ into the native projects; those copies are build output.
+android/app/src/main/assets/public/
+ios/App/App/public/
+
+# Android build output
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+
+# iOS build output / CocoaPods / Xcode user state
+ios/App/Pods/
+ios/App/build/
+ios/App/DerivedData/
+ios/**/*.xcuserdatad/
+ios/**/xcuserdata/

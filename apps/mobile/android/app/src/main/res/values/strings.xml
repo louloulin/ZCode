@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Lumos</string>
+    <string name="title_activity_main">Lumos</string>
+    <string name="package_name">cc.lumosai.mobile</string>
+    <string name="custom_url_scheme">cc.lumosai.mobile</string>
+</resources>

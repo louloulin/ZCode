@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>Lumos</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #161616;
+        --fg: #ececec;
+        --muted: #8a8a8a;
+        --accent: #4c8dff;
+        --danger: #ff6b6b;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: center;
+        padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+        background: var(--bg);
+        color: var(--fg);
+        font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      h1 { margin: 0; font-size: 22px; font-weight: 600; }
+      p { margin: 0; }
+      #status { color: var(--muted); min-height: 1.5em; }
+      #status[data-kind="error"] { color: var(--danger); }
+      button {
+        min-height: 44px;
+        padding: 0 16px;
+        border: 1px solid #333;
+        border-radius: 10px;
+        background: #202020;
+        color: inherit;
+        font: inherit;
+      }
+      button:active { background: #2a2a2a; }
+      #scan { background: var(--accent); border-color: transparent; color: #fff; font-weight: 600; }
+      .row { display: flex; gap: 8px; }
+      input {
+        flex: 1;
+        min-height: 44px;
+        padding: 0 12px;
+        border: 1px solid #333;
+        border-radius: 10px;
+        background: #1c1c1c;
+        color: inherit;
+        font: inherit;
+      }
+      ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+      ul li button { width: 100%; text-align: left; }
+      .muted { color: var(--muted); }
+      .section-title { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    </style>
+  </head>
+  <body>
+    <h1>Lumos 远控</h1>
+    <p id="status">正在初始化…</p>
+
+    <button id="scan" type="button">扫描远控二维码</button>
+
+    <div class="row">
+      <input id="paste" type="url" placeholder="或粘贴远控链接" autocapitalize="off" autocomplete="off" />
+      <button id="open-default" type="button">打开</button>
+    </div>
+
+    <p class="section-title">最近连接</p>
+    <ul id="recent"></ul>
+    <button id="clear" type="button">清空最近连接</button>
+
+    <!-- 壳只做「校验 + 跳转」；真正的界面是 packages/web 产出的 /remote 页面。 -->
+    <script type="module" src="./shell.js"></script>
+  </body>
+</html>

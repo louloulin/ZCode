@@ -1,0 +1,29 @@
+{
+  "name": "@lumos/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lumos mobile shell (Android + iOS) — one codebase reusing the existing /remote web client",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "sync": "npm run build && cap sync",
+    "add:android": "cap add android",
+    "add:ios": "cap add ios",
+    "open:android": "cap open android",
+    "open:ios": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor-mlkit/barcode-scanning": "^8.2.1",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/preferences": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/ios": "^8.5.3",
+    "esbuild": "^0.25.12",
+    "typescript": "^6.0.2"
+  }
+}
